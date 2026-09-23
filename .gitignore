@@ -1,0 +1,25 @@
+/.quarto/
+/_book/
+/_freeze/
+*_files/
+.Rhistory
+.RData
+
+**/*.quarto_ipynb
+
+# Diapos : les PDF et fichiers auxiliaires sont produits par la compilation
+/diapos/*.pdf
+!/diapos/logo_ul.pdf
+/diapos/*.aux
+/diapos/*.bbl
+/diapos/*.bcf
+/diapos/*.blg
+/diapos/*.fdb_latexmk
+/diapos/*.fls
+/diapos/*.log
+/diapos/*.nav
+/diapos/*.out
+/diapos/*.run.xml
+/diapos/*.snm
+/diapos/*.toc
+/diapos/*.vrb

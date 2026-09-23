@@ -1,0 +1,749 @@
+# La théorie des probabilités {#sec-probabilites}
+
+```{r}
+#| label: setup-ch2
+#| include: false
+source("R/venn.R")
+```
+
+## Introduction
+
+Le présent chapitre se veut un bref survol des principales notions de la
+théorie des probabilités. Voici deux exemples élémentaires qui vont nous aider
+à comprendre les concepts d'expérience aléatoire, d'ensemble des résultats
+possibles, d'événement et de probabilité d'un événement.
+
+**Exemple 1.** On lance une paire de dés. Quelle est la probabilité d'obtenir
+un total de 8 ? Quelle est la probabilité d'obtenir au moins une fois la
+valeur 6 ?
+
+*Solution.* Identifions les deux dés : le dé A et le dé B. Voici l'ensemble de
+tous les résultats possibles pour cette expérience aléatoire :
+
+|        |        |        |        |        |        |
+|:------:|:------:|:------:|:------:|:------:|:------:|
+| (1, 1) | (1, 2) | (1, 3) | (1, 4) | (1, 5) | (1, 6) |
+| (2, 1) | (2, 2) | (2, 3) | (2, 4) | (2, 5) | (2, 6) |
+| (3, 1) | (3, 2) | (3, 3) | (3, 4) | (3, 5) | (3, 6) |
+| (4, 1) | (4, 2) | (4, 3) | (4, 4) | (4, 5) | (4, 6) |
+| (5, 1) | (5, 2) | (5, 3) | (5, 4) | (5, 5) | (5, 6) |
+| (6, 1) | (6, 2) | (6, 3) | (6, 4) | (6, 5) | (6, 6) |
+
+Dans ce tableau, le couple $(k, \ell)$ représente le résultat « obtenir la face
+$k$ avec le dé A et la face $\ell$ avec le dé B ». Dire qu'on obtient le
+résultat $(5, 3)$ c'est dire qu'on obtient la face 5 avec le dé A et la face 3
+avec le dé B. En supposant que les dés sont parfaitement symétriques, les 36
+résultats énumérés ci-dessus ont tous la même chance de survenir. La
+probabilité d'obtenir le résultat $(5, 3)$ est donc $1/36$. Parmi les 36
+résultats possibles, il y en a 5 pour lesquels la somme des deux faces
+obtenues est égale à 8. Il s'agit des résultats $(6, 2)$, $(5, 3)$, $(4, 4)$,
+$(3, 5)$ et $(2, 6)$. La probabilité d'obtenir un total égal à 8 est donc
+$5/36$. De même, parmi les 36 résultats possibles, il y en a 11 pour lesquels
+la face 6 apparaît au moins une fois. La probabilité d'obtenir au moins une
+fois la valeur 6 est donc $11/36$.
+
+**Exemple 2.** On lance une pièce de monnaie quatre fois. Quelle est la
+probabilité d'obtenir exactement deux faces et deux piles ?
+
+*Solution.* Voici l'ensemble de tous les résultats possibles pour
+l'expérience aléatoire qui consiste à lancer une pièce de monnaie 4 fois :
+
+|         |         |         |         |
+|:-------:|:-------:|:-------:|:-------:|
+| F F F F | F F F P | F F P F | F F P P |
+| F P F F | F P F P | F P P F | F P P P |
+| P F F F | P F F P | P F P F | P F P P |
+| P P F F | P P F P | P P P F | P P P P |
+
+On utilise une convention semblable à celle utilisée à l'exemple 1. La
+notation F P P F signifie « face au premier lancer, pile au deuxième lancer,
+pile au troisième lancer et face au quatrième lancer ». Si la pièce de monnaie
+est bien équilibrée, il est raisonnable de conclure que ces 16 résultats
+possibles ont tous la même probabilité de survenir. La probabilité d'obtenir le
+résultat F P P F est donc $1/16$. Parmi les 16 résultats possibles, il y en a 6
+qui donnent lieu à deux piles et deux faces. La probabilité d'obtenir deux
+piles et deux faces est donc égale à $6/16$, c'est-à-dire $3/8$.
+
+### Les principaux concepts {.unnumbered}
+
+Le point de départ de la théorie des probabilités est le concept
+d'*expérience aléatoire*. Une expérience aléatoire est une expérience ayant
+plusieurs résultats possibles. On ne peut pas prédire quel résultat
+surviendra mais on peut dresser la liste de tous les résultats possibles. On
+écrit $\mathcal{E}$ pour dénoter l'expérience aléatoire et on écrit $\Omega$
+pour dénoter l'ensemble de tous les résultats possibles. Cet ensemble $\Omega$
+est parfois appelé l'*ensemble fondamental* de l'expérience $\mathcal{E}$.
+Dans l'exemple 1 on a
+$$
+\begin{aligned}
+\mathcal{E} &= \text{« On lance une paire de dés »}, \\
+\Omega &= \{(1, 1), (1, 2), (1, 3), \ldots, (6, 5), (6, 6)\}.
+\end{aligned}
+$$
+Dans l'exemple 2 on a
+$$
+\begin{aligned}
+\mathcal{E} &= \text{« On lance une pièce de monnaie quatre fois »}, \\
+\Omega &= \{FFFF, FFFP, FFPF, \ldots, PPPF, PPPP\}.
+\end{aligned}
+$$
+Un *événement* est un sous-ensemble de l'ensemble de tous les résultats
+possibles. On utilise les lettres majuscules du début de l'alphabet pour
+dénoter des événements. Voici deux exemples d'événements relatifs à
+l'exemple 1 :
+$$
+\begin{aligned}
+A &= \text{« Obtenir au moins un 6 »} \\
+  &= \{(6,1), (6,2), (6,3), (6,4), (6,5), (6,6), (5,6), (4,6), (3,6), (2,6), (1,6)\}, \\
+B &= \text{« Le total des deux dés est 8 »} \\
+  &= \{(6,2), (5,3), (4,4), (3,5), (2,6)\}.
+\end{aligned}
+$$
+Voici trois exemples d'événements relatifs à l'exemple 2 :
+$$
+\begin{aligned}
+C &= \text{« Obtenir une pile et trois faces »} = \{FFFP, FFPF, FPFF, PFFF\}, \\
+D &= \text{« Obtenir deux piles et deux faces »} = \{FFPP, FPFP, FPPF, PFFP, PFPF, PPFF\}, \\
+E &= \text{« Obtenir quatre résultats identiques »} = \{FFFF, PPPP\}.
+\end{aligned}
+$$
+À chaque événement on associe sa *probabilité*. La probabilité d'un événement
+$A$, dénotée $P[A]$, est un nombre entre 0 et 1 qui représente la fréquence
+relative à long terme avec laquelle l'événement $A$ se réaliserait si on
+répétait l'expérience un très grand nombre de fois. Dans l'exemple 1, si on
+suppose que les dés sont bien équilibrés, alors les 36 résultats possibles ont
+tous la même probabilité. Il n'y a pas de raison pour que le résultat
+$(3, 5)$ soit plus probable ou moins probable que le résultat $(2, 1)$. Chacun
+des résultats possibles a donc une probabilité égale à $1/36$. Pour les
+événements $A$ et $B$ décrits ci-dessus, on obtient $P[A] = 11/36$ et
+$P[B] = 5/36$. Dans l'exemple 2, si on suppose que la pièce de monnaie est
+bien équilibrée, alors les 16 résultats possibles ont tous la même
+probabilité. Chacun des résultats possibles a donc une probabilité égale à
+$1/16$. Pour les événements $C$, $D$ et $E$ décrits ci-dessus, on obtient
+$P[C] = 4/16 = 1/4$, $P[D] = 6/16 = 3/8$ et $P[E] = 2/16 = 1/8$.
+
+### Interprétation de la probabilité d'un événement {.unnumbered}
+
+Dans le présent document, on s'intéresse seulement à l'aspect pratique de la
+théorie des probabilités. Il n'est pas question de s'attarder ici au sens
+philosophique de la notion de probabilité. Pour nous, la probabilité
+$P[B] = 5/36$ obtenue dans l'exemple 1 est interprétée de la façon suivante :
+si on répète un très grand nombre de fois l'expérience aléatoire qui consiste
+à lancer une paire de dés bien équilibrés, alors on s'attend à ce que la somme
+des deux dés soit égale à 8 en moyenne 5 fois sur 36. Pour nous, la
+probabilité d'un événement est donc la fréquence relative avec laquelle cet
+événement se réaliserait si on répétait notre expérience aléatoire un très
+grand nombre de fois.
+
+::: {.callout-tip}
+## Dans R : la fréquence relative à long terme
+On peut simuler un grand nombre de lancers d'une paire de dés et comparer la
+fréquence relative de l'événement « total égal à 8 » à $5/36 \approx 0.1389$.
+
+```{r}
+#| label: simulation-des
+#| code-fold: false
+set.seed(2020)
+n <- 100000
+total <- sample(1:6, n, replace = TRUE) + sample(1:6, n, replace = TRUE)
+mean(total == 8)
+```
+:::
+
+### Le langage ensembliste et les diagrammes de Venn {.unnumbered}
+
+En théorie des probabilités on utilise souvent les *diagrammes de Venn* pour
+illustrer diverses notions. Dans un tel diagramme, l'ensemble $\Omega$ de tous
+les résultats possibles est représenté par une boîte rectangulaire. Un
+événement est alors une partie de cette boîte rectangulaire, c'est-à-dire une
+région à l'intérieur de cette boîte rectangulaire. Le diagramme de Venn de la
+@fig-venn-omega représente l'ensemble $\Omega$ ainsi qu'un événement dénoté
+$A$. On imagine que $\Omega$ est l'ensemble de tous les résultats possibles
+d'une certaine expérience aléatoire $\mathcal{E}$. Lorsqu'on réalise cette
+expérience, un résultat survient, disons le résultat $\omega$. Si ce $\omega$
+appartient à l'ensemble $A$, on dit que l'événement $A$ s'est réalisé. Si ce
+$\omega$ n'appartient pas à l'ensemble $A$, on dit que l'événement $A$ ne
+s'est pas réalisé. La @fig-venn-omega illustre le cas où l'événement $A$ s'est
+réalisé. La notation $A^c$ est utilisée pour dénoter le complément de
+l'ensemble $A$.
+
+```{r}
+#| label: fig-venn-omega
+#| fig-cap: "L'expérience a donné lieu au résultat $\\omega$. Puisque $\\omega \\in A$, on dit que l'événement $A$ s'est réalisé."
+#| fig-width: 4
+#| fig-asp: 0.7
+#| out-width: "45%"
+venn2("A", un_seul = TRUE, omega = c(2.2, 1.8))
+```
+
+Si $A$ et $B$ sont des événements, on écrit $A \cup B$ pour dénoter l'*union*
+des ensembles $A$ et $B$. Dire que l'événement $A \cup B$ s'est réalisé c'est
+dire qu'au moins un des événements $A$ et $B$ s'est réalisé. Le diagramme de
+Venn de la @fig-venn-union illustre l'événement $A \cup B$.
+
+```{r}
+#| label: fig-venn-union
+#| fig-cap: "L'événement $A \\cup B$."
+#| fig-width: 4
+#| fig-asp: 0.7
+#| out-width: "45%"
+venn2("union")
+```
+
+Si $A$ et $B$ sont des événements, on écrit $A \cap B$ pour dénoter
+l'*intersection* des ensembles $A$ et $B$. Dire que l'événement $A \cap B$
+s'est réalisé c'est dire que les événements $A$ et $B$ se sont tous les deux
+réalisés. Le diagramme de Venn de la @fig-venn-inter illustre l'événement
+$A \cap B$.
+
+```{r}
+#| label: fig-venn-inter
+#| fig-cap: "L'événement $A \\cap B$."
+#| fig-width: 4
+#| fig-asp: 0.7
+#| out-width: "45%"
+venn2("inter")
+```
+
+Dans le cas particulier où $A \cap B$ est l'ensemble vide, on dit que les
+événements $A$ et $B$ sont *mutuellement exclusifs*. Ils s'excluent l'un et
+l'autre. Si $A$ se réalise alors $B$ ne peut pas se réaliser. Si $B$ se
+réalise, alors $A$ ne peut pas se réaliser. Dans l'exemple 2, les événements
+$A$ = « obtenir trois piles » et $B$ = « obtenir au moins deux faces » sont des
+événements mutuellement exclusifs. Si l'un d'entre eux se réalise, alors
+l'autre ne peut pas se réaliser. Par ailleurs, les événements $C$ = « obtenir
+pile au premier lancer » et $D$ = « obtenir au moins deux faces » ne sont pas
+des événements mutuellement exclusifs car il est possible que ces deux
+événements se réalisent simultanément.
+
+## Les principales propriétés des probabilités {#sec-proprietes}
+
+Dans cette section, nous présentons les six principales propriétés des
+probabilités. Les trois premières propriétés sont en fait les trois axiomes
+sur lesquels toute la théorie mathématique des probabilités repose. On les
+appelle les *axiomes de Kolmogorov*. Les trois autres propriétés sont des
+conséquences de ces trois axiomes.
+
+::: {.callout-note appearance="simple"}
+## Propriété 1 : le premier axiome de Kolmogorov
+Pour tout événement $A$, on a $0 \le P[A] \le 1$.
+:::
+
+::: {.callout-note appearance="simple"}
+## Propriété 2 : le deuxième axiome de Kolmogorov
+$P[\varnothing] = 0$ et $P[\Omega] = 1$.
+:::
+
+Rappelons ici que le symbole $\varnothing$ est utilisé pour dénoter l'ensemble
+vide.
+
+::: {.callout-note appearance="simple"}
+## Propriété 3 : le troisième axiome de Kolmogorov
+Si $A_1, A_2, \ldots, A_n$ sont des événements mutuellement exclusifs, alors
+$$
+P\Big[\bigcup_{i=1}^{n} A_i\Big] = \sum_{i=1}^{n} P[A_i],
+\quad\text{c'est-à-dire}\quad
+P[A_1 \cup A_2 \cup \cdots \cup A_n] = P[A_1] + P[A_2] + \cdots + P[A_n].
+$$
+Si $A_1, A_2, A_3, \ldots$ sont des événements mutuellement exclusifs, alors
+$$
+P\Big[\bigcup_{i=1}^{\infty} A_i\Big] = \sum_{i=1}^{\infty} P[A_i],
+\quad\text{c'est-à-dire}\quad
+P[A_1 \cup A_2 \cup A_3 \cup \cdots] = P[A_1] + P[A_2] + P[A_3] + \cdots
+$$
+:::
+
+Les axiomes de Kolmogorov peuvent être vus comme étant une description
+mathématique de l'interprétation « fréquence relative à long terme »
+présentée à la section 2.1.
+
+### Analogie avec la notion de poids {.unnumbered}
+
+Il y a une analogie intéressante entre la notion de probabilité et la notion
+de poids. On imagine que $\Omega$ représente un objet physique de poids
+unitaire et on imagine que si $A$ est une partie de cet objet $\Omega$, alors
+$P[A]$ représente le poids de cette partie $A$. Avec cette analogie, les
+axiomes de Kolmogorov nous apparaissent très naturels.
+
+::: {.callout-note appearance="simple"}
+## Propriété 4 : le cas équiprobable
+Si $\Omega$ est un ensemble fini et si les résultats possibles ont tous la
+même probabilité, alors pour tout événement $A$ on a
+$$
+P[A] = \frac{\text{cardinal de } A}{\text{cardinal de } \Omega}.
+$$
+:::
+
+Rappelons que le cardinal d'un ensemble fini est simplement le nombre
+d'éléments que contient cet ensemble. On a équiprobabilité dans chacun des
+deux exemples élémentaires présentés à la section 2.1. Voici deux exemples un
+peu moins élémentaires.
+
+**Exemple 3.** On tire une main de poker, c'est-à-dire cinq cartes, au hasard
+à partir d'un jeu ordinaire de 52 cartes. Calculez la probabilité d'obtenir
+une *main pleine*, c'est-à-dire une main de poker comprenant une paire et un
+triple. Ici, $\Omega$ est l'ensemble de toutes les mains de poker possibles.
+Chaque main de poker a la même probabilité d'être obtenue. La probabilité
+désirée est donc, d'après la propriété 4,
+$$
+\frac{\text{nombre total de mains pleines possibles}}{\text{nombre total de mains de poker possibles}}
+= \frac{3\,744}{2\,598\,960} \approx 0.00144.
+$$
+
+**Exemple 4.** La 6/49 est sans doute la loterie la plus populaire au Canada.
+Pour 3 \$, le joueur achète un billet de 6/49, c'est-à-dire une combinaison de
+six nombres différents choisis parmi les nombres 1 à 49. Lors du tirage, une
+combinaison est obtenue au hasard. Toutes les combinaisons ont la même chance
+d'être obtenues. Le montant d'argent que le joueur gagne dépend de plusieurs
+facteurs. Dans le cas particulier où la combinaison du joueur compte
+exactement trois des six nombres de la combinaison gagnante, le joueur gagne
+10 \$. Quelle est la probabilité que le joueur gagne 10 \$ ? Nous sommes ici
+dans le cas équiprobable et la probabilité désirée est donc
+$$
+\frac{\text{cardinal de } A}{\text{cardinal de } \Omega} = \frac{246\,820}{13\,983\,816} \approx 0.0177.
+$$
+Ici $\Omega$ dénote l'ensemble de toutes les combinaisons possibles de 6
+nombres choisis parmi les nombres 1 à 49 et $A$ dénote l'ensemble de toutes
+les combinaisons qui ont exactement trois nombres en commun avec la
+combinaison gagnante.
+
+Dans la prochaine section, nous étudierons certaines techniques de
+dénombrement qui nous permettront d'arriver, avec beaucoup de facilité, aux
+réponses numériques des deux exemples précédents.
+
+::: {.callout-note appearance="simple"}
+## Propriété 5 : la complémentation
+Pour tout événement $A$ on a $P[A] = 1 - P[A^c]$.
+:::
+
+Rappelons à nouveau que si $A$ est un sous-ensemble de $\Omega$, alors le
+*complément* de $A$, dénoté $A^c$, est défini comme étant l'ensemble de tous
+les éléments de $\Omega$ qui n'appartiennent pas à $A$. Dans l'exemple 1,
+nous avons vu que si on lance une paire de dés, alors la probabilité d'obtenir
+au moins une fois la valeur six est $11/36$. Nous aurions pu arriver à ce
+résultat en utilisant la propriété de complémentation. Le complément de
+l'événement $A$ = « obtenir au moins un six » est l'événement $A^c$ =
+« n'obtenir aucun six ». On a donc
+$$
+P[\text{« obtenir au moins un six »}] = 1 - P[\text{« n'obtenir aucun six »}] = 1 - \frac{25}{36} = \frac{11}{36}.
+$$
+Dans cet exemple, on n'avait pas besoin de passer par la complémentation ; on
+examine le schéma présenté au début du présent chapitre et on note sans
+difficulté que le cardinal de $A$ est 11. Pour apprécier l'utilité de la
+propriété de complémentation, il suffit de considérer un exemple où
+l'ensemble $\Omega$ est plus difficile à visualiser.
+
+**Exemple 5.** On lance un dé 8 fois. Quelle est la probabilité d'obtenir au
+moins une fois la valeur 6 ? Écrivons $\Omega$ pour dénoter l'ensemble de tous
+les résultats possibles pour cette expérience aléatoire et écrivons $A$ pour
+dénoter l'événement « obtenir au moins une fois la valeur 6 ». Ici l'ensemble
+$\Omega$ est simplement l'ensemble de tous les vecteurs de la forme
+$(x_1, x_2, x_3, x_4, x_5, x_6, x_7, x_8)$ avec $x_i \in \{1, 2, 3, 4, 5, 6\}$
+pour chaque $i$. Le cardinal de $\Omega$ est donc
+$6^8 = 6 \times 6 \times 6 \times 6 \times 6 \times 6 \times 6 \times 6 = 1\,679\,616$.
+L'événement $A^c$ comprend tous les vecteurs de la forme
+$(x_1, x_2, x_3, x_4, x_5, x_6, x_7, x_8)$ avec $x_i \in \{1, 2, 3, 4, 5\}$
+pour chaque $i$. Le cardinal de $A^c$ est donc
+$5^8 = 5 \times 5 \times 5 \times 5 \times 5 \times 5 \times 5 \times 5 = 390\,625$.
+On obtient donc
+$$
+P[A] = 1 - P[A^c] = 1 - \frac{\text{cardinal de } A^c}{\text{cardinal de } \Omega}
+= 1 - \frac{390\,625}{1\,679\,616} \approx 0.7674.
+$$
+
+::: {.callout-note appearance="simple"}
+## Propriété 6 : la formule de Poincaré
+Pour tout choix de $A$ et $B$ on a
+$$
+P[A \cup B] = P[A] + P[B] - P[A \cap B].
+$$
+Pour tout choix de $A$, $B$ et $C$ on a
+$$
+\begin{aligned}
+P[A \cup B \cup C] = {} & P[A] + P[B] + P[C] \\
+ & - P[A \cap B] - P[A \cap C] - P[B \cap C] \\
+ & + P[A \cap B \cap C].
+\end{aligned}
+$$
+:::
+
+La @fig-poincare nous aide à comprendre la formule de Poincaré dans le cas
+d'une union de deux événements. L'étudiant devrait essayer de faire un schéma
+analogue pour le cas d'une union de trois événements.
+
+```{r}
+#| label: fig-poincare
+#| fig-cap: "Illustration de l'équation $P[A \\cup B] = P[A] + P[B] - P[A \\cap B]$."
+#| fig-width: 10
+#| fig-asp: 0.2
+#| out-width: "100%"
+layout(matrix(1:7, nrow = 1), widths = c(4, 1, 4, 1, 4, 1, 4))
+signe <- function(s) {
+  op <- par(mar = rep(0, 4)); plot.new(); text(0.5, 0.5, s, cex = 3); par(op)
+}
+venn2("union"); signe("="); venn2("A"); signe("+"); venn2("B"); signe("-"); venn2("inter")
+```
+
+L'étudiant peut deviner la formule analogue pour la probabilité d'une union
+de quatre événements, de cinq événements, etc. La formule de Poincaré est
+parfois appelée la *formule d'inclusion-exclusion*. On comprend pourquoi en
+examinant la @fig-poincare et son analogue pour le cas à trois événements.
+Voici un exemple élémentaire pour illustrer la formule de Poincaré.
+
+**Exemple 6.** On lance un dé 3 fois. À l'aide de la formule de Poincaré,
+calculez la probabilité d'obtenir au moins une fois la valeur 6. La
+probabilité désirée est $P[A \cup B \cup C]$, avec
+$$
+\begin{aligned}
+A &= \text{l'événement « obtenir un 6 au premier lancer »}, \\
+B &= \text{l'événement « obtenir un 6 au deuxième lancer »}, \\
+C &= \text{l'événement « obtenir un 6 au troisième lancer »}.
+\end{aligned}
+$$
+On obtient
+$$
+\begin{aligned}
+P[A] = P[B] = P[C] &= 1/6, \\
+P[A \cap B] = P[B \cap C] = P[A \cap C] &= 1/36, \\
+P[A \cap B \cap C] &= 1/216
+\end{aligned}
+$$
+et la formule de Poincaré nous donne
+$$
+P[A \cup B \cup C] = \frac{1}{6} + \frac{1}{6} + \frac{1}{6} - \frac{1}{36} - \frac{1}{36} - \frac{1}{36} + \frac{1}{216} = \frac{91}{216}.
+$$
+On aurait pu obtenir le même résultat en utilisant la propriété de
+complémentation, comme à l'exemple 5 :
+$$
+P[\text{« au moins un 6 »}] = 1 - P[\text{« aucun 6 »}] = 1 - \frac{5^3}{6^3} = 1 - \frac{125}{216} = \frac{91}{216}.
+$$
+
+## Notions d'analyse combinatoire {#sec-combinatoire}
+
+### Introduction
+
+Si l'ensemble $\Omega$ de tous les résultats possibles d'une expérience
+aléatoire $\mathcal{E}$ est un ensemble fini et si ces résultats possibles ont
+tous la même probabilité, alors on dit qu'on est dans le *cas équiprobable*.
+Nous avons vu à la section précédente que dans le cas équiprobable la
+probabilité d'un événement $A$ est donnée par l'équation
+$$
+P[A] = \frac{\text{cardinal de } A}{\text{cardinal de } \Omega}.
+$$
+Considérons par exemple l'expérience aléatoire qui consiste à choisir une
+main de poker au hasard, c'est-à-dire l'expérience aléatoire qui consiste à
+choisir 5 cartes au hasard à partir d'un jeu ordinaire de 52 cartes.
+Supposons qu'on veuille calculer la probabilité d'obtenir un *brelan*,
+c'est-à-dire une main de poker comprenant un triple (3 cartes de la même
+valeur) et 2 cartes de valeurs distinctes entre elles et distinctes de la
+valeur commune des 3 cartes du triple. Exemple de brelan : la main de poker
+qui comprend le 5 de pique, le 5 de cœur, le 5 de carreau, le valet de cœur et
+le 7 de carreau. Ici, $\Omega$ est l'ensemble de toutes les mains de poker
+possibles et l'événement $A$ qui nous intéresse est l'ensemble de tous les
+brelans. Nous sommes dans le cas équiprobable et la probabilité désirée est
+donc
+$$
+P[A] = \frac{\text{cardinal de } A}{\text{cardinal de } \Omega}
+= \frac{\text{nombre total de brelans possibles}}{\text{nombre total de mains de poker possibles}}.
+$$
+Pour calculer cette probabilité, il faut être capable de dénombrer l'ensemble
+de toutes les mains de poker possibles ainsi que l'ensemble de toutes les
+mains de poker qui sont des brelans. L'ensemble des techniques de
+dénombrement permettant de faire ce genre de calcul s'appelle l'*analyse
+combinatoire*. Dans la présente section, nous faisons un survol des
+principales notions d'analyse combinatoire.
+
+### Le principe fondamental du dénombrement
+
+Imaginez une procédure comprenant $k$ étapes. Ces $k$ étapes doivent être
+réalisées dans un certain ordre chronologique. Supposons que les conditions
+suivantes sont satisfaites :
+
+- Il y a $n_1$ façons différentes de réaliser la première étape.
+- Peu importe la façon choisie pour réaliser la première étape, il y a $n_2$
+  façons différentes de réaliser la deuxième étape.
+- Peu importe les façons choisies pour réaliser les deux premières étapes, il
+  y a $n_3$ façons différentes de réaliser la troisième étape.
+- $\vdots$
+- Peu importe les façons choisies pour réaliser les $k - 1$ premières étapes,
+  il y a $n_k$ façons différentes de réaliser la $k$^e^ étape.
+
+Alors il y a en tout $n_1 \times n_2 \times \cdots \times n_k$ façons
+différentes de réaliser cette procédure.
+
+Ce résultat élémentaire s'appelle le *principe fondamental du dénombrement*.
+Nous avons utilisé ce principe de dénombrement à l'exemple 5. Voici quelques
+exemples additionnels.
+
+**Exemple 7.** Autrefois les codes régionaux utilisés pour la téléphonie en
+Amérique du Nord étaient tous de la forme $(a, b, c)$ avec
+$a \in \{2, 3, 4, 5, 6, 7, 8, 9\}$, $b \in \{0, 1\}$ et
+$c \in \{1, 2, 3, 4, 5, 6, 7, 8, 9\}$. Combien de codes régionaux étaient
+alors possibles ?
+
+*Solution :* $8 \times 2 \times 9 = 144$.
+
+**Exemple 8.** Sur les plaques d'immatriculation des véhicules automobiles du
+Michigan, il y a 3 lettres suivies de 3 chiffres. Il y a en tout combien de
+numéros de plaque possibles au Michigan ? Il y a en tout combien de numéros
+de plaque comprenant 3 lettres différentes et 3 chiffres différents ? Si on
+choisit un numéro de plaque au hasard, quelle est la probabilité d'obtenir un
+numéro de plaque comprenant 3 lettres différentes et 3 chiffres différents ?
+
+*Solution :* D'après le principe fondamental du dénombrement, il y a en tout
+$26 \times 26 \times 26 \times 10 \times 10 \times 10 = 17\,576\,000$ numéros
+de plaque différents. Parmi ces numéros de plaque, il y en a
+$26 \times 25 \times 24 \times 10 \times 9 \times 8 = 11\,232\,000$ qui
+comprennent 3 lettres différentes et 3 chiffres différents. En supposant
+l'équiprobabilité, la probabilité d'obtenir un numéro de plaque à 3 lettres
+différentes et 3 chiffres différents est
+$$
+\frac{11\,232\,000}{17\,576\,000} \approx 0.6391.
+$$
+
+**Exemple 9.** Combien de mots à $n$ lettres peut-on former avec un alphabet
+de $\ell$ lettres ?
+
+*Solution :* Lorsqu'on écrit un tel mot, on a $\ell$ choix possibles pour la
+première lettre, $\ell$ choix possibles pour la deuxième lettre, etc. Il y a
+donc en tout $\ell^n$ mots possibles.
+
+### Permutations
+
+Une *permutation* de $n$ objets est un arrangement ordonné de ces $n$ objets.
+L'exemple suivant clarifie cette définition.
+
+**Exemple 10.** Considérons les lettres A, B, C et D. Voici la liste de
+toutes les permutations possibles de ces quatre lettres :
+
+|      |      |      |      |      |      |
+|:----:|:----:|:----:|:----:|:----:|:----:|
+| ABCD | ABDC | ACBD | ACDB | ADBC | ADCB |
+| BACD | BADC | BCAD | BCDA | BDAC | BDCA |
+| CABD | CADB | CBAD | CBDA | CDAB | CDBA |
+| DABC | DACB | DBAC | DBCA | DCAB | DCBA |
+
+On note qu'il y a en tout 24 permutations possibles des lettres A, B, C et D.
+Nous aurions pu déterminer ce nombre en observant que lorsqu'on écrit une
+permutation des lettres A, B, C et D, on a 4 choix possibles pour la première
+lettre, puis 3 choix possibles pour la deuxième lettre, ensuite 2 choix
+possibles pour la troisième lettre et enfin un seul choix possible pour la
+dernière lettre. On a donc en tout $4 \times 3 \times 2 \times 1 = 24$
+permutations possibles. Plus généralement, le principe fondamental du
+dénombrement nous dit qu'il y a en tout
+$$
+n \times (n-1) \times (n-2) \times \cdots \times 3 \times 2 \times 1
+$$
+permutations possibles de $n$ objets.
+
+**La notation factorielle :** Le produit
+$n \times (n-1) \times (n-2) \times \cdots \times 3 \times 2 \times 1$ est
+dénoté $n!$ et est appelé « $n$ factoriel ». On a donc
+$$
+n \text{ factoriel} = n! = n \times (n-1) \times (n-2) \times \cdots \times 3 \times 2 \times 1.
+$$
+Par convention, on pose $0! = 1$. Nous verrons pourquoi un peu plus loin.
+
+**Exemple 11.** Sur le bureau de Michel, il y a 12 livres : 4 livres de
+mathématiques, 3 livres de chimie, 3 livres de physique et 2 livres de
+biologie. Il faut ranger ces livres sur une tablette.
+
+(a) De combien de façons différentes peut-on ranger ces 12 livres sur la
+    tablette ?
+(b) Si les livres sont rangés au hasard, quelle est la probabilité que les
+    livres se retrouvent groupés par matière ?
+
+*Solution :* Il y a $12! = 479\,001\,600$ façons de ranger les livres. Si les
+livres sont rangés au hasard, la probabilité qu'ils se retrouvent groupés par
+matière est
+$$
+\frac{4!\,4!\,3!\,3!\,2!}{12!} = \frac{41\,472}{479\,001\,600} = 0.0000866.
+$$
+Le premier facteur au numérateur représente le nombre de permutations des 4
+matières alors que les facteurs suivants représentent, pour chaque matière,
+le nombre de permutations des livres de cette matière.
+
+Il arrive qu'on s'intéresse aux arrangements ordonnés de $k$ objets choisis
+parmi un groupe de $n$ objets. Ces arrangements s'appellent des
+*permutations de $k$ objets choisis parmi un groupe de $n$ objets*. On dit
+aussi *permutations de $n$ objets pris $k$ à la fois*.
+
+**Exemple 12.** Considérons les lettres A, B, C et D. Voici la liste de toutes
+les permutations possibles de deux lettres choisies parmi ces quatre lettres :
+
+|    |    |    |    |    |    |
+|:--:|:--:|:--:|:--:|:--:|:--:|
+| AB | AC | AD | BC | BD | CD |
+| BA | CA | DA | CB | DB | DC |
+
+Il y a donc 12 permutations possibles de 2 lettres choisies parmi les lettres
+A, B, C et D. Il fallait s'y attendre : lorsqu'on écrit une permutation de 2
+lettres choisies parmi les lettres A, B, C et D, on a 4 choix pour la
+première lettre, puis 3 choix pour la deuxième lettre, donc en tout
+$4 \times 3 = 12$ permutations possibles. Notez que l'ordre compte : AB et BA
+sont des permutations différentes. Plus généralement, le nombre total de
+permutations de $k$ objets choisis parmi un groupe de $n$ objets est donné
+par
+$$
+n \times (n-1) \times (n-2) \times \cdots \times (n - (k-1)).
+$$
+La notation factorielle nous permet de simplifier cette expression :
+$$
+\begin{aligned}
+n \times (n-1) \times \cdots \times (n-(k-1))
+&= n \times (n-1) \times \cdots \times (n-(k-1)) \times \frac{(n-k)!}{(n-k)!} \\
+&= \frac{n \times (n-1) \times \cdots \times (n-(k-1)) \times (n-k) \times \cdots \times 3 \times 2 \times 1}{(n-k)!} \\
+&= \frac{n!}{(n-k)!}.
+\end{aligned}
+$$
+
+**Notation :** Le nombre de permutations de $k$ objets choisis parmi un
+groupe de $n$ objets est parfois dénoté $P_{n,k}$. On a donc
+$$
+P_{n,k} = \frac{n!}{(n-k)!}.
+$$ {#eq-permutations}
+Le lecteur peut maintenant apprécier le choix de la définition $0! = 1$. En
+effet, $P_{n,n}$ étant le nombre de permutations de $n$ objets pris $n$ à la
+fois, il faut avoir $P_{n,n} = n!$. Donc, pour que l'équation
+([-@eq-permutations]) soit valide avec $k = n$, il faut que $0!$ soit défini
+comme étant égal à 1.
+
+**Exemple 13.** À la finale du 100 mètres, il y a 8 coureurs qui s'affrontent
+pour les médailles d'or, d'argent et de bronze. De combien de façons
+différentes ces médailles peuvent-elles être attribuées ?
+
+*Réponse :* $P_{8,3} = 8!/(8-3)! = 8!/5! = 336$.
+
+### Combinaisons
+
+Considérons, comme à la section précédente, un groupe de $n$ objets. Un
+ensemble de $k$ objets choisis parmi ces $n$ objets s'appelle une
+*combinaison de $k$ parmi $n$*. Contrairement au cas des permutations, ici on
+ne tient pas compte de l'ordre. En langage ensembliste, une combinaison de
+$k$ parmi $n$ est simplement un sous-ensemble de cardinal $k$ obtenu à partir
+d'un ensemble de cardinal $n$.
+
+**Exemple 14.** Considérons les lettres A, B, C et D. Voici la liste de
+toutes les combinaisons possibles de 2 lettres choisies parmi ces 4 lettres :
+$$
+\{A, B\} \quad \{A, C\} \quad \{A, D\} \quad \{B, C\} \quad \{B, D\} \quad \{C, D\}
+$$
+L'ordre ne compte pas. Ainsi, $\{A, B\}$ et $\{B, A\}$ dénotent la même
+combinaison.
+
+**Notation :** Le nombre de combinaisons possibles de $k$ objets choisis parmi
+un groupe de $n$ objets est parfois dénoté $C_{n,k}$.
+
+L'exemple 12 nous montre que $P_{4,2} = 12$ et l'exemple 14 nous montre que
+$C_{4,2} = 6$. On a donc $P_{4,2} = 2 \times C_{4,2}$. On aurait pu obtenir ce
+résultat en notant qu'à chaque combinaison de 2 parmi 4 correspondent 2
+permutations de 2 parmi 4. Par exemple, à la combinaison $\{B, C\}$
+correspondent les permutations BC et CB. Il y a donc, dans cet exemple, deux
+fois plus de permutations que de combinaisons. Plus généralement, si on
+considère les combinaisons de $k$ objets parmi $n$, on note qu'à chaque
+combinaison correspondent $k!$ permutations. Le nombre de permutations de $k$
+parmi $n$ est donc $k!$ fois plus grand que le nombre de combinaisons de $k$
+parmi $n$. On a donc
+$$
+P_{n,k} = k!\, C_{n,k}.
+$$
+Puisque $P_{n,k} = n!/(n-k)!$, on conclut que
+$$
+C_{n,k} = \frac{n!}{k!\,(n-k)!}.
+$$ {#eq-combinaisons}
+Avec $k = 0$, l'équation ([-@eq-combinaisons]) nous donne $C_{n,0} = 1$. Ceci
+correspond au fait qu'il y a une seule façon de choisir zéro objet parmi un
+groupe de $n$ objets : on n'en prend aucun ! Avec $k = 1$, l'équation
+([-@eq-combinaisons]) nous donne $C_{n,1} = n$. Ceci correspond au fait qu'il
+y a $n$ façons différentes de choisir un objet parmi un groupe de $n$
+objets : on peut prendre l'objet numéro 1, ou bien l'objet numéro 2, ou bien
+l'objet numéro 3, etc.
+
+**Exemple 15.** Le nombre total de combinaisons possibles à la 6/49 est
+$$
+C_{49,6} = \frac{49!}{6!\,(49-6)!} = \frac{49!}{6!\,43!} = 13\,983\,816.
+$$
+Donc, lorsqu'on achète un billet de 6/49, la probabilité de gagner le gros
+lot est $1/13\,983\,816$. Le nombre 13 983 816 correspond à peu près au
+nombre de pièces de dix sous qu'il faut pour couvrir un terrain de football.
+
+**Exemple 16.** Combien de mots à huit lettres peut-on écrire si on doit
+utiliser trois fois la lettre A et cinq fois la lettre B ? Il y en a autant
+qu'il y a de façons de choisir, parmi les huit positions des lettres, les
+trois positions où on va placer la lettre A. Il y a donc
+$$
+C_{8,3} = \frac{8!}{3!\,5!} = 56
+$$
+mots à huit lettres comprenant trois fois la lettre A et cinq fois la
+lettre B.
+
+**Coefficients binomiaux :** Le nombre de combinaisons $C_{n,k}$ est aussi
+appelé le $k$^e^ *coefficient binomial d'ordre $n$* et est souvent dénoté
+$\binom{n}{k}$. On a donc
+$$
+\binom{n}{k} = C_{n,k} = \frac{n!}{k!\,(n-k)!}.
+$$
+
+**Retour à l'exemple 3.** Le nombre total de mains de poker différentes est
+simplement le nombre de façons différentes de choisir 5 cartes parmi 52
+cartes :
+$$
+\binom{52}{5} = \frac{52!}{5! \times (52-5)!} = \frac{52!}{5! \times 47!} = 2\,598\,960.
+$$
+Pour construire une main pleine, on peut procéder de la façon suivante :
+
+1. On choisit la valeur qu'on utilise pour le triple. Il y a
+   $\binom{13}{1} = 13$ façons.
+2. On choisit les trois couleurs qu'on utilise pour le triple. Il y a
+   $\binom{4}{3} = 4$ façons.
+3. On choisit la valeur qu'on utilise pour le double. Il y a
+   $\binom{12}{1} = 12$ façons.
+4. On choisit les deux couleurs qu'on utilise pour le double. Il y a
+   $\binom{4}{2} = 6$ façons.
+
+Le nombre de mains pleines est donc
+$$
+\binom{13}{1} \times \binom{4}{3} \times \binom{12}{1} \times \binom{4}{2} = 13 \times 4 \times 12 \times 6 = 3744.
+$$
+La probabilité désirée est donc
+$$
+\frac{\text{nombre total de mains pleines possibles}}{\text{nombre total de mains de poker possibles}}
+= \frac{3\,744}{2\,598\,960} \approx 0.00144.
+$$
+
+**Retour à l'exemple 4.** Le nombre total de combinaisons à la 6/49 est
+$$
+\binom{49}{6} = \frac{49!}{6! \times (49-6)!} = \frac{49!}{6! \times 43!} = 13\,983\,816.
+$$
+Pour construire une combinaison ayant exactement trois nombres en commun avec
+la combinaison gagnante, il suffit de choisir trois nombres parmi les six
+nombres de la combinaison gagnante et trois nombres parmi les 43 nombres
+n'appartenant pas à la combinaison gagnante. Le nombre de combinaisons ayant
+exactement trois nombres en commun avec la combinaison gagnante est donc
+$$
+\binom{6}{3} \times \binom{43}{3} = 20 \times 12\,341 = 246\,820.
+$$
+La probabilité désirée est donc
+$$
+\frac{\text{nombre de combinaisons avec trois bons nombres}}{\text{nombre total de combinaisons}}
+= \frac{246\,820}{13\,983\,816} \approx 0.0177.
+$$
+
+::: {.callout-tip}
+## Dans R
+Les fonctions `factorial()` et `choose()` font ces calculs directement.
+
+```{r}
+#| label: combinatoire-r
+#| code-fold: false
+factorial(8) / factorial(5)                   # P(8,3), exemple 13
+choose(52, 5)                                 # nombre de mains de poker
+choose(13, 1) * choose(4, 3) * choose(12, 1) * choose(4, 2) / choose(52, 5)  # main pleine
+choose(6, 3) * choose(43, 3) / choose(49, 6)  # 6/49 : exactement trois bons nombres
+```
+:::
+
+::: {.callout-warning}
+## Suite du chapitre en cours de conversion
+Sections 2.4 (probabilité conditionnelle et indépendance) à 2.8 (exercices).
+:::

@@ -1,0 +1,55 @@
+project:
+  type: book
+  output-dir: _book
+  resources:
+    - "diapos/Chapitre_*.pdf"   # PDF compilés par diapos/compiler.sh (voir le workflow)
+
+lang: fr
+
+book:
+  title: "STT-1920 Méthodes statistiques"
+  subtitle: "Notes de cours"
+  author: "Claude Bélisle"
+  date: "2020"
+  date-format: "YYYY"
+  site-url: https://VOTRE-UTILISATEUR.github.io/stt1920/
+  repo-url: https://github.com/VOTRE-UTILISATEUR/stt1920
+  repo-actions: [edit, issue]
+  search: true
+  chapters:
+    - index.qmd
+    - diapos.qmd
+    - 01-statistique-descriptive.qmd
+    - 02-probabilites.qmd
+    - 03-un-echantillon.qmd
+    - 04-deux-echantillons.qmd
+    - 05-anova.qmd
+    - 06-regression.qmd
+    - 07-khi-deux.qmd
+  appendices:
+    - A-tables.qmd
+
+crossref:
+  eq-prefix: "équation"
+  fig-prefix: "figure"
+  tbl-prefix: "tableau"
+  fig-title: "Figure"
+  tbl-title: "Tableau"
+
+knitr:
+  opts_chunk:
+    comment: "#>"
+    fig-align: center
+    fig-width: 6
+    fig-asp: 0.62
+    out-width: "80%"
+
+format:
+  html:
+    theme:
+      light: [cosmo, styles.scss]
+    number-depth: 3
+    toc-depth: 3
+    code-fold: true
+    code-summary: "Code R"
+    html-math-method: mathjax

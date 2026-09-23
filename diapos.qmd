@@ -1,0 +1,33 @@
+# Diapositives {.unnumbered}
+
+Les diapositives du cours sont compilées automatiquement à partir des
+fichiers LaTeX du dossier `diapos/` à chaque mise à jour du dépôt. La
+version *présentation* contient les dévoilements progressifs utilisés en
+classe ; la version *imprimable* présente une page par diapositive.
+
+```{r}
+#| label: liste-diapos
+#| echo: false
+#| results: asis
+sources <- sort(list.files("diapos", pattern = "^Chapitre_.*\\.tex$"))
+if (length(sources) == 0) {
+  cat("*Aucune diapositive disponible pour le moment.*\n")
+} else {
+  titre <- function(f) {
+    ligne <- grep("^\\\\title\\{", readLines(file.path("diapos", f), warn = FALSE), value = TRUE)[1]
+    if (is.na(ligne)) return(sub("\\.tex$", "", f))
+    t <- sub("^\\\\title\\{(.*)\\}\\s*$", "\\1", ligne)
+    t <- gsub("\\\\textsuperscript\\{([^}]*)\\}", "\\1", t)
+    gsub("--", "–", t)
+  }
+  cat("| Chapitre | Présentation | Imprimable |\n|:--|:--:|:--:|\n")
+  for (f in sources) {
+    base <- sub("\\.tex$", "", f)
+    lien <- function(suffixe) {
+      pdf <- file.path("diapos", paste0(base, suffixe, ".pdf"))
+      if (file.exists(pdf)) sprintf("[PDF](%s)", pdf) else "—"
+    }
+    cat(sprintf("| %s | %s | %s |\n", titre(f), lien(""), lien("-imprimable")))
+  }
+}
+```
