@@ -640,8 +640,9 @@ grands et dans la population D qu'ils sont les plus petits ; pour les
 populations B et D, les poids varient beaucoup plus que pour les trois autres
 populations.
 
-::: {.callout-note}
-## Petit détail technique
+::: {.env-remarque}
+[Petit détail technique]{.env-titre}
+
 Dans le cas où $n$ est impair, le logiciel R dessine ses diagrammes en boîte
 selon la méthode décrite dans la présente section. Toutefois, dans le cas où
 $n$ est pair, le logiciel R procède autrement. Plutôt que de tracer la limite
@@ -733,7 +734,7 @@ les fréquences absolues.
 
 ## Les données bivariées {#sec-bivariees}
 
-::: {.callout-note appearance="minimal"}
+::: {.env-remarque}
 Cette section pourrait être étudiée plus tard, en même temps que le chapitre 6.
 :::
 

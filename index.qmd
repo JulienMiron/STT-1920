@@ -1,4 +1,4 @@
-# Avant-propos {.unnumbered}
+## Avant-propos {.unnumbered}
 
 Cet ouvrage est utilisé comme manuel de référence pour le cours STT-1920
 *Méthodes statistiques* offert par le Département de mathématiques et de
@@ -40,10 +40,24 @@ Claude Bélisle\
 9 décembre 2020
 :::
 
-::: {.callout-note}
-## À propos de cette version web
-Cette version HTML a été produite avec [Quarto](https://quarto.org) à partir
-de l'édition 2020 des notes. Les figures sont régénérées directement à partir
-des données à l'aide de R ; dépliez les blocs « Code R » pour voir comment
-chacune est obtenue.
-:::
+## À propos de cette version web {.unnumbered}
+
+Cette version HTML des notes de Claude Bélisle a été produite avec
+[Quarto](https://quarto.org){target="_blank"} à partir de l'édition 2020. Les
+figures sont régénérées directement à partir des données à l'aide de R ;
+dépliez les blocs « Code R » pour voir comment chacune est obtenue.
+
+Si vous constatez des coquilles ou des erreurs, merci de m'envoyer
+[un courriel](mailto:julien.miron@mat.ulaval.ca).
+
+## Diapositives {.unnumbered}
+
+Les diapositives du cours, en version présentation et en version imprimable,
+sont disponibles à la page [Diapositives](diapos.qmd).
+
+## Utilisation de l'IA {.unnumbered}
+
+La conversion des notes vers Quarto (reconstitution des formules, des tableaux
+et des figures en R) ainsi que la refonte des diapositives en Beamer ont
+bénéficié de l'assistance de Claude, un modèle de langage développé par
+Anthropic.

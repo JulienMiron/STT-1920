@@ -224,21 +224,24 @@ sur lesquels toute la théorie mathématique des probabilités repose. On les
 appelle les *axiomes de Kolmogorov*. Les trois autres propriétés sont des
 conséquences de ces trois axiomes.
 
-::: {.callout-note appearance="simple"}
-## Propriété 1 : le premier axiome de Kolmogorov
+::: {.env-propriete}
+[Propriété 1 : le premier axiome de Kolmogorov]{.env-titre}
+
 Pour tout événement $A$, on a $0 \le P[A] \le 1$.
 :::
 
-::: {.callout-note appearance="simple"}
-## Propriété 2 : le deuxième axiome de Kolmogorov
+::: {.env-propriete}
+[Propriété 2 : le deuxième axiome de Kolmogorov]{.env-titre}
+
 $P[\varnothing] = 0$ et $P[\Omega] = 1$.
 :::
 
 Rappelons ici que le symbole $\varnothing$ est utilisé pour dénoter l'ensemble
 vide.
 
-::: {.callout-note appearance="simple"}
-## Propriété 3 : le troisième axiome de Kolmogorov
+::: {.env-propriete}
+[Propriété 3 : le troisième axiome de Kolmogorov]{.env-titre}
+
 Si $A_1, A_2, \ldots, A_n$ sont des événements mutuellement exclusifs, alors
 $$
 P\Big[\bigcup_{i=1}^{n} A_i\Big] = \sum_{i=1}^{n} P[A_i],
@@ -265,8 +268,9 @@ unitaire et on imagine que si $A$ est une partie de cet objet $\Omega$, alors
 $P[A]$ représente le poids de cette partie $A$. Avec cette analogie, les
 axiomes de Kolmogorov nous apparaissent très naturels.
 
-::: {.callout-note appearance="simple"}
-## Propriété 4 : le cas équiprobable
+::: {.env-propriete}
+[Propriété 4 : le cas équiprobable]{.env-titre}
+
 Si $\Omega$ est un ensemble fini et si les résultats possibles ont tous la
 même probabilité, alors pour tout événement $A$ on a
 $$
@@ -311,8 +315,9 @@ Dans la prochaine section, nous étudierons certaines techniques de
 dénombrement qui nous permettront d'arriver, avec beaucoup de facilité, aux
 réponses numériques des deux exemples précédents.
 
-::: {.callout-note appearance="simple"}
-## Propriété 5 : la complémentation
+::: {.env-propriete}
+[Propriété 5 : la complémentation]{.env-titre}
+
 Pour tout événement $A$ on a $P[A] = 1 - P[A^c]$.
 :::
 
@@ -351,8 +356,9 @@ P[A] = 1 - P[A^c] = 1 - \frac{\text{cardinal de } A^c}{\text{cardinal de } \Omeg
 = 1 - \frac{390\,625}{1\,679\,616} \approx 0.7674.
 $$
 
-::: {.callout-note appearance="simple"}
-## Propriété 6 : la formule de Poincaré
+::: {.env-propriete}
+[Propriété 6 : la formule de Poincaré]{.env-titre}
+
 Pour tout choix de $A$ et $B$ on a
 $$
 P[A \cup B] = P[A] + P[B] - P[A \cap B].
