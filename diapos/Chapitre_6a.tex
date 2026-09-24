@@ -1,0 +1,604 @@
+\documentclass{BeamerTemplate}
+
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=1.17}
+
+% Données de l'exemple 1 : production (kg) de 60 plants de tomates
+\pgfplotstableread{
+x y
+3 2.92
+3 2.59
+3 2.73
+3 2.43
+3 3.78
+3 2.23
+3 3.07
+3 1.69
+3 1.98
+3 2.95
+4 2.54
+4 2.92
+4 3.65
+4 3.57
+4 3.60
+4 2.41
+4 3.79
+4 2.74
+4 2.41
+4 3.49
+5 3.17
+5 2.72
+5 4.53
+5 3.21
+5 3.00
+5 4.15
+5 2.99
+5 4.48
+5 3.17
+5 3.82
+6 4.13
+6 4.64
+6 4.55
+6 3.42
+6 4.23
+6 3.76
+6 3.57
+6 4.94
+6 3.93
+6 3.46
+7 3.42
+7 5.20
+7 4.63
+7 4.16
+7 3.64
+7 3.61
+7 4.44
+7 4.46
+7 5.08
+7 4.23
+8 4.08
+8 5.43
+8 5.76
+8 3.99
+8 4.55
+8 4.93
+8 5.11
+8 5.00
+8 4.86
+8 4.72
+}\tomates
+
+% Style du nuage de points des tomates
+\pgfplotsset{
+  tomates/.style={
+    width=9.5cm, height=6cm, xmin=2.6, xmax=8.4, ymin=1.4, ymax=6,
+    xlabel={Heures d'ensoleillement}, ylabel={Production (kg)},
+    tick label style={font=\scriptsize}, label style={font=\small},
+    grid=major, grid style={black!10},
+  }
+}
+
+\title{Chapitre 6a -- Régression linéaire simple}
+\subtitle{STT-1920 Méthodes statistiques}
+\date{}
+
+\begin{document}
+\begin{frame}[t]
+  \titlepage
+\end{frame}
+
+\begin{frame}[t]{Plan}
+\tableofcontents
+\end{frame}
+
+%-------------------------------------------------------------------------------
+\section{Introduction}
+%-------------------------------------------------------------------------------
+
+\begin{frame}[t]{Objectifs de la régression linéaire simple}
+
+\begin{itemize}\itemsep3mm
+  \item Vérifier si une \alert{relation linéaire} existe entre les variables
+  aléatoires $X$ (variable \alert{explicative}) et $Y$ (variable \alert{réponse}).
+  \item<2-> Mesurer la \alert{force} du lien linéaire qui unit les variables.
+  \item<3-> Trouver la \alert{meilleure droite} exprimant la relation entre les
+  deux variables à partir de $n$ paires d'observations indépendantes $(X_i,Y_i)$.
+  Évaluer la précision des estimations de la pente et de l'ordonnée à l'origine.
+  \item<4-> \alert{Prédire} la valeur de $Y$ pour un $X$ donné, et évaluer la
+  précision de ces prédictions.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Exemples d'application}
+
+\begin{itemize}\itemsep3mm
+  \item Un sociologue veut savoir s'il existe un lien linéaire entre le nombre
+  d'années d'études et le salaire à l'embauche.
+  \item<2-> Un médecin veut étudier la relation entre l'IMC des individus et le taux
+  de cholestérol dans leur sang.
+  \item<3-> Un ingénieur veut savoir si le taux d'humidité dans le papier est
+  directement proportionnel à la température du séchoir.
+  \item<4-> Un économiste veut savoir si le lien entre l'offre d'un produit et son
+  prix est linéaire.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Exemple 1: ensoleillement et production de tomates}
+
+On veut étudier l'effet du nombre d'heures d'\alert{ensoleillement} quotidien sur
+la \alert{production} (kg) de tomates. Dans une serre, on contrôle la quantité de
+soleil reçue par 60 plants: 10 plants pour chacune des durées 3, 4, 5, 6, 7 et
+8 heures par jour. Quatre mois plus tard, on note la production de chaque plant.
+
+\medskip
+\begin{center}
+\scriptsize
+\begin{tabular}{c|cccccccccc}
+\toprule
+Soleil & \multicolumn{10}{c}{Production (kg)}\\
+\midrule
+3 h & 2,92 & 2,59 & 2,73 & 2,43 & 3,78 & 2,23 & 3,07 & 1,69 & 1,98 & 2,95\\
+4 h & 2,54 & 2,92 & 3,65 & 3,57 & 3,60 & 2,41 & 3,79 & 2,74 & 2,41 & 3,49\\
+5 h & 3,17 & 2,72 & 4,53 & 3,21 & 3,00 & 4,15 & 2,99 & 4,48 & 3,17 & 3,82\\
+6 h & 4,13 & 4,64 & 4,55 & 3,42 & 4,23 & 3,76 & 3,57 & 4,94 & 3,93 & 3,46\\
+7 h & 3,42 & 5,20 & 4,63 & 4,16 & 3,64 & 3,61 & 4,44 & 4,46 & 5,08 & 4,23\\
+8 h & 4,08 & 5,43 & 5,76 & 3,99 & 4,55 & 4,93 & 5,11 & 5,00 & 4,86 & 4,72\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[t]{Exemple 1: les 60 plants de tomates}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[tomates]
+  \addplot[only marks, mark=o, mark size=1.8pt] table[x=x, y=y] {\tomates};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\uncover<2->{La relation entre les deux variables semble \alert{linéaire}.}
+
+\end{frame}
+
+\begin{frame}[t]{Exemple 2: poids et envergure des hirondelles}
+
+On cherche à démontrer qu'il existe un lien linéaire entre le \alert{poids}
+d'une hirondelle ($X$, en g) et l'\alert{étendue de ses ailes} ouvertes ($Y$, en cm).
+Pour ce faire, on mesure ces deux quantités sur 50 hirondelles choisies au
+hasard dans la population d'intérêt.
+
+\medskip
+\begin{center}
+\scriptsize
+\begin{tabular}{ccc}
+\toprule
+Oiseau & Poids & Étendue\\
+\midrule
+1 & 52,29 & 14,10\\
+2 & 39,05 & 8,94\\
+3 & 40,23 & 8,79\\
+4 & 43,69 & 9,59\\
+5 & 50,23 & 10,60\\
+$\vdots$ & $\vdots$ & $\vdots$\\
+\bottomrule
+\end{tabular}
+\hspace{1cm}
+\begin{tabular}{ccc}
+\toprule
+Oiseau & Poids & Étendue\\
+\midrule
+26 & 48,93 & 12,05\\
+27 & 48,17 & 11,13\\
+28 & 55,53 & 13,79\\
+29 & 50,85 & 13,26\\
+30 & 42,88 & 9,51\\
+$\vdots$ & $\vdots$ & $\vdots$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+% NOTE : les oiseaux 16 à 21 et 41 à 46 étaient illisibles dans les anciennes
+% diapos; le nuage ci-dessous ne contient que les 38 autres oiseaux.
+% Ajouter les 12 points manquants si les données complètes sont disponibles.
+\begin{frame}[t]{Exemple 2: les hirondelles}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=9.5cm, height=6cm, xlabel={Poids (g)}, ylabel={Étendue (cm)},
+  tick label style={font=\scriptsize}, label style={font=\small},
+  grid=major, grid style={black!10}]
+  \addplot[only marks, mark=o, mark size=1.8pt] coordinates {
+  (52.29,14.10) (39.05,8.94) (40.23,8.79) (43.69,9.59) (50.23,10.60)
+  (57.44,13.12) (42.18,10.51) (43.54,11.13) (41.59,8.62) (52.38,12.81)
+  (45.35,11.18) (52.30,12.32) (45.91,9.38) (47.19,10.86) (45.94,10.99)
+  (47.85,10.75) (48.82,11.36) (44.37,8.80) (46.28,10.47)
+  (48.93,12.05) (48.17,11.13) (55.53,13.79) (50.85,13.26) (42.88,9.51)
+  (48.86,11.32) (52.65,14.47) (45.43,10.26) (43.40,9.52) (50.95,12.82)
+  (42.24,10.29) (48.30,12.33) (56.42,14.69) (49.97,11.15) (41.64,8.35)
+  (52.83,11.80) (41.77,8.98) (53.47,13.70) (45.37,10.83)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+%-------------------------------------------------------------------------------
+\section{Modèle de régression linéaire simple}
+%-------------------------------------------------------------------------------
+
+\begin{frame}[t]{Le modèle}
+
+On suppose que $X$ et $Y$ sont reliées par la droite $Y=\beta_0+\beta_1X$, et que
+les observations dévient un peu de ce modèle par une erreur aléatoire
+$\varepsilon$:
+
+\begin{Boite}{Modèle de régression linéaire simple}
+\[
+Y_i=\beta_0+\beta_1X_i+\varepsilon_i,\qquad i=1,\ldots,n
+\]
+\end{Boite}
+
+\begin{itemize}\itemsep1mm
+  \item $Y_i$ = $i$\textsuperscript{e} mesure de la variable $Y$;
+  \item $X_i$ = $i$\textsuperscript{e} mesure de la variable $X$;
+  \item $\beta_0$ =
+  \item $\beta_1$ =
+  \item $\varepsilon_i$ = perturbation due au hasard ou à des variables autres que
+  $X$ (erreur du modèle, différence entre $Y_i$ et la droite).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Les postulats}
+
+\begin{itemize}\itemsep4mm
+  \item Les observations $(X_i,Y_i)$ sont \alert{indépendantes} les unes des autres.
+  \item<2-> Les variables $X$ et $Y$ sont associées par un \alert{lien linéaire}.
+  \item<3-> Les observations $Y_i$ sont issues d'une \alert{loi normale} pour chaque
+  $X_i$ fixé.
+  \item<4-> La \alert{variance} des $Y_i$ autour de la droite (notée $\sigma^2$) est
+  \alert{constante} pour toutes les valeurs de $X$.
+\end{itemize}
+
+\uncover<5->{
+\begin{Boite}{En résumé}
+$\varepsilon_1,\ldots,\varepsilon_n$ sont indépendantes et de loi $N(0,\sigma^2)$.
+\end{Boite}}
+
+\end{frame}
+
+%-------------------------------------------------------------------------------
+\section{Estimation des paramètres}
+%-------------------------------------------------------------------------------
+
+\begin{frame}[t]{Estimation par les moindres carrés}
+
+Pour estimer $\beta_0$ et $\beta_1$, on minimise la \alert{somme des carrés des
+erreurs}, i.e.\ des écarts verticaux entre les observations $Y_i$ et le point
+correspondant sur la droite $\beta_0+\beta_1X_i$:
+\[
+\sum_{i=1}^{n}\varepsilon_i^2=\sum_{i=1}^{n}\bigl(Y_i-[\beta_0+\beta_1X_i]\bigr)^2.
+\]
+
+\uncover<2->{Il suffit donc de dériver cette expression successivement par rapport
+à $\beta_0$ et $\beta_1$, d'égaler les dérivées partielles à 0 et de résoudre le
+système obtenu pour trouver $\hat\beta_0=b_0$ et $\hat\beta_1=b_1$.}
+
+\end{frame}
+
+\begin{frame}[t]{Estimateurs $b_0$ et $b_1$}
+
+\begin{Boite}{Estimateurs des moindres carrés}
+\[
+b_1=\frac{\sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y})}
+{\sum_{i=1}^{n}(x_i-\overline{x})^2}=\frac{S_{XY}}{S_{XX}},
+\qquad
+b_0=\overline{y}-b_1\overline{x}.
+\]
+\end{Boite}
+
+\medskip
+La valeur de $Y$ prédite par le modèle pour une valeur de $X$ fixée est donc
+\[
+\hat y_i=b_0+b_1x_i.
+\]
+
+\end{frame}
+
+\begin{frame}[t]{Notations}
+
+\vspace{5mm}
+\begin{align*}
+S_{XX}&=\sum_{i=1}^{n}(X_i-\overline{X})^2=(n-1)s_X^2\\[3mm]
+S_{YY}&=\sum_{i=1}^{n}(Y_i-\overline{Y})^2=(n-1)s_Y^2\\[3mm]
+S_{XY}&=\sum_{i=1}^{n}(X_i-\overline{X})(Y_i-\overline{Y})
+\end{align*}
+
+\end{frame}
+
+\begin{frame}[t]{Inférence sur les paramètres: distribution de $b_0$ et $b_1$}
+
+$b_0$ et $b_1$ sont des \alert{variables aléatoires}: si on change d'échantillon
+$(X_i,Y_i)$, leurs valeurs changent.
+
+\begin{thm}
+On peut montrer que
+\[
+E(b_0)=\beta_0,\qquad E(b_1)=\beta_1,
+\]
+\[
+V(b_0)=\sigma^2\left(\frac1n+\frac{\overline{x}^{\,2}}{S_{XX}}\right),\qquad
+V(b_1)=\frac{\sigma^2}{S_{XX}},
+\]
+et $b_0$ et $b_1$ suivent chacun une loi normale.
+\end{thm}
+
+Comme on connaît leur distribution, on peut construire des intervalles de
+confiance et des tests.
+
+\end{frame}
+
+\begin{frame}[t]{Remarques}
+
+\begin{itemize}\itemsep1.5cm
+  \item
+  \item
+  \item
+  \item
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{En R: \textsf{Statistiques} $\rightarrow$ \textsf{Ajustement de modèle}}
+
+\begin{Verbatim}[fontsize=\scriptsize]
+> RegModel.1 <- lm(production ~ hrs_soleil, data=tomates)
+> summary(RegModel.1)
+
+Residuals:
+     Min       1Q   Median       3Q      Max
+-0.97619 -0.45213  0.00378  0.42100  1.11381
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  1.37242    0.24733   5.549 7.46e-07 ***
+hrs_soleil   0.43126    0.04295  10.042 2.66e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.5681 on 58 degrees of freedom
+Multiple R-squared:  0.6348,    Adjusted R-squared:  0.6285
+F-statistic: 100.8 on 1 and 58 DF,  p-value: 2.661e-14
+\end{Verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Estimation des paramètres}
+
+\begin{Verbatim}[fontsize=\scriptsize]
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  1.37242    0.24733   5.549 7.46e-07 ***
+hrs_soleil   0.43126    0.04295  10.042 2.66e-14 ***
+\end{Verbatim}
+
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\vspace{5mm}
+Trouvez et interprétez les estimations des paramètres.
+\end{column}
+\begin{column}{0.58\textwidth}
+\begin{tikzpicture}
+\begin{axis}[tomates, width=7.5cm, height=5cm]
+  \addplot[only marks, mark=o, mark size=1.5pt] table[x=x, y=y] {\tomates};
+  \addplot[burntorange, very thick, domain=2.6:8.4] {1.37242+0.43126*x};
+\end{axis}
+\end{tikzpicture}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Intervalles de confiance sur les paramètres}
+
+\begin{Verbatim}[fontsize=\scriptsize]
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  1.37242    0.24733   5.549 7.46e-07 ***
+hrs_soleil   0.43126    0.04295  10.042 2.66e-14 ***
+\end{Verbatim}
+
+\begin{Boite}{Intervalles de confiance à $(1-\alpha)100\,\%$}
+\[
+b_1\pm t_{n-2;\,\alpha/2}\sqrt{\frac{MSE}{S_{XX}}},\qquad
+b_0\pm t_{n-2;\,\alpha/2}\sqrt{MSE\left(\frac1n+\frac{\overline{x}^{\,2}}{S_{XX}}\right)}
+\]
+\end{Boite}
+
+Calculez un intervalle de confiance à 95\,\% sur la pente et sur l'ordonnée à
+l'origine.
+
+\end{frame}
+
+\begin{frame}[fragile,t]{En R: \textsf{Modèles} $\rightarrow$ \textsf{Intervalles de confiance}}
+
+\begin{Verbatim}[fontsize=\small]
+> Confint(RegModel.1, level=0.95)
+             Estimate     2.5 %    97.5 %
+(Intercept) 1.3724190 0.8773266 1.8675115
+hrs_soleil  0.4312571 0.3452894 0.5172249
+\end{Verbatim}
+
+\bigskip
+La relation linéaire entre les heures d'ensoleillement et la production
+est-elle significative, au seuil de 5\,\%?
+\vspace{2cm}
+
+\end{frame}
+
+%-------------------------------------------------------------------------------
+\section{Test de Fisher pour la régression}
+%-------------------------------------------------------------------------------
+
+\begin{frame}[t]{Hypothèses à tester}
+
+Faire le test de la régression, c'est vérifier si la relation linéaire est
+\alert{significative}. Bref, on veut savoir si la pente est nulle ou non.
+
+\medskip
+\begin{align*}
+H_0&:\\
+H_1&:
+\end{align*}
+
+\medskip
+On sait déjà vérifier si 0 est dans l'intervalle de confiance, et on sait
+interpréter le test de Student sur la pente. En mettant cette statistique au
+carré, on obtient un \alert{test de Fisher} basé sur la décomposition de la
+variabilité des $Y_i$.
+
+\end{frame}
+
+\begin{frame}[t]{Décomposition de la variance}
+
+La variabilité totale dans les données (notée $SST$) peut être décomposée en
+deux sources:
+
+\medskip
+\begin{itemize}\itemsep3mm
+  \item<2-> $SSR$: somme des carrés de la \alert{régression};\\
+  variabilité entre les valeurs prédites par le modèle linéaire, i.e.\ la
+  variabilité \alert{expliquée par $X$};
+  \item<3-> $SSE$: somme des carrés des \alert{erreurs};\\
+  variabilité des données autour de la droite pour un $x_i$ donné (source autre
+  que $X$, que l'on associe à l'erreur échantillonnale non expliquée par le
+  modèle).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Décomposition de la variance: illustration}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[tomates, width=10cm, height=6.3cm]
+  \addplot[only marks, mark=o, mark size=1.5pt, black!40] table[x=x, y=y] {\tomates};
+  \addplot[burntorange, very thick, domain=2.6:8.4] {1.37242+0.43126*x};
+  \addplot[Dominante!80!black, thick, dashed, domain=2.6:8.4] {3.74433};
+  \node[font=\scriptsize, anchor=west, Dominante!80!black] at (axis cs:2.65,3.9) {$\overline{y}$};
+  % Un point pour illustrer les écarts
+  \addplot[only marks, mark=*, mark size=2pt] coordinates {(8,5.76)};
+  \draw[thick, <->, black!70!green] (axis cs:8.12,3.74433) -- node[right, font=\tiny] {$y_i-\overline{y}$} (axis cs:8.12,5.76);
+  \draw[thick, <->, red] (axis cs:7.85,4.82250) -- node[left, font=\tiny] {$y_i-\hat y_i$} (axis cs:7.85,5.76);
+  \draw[thick, <->, blue] (axis cs:7.7,3.74433) -- node[left, font=\tiny] {$\hat y_i-\overline{y}$} (axis cs:7.7,4.82250);
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[t]{Décomposition de la variance}
+
+\begin{Boite}{Décomposition des sommes de carrés}
+\begin{align*}
+SST &= SSR + SSE\\
+\sum_{i=1}^{n}(y_i-\overline{y})^2
+&= \sum_{i=1}^{n}\bigl((b_0+b_1x_i)-\overline{y}\bigr)^2
+ + \sum_{i=1}^{n}\bigl(y_i-(b_0+b_1x_i)\bigr)^2
+\end{align*}
+\end{Boite}
+
+\end{frame}
+
+\begin{frame}[t]{Table d'ANOVA}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.9}
+\begin{tabular}{lcccc}
+\toprule
+Source de variation & Somme de carrés & d.l. & Carrés moyens & $F$\\
+\midrule
+Régression & \hspace{1.5cm} & \hspace{1cm} & \hspace{1.8cm} & \hspace{1.2cm}\\
+Erreur     & & & & \\
+\midrule
+Total      & & & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{itemize}\itemsep1mm
+  \item $\sigma^2$ est la variance autour de la droite pour un $X$ donné. On
+  l'estime par le $MSE$.
+  \item La proportion de variabilité des $Y_i$ expliquée par $X$ est
+  $R^2=\dfrac{SSR}{SST}$; c'est le carré du coefficient de corrélation.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Table d'ANOVA en R}
+
+\begin{Verbatim}[fontsize=\small]
+> Anova(RegModel.1, type="II")
+Anova Table (Type II tests)
+
+Response: production
+           Sum Sq Df F value    Pr(>F)
+hrs_soleil 32.547  1  100.83 2.661e-14 ***
+Residuals  18.721 58
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{Verbatim}
+
+\end{frame}
+
+\begin{frame}[t]{Conséquence}
+
+\begin{itemize}\itemsep2.5cm
+  \item Si $H_0$ est vraie,
+  \item Si $H_0$ est fausse (et donc $H_1$ est vraie), la statistique $F_{obs}$
+  aura-t-elle tendance à être plus petite ou plus grande que sous $H_0$?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Exemple}
+
+\begin{itemize}\itemsep2cm
+  \item Quel est le seuil observé du test effectué?
+  \item Rejette-t-on $H_0$ au seuil de 5\,\%?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Réponses}
+
+\scriptsize
+\begin{itemize}\itemsep1mm
+  \item \textbf{Modèle:} $\beta_0$ = ordonnée à l'origine (valeur moyenne de $Y$
+  quand $X=0$); $\beta_1$ = pente (variation moyenne de $Y$ quand $X$ augmente de 1).
+  \item \textbf{Remarques} (suggestions): $b_0$ et $b_1$ sont sans biais; la précision
+  de $b_1$ augmente avec $n$ et avec l'étalement des $x_i$ ($S_{XX}$); $\sigma^2$ est
+  inconnue et estimée par $MSE$; on utilise alors la loi $t_{n-2}$.
+  \item \textbf{Estimations:} $b_0=1{,}37$ kg (production prédite sans soleil,
+  extrapolation hors du domaine observé); $b_1=0{,}43$: chaque heure de soleil
+  supplémentaire augmente la production moyenne d'environ 0,43 kg.
+  \item \textbf{IC à 95\,\%} ($t_{58;\,0{,}025}\approx2{,}00$): pente $[0{,}345;\ 0{,}517]$,
+  ordonnée $[0{,}877;\ 1{,}868]$. Comme 0 n'est pas dans l'IC de la pente, la relation
+  est significative au seuil de 5\,\%.
+  \item \textbf{Hypothèses:} $H_0:\beta_1=0$ contre $H_1:\beta_1\ne0$.
+  \item \textbf{Table:} $SSR=32{,}547$ (1 d.l.), $SSE=18{,}721$ (58 d.l.),
+  $SST=51{,}268$ (59 d.l.); $MSR=32{,}547$, $MSE=0{,}323$, $F=100{,}8=10{,}042^2$;
+  $R^2=0{,}635$.
+  \item \textbf{Conséquence:} sous $H_0$, $F=MSR/MSE\sim F_{1,\,n-2}$; sous $H_1$,
+  $F_{obs}$ tend à être plus grande.
+  \item \textbf{Exemple:} valeur-p $=2{,}7\times10^{-14}<0{,}05$: on rejette $H_0$.
+\end{itemize}
+
+\end{frame}
+
+\end{document}
