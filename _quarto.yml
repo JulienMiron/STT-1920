@@ -2,6 +2,7 @@ project:
   type: book
   output-dir: _book
   resources:
+    - ressources/STT-1920-Belisle-2020.pdf
     - "diapos/Chapitre_*.pdf"      # PDF compilés par diapos/compiler.sh (voir le workflow)
 
 book:
@@ -58,6 +59,7 @@ knitr:
     fig-width: 6
     fig-asp: 0.62
     out-width: "80%"
+
 
 format:
   html:

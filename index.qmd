@@ -1,44 +1,34 @@
-## Avant-propos {.unnumbered}
+# Avant-propos {.unnumbered}
 
-Cet ouvrage est utilisé comme manuel de référence pour le cours STT-1920
-*Méthodes statistiques* offert par le Département de mathématiques et de
-statistique de l'Université Laval. Ce cours s'adresse principalement aux
-étudiants des programmes de baccalauréat en agronomie, en biochimie, en
-sciences biomédicales et en sciences et technologie des aliments pour qui il
-est cours obligatoire.
+Ces notes sont adaptées de l'ouvrage *STT-1920 Méthodes statistiques* de
+Claude Bélisle (Département de mathématiques et de statistique, Université
+Laval, édition de l'hiver 2020), utilisé depuis plusieurs années comme manuel
+de référence pour le cours. Le contenu, l'ordre des chapitres et les exercices
+en sont largement repris ; la mise en forme a été refaite en Quarto afin
+d'offrir une version web, d'intégrer du code R exécutable et de faciliter les
+mises à jour.
 
-Les sept chapitres de cet ouvrage correspondent au contenu du cours STT-1920
-tel que décidé en 2006 lors de discussions entre un groupe d'enseignants du
-Département de mathématiques et de statistique et les directeurs des
-programmes concernés. En donnant ce cours, l'enseignant devrait donc s'assurer
-de couvrir les sept chapitres. Pour y arriver, il devra probablement omettre
-quelques sections. Dans la table des matières, les sections marquées d'une
-étoile (⋆) peuvent être ou bien omises ou bien laissées en lecture, sans
-compromettre la continuité et l'intégrité du cours.
+Le cours STT-1920 s'adresse principalement aux étudiantes et étudiants des
+programmes de baccalauréat en agronomie, en biochimie, en sciences
+biomédicales et en sciences et technologie des aliments, pour qui il est
+obligatoire. Les sections marquées d'une étoile (⋆) peuvent être omises ou
+laissées en lecture sans compromettre la continuité du cours.
 
-Une série d'exercices apparaît à la fin de chaque chapitre. Il est important
-que les étudiants fassent ces exercices pour s'assurer d'avoir bien compris la
-matière. Certains exercices nécessitent l'utilisation d'un logiciel d'analyse
-statistique. Le logiciel recommandé pour le cours STT-1920 est le logiciel R,
-disponible gratuitement à partir du site <https://www.r-project.org/>. Les
-étudiants auront l'occasion de s'initier à ce logiciel durant la séance
-hebdomadaire de travaux pratiques qui s'ajoute aux trois heures
-d'enseignement magistral.
+Une série d'exercices apparaît à la fin de chaque chapitre. Certains
+nécessitent un logiciel d'analyse statistique ; le logiciel recommandé est
+[R](https://www.r-project.org/), auquel les étudiants s'initient lors des
+séances de travaux pratiques.
 
-Je remercie tous ceux et celles qui, de loin ou de près, ont contribué à la
-réalisation de cet ouvrage. Je remercie en particulier Madame Emmanuelle
-Reny-Nolin, directrice du Centre de dépannage et d'apprentissage en
-mathématiques et en statistique de l'Université Laval. Emmanuelle a lu avec
-attention la première édition de cet ouvrage et ses nombreux commentaires ont
-grandement contribué à améliorer le texte. Je remercie également Jean-Hubert
-Smith Lacroix pour ses nombreux commentaires. Enfin, je remercie les nombreux
-étudiants qui ont suivi le cours avec moi et qui m'ont fait part de plusieurs
-commentaires constructifs.
+Je remercie chaleureusement Claude Bélisle, dont le travail est à la base de
+ces notes.
 
-::: {style="text-align: right"}
-Claude Bélisle\
-9 décembre 2020
-:::
+## Notes originales
+
+La version originale des notes de Claude Bélisle est disponible en PDF :
+
+[{{< fa file-pdf >}} Télécharger les notes originales (PDF)](ressources/STT-1920-Belisle-2020.pdf){.btn .btn-outline-primary target="_blank"}
+
+© Claude Bélisle, 2020.
 
 ## À propos de cette version web {.unnumbered}
 
