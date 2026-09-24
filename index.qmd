@@ -19,16 +19,12 @@ nécessitent un logiciel d'analyse statistique ; le logiciel recommandé est
 [R](https://www.r-project.org/), auquel les étudiants s'initient lors des
 séances de travaux pratiques.
 
-Je remercie chaleureusement Claude Bélisle, dont le travail est à la base de
-ces notes.
-
 ## Notes originales
 
 La version originale des notes de Claude Bélisle est disponible en PDF :
 
 [{{< fa file-pdf >}} Télécharger les notes originales (PDF)](ressources/STT-1920-Belisle-2020.pdf){.btn .btn-outline-primary target="_blank"}
 
-© Claude Bélisle, 2020.
 
 ## À propos de cette version web {.unnumbered}
 
