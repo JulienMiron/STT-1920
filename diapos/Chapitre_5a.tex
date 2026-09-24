@@ -1,0 +1,780 @@
+\documentclass{BeamerTemplate}
+
+\usepgfplotslibrary{statistics}
+\pgfplotsset{compat=1.17}
+
+% Couleurs des groupes (A, B) pour les graphiques
+\definecolor{grA}{HTML}{F8766D}
+\definecolor{grB}{HTML}{00BFC4}
+
+% Style commun des petits diagrammes en points
+\pgfplotsset{
+  pointsANOVA/.style={
+    width=4.3cm, height=5.2cm,
+    ymin=2, ymax=24, ytick={5,10,15,20},
+    xmin=0.4, xmax=2.6,
+    axis lines=left, tick label style={font=\scriptsize},
+    ymajorgrids, grid style={black!10},
+    title style={font=\small},
+  }
+}
+
+\title{Chapitre 5a -- Analyse de la variance}
+\subtitle{STT-1920 Méthodes statistiques}
+\date{}
+
+\begin{document}
+\begin{frame}[t]
+  \titlepage
+\end{frame}
+
+%-------------------------------------------------------------------------------
+\section{Introduction}
+%-------------------------------------------------------------------------------
+
+\begin{frame}[t]{Objectifs de l'analyse de la variance (ANOVA)}
+
+\begin{Boite}{Analyse de la variance à un facteur}
+\begin{itemize}
+  \item Comparer les \alert{moyennes} d'une variable dans \alert{plusieurs populations}
+  (normales, de même variance);
+  \item Déterminer si un \alert{facteur} (variable discrète ou qualitative) a une
+  influence sur une \alert{variable réponse} (variable aléatoire continue).
+\end{itemize}
+\end{Boite}
+
+\end{frame}
+
+\begin{frame}[t]{Exemples}
+
+\begin{itemize}\itemsep3mm
+  \item Un ingénieur aux transports veut comparer la durabilité moyenne de
+  7 mélanges de peinture pour asphalte.
+  \item<2-> Un chercheur développe 3 traitements contre l'hypertension. Il désire
+  savoir si l'un d'entre eux a un délai d'action plus court que les autres.
+  \item<3-> Un agronome veut savoir si les 4 variétés de blé qui résistent le mieux
+  à la moisissure donnent des rendements moyens égaux.
+  \item<4-> Un directeur de magasin d'appareils électroniques veut comparer
+  5 méthodes de publicité: sont-elles équivalentes ou l'une d'elles
+  amène-t-elle plus de clients que les autres?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{ANOVA: décomposition de la variance}
+
+L'analyse de la variance consiste à identifier et à comparer les
+\alert{sources de variation} d'une variable:
+
+\medskip
+
+\begin{itemize}\itemsep3mm
+  \item<2-> la variabilité \alert{inter-traitements}, entre les moyennes des
+  échantillons, que l'on associe au \textbf{facteur} (la caractéristique qui
+  distingue les groupes à l'étude);
+  \item<3-> la variabilité \alert{intra-traitement}, entre les observations d'un
+  même échantillon, que l'on associe à l'\textbf{erreur échantillonnale}
+  (non expliquée par le modèle).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Comparons deux scénarios}
+
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+\vspace{5mm}
+\begin{tabular}{lcc}
+\toprule
+Moyennes & Scénario 1 & Scénario 2\\
+\midrule
+Traitement A & 15,32 & 15,32\\
+Traitement B & 9,61 & 9,61\\
+\bottomrule
+\end{tabular}
+
+\bigskip
+\uncover<2->{Les moyennes sont \alert{identiques} dans les deux scénarios.
+Mais la dispersion à l'intérieur des groupes, elle, ne l'est pas\ldots}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{tikzpicture}
+\begin{axis}[pointsANOVA, width=6.5cm, height=5.8cm,
+  xtick={1,2}, xticklabels={Scénario 1, Scénario 2},
+  legend style={font=\scriptsize, draw=none, at={(1.02,0.5)}, anchor=west},
+  legend cell align=left]
+  % Scénario 1
+  \addplot[only marks, mark=*, mark size=1.6pt, grA] coordinates
+    {(1,14.72) (1,13.52) (1,14.54) (1,18.49)};
+  \addplot[only marks, mark=*, mark size=1.6pt, grB] coordinates
+    {(1,9.98) (1,4.59) (1,12.82) (1,11.03)};
+  % Scénario 2
+  \addplot[only marks, mark=*, mark size=1.6pt, grA, forget plot] coordinates
+    {(2,6.3925) (2,12.1425) (2,20.0725) (2,22.6625)};
+  \addplot[only marks, mark=*, mark size=1.6pt, grB, forget plot] coordinates
+    {(2,12.79) (2,2.91) (2,7.13) (2,15.61)};
+  % Moyennes
+  \addplot[only marks, mark=x, mark size=3.5pt, thick, grA, forget plot]
+    coordinates {(1,15.32) (2,15.32)};
+  \addplot[only marks, mark=x, mark size=3.5pt, thick, grB, forget plot]
+    coordinates {(1,9.61) (2,9.61)};
+  \legend{A, B}
+\end{axis}
+\end{tikzpicture}
+
+{\scriptsize $\times$ : moyenne du groupe}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+% --- Scénario 1 -----------------------------------------------------------------
+\begin{frame}[t]{Scénario 1: décomposition de la variance}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[pointsANOVA, title=Totale, xtick={1}, xticklabels={A et B}]
+  \addplot[only marks, mark=*, mark size=1.6pt, grA] coordinates
+    {(1,14.72) (1,13.52) (1,14.54) (1,18.49)};
+  \addplot[only marks, mark=*, mark size=1.6pt, grB] coordinates
+    {(1,9.98) (1,4.59) (1,12.82) (1,11.03)};
+  \addplot[only marks, mark=x, mark size=3.5pt, thick, black] coordinates {(1,12.46)};
+\end{axis}
+\end{tikzpicture}
+\hspace{2mm}
+\uncover<2->{%
+\begin{tikzpicture}
+\begin{axis}[pointsANOVA, title=Traitement, xtick={1}, xticklabels={A et B}]
+  \addplot[only marks, mark=x, mark size=3.5pt, thick, grA] coordinates {(1,15.32)};
+  \addplot[only marks, mark=x, mark size=3.5pt, thick, grB] coordinates {(1,9.61)};
+  \addplot[only marks, mark=x, mark size=3.5pt, thick, black] coordinates {(1,12.46)};
+\end{axis}
+\end{tikzpicture}}
+\hspace{2mm}
+\uncover<3->{%
+\begin{tikzpicture}
+\begin{axis}[pointsANOVA, title=Résiduelle, xtick={1,2}, xticklabels={A, B}]
+  \addplot[only marks, mark=*, mark size=1.6pt, grA] coordinates
+    {(1,14.72) (1,13.52) (1,14.54) (1,18.49)};
+  \addplot[only marks, mark=*, mark size=1.6pt, grB] coordinates
+    {(2,9.98) (2,4.59) (2,12.82) (2,11.03)};
+  \addplot[only marks, mark=x, mark size=3.5pt, thick, grA] coordinates {(1,15.32)};
+  \addplot[only marks, mark=x, mark size=3.5pt, thick, grB] coordinates {(2,9.61)};
+\end{axis}
+\end{tikzpicture}}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Scénario 1: table d'analyse de la variance}
+
+\vspace{1cm}
+\begin{Verbatim}[fontsize=\small]
+           Df Sum Sq Mean Sq F value Pr(>F)
+Traitement  1  65.27   65.27   7.543 0.0334 *
+Residuals   6  51.91    8.65
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{Verbatim}
+
+\bigskip
+\uncover<2->{La variabilité \alert{entre} les traitements (65,27) est grande
+par rapport à la variabilité \alert{à l'intérieur} des traitements (8,65).}
+
+\end{frame}
+
+% --- Scénario 2 -----------------------------------------------------------------
+\begin{frame}[t]{Scénario 2: décomposition de la variance}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[pointsANOVA, title=Totale, xtick={1}, xticklabels={A et B}]
+  \addplot[only marks, mark=*, mark size=1.6pt, grA] coordinates
+    {(1,6.3925) (1,12.1425) (1,20.0725) (1,22.6625)};
+  \addplot[only marks, mark=*, mark size=1.6pt, grB] coordinates
+    {(1,12.79) (1,2.91) (1,7.13) (1,15.61)};
+  \addplot[only marks, mark=x, mark size=3.5pt, thick, black] coordinates {(1,12.46)};
+\end{axis}
+\end{tikzpicture}
+\hspace{2mm}
+\uncover<2->{%
+\begin{tikzpicture}
+\begin{axis}[pointsANOVA, title=Traitement, xtick={1}, xticklabels={A et B}]
+  \addplot[only marks, mark=x, mark size=3.5pt, thick, grA] coordinates {(1,15.32)};
+  \addplot[only marks, mark=x, mark size=3.5pt, thick, grB] coordinates {(1,9.61)};
+  \addplot[only marks, mark=x, mark size=3.5pt, thick, black] coordinates {(1,12.46)};
+\end{axis}
+\end{tikzpicture}}
+\hspace{2mm}
+\uncover<3->{%
+\begin{tikzpicture}
+\begin{axis}[pointsANOVA, title=Résiduelle, xtick={1,2}, xticklabels={A, B}]
+  \addplot[only marks, mark=*, mark size=1.6pt, grA] coordinates
+    {(1,6.3925) (1,12.1425) (1,20.0725) (1,22.6625)};
+  \addplot[only marks, mark=*, mark size=1.6pt, grB] coordinates
+    {(2,12.79) (2,2.91) (2,7.13) (2,15.61)};
+  \addplot[only marks, mark=x, mark size=3.5pt, thick, grA] coordinates {(1,15.32)};
+  \addplot[only marks, mark=x, mark size=3.5pt, thick, grB] coordinates {(2,9.61)};
+\end{axis}
+\end{tikzpicture}}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Scénario 2: table d'analyse de la variance}
+
+\vspace{1cm}
+\begin{Verbatim}[fontsize=\small]
+           Df Sum Sq Mean Sq F value Pr(>F)
+Traitement  1  65.15   65.15   1.484  0.269
+Residuals   6 263.45   43.91
+\end{Verbatim}
+
+\bigskip
+\uncover<2->{Même écart entre les moyennes, mais la variabilité
+\alert{à l'intérieur} des traitements est maintenant beaucoup plus grande:
+on ne peut plus conclure à une différence entre A et B.}
+
+\end{frame}
+
+%-------------------------------------------------------------------------------
+\section{Mathématique de l'ANOVA}
+%-------------------------------------------------------------------------------
+
+\begin{frame}[t]{Cadre}
+
+\textbf{But:} comparer les moyennes $\mu_1,\ldots,\mu_I$ d'une variable $Y$
+dans $I$ populations.
+
+\bigskip
+
+\begin{itemize}\itemsep2mm
+  \item $Y_{11}, Y_{12}, \ldots, Y_{1n_1}$ sont issues d'une population $N(\mu_1,\sigma^2)$;
+  \item $Y_{21}, Y_{22}, \ldots, Y_{2n_2}$ sont issues d'une population $N(\mu_2,\sigma^2)$;
+  \item[] $\qquad\vdots$
+  \item $Y_{I1}, Y_{I2}, \ldots, Y_{In_I}$ sont issues d'une population $N(\mu_I,\sigma^2)$.
+\end{itemize}
+
+\bigskip
+\uncover<2->{On note $N=n_1+n_2+\cdots+n_I$ le nombre total d'observations.}
+
+\end{frame}
+
+\begin{frame}[t]{Hypothèses à confronter}
+
+\vspace{1cm}
+\begin{Boite}{Hypothèses de l'ANOVA à un facteur}
+\begin{align*}
+H_0 &: \mu_1 = \mu_2 = \cdots = \mu_I\\[2mm]
+H_1 &: \text{au moins 2 moyennes diffèrent}
+\end{align*}
+\end{Boite}
+
+\end{frame}
+
+\begin{frame}[t]{Le modèle à un facteur}
+
+\begin{Boite}{Modèle}
+\[
+Y_{ij} = \mu_i + \varepsilon_{ij}, \qquad Y_{ij}\sim N(\mu_i,\sigma^2),
+\qquad i=1,\ldots,I,\ j=1,\ldots,n_i
+\]
+\end{Boite}
+
+\begin{itemize}\itemsep1mm
+  \item $\mu_i = $
+  \item $\varepsilon_{ij} = $
+\end{itemize}
+
+\medskip
+\underline{Estimation des paramètres:}
+
+\begin{itemize}\itemsep1mm
+  \item $\mu_i$ estimé par
+  \item $\mu$ estimé par
+  \item $\sigma^2$ estimé par
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Décomposition de la variance}
+
+\begin{Boite}{Décomposition des sommes de carrés}
+\vspace{-3mm}
+\begin{align*}
+SST &= SST_R + SSE\\
+\sum_{i=1}^{I}\sum_{j=1}^{n_i}(y_{ij}-\overline{y}_{\bullet\bullet})^2
+&= \sum_{i=1}^{I} n_i(\overline{y}_{i\bullet}-\overline{y}_{\bullet\bullet})^2
++ \sum_{i=1}^{I}\sum_{j=1}^{n_i}(y_{ij}-\overline{y}_{i\bullet})^2
+\end{align*}
+\end{Boite}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[pointsANOVA, height=3.2cm, width=4cm, title=Totale, xtick={1}, xticklabels={A et B}]
+  \addplot[only marks, mark=*, mark size=1.4pt, grA] coordinates
+    {(1,14.72) (1,13.52) (1,14.54) (1,18.49)};
+  \addplot[only marks, mark=*, mark size=1.4pt, grB] coordinates
+    {(1,9.98) (1,4.59) (1,12.82) (1,11.03)};
+  \addplot[only marks, mark=x, mark size=3pt, thick, black] coordinates {(1,12.46)};
+\end{axis}
+\end{tikzpicture}
+\hspace{2mm}
+\begin{tikzpicture}
+\begin{axis}[pointsANOVA, height=3.2cm, width=4cm, title=Traitement, xtick={1}, xticklabels={A et B}]
+  \addplot[only marks, mark=x, mark size=3pt, thick, grA] coordinates {(1,15.32)};
+  \addplot[only marks, mark=x, mark size=3pt, thick, grB] coordinates {(1,9.61)};
+  \addplot[only marks, mark=x, mark size=3pt, thick, black] coordinates {(1,12.46)};
+\end{axis}
+\end{tikzpicture}
+\hspace{2mm}
+\begin{tikzpicture}
+\begin{axis}[pointsANOVA, height=3.2cm, width=4cm, title=Résiduelle, xtick={1,2}, xticklabels={A, B}]
+  \addplot[only marks, mark=*, mark size=1.4pt, grA] coordinates
+    {(1,14.72) (1,13.52) (1,14.54) (1,18.49)};
+  \addplot[only marks, mark=*, mark size=1.4pt, grB] coordinates
+    {(2,9.98) (2,4.59) (2,12.82) (2,11.03)};
+  \addplot[only marks, mark=x, mark size=3pt, thick, grA] coordinates {(1,15.32)};
+  \addplot[only marks, mark=x, mark size=3pt, thick, grB] coordinates {(2,9.61)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[t]{Table d'ANOVA}
+
+\vspace{5mm}
+\begin{center}
+\renewcommand{\arraystretch}{2.3}
+\begin{tabular}{lcccc}
+\toprule
+Source de variation & Somme de carrés & d.l. & Carrés moyens & $F_{obs}$\\
+\midrule
+Traitements (inter-trt) & $SST_R$ & $I-1$ & $MST_R=\dfrac{SST_R}{I-1}$ & $\dfrac{MST_R}{MSE}$\\
+Erreur (intra-trt)     & $SSE$   & $N-I$ & $MSE=\dfrac{SSE}{N-I}$   & \\
+\midrule
+Total                  & $SST$   & $N-1$ &                          & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[t]{Comparer $MST_R$ et $MSE$}
+
+\begin{itemize}\itemsep4mm
+  \item S'il n'y a pas de différence entre les traitements ($H_0$ vraie),
+  $MST_R$ et $MSE$ sont tous les deux de bons estimateurs de $\sigma^2$.
+  \item<2-> Si l'effet des traitements est important, on aura
+  \[
+  MST_R \gg MSE.
+  \]
+\end{itemize}
+
+\bigskip
+\uncover<3->{\alert{Question:} à partir de quand considère-t-on que $MST_R$ est
+vraiment plus grand que $MSE$?}
+
+\end{frame}
+
+\begin{frame}[t]{Statistique de Fisher}
+
+\begin{thm}
+Si
+\begin{itemize}
+  \item les observations sont \alert{indépendantes} (dans les groupes et entre les groupes),
+  \item les données proviennent d'une distribution \alert{normale},
+  \item la \alert{variance est égale} dans chaque groupe,
+\end{itemize}
+et que $H_0$ est vraie ($\mu_i$ toutes égales), alors
+\[
+F=\frac{SST_R/(I-1)}{SSE/(N-I)}=\frac{MST_R}{MSE}\sim F_{I-1,\,N-I}.
+\]
+\end{thm}
+
+\end{frame}
+
+\begin{frame}[t]{Règle de décision}
+
+\begin{Boite}{Test F de l'ANOVA}
+On rejette $H_0$ au seuil $\alpha$ si
+\[
+F_{obs} > F_{I-1,\,N-I;\,\alpha}.
+\]
+Dans ce cas, on a une valeur-p inférieure à $\alpha$.
+\end{Boite}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=9cm, height=3.7cm, axis lines=left, xmin=0, xmax=6, ymin=0,
+  ytick=\empty, xtick={3.89}, xticklabels={$F_{I-1,N-I;\alpha}$},
+  tick label style={font=\scriptsize}, domain=0.01:6, samples=120]
+  % Densité F(2,12) : f(x) = (1+x/6)^(-7)
+  \addplot[draw=none, fill=burntorange, domain=3.89:6] {(1+x/6)^(-7)} \closedcycle;
+  \addplot[thick, black] {(1+x/6)^(-7)};
+  \node[font=\scriptsize] at (axis cs:4.7,0.12) {aire $=\alpha$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Retour au scénario 1}
+
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{Verbatim}[fontsize=\scriptsize]
+     y1   Traitement
+1 14.72   A
+2 13.52   A
+3 14.54   A
+4 18.49   A
+5  9.98   B
+6  4.59   B
+7 12.82   B
+8 11.03   B
+\end{Verbatim}
+\end{column}
+\begin{column}{0.55\textwidth}
+\begin{tabular}{lcc}
+\toprule
+ & Moyenne & Écart-type\\
+\midrule
+A & 15,32 & 2,18\\
+B & 9,61  & 3,54\\
+\bottomrule
+\end{tabular}
+\end{column}
+\end{columns}
+
+\medskip
+\begin{Verbatim}[fontsize=\scriptsize]
+           Df Sum Sq Mean Sq F value Pr(>F)
+Traitement  1  65.27   65.27   7.543 0.0334 *
+Residuals   6  51.91    8.65
+\end{Verbatim}
+
+\uncover<2->{\small Vérifier: $SST_R = 4(15{,}32-12{,}46)^2+4(9{,}61-12{,}46)^2\approx 65{,}27$
+et $SSE = 3(2{,}18^2)+3(3{,}54^2)\approx 51{,}9$.}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Aurait-on pu faire un test de Student?}
+
+\underline{ANOVA:}
+\begin{Verbatim}[fontsize=\scriptsize]
+           Df Sum Sq Mean Sq F value Pr(>F)
+Traitement  1  65.27   65.27   7.543 0.0334 *
+Residuals   6  51.91    8.65
+\end{Verbatim}
+
+\underline{Test de Student:}
+\begin{Verbatim}[fontsize=\scriptsize]
+        Two Sample t-test
+data:  y1 by Traitement
+t = 2.7464, df = 6, p-value = 0.03345
+alternative hypothesis: true difference in means between group A and group B
+  is not equal to 0
+95 percent confidence interval:
+  0.6230128 10.8019872
+sample estimates:
+mean in group A mean in group B
+        15.3175          9.6050
+\end{Verbatim}
+
+\end{frame}
+
+\begin{frame}[t]{Student vs ANOVA}
+
+\begin{itemize}\itemsep8mm
+  \item Est-ce un hasard si les valeurs-p sont les mêmes?
+  \vspace{2cm}
+  \item Pourquoi faire l'ANOVA?
+  \vspace{2cm}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Exemple: agent de conservation naturel pour la viande}
+
+\small
+\underline{Contexte:} agent de conservation à partir de sang de porc
+(\href{https://nouvelles.ulaval.ca/recherche/de-residu-a-source-dagents-de-conservation-naturels-0797d4c252cd98ac53f75a256e95624a}{ULaval Nouvelles}).
+
+\begin{itemize}\itemsep2mm
+  \item En 2016, environ 30 millions de litres de sang bovin et porcin ont été
+  produits au Québec.
+  \item Une nouvelle méthode d'extraction (EDUF) permet une plus grande
+  concentration de peptides bioactifs.
+  \item Selon les chercheurs, ces extraits de sang se sont montrés aussi efficaces
+  que le BHT, un additif chimique couramment utilisé par l'industrie alimentaire,
+  lors de tests sur du b\oe uf haché.
+  \item Nous avons \alert{simulé} des données à partir des moyennes et écarts-types
+  de la section 3.6 de l'article.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Contexte}
+
+\begin{itemize}\itemsep4mm
+  \item On veut comparer l'effet antioxydant de l'\alert{EDUF} (la nouvelle méthode)
+  au peptide original nommé \alert{$\alpha$137--141} et à un \alert{contrôle}.
+  \item On crée un échantillon de taille 6 pour chaque traitement.
+  \item On mesure le \alert{TBARS} (en mg MDA/kg de viande hachée) après 4 jours
+  (une mesure de rancissement).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Test ANOVA}
+
+\textbf{1. Hypothèses}
+
+$H_0$: les trois moyennes sont égales
+
+$H_1$: au moins une moyenne est différente d'une autre
+
+\bigskip
+\uncover<2->{\textbf{2. Choix du test et définition de la zone de rejet}
+
+Si les données sont distribuées normalement et que les variances sont égales,
+on fait une analyse de variance à un facteur.
+
+\medskip
+On choisit $\alpha$. On rejette $H_0$ si la valeur-p est inférieure à $\alpha$.
+Choisissons arbitrairement $\alpha = 0{,}05$.}
+
+\end{frame}
+
+\begin{frame}[t]{Test ANOVA}
+
+\textbf{3. On fait le test avec un logiciel}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=10cm, height=6cm, boxplot/draw direction=y,
+  ylabel={TBARS}, xtick={1,2,3},
+  xticklabels={$\alpha$137--141, Contrôle, EDUF},
+  ymin=0.3, ymax=0.85, tick label style={font=\scriptsize},
+  label style={font=\small}, ymajorgrids, grid style={black!10}]
+  \addplot+[boxplot prepared={lower whisker=0.33, lower quartile=0.378,
+    median=0.474, upper quartile=0.585, upper whisker=0.657},
+    black, fill=black!15] coordinates {};
+  \addplot+[boxplot prepared={lower whisker=0.555, lower quartile=0.671,
+    median=0.697, upper quartile=0.760, upper whisker=0.820},
+    black, fill=black!15] coordinates {};
+  \addplot+[boxplot prepared={lower whisker=0.47, lower quartile=0.513,
+    median=0.574, upper quartile=0.645, upper whisker=0.709},
+    black, fill=black!15] coordinates {};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[t]{Table d'ANOVA à compléter}
+
+\vspace{5mm}
+\begin{center}
+\renewcommand{\arraystretch}{1.8}
+\begin{tabular}{lcccc}
+\toprule
+Source de variation & Somme de carrés & d.l. & Carrés moyens & $F_{obs}$\\
+\midrule
+Traitements (inter-trt) & \hspace{1.5cm} & \hspace{1cm} & \hspace{2cm} & \hspace{1cm}\\
+Erreur (intra-trt)     &          &        & $0{,}0104$ & \\
+\midrule
+Total                  & $0{,}2971$ &      &            & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Sortie R}
+
+\begin{Verbatim}[fontsize=\small]
+           Df Sum Sq Mean Sq F value  Pr(>F)
+Traitement  2 0.1412  0.0706   6.791 0.00794 **
+Residuals  15 0.1559  0.0104
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{Verbatim}
+
+\bigskip
+\textbf{4. Décision}
+\vspace{1.5cm}
+
+\textbf{5. Conclusion}
+\vspace{1.5cm}
+
+\end{frame}
+
+\begin{frame}[t]{Contrastes}
+
+\begin{itemize}\itemsep8mm
+  \item Comment savoir \alert{quelles} moyennes sont différentes? (section 5.8)
+  \vspace{1.5cm}
+  \item Peut-on simplement faire plusieurs tests de Student 2 à 2?
+  \vspace{1.5cm}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Comparaisons multiples de Tukey}
+
+\begin{Verbatim}[fontsize=\scriptsize]
+         Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+Fit: aov(formula = TBARS ~ Traitement, data = conservation)
+
+Linear Hypotheses:
+                          Estimate Std. Error t value Pr(>|t|)
+Controle - a137_141 == 0   0.21658    0.05887   3.679  0.00599 **
+EDUF - a137_141 == 0       0.09732    0.05887   1.653  0.25496
+EDUF - Controle == 0      -0.11926    0.05887  -2.026  0.14031
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+(Adjusted p values reported -- single-step method)
+\end{Verbatim}
+
+\end{frame}
+
+\begin{frame}[t]{Intervalles de confiance simultanés (Tukey)}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=11cm, height=5.5cm, xmin=-0.3, xmax=0.4,
+  ymin=0.5, ymax=3.5, ytick={1,2,3},
+  yticklabels={EDUF -- Contrôle, EDUF -- $\alpha$137--141, Contrôle -- $\alpha$137--141},
+  xlabel={Différence de moyennes}, title={Niveau de confiance global de 95\,\%},
+  tick label style={font=\scriptsize}, label style={font=\small},
+  title style={font=\small}, xmajorgrids, grid style={black!10}]
+  \draw[dashed] (axis cs:0,0.5) -- (axis cs:0,3.5);
+  \addplot[only marks, mark=*, black,
+    error bars/.cd, x dir=both, x explicit, error bar style={thick}]
+    coordinates {
+      (-0.11926,1) +- (0.1529,0)
+      (0.09732,2)  +- (0.1529,0)
+      (0.21658,3)  +- (0.1529,0)
+    };
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\uncover<2->{\small Seul l'intervalle Contrôle -- $\alpha$137--141 ne contient pas 0.}
+
+\end{frame}
+
+%-------------------------------------------------------------------------------
+\section{Vérification des postulats}
+%-------------------------------------------------------------------------------
+
+\begin{frame}[t]{Indépendance des observations: structure de l'expérience}
+
+\vspace{1cm}
+\begin{itemize}\itemsep5mm
+  \item Y a-t-il des liens entre les observations d'un même traitement?
+  De traitements différents?
+  \item A-t-on pris plusieurs mesures sur une même unité expérimentale?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Homogénéité des variances: test de Bartlett}
+
+On veut tester les hypothèses
+\begin{align*}
+H_0 &: \sigma_1^2=\sigma_2^2=\cdots=\sigma_I^2\\
+H_1 &: \text{au moins 2 de ces variances sont inégales}
+\end{align*}
+
+On utilise une statistique $B$ (appelée \texttt{K-squared} dans R):
+\begin{itemize}\itemsep2mm
+  \item<2-> si $H_0$ est vraie, $B$ suit une loi $\chi^2_{I-1}$;
+  \item<3-> si $H_1$ est vraie, $B$ prendra des valeurs plus élevées que celles
+  attendues sous la $\chi^2_{I-1}$;
+  \item<4-> alors, au seuil $\alpha$, on rejette l'égalité des variances si\ldots
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Exemple}
+
+\vspace{1cm}
+\begin{Verbatim}[fontsize=\small]
+        Bartlett test of homogeneity of variances
+
+data:  TBARS by Traitement
+Bartlett's K-squared = 0.74383, df = 2, p-value = 0.6894
+\end{Verbatim}
+
+\bigskip
+\uncover<2->{Conclusion?}
+
+\end{frame}
+
+\begin{frame}[t]{Normalité des observations: analyse des résidus}
+
+Rappel du modèle:
+\[
+Y_{ij}=\mu_i+\varepsilon_{ij}
+\]
+Puisque $Y_{ij}\sim N(\mu_i,\sigma^2)$, il suit que $\varepsilon_{ij}\sim N(0,\sigma^2)$.
+
+\medskip
+\begin{Boite}{Résidus}
+Les erreurs échantillonnales $\varepsilon_{ij}$ sont estimées par les
+\alert{résidus} du modèle:
+\[
+\hat\varepsilon_{ij}=y_{ij}-\overline{y}_{i\bullet}.
+\]
+\end{Boite}
+
+Au lieu d'analyser directement les observations, nous analyserons les résidus.
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Test de normalité sur les résidus}
+
+\vspace{1cm}
+\begin{Verbatim}[fontsize=\small]
+        Shapiro-Wilk normality test
+
+data:  AnovaModel.3$residuals
+W = 0.97151, p-value = 0.8255
+\end{Verbatim}
+
+\bigskip
+\uncover<2->{Conclusion?}
+
+\end{frame}
+
+\begin{frame}[t]{Réponses}
+
+\scriptsize
+\begin{itemize}\itemsep1mm
+  \item Modèle: $\mu_i$ est la moyenne de la population $i$; $\varepsilon_{ij}=Y_{ij}-\mu_i$
+  est l'erreur aléatoire, $\varepsilon_{ij}\sim N(0,\sigma^2)$. On estime $\mu_i$ par
+  $\overline{y}_{i\bullet}$, $\mu$ par $\overline{y}_{\bullet\bullet}$ et $\sigma^2$ par $MSE$.
+  \item Student vs ANOVA: avec deux groupes, $F_{obs}=t_{obs}^2$ ($2{,}7464^2\approx7{,}543$)
+  et $F_{1,\nu}=t_\nu^2$: les deux tests sont équivalents. L'ANOVA permet de comparer
+  plus de deux groupes en un seul test.
+  \item Table à compléter: $SST_R=0{,}1412$, $SSE=0{,}1559$, d.l.\ $2$, $15$, $17$;
+  $MST_R=0{,}0706$; $F_{obs}=6{,}79$.
+  \item Décision: valeur-p $=0{,}008<0{,}05$, on rejette $H_0$. Conclusion: au moins un
+  traitement a un TBARS moyen différent.
+  \item Plusieurs tests 2 à 2: le risque global d'erreur de type I augmente; d'où
+  les comparaisons multiples (Tukey).
+  \item Bartlett: valeur-p $=0{,}69$, on ne rejette pas l'égalité des variances.
+  On rejette si $B>\chi^2_{I-1;\alpha}$.
+  \item Shapiro-Wilk: valeur-p $=0{,}83$, pas d'évidence contre la normalité.
+\end{itemize}
+
+\end{frame}
+
+\end{document}
