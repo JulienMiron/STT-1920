@@ -1,0 +1,492 @@
+\documentclass{BeamerTemplate}
+
+\title{Chapitre 3 -- Estimations et tests d'hypothèse (1\textsuperscript{re} partie)}
+\subtitle{STT-1920 Méthodes statistiques}
+\date{}
+
+% Styles des graphiques
+\pgfplotsset{
+  base/.style={
+    tick label style={font=\scriptsize}, label style={font=\small},
+    title style={font=\small\bfseries},
+    yticklabel style={/pgf/number format/fixed, /pgf/number format/precision=2},
+    scaled y ticks=false,
+  }
+}
+
+% Commande pour dessiner une cible TikZ (qualité d'estimation)
+\newcommand{\cibleTikz}[5]{% #1=titre, #2=dx, #3=dy, #4=dispersion, #5=label
+  \begin{tikzpicture}[scale=0.32]
+    \draw[thick, fill=gray!10] (0,0) circle (2);
+    \draw[thick, fill=gray!20] (0,0) circle (1.4);
+    \draw[thick, fill=Dominante!30] (0,0) circle (0.8);
+    \draw[thick, fill=Accent!40] (0,0) circle (0.3);
+    \draw[dashed, thin, gray] (-2.1,0) -- (2.1,0);
+    \draw[dashed, thin, gray] (0,-2.1) -- (0,2.1);
+    % Points d'impact
+    \foreach \ang/\r in {30/0.2, 120/0.3, 210/0.15, 300/0.25, 75/0.18, 180/0.22, 260/0.28} {
+      \fill[rougelaval] ({#2 + (\r*#4)*cos(\ang)}, {#3 + (\r*#4)*sin(\ang)}) circle (2pt);
+    }
+    \node[below, font=\tiny\bfseries] at (0,-2.1) {#1};
+  \end{tikzpicture}%
+}
+
+\begin{document}
+
+\begin{frame}[t]
+  \titlepage
+\end{frame}
+
+%===============================================================================
+\section{Introduction à l'inférence statistique}
+%===============================================================================
+
+\begin{frame}[t]{Où en sommes-nous?}
+  \begin{itemize}\itemsep 4mm
+    \item Au \alert{chapitre 1}, nous avons appris à \textbf{décrire} un ensemble de données (moyenne, écart-type, médiane, histogrammes\ldots).
+    \item Au \alert{chapitre 2}, nous avons étudié la \textbf{théorie des probabilités} en supposant les lois et leurs paramètres \emph{parfaitement connus}.
+    \begin{itemize}
+      \item \emph{Exemple :} la masse des oranges suit une loi $\mathcal{N}(\mu = 204,\, \sigma^2 = 256)$.
+    \end{itemize}
+  \end{itemize}
+
+  \bigskip
+  \uncover<2->{
+  \begin{Boite}{Le problème en pratique}
+    Dans la vraie vie, on ne connaît \alert{jamais} la vraie distribution ni les vraies valeurs des paramètres $\mu$, $\sigma^2$ ou $p$ de la population !
+  \end{Boite}
+  }
+
+  \medskip
+  \uncover<3->{
+    $\Rightarrow$ C'est l'objet de l'\alert{inférence statistique} : tirer des conclusions sur une \textbf{population} à partir d'un \textbf{échantillon}.
+  }
+\end{frame}
+
+\begin{frame}[t]{Démarche générale}
+  \begin{enumerate}\itemsep 6mm
+    \item<1-> On recueille un \alert{échantillon aléatoire} de taille $n$ dans la population d'intérêt.
+    \item<2-> On postule (selon la théorie ou l'analyse descriptive) un \alert{modèle probabiliste} adapté au phénomène (loi normale, binomiale, Poisson\ldots).
+    \item<3-> Ce modèle comporte des \alert{paramètres inconnus} ($\mu$, $\sigma^2$, $p$\ldots) : on doit les \textbf{estimer} à partir des données observées.
+  \end{enumerate}
+
+  \bigskip
+  \uncover<4->{
+  \begin{Boite}{Deux grandes familles d'inférence}
+    \begin{itemize}
+      \item \textbf{L'estimation} (ponctuelle et par intervalle de confiance)
+      \item \textbf{Les tests d'hypothèses} (prise de décision face à une affirmation)
+    \end{itemize}
+  \end{Boite}
+  }
+\end{frame}
+
+\begin{frame}[t]{Exemples motivants}
+  \begin{itemize}\itemsep 6mm
+    \item \textbf{Biologie cellulaire :} Le diamètre des cellules hépatiques suit une loi $\mathcal{N}(\mu, \sigma^2)$.
+      \begin{itemize}
+        \item On mesure 20 cellules : comment estimer le diamètre moyen $\mu$ et la variabilité $\sigma^2$ de toutes les cellules de ce type?
+      \end{itemize}
+
+    \item \textbf{Épidémiologie animale :} Le nombre de veaux infectés parmi $n$ veaux examinés suit une loi $\text{Binomiale}(n, p)$.
+      \begin{itemize}
+        \item Sur 80 veaux examinés, 12 présentent des symptômes. Quelle est la proportion réelle $p$ d'infection dans le troupeau?
+      \end{itemize}
+
+    \item \textbf{Agronomie :} Deux engrais sont testés sur des parcelles. L'engrais A donne-t-il un rendement moyen supérieur à l'engrais B?
+  \end{itemize}
+\end{frame}
+
+%===============================================================================
+\section{Vocabulaire et définitions}
+%===============================================================================
+
+\begin{frame}[t]{Population vs Échantillon}
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+      \begin{Boite}{Population (inaccessible)}
+        \begin{itemize}
+          \item Ensemble complet de toutes les unités d'intérêt.
+          \item Caractérisée par des \alert{paramètres} fixes mais inconnus.
+          \item Notations : $\mu$, $\sigma^2$, $\sigma$, $p$.
+        \end{itemize}
+      \end{Boite}
+
+    \column{0.48\textwidth}
+      \begin{Boite}{Échantillon (observé)}
+        \begin{itemize}
+          \item Sous-ensemble de $n$ unités tirées au hasard.
+          \item Fournit des \alert{statistiques} calculées sur les données.
+          \item Notations : $\overline{x}$, $s^2$, $s$, $\hat{p}$.
+        \end{itemize}
+      \end{Boite}
+  \end{columns}
+
+  \medskip
+  \begin{center}
+  \begin{tikzpicture}[scale=0.8]
+    \node[draw=Dominante, fill=Dominante!15, rounded corners, inner sep=5pt, text width=4.3cm, align=center] (pop) at (0,0)
+      {\textbf{Population}\\Paramètres : $\mu, \sigma^2, p$ (\emph{inconnus})};
+    \node[draw=Accent, fill=Accent!15, rounded corners, inner sep=5pt, text width=4.3cm, align=center] (ech) at (6.2,0)
+      {\textbf{Échantillon ($n$)}\\Statistiques : $\bar{x}, s^2, \hat{p}$ (\emph{calculées})};
+
+    \draw[->, thick, Dominante] (pop.north) to[bend left=25] node[above, font=\scriptsize\bfseries, color=Dominante] {Échantillonnage aléatoire} (ech.north);
+    \draw[->, thick, Accent] (ech.south) to[bend left=25] node[below, font=\scriptsize\bfseries, color=Accent] {Inférence statistique} (pop.south);
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}[t]{Variables aléatoires vs Observations}
+  \begin{Boite}{Distinction entre majuscules et minuscules}
+    \begin{itemize}\itemsep 2mm
+      \item \textbf{Avant l'expérience :} les mesures $X_1, X_2, \ldots, X_n$ sont des \alert{variables aléatoires}.
+      \item \textbf{Après l'expérience :} les valeurs obtenues $x_1, x_2, \ldots, x_n$ sont des \alert{nombres réels} fixés.
+    \end{itemize}
+  \end{Boite}
+
+  \medskip
+  \uncover<2->{
+  \begin{Boite}{Estimateur vs Estimation ponctuelle}
+    \begin{itemize}\itemsep 2mm
+      \item \textbf{Estimateur} $T = g(X_1, \ldots, X_n)$ : \alert{variable aléatoire} (formule générale).
+      \item \textbf{Estimation} $t = g(x_1, \ldots, x_n)$ : \alert{valeur numérique} sur l'échantillon observé.
+    \end{itemize}
+  \end{Boite}
+  }
+
+  \medskip
+  \uncover<3->{
+    $\Rightarrow$ Un estimateur a donc une \textbf{loi de probabilité}, une \textbf{espérance} et une \textbf{variance} !
+  }
+\end{frame}
+
+\begin{frame}[t]{Tableau synthèse des notations}
+  \centering
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{lcccc}\toprule
+    \textbf{Paramètre} & \textbf{Estimateur} & \textbf{Estimation} & \textbf{Espérance} & \textbf{Erreur-type} \\
+    (population) & (v.a.) & (valeur) & $E[T]$ & $\sigma_T = \sqrt{\text{Var}(T)}$ \\ \midrule
+    Moyenne $\mu$ & $\overline{X} = \frac{1}{n}\sum X_i$ & $\bar{x} = \frac{1}{n}\sum x_i$ & $\mu$ & $\frac{\sigma}{\sqrt{n}}$ \\[3mm]
+    Variance $\sigma^2$ & $S^2 = \frac{1}{n-1}\sum (X_i - \overline{X})^2$ & $s^2$ & $\sigma^2$ & $\sqrt{\frac{2\sigma^4}{n-1}}$\footnotemark \\[3mm]
+    Proportion $p$ & $\widehat{P} = \frac{Y}{n}$ & $\hat{p} = \frac{y}{n}$ & $p$ & $\sqrt{\frac{p(1-p)}{n}}$ \\ \bottomrule
+  \end{tabular}
+  \footnotetext{Sous l'hypothèse de normalité de la population.}
+
+  \bigskip
+  \uncover<2->{
+  \begin{Boite}{Erreur-type}
+    L'\alert{erreur-type} d'un estimateur est l'écart-type de sa distribution d'échantillonnage : $\text{ET}(T) = \sqrt{\text{Var}(T)}$. Elle mesure la \textbf{précision} de l'estimateur.
+  \end{Boite}
+  }
+\end{frame}
+
+%===============================================================================
+\section{Propriétés d'un bon estimateur}
+%===============================================================================
+
+\begin{frame}[t]{Qualités d'un bon estimateur}
+  On souhaite qu'un estimateur possède deux qualités fondamentales :
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+      \begin{Boite}{1. Être sans biais (juste)}
+        \small
+        En moyenne, il vise dans le mille :
+        $$E[T] = \theta \quad (\text{Biais} = 0)$$
+      \end{Boite}
+
+    \column{0.48\textwidth}
+      \begin{Boite}{2. Être précis (faible variance)}
+        \small
+        Les estimations varient très peu :
+        $$\text{Var}(T) \quad \text{est minimale}$$
+      \end{Boite}
+  \end{columns}
+
+  \smallskip
+  \uncover<2->{
+  \centering
+  \begin{tabular}{cc}
+    \cibleTikz{Sans biais et précis}{0}{0}{0.9}{} &
+    \cibleTikz{Biaisé mais précis}{0.9}{0.7}{0.9}{} \\
+    \cibleTikz{Sans biais mais imprécis}{0}{0}{2.4}{} &
+    \cibleTikz{Biaisé et imprécis}{0.9}{0.7}{2.4}{}
+  \end{tabular}
+  }
+\end{frame}
+
+\begin{frame}[t]{Le biais : attention aux confusions !}
+  Il faut distinguer plusieurs sens du mot « biais » :
+  \begin{itemize}\itemsep 4mm
+    \item \textbf{Biais de sélection / d'échantillonnage :}
+      \begin{itemize}
+        \item L'échantillon n'est pas représentatif de la population cible (ex. : sondage téléphonique auprès des abonnés à un journal spécifique).
+        \item C'est une erreur de \alert{protocole} ou de collecte, impossible à corriger mathématiquement par la suite !
+      \end{itemize}
+
+    \item \textbf{Biais mathématique de l'estimateur :}
+      \begin{itemize}
+        \item $\text{Biais}(T) = E[T] - \theta$.
+        \item C'est une propriété de la formule mathématique elle-même.
+        \item \emph{Exemple :} $\frac{1}{n}\sum (X_i - \overline{X})^2$ est biaisé (sous-estime $\sigma^2$ en moyenne). On corrige ce biais en divisant par $n-1$.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Comment agir sur la précision?}
+  L'erreur-type mesure l'imprécision d'une estimation. Pour la réduire, on dispose de deux leviers principaux :
+
+  \bigskip
+  \begin{enumerate}\itemsep 5mm
+    \item \textbf{Choisir un estimateur de faible variance :}
+      \begin{itemize}
+        \item Entre deux estimateurs sans biais, on préfère toujours celui qui a la plus petite variance (estimateur le plus efficace).
+      \end{itemize}
+
+    \item \textbf{Augmenter la taille de l'échantillon $n$ :}
+      \begin{itemize}
+        \item Pour la moyenne, $\text{ET}(\overline{X}) = \frac{\sigma}{\sqrt{n}}$.
+        \item Pour \alert{doubler la précision} (diviser l'erreur-type par 2), il faut \alert{quadrupler} la taille de l'échantillon ($4n$) !
+      \end{itemize}
+  \end{enumerate}
+\end{frame}
+
+%===============================================================================
+\section{Estimation de la moyenne \texorpdfstring{$\mu$}{mu}}
+%===============================================================================
+
+\begin{frame}[t]{Exemple 1 : Pression artérielle systolique}
+  On suppose que la pression artérielle systolique (en mm\,Hg) d'une population d'adultes sains suit une loi normale $\mathcal{N}(\mu, \sigma^2)$.
+
+  \medskip
+  On mesure la pression chez $n = 7$ individus choisis au hasard :
+  \begin{center}
+    \textbf{141 \quad 130 \quad 135 \quad 138 \quad 137 \quad 122 \quad 135}
+  \end{center}
+
+  \bigskip
+  \uncover<2->{
+  \begin{Boite}{Estimation ponctuelle de la moyenne}
+    $$\bar{x} = \frac{1}{n}\sum_{i=1}^n x_i = \frac{141 + 130 + 135 + 138 + 137 + 122 + 135}{7} = \frac{938}{7} = \mathbf{134\text{ mm\,Hg}}$$
+  \end{Boite}
+  }
+
+  \bigskip
+  \uncover<3->{
+    \textbf{Question :} Si on avait choisi 7 autres individus, aurait-on obtenu exactement 134?
+    \alert{Non !} La moyenne observée varie d'un échantillon à l'autre.
+  }
+\end{frame}
+
+\begin{frame}[t]{Variabilité d'échantillonnage : une simulation}
+  Supposons que la vraie population suit $\mathcal{N}(\mu = 133,\, \sigma^2 = 62)$. Si on tirait 10 échantillons indépendants de taille $n=7$ :
+
+  \medskip
+  \centering
+  \small
+  \begin{tabular}{ccccccccc}\toprule
+    \textbf{Éch.} & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & $\bar{x}$ \\ \midrule
+    1 & 141 & 130 & 135 & 138 & 137 & 122 & 135 & \textbf{134{,}0} \\
+    2 & 132 & 128 & 139 & 133 & 132 & 127 & 138 & \textbf{132{,}7} \\
+    3 & 140 & 125 & 122 & 126 & 136 & 128 & 131 & \textbf{129{,}7} \\
+    4 & 131 & 137 & 136 & 130 & 140 & 134 & 124 & \textbf{133{,}1} \\
+    5 & 143 & 125 & 131 & 121 & 139 & 150 & 131 & \textbf{134{,}3} \\
+    6 & 132 & 140 & 128 & 136 & 141 & 135 & 140 & \textbf{136{,}0} \\
+    7 & 135 & 143 & 134 & 133 & 138 & 123 & 134 & \textbf{134{,}3} \\ \bottomrule
+  \end{tabular}
+
+  \bigskip
+  \uncover<2->{
+    $\Rightarrow$ Les moyennes s'éparpillent autour de la vraie moyenne ($\mu = 133$).
+  }
+\end{frame}
+
+\begin{frame}[t]{Distribution de la population vs distribution de $\overline{X}$}
+  \begin{center}
+  \begin{tikzpicture}
+    \begin{axis}[
+      base, width=10.5cm, height=5.5cm,
+      xmin=105, xmax=160, ymin=0, ymax=0.16,
+      xlabel={Pression (mm\,Hg)}, ylabel={Densité},
+      legend pos=north east, legend style={font=\scriptsize}
+    ]
+      % Population: N(133, 62) => sigma = 7.87
+      \addplot[thick, Dominante, domain=105:160, samples=100]
+        {exp(-((x-133)^2)/(2*62)) / (sqrt(2*pi*62))};
+      \addlegendentry{Population $X \sim \mathcal{N}(133, 62)$}
+
+      % Moyenne échantillon: N(133, 62/7) => sigma_bar = sqrt(62/7) = 2.97
+      \addplot[thick, Accent, domain=115:150, samples=120]
+        {exp(-((x-133)^2)/(2*(62/7))) / (sqrt(2*pi*(62/7)))};
+      \addlegendentry{Moyenne $\overline{X} \sim \mathcal{N}(133,\, 62/7)$}
+
+      \draw[dashed, gray] (axis cs:133,0) -- (axis cs:133,0.14);
+      \node[above, font=\scriptsize] at (axis cs:133,0.14) {$\mu = 133$};
+    \end{axis}
+  \end{tikzpicture}
+  \end{center}
+
+  \vspace{-2mm}
+  \alert{Constat majeur :} $\overline{X}$ a la même moyenne $\mu$, mais une variance $n$ fois plus petite !
+\end{frame}
+
+\begin{frame}[t]{Propriétés théoriques de $\overline{X}$}
+  Soit un échantillon aléatoire $X_1, \ldots, X_n$ i.i.d. d'espérance $\mu$ et de variance $\sigma^2$.
+
+  \bigskip
+  \uncover<1->{
+  \begin{Boite}{1. Espérance (sans biais)}
+    $$E[\overline{X}] = E\left[\frac{1}{n}\sum_{i=1}^n X_i\right] = \frac{1}{n}\sum_{i=1}^n E[X_i] = \frac{1}{n}(n\mu) = \alert{\mu}$$
+  \end{Boite}
+  }
+
+  \bigskip
+  \uncover<2->{
+  \begin{Boite}{2. Variance et erreur-type}
+    $$\text{Var}(\overline{X}) = \text{Var}\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n^2}\sum_{i=1}^n \text{Var}(X_i) = \frac{n\sigma^2}{n^2} = \alert{\frac{\sigma^2}{n}}$$
+    $$\text{ET}(\overline{X}) = \alert{\frac{\sigma}{\sqrt{n}}}$$
+  \end{Boite}
+  }
+\end{frame}
+
+%===============================================================================
+\section{Estimation de la variance \texorpdfstring{$\sigma^2$}{sigma2}}
+%===============================================================================
+
+\begin{frame}[t]{Estimateur de la variance $\sigma^2$}
+  On définit la variance échantillonnale par :
+  \begin{Boite}{Variance échantillonnale $S^2$}
+    $$S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \overline{X})^2$$
+  \end{Boite}
+
+  \bigskip
+  \uncover<2->{
+  \textbf{Pourquoi diviser par $n-1$ plutôt que par $n$?}
+  \begin{itemize}\itemsep 3mm
+    \item Les écarts se mesurent par rapport à $\overline{X}$ (estimé) et non par rapport au vrai $\mu$.
+    \item Puisque $\sum (X_i - \overline{X}) = 0$, dès qu'on connaît $n-1$ écarts, le dernier est imposé : il y a \alert{$n-1$ degrés de liberté}.
+    \item En divisant par $n-1$, l'estimateur devient \alert{sans biais} :
+      $$E[S^2] = \sigma^2$$
+  \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}[t]{Variance de $S^2$}
+  Puisque $S^2$ est calculé à partir de l'échantillon, c'est aussi une variable aléatoire qui fluctue.
+
+  \bigskip
+  \begin{Boite}{Propriétés de $S^2$ (sous l'hypothèse de normalité)}
+    \begin{itemize}\itemsep 3mm
+      \item \textbf{Espérance :} $E[S^2] = \sigma^2$ (sans biais)
+      \item \textbf{Variance :} $\text{Var}(S^2) = \frac{2\sigma^4}{n-1}$
+      \item \textbf{Erreur-type :} $\text{ET}(S^2) = \sqrt{\frac{2\sigma^4}{n-1}} = \frac{\sqrt{2}\sigma^2}{\sqrt{n-1}}$
+    \end{itemize}
+  \end{Boite}
+
+  \bigskip
+  \uncover<2->{
+    $\Rightarrow$ Plus $n$ est grand, plus $S^2$ se rapproche précisément de la vraie variance $\sigma^2$.
+  }
+\end{frame}
+
+\begin{frame}[t]{Retour sur l'exemple 1 : Calculs complets}
+  Échantillon de pression systolique ($n=7$) :
+  \begin{center}
+    141 \quad 130 \quad 135 \quad 138 \quad 137 \quad 122 \quad 135
+  \end{center}
+
+  \medskip
+  \begin{enumerate}\itemsep 3mm
+    \item<1-> \textbf{Moyenne échantillonnale :}
+      $$\bar{x} = \frac{938}{7} = \mathbf{134\text{ mm\,Hg}}$$
+    \item<2-> \textbf{Variance échantillonnale :}
+      $$s^2 = \frac{1}{7-1} \left[(141-134)^2 + \ldots + (135-134)^2\right] = \frac{236}{6} = \mathbf{39{,}33\text{ (mm\,Hg)}^2}$$
+    \item<3-> \textbf{Écart-type échantillonnal :}
+      $$s = \sqrt{39{,}33} = \mathbf{6{,}27\text{ mm\,Hg}}$$
+    \item<4-> \textbf{Erreur-type estimée de la moyenne :}
+      $$\widehat{\text{ET}}(\overline{X}) = \frac{s}{\sqrt{n}} = \frac{6{,}27}{\sqrt{7}} = \mathbf{2{,}37\text{ mm\,Hg}}$$
+  \end{enumerate}
+\end{frame}
+
+%===============================================================================
+\section{Estimation d'une proportion \texorpdfstring{$p$}{p}}
+%===============================================================================
+
+\begin{frame}[t]{Exemple 2 : Un sondage d'opinion}
+  Dans un sondage réalisé auprès de $n = 1028$ Québécois, on demande : \emph{« Quel enjeu influencera le plus votre vote? »}
+
+  \medskip
+  \textbf{Résultat :} $y = 216$ personnes répondent l'environnement.
+
+  \bigskip
+  \uncover<2->{
+  \begin{Boite}{Modélisation}
+    Soit $Y$ le nombre de répondants choisissant l'environnement parmi $n$.
+    $$Y \sim \text{Binomiale}(n,\, p)$$
+    où $p$ est la vraie proportion inconnue dans la population québécoise.
+  \end{Boite}
+  }
+
+  \bigskip
+  \uncover<3->{
+    Comment estimer $p$ et quelle est la précision de notre résultat?
+  }
+\end{frame}
+
+\begin{frame}[t]{Propriétés de l'estimateur de proportion}
+  \begin{Boite}{Estimateur de la proportion}
+    $$\widehat{P} = \frac{Y}{n}$$
+  \end{Boite}
+
+  \bigskip
+  Puisque $Y \sim \text{Binomiale}(n, p)$, on sait que $E[Y] = np$ et $\text{Var}(Y) = np(1-p)$.
+
+  \bigskip
+  \uncover<2->{
+  \begin{itemize}\itemsep 4mm
+    \item \textbf{Espérance (sans biais) :}
+      $$E[\widehat{P}] = E\left[\frac{Y}{n}\right] = \frac{1}{n} E[Y] = \frac{np}{n} = \alert{p}$$
+    \item \textbf{Variance :}
+      $$\text{Var}(\widehat{P}) = \text{Var}\left(\frac{Y}{n}\right) = \frac{1}{n^2}\text{Var}(Y) = \frac{np(1-p)}{n^2} = \alert{\frac{p(1-p)}{n}}$$
+    \item \textbf{Erreur-type :} $\text{ET}(\widehat{P}) = \alert{\sqrt{\frac{p(1-p)}{n}}}$
+  \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}[t]{Retour sur l'exemple 2 : Application}
+  Données du sondage : $n = 1028$, $y = 216$.
+
+  \bigskip
+  \begin{itemize}\itemsep 5mm
+    \item<1-> \textbf{Estimation ponctuelle de la proportion :}
+      $$\hat{p} = \frac{216}{1028} \approx \mathbf{0{,}2101 \quad (21{,}0\%)}$$
+
+    \item<2-> \textbf{Erreur-type estimée :}
+      Puisque $p$ est inconnu, on remplace $p$ par $\hat{p}$ dans la formule :
+      $$\widehat{\text{ET}}(\widehat{P}) = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} = \sqrt{\frac{0{,}2101 \times 0{,}7899}{1028}} \approx \mathbf{0{,}0127 \quad (1{,}27\%)}$$
+
+    \item<3-> \textbf{Conclusion :} L'estimation est de $21{,}0\%$ avec une incertitude d'échantillonnage d'environ $1{,}3\%$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Conclusion de la partie 1}
+  \begin{Boite}{Ce que nous savons faire à ce stade}
+    \begin{itemize}\itemsep 3mm
+      \item Calculer une \alert{estimation ponctuelle} pour une moyenne ($\bar{x}$), une variance ($s^2$) ou une proportion ($\hat{p}$).
+      \item Évaluer sa précision grâce à son \alert{erreur-type}.
+    \end{itemize}
+  \end{Boite}
+
+  \bigskip
+  \uncover<2->{
+  \begin{Boite}{Limite de l'estimation ponctuelle}
+    Donner une valeur unique (ex. : $\bar{x} = 134$) n'indique pas à quel point nous sommes confiants que la vraie valeur $\mu$ se trouve à proximité.
+  \end{Boite}
+  }
+
+  \bigskip
+  \uncover<3->{
+    $\Rightarrow$ \textbf{Prochaine étape (partie 2) :} construire des \alert{intervalles de confiance} pour quantifier formellement cette certitude.
+  }
+\end{frame}
+
+\end{document}

@@ -1,0 +1,369 @@
+\documentclass{BeamerTemplate}
+
+\title{Chapitre 4 -- Comparaison de deux populations}
+\subtitle{STT-1920 Méthodes statistiques}
+\date{}
+
+\pgfplotsset{
+  base/.style={
+    tick label style={font=\scriptsize}, label style={font=\small},
+    title style={font=\small\bfseries},
+    yticklabel style={/pgf/number format/fixed, /pgf/number format/precision=2},
+    scaled y ticks=false,
+  }
+}
+
+\begin{document}
+
+\begin{frame}[t]
+  \titlepage
+\end{frame}
+
+%===============================================================================
+\section{Introduction et objectifs}
+%===============================================================================
+
+\begin{frame}[t]{Objectifs du chapitre}
+  Dans de nombreuses applications réelles (agronomie, biologie, génie), on souhaite \alert{comparer deux traitements, deux groupes ou deux conditions expérimentales}.
+
+  \bigskip
+  \begin{Boite}{Objectifs principaux}
+    \begin{enumerate}\itemsep 3mm
+      \item \textbf{Estimer} la différence ou le rapport de deux paramètres associés à deux populations ($\mu_1 - \mu_2$, $\sigma_1^2/\sigma_2^2$, $p_1 - p_2$).
+      \item \textbf{Calculer} l'erreur-type associée et construire un \alert{intervalle de confiance}.
+      \item \textbf{Tester} une hypothèse sur ces deux paramètres (ex. : $H_0: \mu_1 = \mu_2$ ou $H_0: \sigma_1^2 = \sigma_2^2$) à l'aide d'un \alert{test d'hypothèses}.
+    \end{enumerate}
+  \end{Boite}
+\end{frame}
+
+\begin{frame}[t]{Les 5 situations étudiées}
+  \scriptsize
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabularx}{\textwidth}{llX}\toprule
+    \textbf{Paramètres} & \textbf{Hypothèse} & \textbf{Conditions expérimentales} \\ \midrule
+    \textbf{Deux variances} & $H_0: \sigma_1^2 = \sigma_2^2$ & Échantillons indépendants, populations normales \\ \midrule
+    \multirow{3}{*}{\textbf{Deux moyennes}} & \multirow{3}{*}{$H_0: \mu_1 = \mu_2$}
+      & 1. Indépendants, normales, \alert{$\sigma_1^2 = \sigma_2^2$} (variance combinée) \\
+      & & 2. Indépendants, normales, \alert{$\sigma_1^2 \ne \sigma_2^2$} (Welch-Satterthwaite) \\
+      & & 3. Échantillons \alert{appariés} (mesures dépendantes deux à deux) \\ \midrule
+    \textbf{Deux proportions} & $H_0: p_1 = p_2$ & Indépendants, $n_1, n_2$ grands (approximation normale) \\ \bottomrule
+  \end{tabularx}
+
+  \bigskip
+  \uncover<2->{
+  \begin{Boite}{Ordre d'analyse logique pour deux moyennes}
+    Lorsque les échantillons sont indépendants, on commence \alert{toujours} par tester l'égalité des variances ($\sigma_1^2$ vs $\sigma_2^2$) pour choisir le test de comparaison des moyennes approprié !
+  \end{Boite}
+  }
+\end{frame}
+
+\begin{frame}[t]{Exemple motivant : Le zinc dans les rivières}
+  On cherche à diversifier l'alimentation en eau potable d'une municipalité.
+  \begin{itemize}\itemsep 3mm
+    \item Deux rivières sont candidates, mais les biologistes soupçonnent que la \textbf{rivière 1} a une concentration moyenne en zinc supérieure à celle de la \textbf{rivière 2}.
+    \item On suppose que les concentrations de zinc suivent des lois normales.
+  \end{itemize}
+
+  \medskip
+  \uncover<2->{
+  Mesures prélevées (en $\mu\text{g/l}$) :
+  \centering
+  \small
+  \begin{tabular}{lccccccccc}\toprule
+    \textbf{Site} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & $\bar{x}$ & $s$ \\ \midrule
+    \textbf{Rivière 1} & 6{,}51 & 5{,}43 & 4{,}32 & 5{,}73 & 3{,}90 & 4{,}11 & 5{,}00 & \textbf{5{,}00} & \textbf{0{,}954} \\
+    \textbf{Rivière 2} & 6{,}03 & 4{,}92 & 3{,}60 & 5{,}13 & 2{,}58 & 4{,}08 & 4{,}39 & \textbf{4{,}39} & \textbf{1{,}226} \\ \bottomrule
+  \end{tabular}
+  }
+
+  \bigskip
+  \uncover<3->{
+    \textbf{Première question :} au seuil $\alpha = 10\%$, peut-on considérer que les variances sont égales?
+  }
+\end{frame}
+
+%===============================================================================
+\section{Comparaison de deux variances (Test de Fisher)}
+%===============================================================================
+
+\begin{frame}[t]{Situation et distribution d'échantillonnage}
+  Soient deux échantillons aléatoires indépendants :
+  $$X_{11}, \ldots, X_{1n_1} \overset{iid}{\sim} \mathcal{N}(\mu_1, \sigma_1^2) \quad \text{et} \quad X_{21}, \ldots, X_{2n_2} \overset{iid}{\sim} \mathcal{N}(\mu_2, \sigma_2^2)$$
+
+  \begin{itemize}\itemsep 3mm
+    \item On sait que $\frac{(n_1-1)S_1^2}{\sigma_1^2} \sim \chi^2_{n_1-1}$ et $\frac{(n_2-1)S_2^2}{\sigma_2^2} \sim \chi^2_{n_2-1}$.
+    \item Le rapport de deux v.a. khi-deux indépendantes divisées par leurs degrés de liberté respectifs suit une \alert{loi de Fisher-Snedecor}.
+  \end{itemize}
+
+  \bigskip
+  \pause
+  \begin{Boite}{Statistique fondamentale}
+    \[
+      F = \frac{S_1^2 / \sigma_1^2}{S_2^2 / \sigma_2^2} \sim \mathcal{F}(n_1-1,\, n_2-1)
+    \]
+  \end{Boite}
+\end{frame}
+
+\begin{frame}[t]{Propriétés de la loi de Fisher $\mathcal{F}(\nu_1, \nu_2)$}
+  \begin{columns}[T]
+    \column{0.55\textwidth}
+      \begin{itemize}\itemsep 3mm
+        \item Variable toujours \alert{strictement positive} ($F > 0$).
+        \item Distribution \alert{asymétrique à droite}.
+        \item Dépend de deux paramètres : $\nu_1$ degrés de liberté au numérateur, $\nu_2$ au dénominateur.
+        \item Propriété d'inversion des quantiles :
+          $$F_{1-\alpha,\, \nu_1,\, \nu_2} = \frac{1}{F_{\alpha,\, \nu_2,\, \nu_1}}$$
+      \end{itemize}
+
+    \column{0.42\textwidth}
+      \begin{center}
+      \begin{tikzpicture}
+        \begin{axis}[
+          base, width=5.5cm, height=4.5cm,
+          xmin=0, xmax=4.5, ymin=0, ymax=0.9,
+          xlabel={$f$}, ylabel={Densité}
+        ]
+          % F(6, 6)
+          \addplot[thick, Dominante, domain=0.05:4.5, samples=100]
+            {0.8 * x^2 / ((1 + x)^6)};
+          \node[font=\tiny] at (axis cs:2, 0.5) {$\mathcal{F}(\nu_1, \nu_2)$};
+        \end{axis}
+      \end{tikzpicture}
+      \end{center}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[t]{Intervalle de confiance pour $\sigma_1^2 / \sigma_2^2$}
+  En partant de $P\left(F_{1-\alpha/2} \le \frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2} \le F_{\alpha/2}\right) = 1 - \alpha$, on isole le rapport $\frac{\sigma_1^2}{\sigma_2^2}$ :
+
+  \bigskip
+  \begin{Boite}{Intervalle de confiance à $1-\alpha$ pour $\sigma_1^2 / \sigma_2^2$}
+    $$\left[ \frac{S_1^2}{S_2^2} \, \frac{1}{F_{\alpha/2,\, n_1-1,\, n_2-1}}, \quad \frac{S_1^2}{S_2^2} \, F_{\alpha/2,\, n_2-1,\, n_1-1} \right]$$
+  \end{Boite}
+
+  \bigskip
+  \uncover<2->{
+  \begin{itemize}\itemsep 3mm
+    \item Attention à l'\alert{inversion des degrés de liberté} dans la borne supérieure !
+    \item Si l'intervalle contient la valeur \textbf{1}, on ne peut pas rejeter l'hypothèse d'égalité des variances ($\sigma_1^2 = \sigma_2^2$).
+  \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}[t]{Test de Fisher pour l'égalité des variances}
+  \begin{itemize}
+    \item \textbf{Hypothèses :} $H_0: \sigma_1^2 = \sigma_2^2$ \quad contre \quad $H_1: \sigma_1^2 \ne \sigma_2^2$ (bilatéral)
+    \item \textbf{Statistique de test sous $H_0$ :}
+      $$F_{obs} = \frac{s_1^2}{s_2^2}$$
+    \item \textbf{Règle de décision au seuil $\alpha$ :}
+      $$\text{Rejeter } H_0 \iff F_{obs} < \frac{1}{F_{\alpha/2,\, n_2-1,\, n_1-1}} \quad \text{ou} \quad F_{obs} > F_{\alpha/2,\, n_1-1,\, n_2-1}$$
+  \end{itemize}
+
+  \bigskip
+  \pause
+  \begin{Boite}{Astuce pratique (convention numérateur plus grand)}
+    En plaçant la plus grande variance échantillonnale au numérateur ($s_{\max}^2 / s_{\min}^2$), on a toujours $F_{obs} > 1$ et on compare simplement à $F_{\alpha/2,\, \nu_{\max},\, \nu_{\min}}$.
+  \end{Boite}
+\end{frame}
+
+\begin{frame}[t]{Exemple du zinc : Test de Fisher}
+  Données : $n_1 = 7, s_1 = 0{,}954 \implies s_1^2 = 0{,}910$. \\
+  $n_2 = 7, s_2 = 1{,}226 \implies s_2^2 = 1{,}503$.
+  Seuil : $\alpha = 0{,}10 \implies \alpha/2 = 0{,}05$. Degrés de liberté : $\nu_1 = 6, \nu_2 = 6$.
+
+  \medskip
+  \begin{enumerate}\itemsep 3mm
+    \item<1-> \textbf{Statistique observée :}
+      $$F_{obs} = \frac{s_1^2}{s_2^2} = \frac{0{,}910}{1{,}503} = \mathbf{0{,}605}$$
+    \item<2-> \textbf{Valeurs critiques :}
+      Dans la table $\mathcal{F}(6, 6)$ au seuil $0{,}05$ : $F_{0{,}05,\, 6,\, 6} = \mathbf{4{,}28}$.
+      $$\text{Borne inférieure} = \frac{1}{4{,}28} = \mathbf{0{,}234}, \quad \text{Borne supérieure} = \mathbf{4{,}28}$$
+    \item<3-> \textbf{Conclusion :}
+      Puisque $0{,}234 \le 0{,}605 \le 4{,}28$, on \alert{ne rejette pas $H_0$}.
+      On peut supposer les \textbf{variances égales} ($\sigma_1^2 = \sigma_2^2$).
+  \end{enumerate}
+\end{frame}
+
+%===============================================================================
+\section{Comparaison de deux moyennes (Échantillons indépendants)}
+%===============================================================================
+
+\begin{frame}[t]{Cas 1 : Variances égales ($\sigma_1^2 = \sigma_2^2 = \sigma^2$)}
+  Puisque les deux populations ont la même variance inconnue $\sigma^2$, on combine l'information des deux échantillons pour obtenir la \alert{variance combinée} (pooled variance) :
+
+  \bigskip
+  \begin{Boite}{Variance échantillonnale combinée $S_p^2$}
+    $$S_p^2 = \frac{(n_1 - 1)S_1^2 + (n_2 - 1)S_2^2}{n_1 + n_2 - 2}$$
+  \end{Boite}
+
+  \medskip
+  \uncover<2->{
+  \begin{itemize}\itemsep 3mm
+    \item $S_p^2$ est une moyenne pondérée de $S_1^2$ et $S_2^2$ par leurs degrés de liberté.
+    \item Elle possède $(n_1 - 1) + (n_2 - 1) = \alert{n_1 + n_2 - 2}$ degrés de liberté.
+    \item L'erreur-type estimée de la différence des moyennes est :
+      $$\widehat{\text{ET}}(\overline{X}_1 - \overline{X}_2) = S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}$$
+  \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}[t]{Intervalle de confiance pour $\mu_1 - \mu_2$ (variances égales)}
+  Sous l'hypothèse de normalité et de variances égales :
+  \[
+    T = \frac{(\overline{X}_1 - \overline{X}_2) - (\mu_1 - \mu_2)}{S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}} \sim t_{n_1 + n_2 - 2}
+  \]
+
+  \bigskip
+  \begin{Boite}{Intervalle de confiance de niveau $1-\alpha$}
+    \[
+      \left[ (\overline{X}_1 - \overline{X}_2) \pm t_{n_1+n_2-2,\, \alpha/2} \, S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \right]
+    \]
+  \end{Boite}
+
+  \medskip
+  La marge d'erreur dépend de la variance combinée $S_p^2$ et de la somme des inverses des tailles d'échantillons.
+\end{frame}
+
+\begin{frame}[t]{Test d'hypothèses pour $\mu_1 - \mu_2$ (variances égales)}
+  Pour tester $H_0: \mu_1 = \mu_2$ (c'est-à-dire $\mu_1 - \mu_2 = 0$) :
+
+  \bigskip
+  \begin{Boite}{Statistique observée sous $H_0$}
+    \[
+      t_{obs} = \frac{\overline{x}_1 - \overline{x}_2}{s_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}}
+    \]
+  \end{Boite}
+
+  \medskip
+  \textbf{Règles de décision :}
+  \begin{itemize}\itemsep 3mm
+    \item Bilatéral ($H_1: \mu_1 \ne \mu_2$) : rejeter $H_0$ si $|t_{obs}| > t_{n_1+n_2-2,\, \alpha/2}$.
+    \item Unilatéral à droite ($H_1: \mu_1 > \mu_2$) : rejeter $H_0$ si $t_{obs} > t_{n_1+n_2-2,\, \alpha}$.
+    \item Unilatéral à gauche ($H_1: \mu_1 < \mu_2$) : rejeter $H_0$ si $t_{obs} < -t_{n_1+n_2-2,\, \alpha}$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Exemple du zinc : Comparaison des moyennes}
+  Les experts affirmaient : la rivière 1 a une concentration moyenne supérieure ($H_1: \mu_1 > \mu_2$, unilatéral à droite).
+  Données : $n_1 = 7, \bar{x}_1 = 5{,}00, s_1^2 = 0{,}910$ ; $n_2 = 7, \bar{x}_2 = 4{,}39, s_2^2 = 1{,}503$.
+
+  \medskip
+  \begin{enumerate}\itemsep 2mm
+    \item<1-> \textbf{Variance combinée :}
+      $$s_p^2 = \frac{6(0{,}910) + 6(1{,}503)}{7 + 7 - 2} = \frac{5{,}46 + 9{,}02}{12} = \mathbf{1{,}207} \implies s_p = \mathbf{1{,}098}$$
+    \item<2-> \textbf{Erreur-type :}
+      $\widehat{\text{ET}} = 1{,}098 \sqrt{\frac{1}{7} + \frac{1}{7}} = 1{,}098 \times 0{,}5345 = \mathbf{0{,}587}$.
+    \item<3-> \textbf{Statistique observée :}
+      $$t_{obs} = \frac{5{,}00 - 4{,}39}{0{,}587} = \frac{0{,}61}{0{,}587} = \mathbf{1{,}04}$$
+    \item<4-> \textbf{Décision au seuil $\alpha = 5\%$ :}
+      Pour $\nu = 12$, le quantile unilatéral est $t_{12,\, 0{,}05} = \mathbf{1{,}782}$.
+      Puisque $t_{obs} = 1{,}04 < 1{,}782$, on \alert{ne rejette pas $H_0$}.
+      Les données ne suffisent pas à prouver que la rivière 1 a plus de zinc.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[t]{Cas 2 : Variances inégales ($\sigma_1^2 \ne \sigma_2^2$)}
+  Si le test de Fisher a rejeté l'égalité des variances, on ne peut plus utiliser $S_p^2$.
+  On utilise alors l'approximation de \alert{Welch-Satterthwaite}.
+
+  \bigskip
+  \begin{Boite}{Statistique de Welch}
+    $$T = \frac{(\overline{X}_1 - \overline{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}}} \;\dot{\sim}\; t_{\nu}$$
+  \end{Boite}
+
+  \medskip
+  \uncover<2->{
+  Les degrés de liberté ajustés $\nu$ sont donnés par la formule de Welch :
+  $$\nu = \frac{\left(\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}\right)^2}{\frac{(S_1^2/n_1)^2}{n_1-1} + \frac{(S_2^2/n_2)^2}{n_2-1}}$$
+  (Dans R, cette procédure est appliquée par défaut via \texttt{t.test(..., var.equal = FALSE)}).
+  }
+\end{frame}
+
+%===============================================================================
+\section{Données appariées (Échantillons dépendants)}
+%===============================================================================
+
+\begin{frame}[t]{Notion de données appariées}
+  \begin{Boite}{Définition}
+    Deux échantillons sont dits \alert{appariés} s'il existe une correspondance naturelle deux à deux entre les observations des deux groupes.
+  \end{Boite}
+
+  \bigskip
+  \textbf{Exemples typiques :}
+  \begin{itemize}\itemsep 3mm
+    \item \textbf{Mesures répétées sur le même sujet :} pression artérielle avant et après la prise d'un médicament ($X_{1i}$ et $X_{2i}$).
+    \item \textbf{Paires appariées :} deux pneus de marques différentes montés sur les deux côtés de la même automobile.
+    \item \textbf{Jumeaux :} l'un reçoit le traitement A, l'autre le placebo.
+  \end{itemize}
+
+  \bigskip
+  \uncover<2->{
+    \alert{Attention :} Ne jamais appliquer un test à deux échantillons indépendants sur des données appariées (violation majeure de l'indépendance) !
+  }
+\end{frame}
+
+\begin{frame}[t]{Méthode d'analyse : réduction à un échantillon}
+  On calcule pour chaque paire $i$ la \alert{différence individuelle} :
+  \[
+    D_i = X_{1i} - X_{2i}, \quad i = 1, \ldots, n
+  \]
+
+  \medskip
+  Si les $D_i \sim \mathcal{N}(\mu_D, \sigma_D^2)$, le problème se ramène exactement à un \alert{test $t$ à un échantillon} sur la moyenne des différences $\mu_D = \mu_1 - \mu_2$ !
+
+  \bigskip
+  \begin{Boite}{Test $t$ apparié}
+    \begin{itemize}\itemsep 2mm
+      \item Moyenne des différences : $\overline{D} = \frac{1}{n}\sum_{i=1}^n D_i$
+      \item Écart-type des différences : $S_D = \sqrt{\frac{1}{n-1}\sum_{i=1}^n (D_i - \overline{D})^2}$
+      \item Statistique de test sous $H_0: \mu_D = 0$ :
+        \[
+          t_{obs} = \frac{\overline{D}}{S_D / \sqrt{n}} \sim t_{n-1}
+        \]
+    \end{itemize}
+  \end{Boite}
+\end{frame}
+
+%===============================================================================
+\section{Comparaison de deux proportions}
+%===============================================================================
+
+\begin{frame}[t]{Comparaison de deux proportions}
+  Soient deux échantillons indépendants de grandes tailles :
+  \[
+    Y_1 \sim \text{Binomiale}(n_1, p_1) \quad \text{et} \quad Y_2 \sim \text{Binomiale}(n_2, p_2)
+  \]
+  Estimations ponctuelles : $\hat{p}_1 = Y_1/n_1$ et $\hat{p}_2 = Y_2/n_2$.
+
+  \medskip
+  \begin{Boite}{Test d'hypothèses d'égalité des proportions}
+    On estime la proportion commune sous $H_0: p_1 = p_2$ par la \alert{proportion combinée} :
+    \[
+      \widehat{P} = \frac{Y_1 + Y_2}{n_1 + n_2}
+    \]
+    Statistique de test (normale centrée réduite) :
+    \[
+      Z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\widehat{P}(1 - \widehat{P})\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}} \;\dot{\sim}\; \mathcal{N}(0, 1)
+    \]
+  \end{Boite}
+\end{frame}
+
+\begin{frame}[t]{Tableau récapitulatif du Chapitre 4}
+  \centering
+  \scriptsize
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{lll}\toprule
+    \textbf{Problème} & \textbf{Statistique de test} & \textbf{Loi sous $H_0$} \\ \midrule
+    $H_0: \sigma_1^2 = \sigma_2^2$ (indép.) & $F_{obs} = \frac{S_1^2}{S_2^2}$ & $\mathcal{F}(n_1-1,\, n_2-1)$ \\[2mm]
+    $H_0: \mu_1 = \mu_2$ ($\sigma^2$ égales) & $t_{obs} = \frac{\overline{X}_1 - \overline{X}_2}{S_p \sqrt{1/n_1 + 1/n_2}}$ & $t_{n_1+n_2-2}$ \\[2mm]
+    $H_0: \mu_1 = \mu_2$ ($\sigma^2$ inégales) & $t_{obs} = \frac{\overline{X}_1 - \overline{X}_2}{\sqrt{S_1^2/n_1 + S_2^2/n_2}}$ & $t_\nu$ (Welch) \\[2mm]
+    $H_0: \mu_1 = \mu_2$ (appariés) & $t_{obs} = \frac{\overline{D}}{S_D / \sqrt{n}}$ & $t_{n-1}$ \\[2mm]
+    $H_0: p_1 = p_2$ (grandes tailles) & $z_{obs} = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\hat{p}(1-\hat{p})(1/n_1 + 1/n_2)}}$ & $\mathcal{N}(0, 1)$ \\ \bottomrule
+  \end{tabular}
+
+  \bigskip
+  \normalsize
+  Tous ces tests sont disponibles sous R avec \texttt{var.test()}, \texttt{t.test()} et \texttt{prop.test()}.
+\end{frame}
+
+\end{document}

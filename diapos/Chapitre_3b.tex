@@ -1,0 +1,334 @@
+\documentclass{BeamerTemplate}
+
+\title{Chapitre 3 -- Estimations et tests d'hypothèse (2\textsuperscript{e} partie)}
+\subtitle{STT-1920 Méthodes statistiques}
+\date{}
+
+% Styles des graphiques
+\pgfplotsset{
+  base/.style={
+    tick label style={font=\scriptsize}, label style={font=\small},
+    title style={font=\small\bfseries},
+    yticklabel style={/pgf/number format/fixed, /pgf/number format/precision=2},
+    scaled y ticks=false,
+  }
+}
+
+\begin{document}
+
+\begin{frame}[t]
+  \titlepage
+\end{frame}
+
+%===============================================================================
+\section{Notion d'intervalle de confiance}
+%===============================================================================
+
+\begin{frame}[t]{Limite de l'estimation ponctuelle}
+  Dans la première partie, nous avons vu que :
+  \begin{itemize}\itemsep 4mm
+    \item L'estimateur ponctuel $\overline{X}$ fournit \alert{une seule valeur} pour estimer le paramètre $\mu$.
+    \item Parce que $\overline{X}$ est une variable aléatoire, sa valeur change d'un échantillon à l'autre.
+    \item Pour l'exemple de la pression ($n=7$), nous avons obtenu $\bar{x} = 134\text{ mm\,Hg}$.
+  \end{itemize}
+
+  \bigskip
+  \uncover<2->{
+  \begin{Boite}{Une question fondamentale}
+    Quelle confiance accorder à cette unique valeur 134? À quelle distance de la vraie moyenne inconnue $\mu$ a-t-on des chances de se trouver?
+  \end{Boite}
+  }
+
+  \medskip
+  \uncover<3->{
+    $\Rightarrow$ On souhaite encadrer $\mu$ par un intervalle $[L_1, L_2]$ associé à un \alert{degré de certitude contrôlé}.
+  }
+\end{frame}
+
+\begin{frame}[t]{Définition d'un intervalle de confiance}
+  \begin{Boite}{Intervalle de confiance de niveau $1 - \alpha$}
+    Deux statistiques $L_1$ et $L_2$ calculées à partir de l'échantillon telles que :
+    $$P(L_1 \le \theta \le L_2) = 1 - \alpha$$
+  \end{Boite}
+
+  \medskip
+  \begin{itemize}\itemsep 4mm
+    \item<1-> $\theta$ est le \alert{paramètre inconnu} (valeur fixe de la population).
+    \item<2-> $1 - \alpha$ est le \alert{niveau de confiance} (typiquement $90\%$, $95\%$ ou $99\%$).
+    \item<3-> $\alpha$ est le \alert{seuil de risque} (probabilité que l'intervalle rate la vraie valeur).
+    \item<4-> Lorsque l'intervalle est symétrique autour de l'estimateur, on écrit :
+      $$\text{Estimation} \pm \text{Marge d'erreur}$$
+      La \alert{marge d'erreur} est la demi-longueur de l'intervalle.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Interprétation rigoureuse}
+  \begin{Boite}{\faCheckCircle\ Interprétation correcte}
+    Si on prélevait un grand nombre d'échantillons de même taille $n$ dans la population et que pour chacun on construisait l'intervalle à 95\%, alors \alert{environ 95\% de ces intervalles contiendraient la vraie valeur $\theta$}.
+  \end{Boite}
+
+  \bigskip
+  \uncover<2->{
+  \begin{Boite}{\faTimesCircle\ Attention aux interprétations incorrectes !}
+    \begin{itemize}\itemsep 2mm
+      \item \textbf{Faux :} « Il y a 95\% de chances que $\mu$ appartienne à $[129{,}4 \,;\, 138{,}6]$. »\\
+        $\rightarrow$ $\mu$ n'est pas aléatoire : il est dedans ou dehors ($P = 0$ ou $1$). C'est l'intervalle $[L_1, L_2]$ qui est aléatoire !
+      \item \textbf{Faux :} « 95\% des individus ont une valeur entre $129{,}4$ et $138{,}6$. »\\
+        $\rightarrow$ L'IC concerne la \emph{moyenne} de la population, pas la dispersion des individus !
+    \end{itemize}
+  \end{Boite}
+  }
+\end{frame}
+
+%===============================================================================
+\section{Construction de l'intervalle pour la moyenne}
+%===============================================================================
+
+\begin{frame}[t]{Cas théorique : si $\sigma$ était connue}
+  Supposons que les données $X_1, \ldots, X_n$ sont i.i.d. de loi $\mathcal{N}(\mu, \sigma^2)$, avec $\sigma$ \alert{connue}.
+  $$\overline{X} \sim \mathcal{N}\left(\mu,\, \frac{\sigma^2}{n}\right) \quad \Longrightarrow \quad Z = \frac{\overline{X} - \mu}{\sigma/\sqrt{n}} \sim \mathcal{N}(0, 1)$$
+
+  \uncover<2->{
+  Pour un niveau de confiance $1 - \alpha$, on trouve le quantile $z_{\alpha/2}$ tel que :
+  $$P\left(-z_{\alpha/2} \le \frac{\overline{X} - \mu}{\sigma/\sqrt{n}} \le z_{\alpha/2}\right) = 1 - \alpha$$
+  }
+
+  \vspace{-2mm}
+  \uncover<3->{
+  En isolant $\mu$ au centre :
+  \begin{Boite}{IC pour $\mu$ ($\sigma$ connue)}
+    $$\left[ \overline{X} - z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}, \; \overline{X} + z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \right]$$
+  \end{Boite}
+  }
+
+  \uncover<4->{
+    \alert{Le problème pratique :} en réalité, on ne connaît presque jamais $\sigma$ !
+  }
+\end{frame}
+
+\begin{frame}[t]{Que faire quand $\sigma$ est inconnue?}
+  Puisque $\sigma$ est inconnue, l'idée naturelle est de la remplacer par l'écart-type échantillonnal $S$ :
+  $$T = \frac{\overline{X} - \mu}{S / \sqrt{n}}$$
+
+  \begin{itemize}\itemsep 4mm
+    \item<2-> Au dénominateur, $S$ n'est plus une constante, mais une \alert{variable aléatoire}.
+    \item<3-> Cette incertitude supplémentaire rend la variable $T$ \alert{plus dispersée} que la loi normale centrée réduite $Z$.
+    \item<4-> $T$ ne suit plus une loi normale $\mathcal{N}(0,1)$ !
+  \end{itemize}
+
+  \bigskip
+  \uncover<5->{
+  \begin{Boite}{Quelle est la loi exacte de $T$?}
+    La réponse a été découverte en 1908 par William Sealy Gosset : la \alert{loi de Student}.
+  \end{Boite}
+  }
+\end{frame}
+
+\begin{frame}[t]{William Sealy Gosset (1876--1937)}
+  \begin{columns}[T]
+    \column{0.68\textwidth}
+      \begin{itemize}\itemsep 3mm
+        \item Chimiste et statisticien en chef à la brasserie \alert{Guinness} à Dublin.
+        \item Travaillait avec de \textbf{très petits échantillons} (variétés d'orge, température de brassage, levures).
+        \item Découvre la distribution exacte de $\frac{\overline{X}-\mu}{S/\sqrt{n}}$.
+        \item Guinness interdisait à ses employés de publier des secrets d'entreprise : il publia en 1908 sous le pseudonyme \alert{« Student »}.
+      \end{itemize}
+
+    \column{0.28\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{images/Gosset_1.pdf}
+
+      {\tiny William Sealy Gosset}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[t]{La loi de Student $t_k$}
+  \begin{Boite}{Théorème de Student}
+    Si $X_1, \ldots, X_n \overset{iid}{\sim} \mathcal{N}(\mu, \sigma^2)$, alors :
+    $$T = \frac{\overline{X} - \mu}{S / \sqrt{n}} \sim t_{n-1}$$
+    La variable suit une \alert{loi de Student à $k = n - 1$ degrés de liberté}.
+  \end{Boite}
+
+  \medskip
+  \begin{itemize}\itemsep 3mm
+    \item<2-> Symétrique en 0, en forme de cloche, tout comme la loi normale.
+    \item<3-> Ses \alert{queues sont plus lourdes} : les valeurs extrêmes sont plus probables en raison de la variabilité de $S$.
+    \item<4-> Quand $k \to \infty$, la loi de Student \alert{converge vers la loi normale $\mathcal{N}(0,1)$}.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Comparaison de la loi normale et des lois de Student}
+  \begin{center}
+  \begin{tikzpicture}
+    \begin{axis}[
+      base, width=10.5cm, height=5.5cm,
+      xmin=-4, xmax=4, ymin=0, ymax=0.45,
+      xlabel={$t$}, ylabel={Densité},
+      legend pos=north east, legend style={font=\scriptsize}
+    ]
+      % Normale N(0,1)
+      \addplot[thick, black, domain=-4:4, samples=100]
+        {exp(-x^2/2) / sqrt(2*pi)};
+      \addlegendentry{$\mathcal{N}(0,1)$}
+
+      % Student k=2: f(x) = 1 / (2 * (1 + x^2/2)^(3/2))
+      \addplot[thick, rougelaval, dashed, domain=-4:4, samples=100]
+        {1 / (2 * (1 + x^2/2)^1.5)};
+      \addlegendentry{Student $k = 2$}
+
+      % Student k=10
+      \addplot[thick, Dominante, domain=-4:4, samples=100]
+        {0.3891 / ((1 + x^2/10)^5.5)};
+      \addlegendentry{Student $k = 10$}
+    \end{axis}
+  \end{tikzpicture}
+  \end{center}
+
+  \vspace{-2mm}
+  Pour $k$ petit, les quantiles sont plus grands que 1,96 pour compenser l'incertitude sur $\sigma$.
+\end{frame}
+
+\begin{frame}[t]{Formule de l'IC pour $\mu$ ($\sigma$ inconnue)}
+  \begin{Boite}{Intervalle de confiance pour la moyenne $\mu$}
+    Soit un échantillon aléatoire d'une population normale (ou $n$ grand) :
+    $$\left[ \overline{X} - t_{n-1,\, \alpha/2} \, \frac{S}{\sqrt{n}}, \; \overline{X} + t_{n-1,\, \alpha/2} \, \frac{S}{\sqrt{n}} \right]$$
+  \end{Boite}
+
+  \bigskip
+  \uncover<2->{
+  \begin{itemize}\itemsep 4mm
+    \item $\overline{X}$ : estimation ponctuelle de la moyenne.
+    \item $\frac{S}{\sqrt{n}}$ : erreur-type estimée ($\widehat{\text{ET}}$).
+    \item $t_{n-1,\, \alpha/2}$ : valeur critique issue de la table de Student à $n-1$ d.d.l.
+    \item $\text{ME} = t_{n-1,\, \alpha/2} \, \frac{S}{\sqrt{n}}$ : la \alert{marge d'erreur}.
+  \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}[t]{Application complète : Pression artérielle}
+  Mesures ($n=7$) : 141, 130, 135, 138, 137, 122, 135.
+  \begin{itemize}
+    \item $\bar{x} = 134\text{ mm\,Hg}$, \quad $s = 6{,}27\text{ mm\,Hg}$.
+    \item On cherche un intervalle de confiance à \alert{$90\%$ ($1 - \alpha = 0{,}90$)}, donc $\alpha = 0{,}10$ et $\alpha/2 = 0{,}05$.
+  \end{itemize}
+
+  \bigskip
+  \uncover<2->{
+  \begin{enumerate}\itemsep 3mm
+    \item \textbf{Degrés de liberté :} $k = n - 1 = 7 - 1 = 6$.
+    \item \textbf{Quantile critique :} dans la table de Student, $t_{6,\, 0{,}05} = \mathbf{1{,}943}$.
+    \item \textbf{Erreur-type estimée :} $\frac{s}{\sqrt{n}} = \frac{6{,}27}{\sqrt{7}} = \mathbf{2{,}37}$.
+    \item \textbf{Marge d'erreur :} $\text{ME} = 1{,}943 \times 2{,}37 = \mathbf{4{,}60\text{ mm\,Hg}}$.
+    \item \textbf{Intervalle de confiance à 90\% :}
+      $$[134 - 4{,}60 \,;\, 134 + 4{,}60] = \mathbf{[129{,}40 \,;\, 138{,}60]\text{ mm\,Hg}}$$
+  \end{enumerate}
+  }
+\end{frame}
+
+%===============================================================================
+\section{Quiz conceptuel : Vrai ou Faux ?}
+%===============================================================================
+
+\begin{frame}[t]{Question 1}
+  \begin{Boite}{Énoncé 1}
+    « 90\% des gens de cette population ont une pression artérielle comprise entre $129{,}40$ et $138{,}60\text{ mm\,Hg}$. »
+  \end{Boite}
+
+  \bigskip
+  \uncover<2->{
+  \alert{\Large FAUX !}
+
+  \medskip
+  L'intervalle de confiance est construit pour estimer le paramètre moyen $\mu$ de la population, et non pas pour contenir 90\% des observations individuelles.
+  La variabilité des individus est régie par $\sigma$ (environ $6{,}3$), alors que l'intervalle est basé sur $\sigma/\sqrt{n}$ (environ $2{,}4$).
+  }
+\end{frame}
+
+\begin{frame}[t]{Question 2}
+  \begin{Boite}{Énoncé 2}
+    « 90\% des gens de cet échantillon ont une pression artérielle comprise entre $129{,}40$ et $138{,}60\text{ mm\,Hg}$. »
+  \end{Boite}
+
+  \bigskip
+  \uncover<2->{
+  \alert{\Large FAUX !}
+
+  \medskip
+  Pour le vérifier, regardons notre échantillon : $\{141, 130, 135, 138, 137, 122, 135\}$.
+  \begin{itemize}
+    \item 122 et 141 sont à l'extérieur de l'intervalle.
+    \item Seules 5 des 7 valeurs ($71{,}4\%$) sont à l'intérieur !
+  \end{itemize}
+  L'intervalle ne prétend absolument pas décrire l'échantillon, il vise la \textbf{vraie moyenne $\mu$}.
+  }
+\end{frame}
+
+\begin{frame}[t]{Question 3}
+  \begin{Boite}{Énoncé 3}
+    « Si on prenait des mesures sur 7 autres individus, il y a 90\% de chances que la moyenne $\overline{x}_{\text{nouveau}}$ de ce nouvel échantillon soit comprise entre $129{,}40$ et $138{,}60$. »
+  \end{Boite}
+
+  \bigskip
+  \uncover<2->{
+  \alert{\Large FAUX !}
+
+  \medskip
+  Une nouvelle moyenne $\overline{X}_{\text{nouv}}$ a sa propre variabilité autour de $\mu$.
+  L'écart entre deux moyennes indépendantes a pour écart-type $\sqrt{\frac{\sigma^2}{n} + \frac{\sigma^2}{n}} = \sqrt{2}\,\frac{\sigma}{\sqrt{n}}$, qui est plus grand que $\frac{\sigma}{\sqrt{n}}$.
+  Pour prédire une nouvelle moyenne ou observation, on utilise un \alert{intervalle de prédiction}.
+  }
+\end{frame}
+
+\begin{frame}[t]{Question 4}
+  \begin{Boite}{Énoncé 4}
+    « Si on tirait 1000 échantillons de taille 7 dans cette population et qu'on calculait pour chacun l'IC à 90\%, environ 900 d'entre eux contiendraient la vraie moyenne $\mu$. »
+  \end{Boite}
+
+  \bigskip
+  \uncover<2->{
+  \textbf{\color{green!60!black}\Large VRAI !}
+
+  \medskip
+  C'est \alert{exactement} la définition et la signification probabiliste du niveau de confiance de 90\% !
+  C'est le mécanisme de génération de l'intervalle qui est fiable à 90\%.
+  }
+\end{frame}
+
+\begin{frame}[t]{Question 5}
+  \begin{Boite}{Énoncé 5}
+    « Avec un échantillon de taille $n \ge 30$, on peut utiliser les quantiles de la loi normale au lieu de la loi de Student. »
+  \end{Boite}
+
+  \bigskip
+  \uncover<2->{
+  \textbf{\color{green!60!black}\Large VRAI (en pratique) !}
+
+  \medskip
+  \begin{itemize}
+    \item Par le Théorème Central Limite (TCL), la loi de $\overline{X}$ est approximativement normale même si la population ne l'est pas.
+    \item De plus, pour $n \ge 30$, la loi de Student $t_{29}$ est presque identique à la normale : $t_{29,\, 0{,}025} = 2{,}045 \approx 1{,}96$.
+    \item Avec un logiciel comme R, on privilégie toutefois toujours la loi de Student exacte.
+  \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}[t]{Questions 6 et 7}
+  \begin{Boite}{Énoncé 6}
+    « Avec un échantillon plus grand, on obtiendrait un intervalle de confiance plus long. »
+  \end{Boite}
+  \uncover<2->{
+    \alert{\textbf{FAUX :}} la longueur vaut $2 t_{n-1} \frac{s}{\sqrt{n}}$. Puisque $n$ est au dénominateur, \textbf{plus $n$ augmente, plus l'intervalle devient étroit et précis}.
+  }
+
+  \bigskip
+  \uncover<3->{
+  \begin{Boite}{Énoncé 7}
+    « Si la vraie moyenne est de 133, l'estimation obtenue $\bar{x} = 134$ est biaisée. »
+  \end{Boite}
+  }
+  \uncover<4->{
+    \alert{\textbf{FAUX :}} le biais est une propriété de l'\emph{espérance} ($E[\overline{X}] = \mu$). Une réalisation particulière $\bar{x}$ n'est jamais exactement égale à $\mu$ en raison de l'aléa, sans que l'estimateur soit biaisé pour autant.
+  }
+\end{frame}
+
+\end{document}
