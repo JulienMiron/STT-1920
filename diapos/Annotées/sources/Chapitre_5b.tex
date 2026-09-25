@@ -1,0 +1,249 @@
+\documentclass{article}
+\usepackage{annot}
+\begin{document}
+
+% ------------------------------------------------ Expériences factorielles
+\annot{4}{Exemple 1}{
+  \entourer[rouge]{(64.5,27.3)}{13.5}{7}
+  \ecrire[violet][8]{(3,35)}{$Y_{ijk}$ :\\ $i$ : TEMPÉRATURE\\ $j$ : CONCENTR.\\ $k$ : RÉPÉTITION}
+  \ecrire[rouge][8]{(134,36)}{CELLULE (1,1) :\\ 5 OBS. DE\\ MOYENNE\\ $\overline{y}_{11\bullet}$}
+  \ecrire[vert][8]{(134,17)}{$2 \times 3 = 6$\\ CELLULES}
+}
+
+\annot{5}{Contexte et objectifs}{
+  \surligner[jaune]{(17.8,64.9)}{(61,69.3)}
+  \surligner[rose]{(18,57.6)}{(66,62)}
+  \surligner[jaune]{(29,20.5)}{(62,24.9)}
+  \ecrire[violet][8.5]{(88,55)}{$a$ = NOMBRE DE NIVEAUX DE A\\ $b$ = NOMBRE DE NIVEAUX DE B}
+  \ecrire[vert][9]{(18,15)}{INTERACTION : L'EFFET D'UN FACTEUR CHANGE SELON LE NIVEAU DE L'AUTRE}
+  \ecrire[violet][8.5]{(18,8.5)}{DEVIS COMPLÈTEMENT ALÉATOIRE : COMME AU CHAPITRE 5A, AVEC $ab$ TRAITEMENTS}
+}
+
+\annot{6}{Pourquoi une expérience}{
+  % un facteur à la fois : croix en L ; factorielle : toutes les cases
+  \begin{scope}[shift={(131,49)}]
+    \draw[crayon lisse, violet, line width=0.5pt] (0,0) rectangle (11,11);
+    \foreach \p in {(2,2),(5.5,2),(9,2),(2,5.5),(2,9)} \fill[violet] \p circle (0.7);
+    \ecrirec[violet][6.5]{(5.5,-2.5)}{1 À LA FOIS}
+    \draw[crayon lisse, vert, line width=0.5pt] (14,0) rectangle (25,11);
+    \foreach \x in {16,19.5,23} \foreach \y in {2,5.5,9} \fill[vert] (\x,\y) circle (0.7);
+    \ecrirec[vert][6.5]{(19.5,-2.5)}{FACTORIEL}
+    \ecrirec[violet][6.5]{(12.5,14)}{A $\rightarrow$, \ B $\uparrow$}
+  \end{scope}
+  \entourer[rouge]{(51,10.9)}{6}{2.4}
+}
+
+\annot{7}{QUIZ}{
+  \ecrire[vert][10]{(22,65)}{LA TEMPÉRATURE (A) ET LA CONCENTRATION DU CATALYSEUR (B)}
+  \ecrire[vert][10]{(22,48)}{LE RENDEMENT DE LA RÉACTION CHIMIQUE}
+  \ecrire[vert][10]{(22,31)}{$a = 2$ (5 °C, 10 °C) ; \ $b = 3$ (0,01 ; 0,02 ; 0,03) ; \ $n = 5$}
+  \ecrire[rouge][11]{(22,22)}{$abn = 2 \times 3 \times 5 = 30$ OBSERVATIONS}
+}
+
+% ------------------------------------------------------------------ Le modèle
+\annot{9}{Le modèle}{
+  \surligner[jaune]{(34.6,52.5)}{(39.9,57.3)}
+  \surligner[rose]{(42.1,52.5)}{(46.5,57.3)}
+  \fill[orange, opacity=0.3, rounded corners=0.8mm] (48.6,52.5) rectangle (60.6,57.3);
+  \fill[vert, opacity=0.22, rounded corners=0.8mm] (62.8,52.5) rectangle (70.2,57.3);
+  \surligner[jaune]{(17.7,28.9)}{(22.6,33)}
+  \surligner[rose]{(17.7,22.8)}{(23.3,26.9)}
+  \fill[orange, opacity=0.3, rounded corners=0.8mm] (17.7,16.7) rectangle (28,20.8);
+  \fill[vert, opacity=0.22, rounded corners=0.8mm] (17.7,5.6) rectangle (24,9.7);
+  \ecrire[violet][8]{(52,49.3)}{$\leftarrow$ MOYENNE THÉORIQUE DE LA CELLULE $(i,j)$}
+  \ecrire[rouge][8.5]{(112,44)}{SANS INTERACTION :\\ $(\tau\beta)_{ij} = 0$ POUR TOUS $i,j$\\ $\Rightarrow$ EFFETS ADDITIFS}
+}
+
+\annot{10}{Les postulats}{
+  \surligner[jaune]{(17,55.5)}{(89,59.8)}
+  \surligner[jaune]{(17,43)}{(152,47.3)}
+  \surligner[jaune]{(17,31)}{(100,35.3)}
+  \ecrire[vert][9]{(12,20)}{MÊMES POSTULATS QU'AU CHAPITRE 5A, MAIS POUR CHACUNE DES $ab$ CELLULES}
+  \ecrire[violet][9]{(12,12)}{$\rightarrow$ VÉRIFIÉS AVEC LES RÉSIDUS (FIN DU CHAPITRE)}
+}
+
+\annot{11}{Graphique des moyennes}{
+  \ecrire[rouge][8]{(3,70)}{COURBES QUI\\ SE CROISENT\\ OU S'ÉCARTENT}
+  \ecrire[vert][8]{(128,45)}{COURBES\\ PARALLÈLES :\\ MÊME EFFET DE A\\ POUR CHAQUE\\ NIVEAU DE B}
+}
+
+\annot{12}{Exercice : quels effets}{
+  \ecrire[rouge][9]{(134,66.6)}{NON}
+  \ecrire[rouge][9]{(134,60.5)}{NON (PEU)}
+  \ecrire[rouge][9]{(134,54.3)}{NON (PEU)}
+  \ecrire[violet][7.5]{(108,47.5)}{COURBES PARALLÈLES ET PLATES}
+  \ecrire[rouge][9]{(134,33.1)}{NON}
+  \ecrire[vert][9]{(134,26.9)}{OUI}
+  \ecrire[rouge][9]{(134,20.8)}{NON (PEU)}
+  \ecrire[violet][7.5]{(108,13.5)}{PARALLÈLES, MAIS QUI\\ VARIENT SELON A}
+}
+
+\annot{13}{Exercice (suite)}{
+  \ecrire[rouge][9]{(134,66.6)}{NON}
+  \ecrire[rouge][9]{(134,60.5)}{NON (PEU)}
+  \ecrire[vert][9]{(134,54.3)}{OUI}
+  \ecrire[violet][7.5]{(108,47.5)}{PARALLÈLES, B3 BIEN PLUS BAS}
+  \ecrire[vert][9]{(134,33.1)}{OUI !}
+  \trait[rouge]{(133,27.5) -- (134.5,26.5) -- (134.5,21.5) -- (136,20.5) -- (134.5,19.5) -- (134.5,14.5) -- (133,13.5)}
+  \ecrire[rouge][8]{(138,23)}{ON NE LES\\ INTERPRÈTE\\ PAS SEULS}
+  \ecrire[violet][7.5]{(100,9)}{L'EFFET DE A DÉPEND DE B}
+}
+
+\annot{14}{QUIZ}{
+  \entourer[violet]{(22.3,48)}{3}{4.8}
+  \entourer[violet]{(57.9,65.5)}{3}{4.8}
+  \ecrire[rouge][8]{(30,43)}{ELLES SE CROISENT !}
+  \fleche[rouge][20]{(40,43.5)}{(40.5,56)}
+  \ecrire[vert][9]{(67,60)}{SANS AZOTE : VARIÉTÉ 1 (3,2 VS 2,5 T/HA)\\ À 120 KG/HA : VARIÉTÉ 2 (5,7 VS 4,9 T/HA)}
+  \ecrire[rouge][8.5]{(20,25)}{NON : ELLES SE CROISENT $\Rightarrow$ INTERACTION}
+  \ecrire[rouge][8.5]{(20,15)}{NON ! MÊME MOYENNE (4,13), MAIS LA MEILLEURE VARIÉTÉ DÉPEND DE LA DOSE}
+  \ecrire[vert][8.5]{(128,10.3)}{VOIR EN HAUT}
+}
+
+\annot{15}{Exemple 2 : résistance}{
+  \entourer[violet]{(69,36.7)}{10}{5.5}
+  \ecrire[vert][9]{(126,50)}{$abn = 3 \times 3 \times 4$\\ $= 36$ MOUCHES}
+  \ecrire[violet][8.5]{(126,36)}{CELLULE (1,1) :\\ $\overline{y}_{11\bullet} = \dfrac{539}{4}$\\[1mm] $= 134{,}75$ H}
+}
+
+\annot{16}{Exemple 2 : graphique}{
+  \draw[crayon lisse, rouge, {Stealth[length=1.6mm]}-{Stealth[length=1.6mm]}] (78,33.8) -- (78,63.2);
+  \ecrire[rouge][8]{(62,55)}{ÉCART\\ 88,5 H}
+  \ecrire[rouge][9]{(121,54)}{COURBES NON\\ PARALLÈLES\\ $\Rightarrow$ INTERACTION ?}
+  \ecrire[violet][8]{(121,36)}{LIGNÉE 1 : CHUTE\\ DÈS 20 °C}
+  \ecrire[vert][8]{(121,27)}{LIGNÉE 3 : STABLE\\ JUSQU'À 20 °C}
+}
+
+\annot{17}{Exemple 2 : moyennes des cellules}{
+  \encadrer[violet]{(56,41.2)}{(112,46.8)}
+  \encadrer[orange]{(56.4,21)}{(68.4,47.5)}
+  \ecrire[violet][8]{(115,56)}{LIGNE 1 :\\ $\dfrac{134{,}75+57{,}25+57{,}50}{3}$\\[1mm] $= 83{,}17$}
+  \ecrire[orange][8]{(115,33)}{COLONNE 15 °C :\\ $\dfrac{134{,}75+155{,}75+144}{3}$\\[1mm] $= 144{,}83$}
+}
+
+\annot{18}{QUIZ}{
+  \ecrire[vert][9.5]{(20,65)}{$\hat\tau_3 = \overline{y}_{3\bullet\bullet} - \overline{y}_{\bullet\bullet\bullet} = 125{,}08 - 105{,}25 = 19{,}83$ H}
+  \ecrire[vert][9.5]{(20,48)}{$\hat\beta_1 = \overline{y}_{\bullet1\bullet} - \overline{y}_{\bullet\bullet\bullet} = 144{,}83 - 105{,}25 = 39{,}58$ H}
+  \ecrire[vert][9.5]{(20,31)}{$\widehat{(\tau\beta)}_{11} = \overline{y}_{11\bullet} - \overline{y}_{1\bullet\bullet} - \overline{y}_{\bullet1\bullet} + \overline{y}_{\bullet\bullet\bullet}$}
+  \ecrire[vert][9.5]{(34,23)}{$= 134{,}75 - 83{,}17 - 144{,}83 + 105{,}25 = 12{,}00$ H}
+  \ecrire[violet][8.5]{(20,13)}{LA LIGNÉE 3 SURVIT EN MOYENNE 19,8 H DE PLUS QUE LA MOYENNE GLOBALE ;\\
+    INTERPRÉTATION DE $(\tau\beta)_{11}$ : PAGE SUIVANTE}
+}
+\apres{18}{
+  \ecrire[vert][13]{(8,84)}{INTERPRÉTER $\widehat{(\tau\beta)}_{11} = 12$ H}
+  \ecrire[violet][11]{(8,74)}{SANS INTERACTION, ON PRÉDIRAIT POUR LA LIGNÉE 1 À 15 °C :}
+  \ecrire[vert][12]{(14,65)}{$\hat\mu + \hat\tau_1 + \hat\beta_1 = 105{,}25 + (83{,}17 - 105{,}25) + (144{,}83 - 105{,}25)$}
+  \ecrire[vert][12]{(38,55)}{$= 105{,}25 - 22{,}08 + 39{,}58 = 122{,}75$ H}
+  \ecrire[violet][11]{(8,44)}{MOYENNE OBSERVÉE DE LA CELLULE : \ $\overline{y}_{11\bullet} = 134{,}75$ H}
+  \ecrire[rouge][12]{(8,34)}{ÉCART : \ $134{,}75 - 122{,}75 = 12{,}00$ H \ $= \widehat{(\tau\beta)}_{11}$}
+  \ecrire[orange][11]{(8,21)}{À 15 °C, LA LIGNÉE 1 SURVIT 12 H DE PLUS QUE CE QUE PRÉDIRAIENT\\
+    LES SEULS EFFETS DE LA LIGNÉE ET DE LA TEMPÉRATURE.}
+  \ecrire[violet][10]{(8,8)}{PAS D'INTERACTION $\iff$ TOUS LES $(\tau\beta)_{ij} = 0$ $\iff$ COURBES PARALLÈLES}
+}
+
+% ------------------------------------------------------- Analyse de la variance
+\annot{20}{Décomposition de la variabilité}{
+  \surligner[jaune]{(27.5,49.2)}{(34.8,53.4)}
+  \surligner[rose]{(63.9,49.7)}{(71.2,53.9)}
+  \surligner[rose]{(96.6,49.2)}{(104,53.4)}
+  \fill[orange, opacity=0.3, rounded corners=0.8mm] (78,29.8) rectangle (88.5,34);
+  \fill[vert, opacity=0.22, rounded corners=0.8mm] (125.6,29.8) rectangle (133.3,34);
+  \entourer[rouge]{(80,41.5)}{28}{7.3}
+  \ecrire[violet][8.5]{(40,80)}{D.L. : \ $abn - 1 = (a-1) + (b-1) + (a-1)(b-1) + ab(n-1)$}
+  \ecrire[rouge][8.5]{(26,12.5)}{$SS_{AB}$ : ÉCARTS DES MOYENNES DE CELLULE À CE QUE PRÉDISENT A ET B SEULS}
+  \ecrire[vert][8.5]{(26,6.5)}{$SS_E$ : COMME $SSE$ À UN FACTEUR (ÉCARTS À LA MOYENNE DE LA CELLULE)}
+}
+
+\annot{21}{Table d}{
+  \ecrire[rouge][8.5]{(75,86.3)}{3 TESTS $F$ : A, B ET AB -- MÊME DÉNOMINATEUR $MS_E$}
+  \ecrire[violet][8.5]{(58,28.4)}{$\leftarrow$ SOMME DES LIGNES DU DESSUS (S.C. ET D.L.)}
+  \ecrire[vert][8.5]{(10,15)}{SOUS $H_0$ : \ $F_0^A \sim F_{a-1;\,ab(n-1)}$, \ \ $F_0^B \sim F_{b-1;\,ab(n-1)}$, \ \ $F_0^{AB} \sim F_{(a-1)(b-1);\,ab(n-1)}$}
+  \ecrire[rouge][8.5]{(10,7.5)}{ON REJETTE $H_0$ SI VALEUR-P $< \alpha$ (GRANDES VALEURS DE $F_0$)}
+}
+
+\annot{22}{QUIZ}{
+  \ecrire[vert][10]{(20,60.5)}{$abn = 4 \times 3 \times 5 = 60$ PARCELLES}
+  \ecrire[vert][9]{(20,39.8)}{A : $a-1 = 3$ ; \ B : $b-1 = 2$ ; \ AB : $(a-1)(b-1) = 3 \times 2 = 6$}
+  \ecrire[vert][9]{(20,34.8)}{ERREUR : $ab(n-1) = 12 \times 4 = 48$ ; \ TOTALE : $abn-1 = 59$}
+  \ecrire[violet][8]{(113,39.5)}{($3+2+6+48 = 59$)}
+  \ecrire[vert][10]{(20,20.5)}{$F_0^{AB} \sim F_{6,\,48}$ \quad (D.L. INTERACTION, D.L. ERREUR)}
+  \ecrire[violet][8.5]{(20,12)}{ON REJETTE « PAS D'INTERACTION » AU SEUIL DE 5 \% SI $F_0^{AB} > F_{6,48;\,0{,}05} = 2{,}29$}
+}
+
+\annot{23}{Stratégie d}{
+  \ecrire[rouge][9]{(10,14)}{$p_{AB} < \alpha$ : ON S'ARRÊTE AUX COMBINAISONS (GRAPHIQUE DES MOYENNES)}
+  \ecrire[vert][9]{(10,7.5)}{$p_{AB} \ge \alpha$ : ON REGARDE $p_A$ ET $p_B$ (EFFETS PRINCIPAUX)}
+}
+
+\annot{24}{Exemple 2 : ANOVA}{
+  \entourer[rouge]{(90.9,46.9)}{7.8}{2.1}
+  \entourer[vert]{(90.9,53.6)}{7.8}{2.1}
+  \entourer[vert]{(87.3,50.2)}{11.3}{2.1}
+  \ecrire[violet][8]{(108,58)}{D.L. : $a-1 = 2$, \ $b-1 = 2$\\ $(a-1)(b-1) = 4$\\ $ab(n-1) = 9 \times 3 = 27$}
+  \ecrire[vert][8]{(20,30.8)}{INTERACTION : $p = 0{,}019 > 0{,}01$ $\rightarrow$ NON SIGNIFICATIVE}
+  \ecrire[vert][8]{(20,26.6)}{LIGNÉE ($p = 0{,}002$) ET TEMPÉRATURE ($p < 0{,}001$) : EFFETS SIGNIFICATIFS}
+  \ecrire[rouge][8.5]{(20,15)}{INTERACTION : $p = 0{,}019 < 0{,}05$ $\rightarrow$ SIGNIFICATIVE !}
+  \ecrire[rouge][8.5]{(20,10)}{$\rightarrow$ ON N'INTERPRÈTE PAS LA LIGNÉE ET LA TEMPÉRATURE SÉPARÉMENT}
+}
+\apres{24}{
+  \ecrire[vert][13]{(8,85)}{(1) INTERACTION \quad (SEUIL $\alpha = 1$ \%)}
+  \ecrire[vert][11]{(14,76)}{$H_0$ : $(\tau\beta)_{ij} = 0$ POUR TOUS $(i,j)$}
+  \ecrire[vert][11]{(14,69)}{$H_1$ : $(\tau\beta)_{ij} \neq 0$ POUR AU MOINS UN $(i,j)$}
+  \ecrire[violet][10]{(92,76)}{$F_0^{AB} = \dfrac{9438/4}{17981/27} = \dfrac{2359{,}4}{666{,}0} = 3{,}54$}
+  \ecrire[rouge][11]{(14,60)}{VALEUR-P $= 0{,}019 > 0{,}01$ : ON NE REJETTE PAS $H_0$}
+  \ecrire[vert][13]{(8,49)}{(2) EFFETS DES FACTEURS}
+  \ecrire[vert][10.5]{(14,40)}{LIGNÉE : \ $H_0$ : $\tau_1 = \tau_2 = \tau_3 = 0$ \ VS \ $H_1$ : AU MOINS UN $\tau_i \neq 0$}
+  \ecrire[rouge][11]{(22,33)}{VALEUR-P $= 0{,}0019 < 0{,}01$ : ON REJETTE $H_0$}
+  \ecrire[vert][10.5]{(14,24)}{TEMP. : \ $H_0$ : $\beta_1 = \beta_2 = \beta_3 = 0$ \ VS \ $H_1$ : AU MOINS UN $\beta_j \neq 0$}
+  \ecrire[rouge][11]{(22,17)}{VALEUR-P $= 0{,}00000017 < 0{,}01$ : ON REJETTE $H_0$}
+  \ecrire[violet][10]{(8,12.5)}{À 1 \% : LA LIGNÉE ET LA TEMPÉRATURE ONT CHACUNE\\ UN EFFET SUR LA DURÉE DE SURVIE MOYENNE.}
+}
+\apres{24}{
+  \ecrire[vert][13]{(8,85)}{AU SEUIL $\alpha = 5$ \%}
+  \ecrire[rouge][12]{(8,75)}{INTERACTION : VALEUR-P $= 0{,}019 < 0{,}05$ : ON REJETTE $H_0$ !}
+  \ecrire[vert][11]{(8,64)}{L'EFFET DE LA TEMPÉRATURE DÉPEND DE LA LIGNÉE (ET VICE VERSA).}
+  \ecrire[orange][11]{(8,54)}{ON NE PEUT DONC RIEN DIRE SUR LES FACTEURS INDIVIDUELLEMENT :\\
+    LES TESTS SUR A ET B NE S'INTERPRÈTENT PAS SEULS.}
+  \ecrire[violet][11]{(8,38)}{ON COMPARE PLUTÔT LES MOYENNES DES 9 COMBINAISONS\\ (GRAPHIQUE DES MOYENNES, DIAPO SUIVANTE).}
+  \ecrire[rouge][11]{(8,21)}{LA CONCLUSION DÉPEND DU SEUIL CHOISI :\\ IL FAUT FIXER $\alpha$ AVANT DE REGARDER LES RÉSULTATS !}
+}
+
+\annot{25}{Exemple 2 : interpréter}{
+  \draw[crayon lisse, rouge, {Stealth[length=1.5mm]}-{Stealth[length=1.5mm]}] (44.3,52.1) -- (44.3,69.2);
+  \ecrire[rouge][8]{(5,79)}{LES COURBES NE SONT PAS PARALLÈLES}
+  \ecrire[rouge][8]{(68.5,58)}{88,5 H\\ D'ÉCART}
+  \fleche[rouge][15]{(68,53.5)}{(45.5,59)}
+  \ecrire[violet][8]{(5,27)}{MEILLEURE LIGNÉE (EN MOYENNE) :\\ 15 °C : 2 ; \ 20 °C : 3 ; \ 25 °C : 3}
+}
+
+% ------------------------------------------------------ Validation des postulats
+\annot{27}{Postulats et analyse}{
+  \ecrire[vert][8]{(104,69.5)}{ICI : UNE MOUCHE PAR FIOLE,\\ ATTRIBUÉE AU HASARD $\Rightarrow$ OK}
+  \ecrire[orange][8]{(44,49.8)}{($H_0$ : LES $\varepsilon_{ijk}$ SUIVENT UNE LOI NORMALE)}
+  \ecrire[orange][8]{(86,31.4)}{($H_0$ : MÊME VARIANCE DANS LES $ab$ CELLULES)}
+  \ecrire[violet][8]{(14,6.5)}{RÉSIDU = OBSERVATION $-$ MOYENNE DE SA CELLULE}
+}
+
+\annot{28}{Exemple 2 : R Commander}{
+  \ecrire[vert][8.5]{(110.5,28.9)}{$= y_{ijk} - \overline{y}_{ij\bullet}$}
+  \ecrire[vert][8.5]{(103,24.1)}{$= \overline{y}_{ij\bullet}$ (MOY. DE LA CELLULE)}
+}
+
+\annot{29}{Exemple 2 : analyse des résidus (normalité)}{
+  \cloche[rouge]{(119.4,37.5)}{38.5}{33.5}
+  \ecrire[violet][8]{(6,76)}{DROITE DE HENRY (QUANTILE-QUANTILE)}
+  \entourer[rouge]{(55,13.9)}{6.3}{2.2}
+  \ecrire[rouge][9]{(72,21)}{VALEUR-P $= 0{,}667 > 0{,}05$ : ON NE REJETTE PAS $H_0$}
+  \ecrire[vert][8.5]{(72,14.5)}{POINTS PRÈS DE LA DROITE, HISTOGRAMME EN CLOCHE}
+  \ecrire[vert][8.5]{(72,9)}{$\Rightarrow$ PAS D'ÉVIDENCE CONTRE LA NORMALITÉ}
+}
+
+\annot{30}{Exemple 2 : analyse des résidus (égalité}{
+  \ecrire[vert][8]{(10,79)}{RÉSIDUS : BANDE DE LARGEUR À PEU PRÈS CONSTANTE $\Rightarrow$ OK}
+  \entourer[rouge]{(103.6,13.9)}{6.3}{2.2}
+  \ecrire[rouge][8.5]{(10,9.5)}{VALEUR-P $= 0{,}55 > 0{,}05$ : ON NE REJETTE PAS L'ÉGALITÉ DES VARIANCES}
+  \ecrire[violet][7.5]{(10,4.8)}{D.L. DE BARTLETT $= ab - 1 = 9 - 1 = 8$ (9 CELLULES)}
+}
+
+\produire{Chapitre_5b}
+\end{document}

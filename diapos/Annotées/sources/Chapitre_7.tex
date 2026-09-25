@@ -1,0 +1,504 @@
+\documentclass{article}
+\usepackage{annot}
+\usepackage{array}
+
+% --- Commandes locales -------------------------------------------------------
+% \ecrireg : texte ancré à gauche, centré verticalement (pour compléter « = »)
+\NewDocumentCommand{\ecrireg}{O{vert} O{\TaillePolice} m +m}{%
+  \node[texte, anchor=west, text=#1,
+        font=\fontsize{#2}{#2 pt+3pt}\selectfont] at #3 {#4};}
+% \khideux[couleur]{(x0,y0)}{largeur}{hauteur}{t_c} : courbe khi-deux dessinée
+% à la main (forme d'une khi-deux à 4 dl, t de 0 à 12), queue ombrée après t_c
+\NewDocumentCommand{\khideux}{O{bleu} m m m m}{%
+  \begin{scope}[shift={#2}]
+    \fill[rouge, opacity=0.35]
+      ({#5*#3/12},0) -- plot[domain=#5:12, samples=30, smooth]
+      ({\x*#3/12},{#4*\x*exp(-\x/2)/0.7358}) -- ({#3},0) -- cycle;
+    \draw[crayon lisse, #1] (0,0) -- ({#3+2},0);
+    \draw[crayon lisse, #1] (0,0) -- (0,{#4+2});
+    \draw[crayon lisse, #1, domain=0:12, samples=60, smooth]
+      plot ({\x*#3/12},{#4*\x*exp(-\x/2)/0.7358});
+    \draw[crayon lisse, rouge] ({#5*#3/12},0) -- ({#5*#3/12},{#4*0.55});
+  \end{scope}}
+
+\begin{document}
+
+% =============================================================================
+% 1. Test d'adéquation
+% =============================================================================
+\annot{4}{Test d'adéquation}{
+  \surligner[jaune]{(137.5,70.4)}{(147.5,74)}
+  \surligner[jaune]{(19.5,65.6)}{(54.5,69.4)}
+  \entourer[violet]{(62,57.6)}{13.2}{2.9}
+  \ecrire[violet][9]{(20,23)}{EX. : PHÉNOTYPE, GROUPE SANGUIN, NB D'ENFANTS (0, 1, 2, 3 ET +)}
+  \ecrire[vert][9]{(20,15)}{MODÈLE THÉORIQUE : DONNÉ PAR $H_0$ \quad FRÉQ. ATTENDUES : NOTÉES $E_j$}
+}
+
+\annot{5}{Exemple 1 : les lois de Mendel}{
+  \ecrire[bleu][9]{(20,30)}{EX. VACHES : A = POIL NOIR \qquad B = POIL UNI}
+  \ecrire[violet][9]{(20,21)}{PHÉNOTYPE = CE QU'ON OBSERVE (LE CARACTÈRE VISIBLE)}
+  \entourer[rouge]{(136.4,47.4)}{2.4}{2.7}
+}
+
+\annot{6}{Exemple 1 : les lois de Mendel}{
+  \ecrire[vert][9]{(125,53)}{9+3+3+1 = 16\\ $\Rightarrow$ SOMME = 1 \checkmark}
+  \ecrire[violet][9]{(20,20)}{$\rightarrow$ ON RÉCOLTE DES DONNÉES ET ON COMPARE : TEST D'ADÉQUATION}
+}
+
+\annot{7}{Exemple 1 : hypothèses}{
+  \ecrire[violet][9]{(128,69)}{$J = 4$ PHÉNOTYPES}
+  \ecrire[violet][8]{(128,62.5)}{$p_j^*$ : FIXÉES\\ PAR LE MODÈLE}
+}
+
+\annot{8}{Tableau des fréquences observées}{
+  \ecrire[vert][10]{(60,35)}{$O_1 + O_2 + \cdots + O_J = n$}
+  \ecrire[violet][9]{(60,26)}{EX. 1 : $J = 4$ PHÉNOTYPES, $n = 1611$ VACHES}
+}
+
+\annot{9}{Fréquences espérées sous}{
+  \ecrireg[vert][12]{(85,17)}{$n \times p_j^*$}
+  \ecrireg[violet][8]{(104,17)}{$\leftarrow$ PROPORTION SOUS $H_0$}
+  \ecrire[rouge][8]{(20,9)}{LES $E_j$ NE SONT PAS NÉCESSAIREMENT DES ENTIERS !}
+}
+
+\annot{10}{Exemple 1 : les données}{
+  \ecrirec[vert][9]{(63.5,35.5)}{906,19}
+  \ecrirec[vert][9]{(81.5,35.5)}{302,06}
+  \ecrirec[vert][9]{(99.5,35.5)}{302,06}
+  \ecrirec[vert][9]{(116.5,35.5)}{100,69}
+  \ecrirec[vert][9]{(130,35.5)}{1611}
+  \ecrire[vert][9]{(12,27)}{$E_1 = 1611\times\dfrac{9}{16} = 906{,}19$}
+  \ecrire[vert][9]{(80,27)}{$E_2 = E_3 = 1611\times\dfrac{3}{16} = 302{,}06$}
+  \ecrire[vert][9]{(12,17)}{$E_4 = 1611\times\dfrac{1}{16} = 100{,}69$}
+  \ecrire[violet][9]{(80,17)}{TOUS LES $E_j \geq 5$ \checkmark}
+}
+
+\annot{11}{Exemple 1 : fréquences espérées}{
+  \ecrire[violet][9]{(132,64)}{$O_j - E_j$ :\\ $+19{,}8$\\ $-14{,}1$\\ $-9{,}1$\\ $+3{,}3$}
+  \ecrire[rouge][9]{(132,36)}{ÉCART\\ TROP\\ GRAND ?}
+}
+
+\annot{12}{« Distance » entre le modèle}{
+  \ecrire[bleu][10]{(10,49)}{$O_j \approx$ POISSON$(E_j)$\\[1mm]
+    $E(O_j) \approx E_j$ \quad $V(O_j) \approx E_j$\\[1mm]
+    SI $n$ SUFF. GRAND :\\[1mm]
+    $\dfrac{O_j - E_j}{\sqrt{E_j}} \approx N(0,1)$}
+  \fleche[bleu][-25]{(46,28)}{(84,46)}
+  \ecrire[bleu][11]{(84,53)}{$\left(\dfrac{O_j - E_j}{\sqrt{E_j}}\right)^2 \approx \chi^2_1$}
+  \ecrire[rouge][11]{(90,32)}{$D = \displaystyle\sum_{j=1}^{J} \frac{(O_j - E_j)^2}{E_j}$}
+  \encadrer[rouge]{(87,15)}{(130,34)}
+  \ecrire[violet][8]{(90,13)}{« DISTANCE » DU KHI-DEUX}
+}
+\apres{12}{
+  \ecrire[rouge][13]{(10,84)}{POURQUOI DIVISER PAR $E_j$ ?}
+  \ecrire[vert][12]{(10,73)}{MÊME ÉCART $O_j - E_j = 10$ DANS DEUX CAS :}
+  \ecrire[vert][12]{(16,63)}{$E_j = 1000$, $O_j = 1010$ : \quad $\dfrac{10^2}{1000} = 0{,}1$ \quad (ÉCART DE 1 \%)}
+  \ecrire[vert][12]{(16,50)}{$E_j = 10$, \phantom{0}$O_j = 20$ : \quad\ \ $\dfrac{10^2}{10} = 10$ \quad (ÉCART DE 100 \% !)}
+  \ecrire[violet][11]{(10,37)}{$\rightarrow$ ON MESURE L'ÉCART PAR RAPPORT À CE QU'ON ATTEND.}
+  \ecrire[rouge][13]{(10,27)}{POURQUOI AU CARRÉ ?}
+  \ecrire[vert][11]{(10,18)}{$\sum_j (O_j - E_j) = n - n = 0$ TOUJOURS !\\[1mm]
+    LES ÉCARTS $+$ ET $-$ S'ANNULERAIENT.}
+}
+
+\annot{13}{Rappel : la loi du khi-deux}{
+  \ecrire[vert][9]{(12,22)}{$E(\chi^2_k) = k$ \qquad $V(\chi^2_k) = 2k$}
+  \ecrire[violet][8]{(12,13)}{EXEMPLE 1 : $k = J - 1 = 3$ (COURBE NOIRE)}
+}
+
+\annot{14}{Règle de décision}{
+  \ecrire[bleu][12]{(18,69)}{$D = \displaystyle\sum_{j=1}^{J}\frac{(O_j - E_j)^2}{E_j} \;\approx\; \chi^2_{J-1}$}
+  \ecrire[violet][8]{(104,52)}{DEGRÉS DE LIBERTÉ :\\ $J$ CATÉGORIES, $-1$ CAR $\sum O_j = n$}
+  \fleche[violet][25]{(104,50)}{(77,57)}
+  \ecrire[bleu][12]{(18,29)}{$d_{obs} > \chi^2_{J-1;\,\alpha}$}
+  \ecrire[violet][8]{(18,18)}{DISTANCE TROP GRANDE $\Rightarrow$ ON REJETTE $H_0$}
+  \khideux[bleu]{(100,5)}{48}{22}{7.8}
+  \ecrire[rouge][9]{(136,20)}{$\alpha$}
+  \fleche[rouge][-20]{(137,15.5)}{(135,3.5)}
+  \ecrirec[bleu][8]{(131,31)}{$\chi^2_{J-1}$}
+}
+
+\annot{15}{Région de rejet}{
+  \entourer[rouge]{(73.8,16.2)}{21}{4.3}
+  \ecrire[violet][8]{(124,77)}{GRAND ÉCART\\ = GRAND $D$\\ = À DROITE}
+}
+
+\annot{16}{Table de la loi du khi-deux}{
+  \entourer[rouge]{(38.6,51.4)}{4.6}{2.6}
+  \entourer[violet]{(38.6,66.8)}{4.6}{2.4}
+  \entourer[violet]{(18.2,51.4)}{2.4}{2.4}
+  \ecrire[violet][9]{(90,17)}{EX. 1 : $k = J-1 = 3$, $\alpha = 0{,}05$\\ $\Rightarrow \chi^2_{3;\,0{,}05} = 7{,}81$}
+}
+
+\annot{17}{QUIZ}{
+  \ecrire[vert][8.5]{(22,66)}{LES $O_j$ S'ÉLOIGNENT DU MODÈLE PLUS QUE LE HASARD NE L'EXPLIQUE\\ $\Rightarrow$ PREUVE CONTRE $H_0$ (ON REJETTE SI $D > \chi^2_{J-1;\,\alpha}$)}
+  \ecrire[vert][8.5]{(22,47)}{$O_j = E_j$ POUR TOUT $j$ : ACCORD PARFAIT $\Rightarrow$ ON NE REJETTE PAS $H_0$\\ MAIS TROP PARFAIT = SUSPECT ! (FISHER 1936 : DONNÉES DE MENDEL)}
+  \ecrire[vert][8.5]{(22,28)}{NON ! SOMME DE CARRÉS DIVISÉS PAR DES $E_j > 0$ $\Rightarrow$ $D \geq 0$}
+  \ecrire[vert][8.5]{(22,10)}{$\dfrac{(2O_j - 2E_j)^2}{2E_j} = 2\,\dfrac{(O_j - E_j)^2}{E_j}$ $\Rightarrow$ $D$ DOUBLE !}
+}
+
+\annot{18}{Exemple 1}{
+  \ecrirec[vert][9]{(63.5,42)}{906,19}
+  \ecrirec[vert][9]{(80.5,42)}{302,06}
+  \ecrirec[vert][9]{(97,42)}{302,06}
+  \ecrirec[vert][9]{(113,42)}{100,69}
+  \ecrirec[vert][9]{(127.5,42)}{1611}
+  \ecrirec[bleu][9]{(63.5,34)}{0,43}
+  \ecrirec[bleu][9]{(80.5,34)}{0,65}
+  \ecrirec[bleu][9]{(97,34)}{0,27}
+  \ecrirec[bleu][9]{(113,34)}{0,11}
+  \ecrirec[rouge][9]{(127.5,34)}{1,47}
+  \ecrire[bleu][9]{(8,27)}{EX. : $\dfrac{(926 - 906{,}19)^2}{906{,}19} = 0{,}43$}
+  \ecrire[vert][9]{(82,27)}{DL $= J - 1 = 4 - 1 = 3$\\ $\chi^2_{3;\,0{,}05} = 7{,}81$ (VALEUR CRITIQUE)}
+  \ecrire[rouge][10]{(8,11)}{$d_{obs} = 1{,}47 < 7{,}81$ : ON NE REJETTE PAS $H_0$}
+}
+
+\annot{19}{Exemple 1 : conclusion}{
+  \ecrire[bleu][11]{(10,79)}{ON NE REJETTE PAS L'HYPOTHÈSE DE MENDEL\\ AU SEUIL DE 5 \%.}
+  \ecrire[violet][9]{(10,63)}{LES DONNÉES SONT COMPATIBLES AVEC LES PROPORTIONS 9:3:3:1 ;\\ LES ÉCARTS OBSERVÉS S'EXPLIQUENT PAR LE HASARD.}
+  \draw[crayon lisse, bleu] (10,51) -- (150,51);
+  \ecrire[bleu][11]{(10,46)}{VALEUR-P $= P(\chi^2_3 > 1{,}47)$\\[1.5mm]
+    \hspace*{21mm}$> 0{,}10$ \quad $\rightarrow$ TABLE ($1{,}47 < 6{,}25$)\\[1.5mm]
+    \hspace*{21mm}$= 0{,}69$ \quad $\rightarrow$ R}
+  \ecrire[rouge][10]{(10,14)}{ATTENTION : ON N'A PAS PROUVÉ QUE $H_0$ EST VRAIE !}
+}
+\apres{19}{
+  \ecrire[rouge][13]{(10,84)}{VALEUR-P AVEC LA TABLE ($k = 3$)}
+  % droite numérique : x = 12 + 10 t
+  \draw[crayon lisse, bleu, pointe] (8,40) -- (152,40);
+  \foreach \t/\l/\g in {6.25/6{,}25/0{,}10, 7.81/7{,}81/0{,}05, 9.35/9{,}35/0{,}025,
+                         11.34/11{,}34/0{,}01, 12.84/12{,}84/0{,}005}{
+    \draw[crayon lisse, bleu] ({12+10*\t},38.5) -- ({12+10*\t},41.5);
+    \node[texte, text=bleu, font=\fontsize{11}{14}\selectfont] at ({12+10*\t},35) {\l};
+    \node[texte, text=violet, font=\fontsize{11}{14}\selectfont] at ({12+10*\t},46) {\g};
+  }
+  \draw[crayon lisse, bleu] (12,38.5) -- (12,41.5);
+  \node[texte, text=bleu, font=\fontsize{11}{14}\selectfont] at (12,35) {0};
+  \ecrire[violet][10]{(88,58)}{AIRE À DROITE ($\gamma$)}
+  \fleche[violet][-15]{(100,52.5)}{(88,48.5)}
+  \draw[crayon lisse, rouge, line width=1.2pt] (26.7,37) -- (26.7,44);
+  \ecrirec[rouge][12]{(26.7,50)}{$d_{obs} = 1{,}47$}
+  \ecrire[vert][12]{(10,27)}{$1{,}47 < 6{,}25$ : L'AIRE À DROITE DE 1,47 EST PLUS GRANDE\\[1mm]
+    QUE CELLE À DROITE DE 6,25 $\Rightarrow$ VALEUR-P $> 0{,}10$}
+  \ecrire[rouge][12]{(10,11)}{VALEUR-P $> 0{,}10 > \alpha = 0{,}05$ $\Rightarrow$ ON NE REJETTE PAS $H_0$}
+}
+
+\annot{20}{Exemple 1 : la décision en image}{
+  \ecrire[rouge][9]{(124,78)}{$1{,}47 < 7{,}81$\\ VALEUR-P $> 0{,}05$\\ $\Rightarrow$ ON NE\\ REJETTE PAS $H_0$}
+}
+
+\annot{21}{Conditions d'application}{
+  \surligner[jaune]{(62.5,62)}{(104.5,65.8)}
+  \ecrire[rouge][9]{(95,62)}{$\leftarrow$ ESPÉRÉES !}
+  \ecrire[violet][8]{(20,8.5)}{POISSON : $m = 1$ ($\lambda$) \qquad NORMALE : $m = 2$ ($\mu$ ET $\sigma$)}
+}
+
+\annot{22}{QUIZ}{
+  \entourer[rouge]{(116,50.8)}{4.2}{2.6}
+  \draw[crayon lisse, orange] (103,48.3) -- (103,47.3) -- (119.5,47.3) -- (119.5,48.3);
+  \ecrire[orange][8]{(132,53)}{$\leftarrow$ 4 ET + :\\ \phantom{$\leftarrow$} 6,75}
+  \ecrire[vert][8.5]{(22,37.5)}{NON : $E_6 = 1{,}55 < 5$. ON REGROUPE « 4 ET + » : $5{,}20 + 1{,}55 = 6{,}75 \geq 5$ \checkmark}
+  \ecrire[vert][8.5]{(22,18.5)}{$J = 5$ CLASSES, $m = 1$ ($\lambda$ ESTIMÉ)\\ DL $= J - 1 - m = 5 - 1 - 1 = 3$}
+  \ecrire[rouge][8.5]{(108,18.5)}{$\lambda$ FIXÉ D'AVANCE :\\ DL $= 5 - 1 = 4$}
+}
+\apres{22}{
+  \ecrire[rouge][13]{(10,84)}{PUCERONS : APRÈS REGROUPEMENT}
+  \node[texte, anchor=north west, text=vert, font=\fontsize{12}{16}\selectfont] at (12,73)
+    {\renewcommand{\arraystretch}{1.3}%
+     \begin{tabular}{l|ccccc|c}
+      PUCERONS & 0 & 1 & 2 & 3 & 4 ET + & TOTAL\\ \hline
+      $E_j$ & 60,24 & 72,29 & 43,37 & 17,35 & 6,75 & 200
+     \end{tabular}};
+  \ecrire[violet][11]{(10,52)}{$E_j = 200 \times P(X = j)$, \quad $X \sim$ POISSON$(1{,}2)$}
+  \ecrire[vert][11]{(10,43)}{$E_0 = 200 \times 0{,}3012 = 60{,}24$ \qquad $E_1 = 200 \times 0{,}3614 = 72{,}29$}
+  \ecrire[vert][11]{(10,33)}{$E_{4+} = 200 - (60{,}24 + 72{,}29 + 43{,}37 + 17{,}35) = 6{,}75 \geq 5$ \checkmark}
+  \ecrire[orange][11]{(10,23)}{ON REGROUPE AUSSI LES $O_j$ : $O_{4+} = O_4 + O_5 + \cdots$}
+  \ecrire[rouge][11]{(10,13)}{$J = 5$, $\lambda$ ESTIMÉ : $D \approx \chi^2_{5-1-1} = \chi^2_3$ \quad $\chi^2_{3;\,0{,}05} = 7{,}81$}
+}
+
+% =============================================================================
+% 2. Homogénéité
+% =============================================================================
+\annot{24}{Test d'homogénéité}{
+  \surligner[rose]{(106,32.5)}{(129.5,53)}
+  \ecrire[rouge][9]{(22,24)}{$H_0$ : CES $I$ VECTEURS SONT TOUS ÉGAUX}
+  \fleche[rouge][20]{(96,22)}{(110,31)}
+  \ecrire[violet][8]{(22,14)}{EX. 2 : HOMMES VS FEMMES ($I = 2$), 3 CATÉGORIES DE SURVIE ($J = 3$)}
+}
+
+\annot{25}{Les hypothèses du test}{
+  \ecrire[vert][9]{(84,78)}{$(p_{11},\ldots,p_{1J}) = \cdots = (p_{I1},\ldots,p_{IJ})$}
+  \souligner[rouge]{(61.5,19.4)}{(69,19.4)}
+  \ecrire[rouge][9]{(20,13)}{EX. 2 : $n_1 = 100$ HOMMES ET $n_2 = 50$ FEMMES, CHOISIS D'AVANCE}
+}
+
+\annot{26}{Tableau de fréquences}{
+  \entourer[bleu]{(98.2,46.8)}{4}{2.8}
+  \ecrire[bleu][8]{(122,79)}{NB D'INDIVIDUS DE LA\\ POP. 2 AYANT LA\\ VALEUR $v_J$}
+  \fleche[bleu][25]{(124,68)}{(101.5,49.8)}
+  \draw[crayon lisse, rouge] (116,55) -- (118,55) -- (118,28.5) -- (116,28.5);
+  \ecrire[rouge][9]{(120,45)}{$n_i$ FIXÉS\\ PAR LE PLAN}
+  \ecrire[vert][9]{(35,14)}{$O_{\bullet 1} = O_{11} + O_{21} + \cdots + O_{I1}$ \qquad $n = n_1 + \cdots + n_I$}
+}
+
+\annot{27}{Exemple 2 : vivre seul}{
+  \draw[crayon lisse, rouge] (134,43.5) -- (136,43.5) -- (136,32.5) -- (134,32.5);
+  \ecrire[rouge][9]{(138,41)}{FIXÉS}
+  \ecrire[violet][9]{(22,57)}{$I = 2$ \quad $J = 3$}
+  \ecrire[violet][8]{(30,22.5)}{TAILLES DIFFÉRENTES $\Rightarrow$ ON COMPARERA DES PROPORTIONS}
+}
+
+\annot{28}{Exemple 2 : quel graphique}{
+  \entourer[bleu]{(111.5,39.5)}{35}{28.5}
+  \coche[bleu]{(149,62)}
+  \ecrire[bleu][8.5]{(30,7.5)}{PROPORTIONS ! CAR $n_1 = 100 \neq n_2 = 50$}
+}
+
+\annot{29}{Exemple 2 : le diagramme en mosaïque}{
+  \draw[crayon, rouge, dashed] (29,54.7) -- (81,54.7);
+  \ecrire[rouge][8]{(10,8)}{HAUTEURS DIFFÉRENTES (25 \% VS 38 \%) : ÉCART SIGNIFICATIF ? $\rightarrow$ TEST $\chi^2$}
+}
+
+\annot{30}{Si H0 était vraie}{
+  \ecrireg[vert][10]{(84.5,49)}{$O_{\bullet 1}/n = 44/150 = 0{,}29$}
+  \ecrireg[vert][10]{(84.5,41.5)}{$O_{\bullet 2}/n = 62/150 = 0{,}41$}
+  \ecrireg[vert][10]{(84.5,28.5)}{$O_{\bullet J}/n = 44/150 = 0{,}29$}
+  \ecrire[violet][8]{(135,38)}{(EX. 2)}
+  \ecrire[violet][9]{(20,18)}{ON COMBINE LES $I$ ÉCHANTILLONS : TOTAL DE LA COLONNE / GRAND TOTAL}
+}
+
+\annot{31}{Calcul des fréquences espérées}{
+  \ecrireg[vert][10]{(104,61)}{$n_1\,\dfrac{O_{\bullet 1}}{n} = E_{11}$}
+  \ecrireg[vert][10]{(104,48.7)}{$n_2\,\dfrac{O_{\bullet 1}}{n} = E_{21}$}
+  \ecrireg[vert][10]{(104,33.5)}{$n_i\,\dfrac{O_{\bullet j}}{n} = E_{ij}$}
+  \encadrer[rouge]{(102.5,27.5)}{(133,39.5)}
+  \ecrire[violet][9]{(15,20)}{$E_{ij} = \dfrac{n_i \times O_{\bullet j}}{n} = \dfrac{\text{TOTAL LIGNE} \times \text{TOTAL COLONNE}}{\text{GRAND TOTAL}}$}
+}
+
+\annot{32}{Règle de décision}{
+  \ecrireg[bleu][12]{(112,63.5)}{$\chi^2_{(I-1)(J-1)}$}
+  \ecrire[violet][8]{(112,55)}{DEGRÉS DE LIBERTÉ}
+  \ecrire[bleu][12]{(12,23)}{$d_{obs} > \chi^2_{(I-1)(J-1);\,\alpha}$}
+  \khideux[bleu]{(100,5)}{48}{20}{7.8}
+  \ecrire[rouge][9]{(136,19)}{$\alpha$}
+  \fleche[rouge][-20]{(137,14.5)}{(135,3.5)}
+}
+
+\annot{33}{QUIZ}{
+  \ecrirec[vert][9]{(70.5,50.8)}{25}  \entourer[vert]{(70.5,50.8)}{2.8}{2.3}
+  \ecrirec[vert][9]{(92.4,50.8)}{42}  \entourer[vert]{(92.4,50.8)}{2.8}{2.3}
+  \ecrirec[orange][9]{(109.6,50.8)}{33}
+  \ecrirec[orange][9]{(70.5,44.1)}{19}
+  \ecrirec[orange][9]{(92.4,44.1)}{20}
+  \ecrirec[orange][9]{(109.6,44.1)}{11}
+  \ecrire[vert][8.5]{(22,23.5)}{2 CASES LIBRES (EN VERT) ; LES AUTRES SE DÉDUISENT DES TOTAUX\\ $\Rightarrow$ $(I-1)(J-1) = (2-1)(3-1) = 2$ DEGRÉS DE LIBERTÉ}
+  \ecrire[vert][8.5]{(60,7.3)}{$(4-1)(5-1) = 3 \times 4 = 12$ DL}
+}
+
+\annot{34}{Exemple 2}{
+  \ecrire[orange][9]{(18,21)}{$E$ HOMMES :}
+  \ecrire[orange][9]{(18,13)}{$E$ FEMMES :}
+  \ecrirec[orange][9]{(70.4,19)}{29,33}
+  \ecrirec[orange][9]{(90,19)}{41,33}
+  \ecrirec[orange][9]{(110.8,19)}{29,33}
+  \ecrirec[orange][9]{(70.4,11)}{14,67}
+  \ecrirec[orange][9]{(90,11)}{20,67}
+  \ecrirec[orange][9]{(110.8,11)}{14,67}
+  \ecrire[vert][8]{(125,24)}{$E_{11} = \dfrac{100\times44}{150}$\\ $\phantom{E_{11}} = 29{,}33$}
+  \ecrire[violet][8]{(125,9)}{TOUS $\geq 5$ \checkmark}
+}
+
+\annot{35}{Exemple 2 : calcul de la distance}{
+  \ecrire[vert][11]{(6,57)}{$d_{obs} = \dfrac{(25-29{,}33)^2}{29{,}33} + \dfrac{(42-41{,}33)^2}{41{,}33} + \dfrac{(33-29{,}33)^2}{29{,}33}$\\[2mm]
+    $\qquad\ + \dfrac{(19-14{,}67)^2}{14{,}67} + \dfrac{(20-20{,}67)^2}{20{,}67} + \dfrac{(11-14{,}67)^2}{14{,}67}$\\[2mm]
+    $\quad\ = 0{,}64 + 0{,}01 + 0{,}46 + 1{,}28 + 0{,}02 + 0{,}92 = 3{,}33$}
+  \ecrire[violet][10]{(6,13)}{DL $= (2-1)(3-1) = 2$ \qquad $\chi^2_{2;\,0{,}01} = 9{,}21$}
+}
+
+\annot{36}{Exemple 2 : conclusion}{
+  \ecrire[rouge][11]{(10,79)}{COMME $d_{obs} = 3{,}33 < 9{,}21$, ON NE REJETTE PAS $H_0$\\ AU SEUIL DE 1 \%.}
+  \ecrire[violet][9]{(10,63)}{PAS DE PREUVE QUE LA DISTRIBUTION DU NOMBRE D'ANNÉES VÉCUES\\ APRÈS LE DÉCÈS DIFFÈRE ENTRE LES HOMMES ET LES FEMMES.}
+  \ecrire[vert][11]{(10,46)}{VALEUR-P $= P(\chi^2_2 > 3{,}33)$\\[1.5mm]
+    \hspace*{21mm}$> 0{,}10$ \quad $\rightarrow$ TABLE ($3{,}33 < 4{,}61$)\\[1.5mm]
+    \hspace*{21mm}$= 0{,}19$ \quad $\rightarrow$ R}
+  \ecrire[orange][9]{(10,16)}{LES DIFFÉRENCES VUES DANS LA MOSAÏQUE (25 \% VS 38 \%)\\ PEUVENT S'EXPLIQUER PAR LE HASARD ($n_2 = 50$ SEULEMENT).}
+}
+\apres{36}{
+  \ecrire[rouge][13]{(10,84)}{ET AVEC 3 FOIS PLUS DE DONNÉES ?}
+  \node[texte, anchor=north west, text=vert, font=\fontsize{12}{16}\selectfont] at (12,74)
+    {\renewcommand{\arraystretch}{1.3}%
+     \begin{tabular}{l|ccc|c}
+      & $<5$ & 5 À 10 & $>10$ & TOTAL\\ \hline
+      HOMMES & 75 & 126 & 99 & 300\\
+      FEMMES & 57 & 60 & 33 & 150
+     \end{tabular}};
+  \ecrire[violet][11]{(108,70)}{MÊMES\\ PROPORTIONS\\ QU'EN EX. 2}
+  \ecrire[vert][12]{(10,43)}{$O_{ij}$ ET $E_{ij}$ SONT MULTIPLIÉS PAR 3 $\Rightarrow$ $D$ AUSSI :}
+  \ecrire[vert][12]{(16,34)}{$d_{obs} = 3 \times 3{,}33 = 9{,}98 > \chi^2_{2;\,0{,}01} = 9{,}21$ \quad (VALEUR-P $= 0{,}007$)}
+  \ecrire[rouge][12]{(10,23)}{$\Rightarrow$ ON REJETTERAIT $H_0$ AU SEUIL DE 1 \% !}
+  \ecrire[violet][11]{(10,13)}{NE PAS REJETER $H_0$ $\neq$ PROUVER $H_0$ : AVEC PLUS DE DONNÉES,\\ UN MÊME ÉCART DEVIENT SIGNIFICATIF.}
+}
+
+% =============================================================================
+% 3. Indépendance
+% =============================================================================
+\annot{38}{Test d'indépendance}{
+  \ecrire[violet][8]{(124,58)}{RAPPEL CH. 2 :\\ $P(A \cap B) = P(A)\,P(B)$}
+  \ecrire[vert][9]{(12,15)}{HOMOGÉNÉITÉ : $I$ ÉCHANTILLONS, 1 VARIABLE\\ INDÉPENDANCE : 1 ÉCHANTILLON, 2 VARIABLES}
+}
+
+\annot{39}{Exemple 3 : génétique et alcoolisme}{
+  \draw[crayon lisse, rouge] (133,36) -- (135,36) -- (135,25.5) -- (133,25.5);
+  \ecrire[rouge][8]{(137,34.5)}{PAS\\ FIXÉS}
+  \ecrire[vert][8]{(136,22.5)}{$\leftarrow$ FIXÉ}
+}
+
+\annot{40}{Exemple 3 : sous l'indépendance}{
+  \ecrire[vert][9]{(20,25)}{IDENTIQUES : $443/590 = 0{,}75$ \qquad FRATERNELLES : $301/440 = 0{,}68$}
+  \ecrire[vert][9]{(20,18)}{SANS PROBLÈME : $443/744 = 0{,}60$ \qquad AVEC PROBLÈME : $147/286 = 0{,}51$}
+  \ecrire[rouge][9]{(20,10)}{PAS PAREILS... ÉCART SIGNIFICATIF ? $\rightarrow$ TEST $\chi^2$}
+}
+
+\annot{41}{Exemple 3 : quelle est votre impression}{
+  \entourer[rouge]{(84.5,30.5)}{6}{8}
+  \ecrire[violet][8]{(130,60)}{FRAT. : PLUS\\ SOUVENT UNE\\ SEULE AVEC\\ PROBLÈME\\ (26 \% VS 17 \%)}
+}
+
+\annot{43}{Tableau de fréquences}{
+  \draw[crayon lisse, rouge] (117,58) -- (119,58) -- (119,28) -- (117,28);
+  \ecrire[rouge][9]{(121,47)}{PAS FIXÉS\\ (ALÉATOIRES)}
+  \ecrire[vert][9]{(116,24.5)}{$\leftarrow$ FIXÉ}
+}
+
+\annot{44}{Calcul des fréquences espérées}{
+  \ecrireg[vert][10]{(104,61)}{$O_{1\bullet}\,\dfrac{O_{\bullet 1}}{n} = E_{11}$}
+  \ecrireg[vert][10]{(104,48.7)}{$O_{2\bullet}\,\dfrac{O_{\bullet 1}}{n} = E_{21}$}
+  \ecrireg[vert][10]{(104,33.5)}{$\dfrac{O_{i\bullet}\,O_{\bullet j}}{n} = E_{ij}$}
+  \encadrer[rouge]{(102.5,27.5)}{(134,39.5)}
+  \ecrire[violet][9]{(15,21)}{MÊME FORMULE QU'EN HOMOGÉNÉITÉ ($n_i$ DEVIENT $O_{i\bullet}$)\\[1mm]
+    $E_{ij} = n\,\hat P(u_i)\,\hat P(v_j)$ : INDÉPENDANCE $P(A\cap B) = P(A)P(B)$}
+}
+
+\annot{45}{Règle de décision}{
+  \ecrireg[bleu][12]{(112,63.5)}{$\chi^2_{(I-1)(J-1)}$}
+  \ecrire[bleu][12]{(12,23)}{$d_{obs} > \chi^2_{(I-1)(J-1);\,\alpha}$}
+  \ecrire[violet][9]{(12,12)}{EX. 3 : $(2-1)(3-1) = 2$ DL}
+}
+
+\annot{46}{Exemple 3}{
+  \ecrirec[orange][8]{(97.8,41.4)}{40,67}
+  \ecrirec[bleu][8]{(97.8,36)}{0,46}
+  \ecrirec[orange][8]{(97.8,24.9)}{30,33}
+  \ecrirec[bleu][8]{(97.8,19.4)}{0,62}
+  \ecrire[orange][8]{(125,47)}{$E_{13} = \dfrac{590\times71}{1030}$\\ $\phantom{E_{13}} = 40{,}67$}
+  \ecrire[bleu][8]{(125,32)}{$\dfrac{(45-40{,}67)^2}{40{,}67} = 0{,}46$}
+  \ecrire[violet][8]{(8,46)}{$E_{ij} = \dfrac{O_{i\bullet}\,O_{\bullet j}}{n}$}
+  \ecrire[vert][8]{(8,32)}{TOUS LES\\ $E_{ij} \geq 5$ \checkmark}
+}
+
+\annot{47}{Exemple 3 : conclusion}{
+  \ecrire[orange][11]{(10,79)}{SOUS $H_0$ : $D \approx \chi^2_{(2-1)(3-1)} = \chi^2_2$}
+  \ecrire[orange][11]{(10,68)}{VALEUR CRITIQUE : $\chi^2_{2;\,0{,}05} = 5{,}99$}
+  \ecrire[orange][11]{(10,58)}{$d_{obs} = 0{,}66 + 3{,}63 + 0{,}46 + \cdots + 0{,}62 = 11{,}14$}
+  \ecrire[rouge][11]{(10,46)}{COMME $11{,}14 > 5{,}99$, ON REJETTE $H_0$ AU SEUIL DE 5 \%.}
+  \ecrire[violet][9]{(10,34)}{RELATION SIGNIFICATIVE ENTRE LE TYPE DE JUMELLES ET LE NOMBRE\\ DE JUMELLES AYANT UN PROBLÈME D'ALCOOL.}
+  \ecrire[vert][10]{(10,17)}{VALEUR-P $= P(\chi^2_2 > 11{,}14) < 0{,}005$ (TABLE : $11{,}14 > 10{,}60$)\\[1mm]
+    \hspace*{21mm}$= 0{,}0038$ (R)}
+}
+
+\annot{48}{Interpréter un rejet}{
+  \entourer[bleu]{(95.8,25.9)}{5.6}{2.2}
+  \entourer[rouge]{(95.8,21)}{5.6}{2.2}
+  \ecrire[violet][8]{(117,32)}{$(-1{,}91)^2 = 3{,}63$\\ $2{,}21^2 = 4{,}87$\\ $r_{ij}^2$ = CONTRIBUTION}
+}
+
+\annot{49}{Question}{
+  \ecrire[rouge][12]{(10,54)}{PAS DIRECTEMENT !}
+  \ecrire[vert][9]{(10,45)}{SI LA GÉNÉTIQUE JOUE UN RÔLE, LES JUMELLES IDENTIQUES (MÊMES GÈNES)\\ DEVRAIENT ÊTRE PLUS SOUVENT CONCORDANTES (0 OU 2 AVEC PROBLÈME)\\ QUE LES FRATERNELLES.}
+  \ecrire[violet][9]{(10,24)}{LE TEST D'INDÉPENDANCE DÉTECTE N'IMPORTE QUEL LIEN...\\ $\rightarrow$ REGROUPER 0 ET 2 : CONCORDANTES VS DISCORDANTES ($2\times2$)}
+}
+
+\annot{50}{Exemple 3 revisité}{
+  \ecrireg[orange][8]{(75.5,56.5)}{466,84}
+  \ecrireg[orange][8]{(110.8,56.5)}{123,16}
+  \ecrireg[orange][8]{(75.5,49.8)}{348,16}
+  \ecrireg[orange][8]{(110.8,49.8)}{91,84}
+  \ecrire[rouge][9]{(10,18)}{$d_{obs} = 10{,}75 > \chi^2_{1;\,0{,}05} = 3{,}84$\\ ON REJETTE $H_0$ (CALCUL À LA PAGE SUIVANTE)}
+}
+\apres{50}{
+  \ecrire[rouge][13]{(10,85)}{EXEMPLE 3 REVISITÉ : CALCULS}
+  \ecrire[orange][11]{(10,78)}{$E_{11} = \dfrac{590\times815}{1030} = 466{,}84$ \qquad $E_{12} = \dfrac{590\times215}{1030} = 123{,}16$}
+  \ecrire[orange][11]{(10,66.5)}{$E_{21} = \dfrac{440\times815}{1030} = 348{,}16$ \qquad $E_{22} = \dfrac{440\times215}{1030} = 91{,}84$}
+  \ecrire[vert][11]{(10,54)}{$d_{obs} = \dfrac{(488-466{,}84)^2}{466{,}84} + \dfrac{(102-123{,}16)^2}{123{,}16} + \dfrac{(327-348{,}16)^2}{348{,}16} + \dfrac{(113-91{,}84)^2}{91{,}84}$\\[2mm]
+    $\quad\ = 0{,}96 + 3{,}63 + 1{,}29 + 4{,}87 = 10{,}75$}
+  \ecrire[violet][11]{(10,31)}{DL $= (2-1)(2-1) = 1$ \qquad $\chi^2_{1;\,0{,}05} = 3{,}84$ \qquad VALEUR-P $= 0{,}001$}
+  \ecrire[rouge][11]{(10,22)}{$10{,}75 > 3{,}84$ : ON REJETTE $H_0$. LES IDENTIQUES SONT PLUS SOUVENT\\ CONCORDANTES (83 \% VS 74 \%) : APPUIE UN LIEN GÉNÉTIQUE.}
+  \ecrire[bleu][10]{(10,8)}{REMARQUE : $|O_{ij} - E_{ij}| = 21{,}16$ DANS LES 4 CASES (TOUJOURS VRAI EN $2\times2$)}
+}
+
+\annot{51}{En R}{
+  \surligner[rose]{(31.3,63.6)}{(42.3,66.8)}
+  \surligner[jaune]{(77,63.6)}{(88.2,66.8)}
+  \surligner[rose]{(31.3,43.3)}{(42.3,46.5)}
+  \surligner[jaune]{(77,43.3)}{(91.6,46.5)}
+  \ecrire[violet][8]{(92,66.8)}{$\leftarrow$ VALEUR-P $> 0{,}05$ : ON NE REJETTE PAS $H_0$}
+  \ecrire[violet][8]{(95,46.6)}{$\leftarrow$ VALEUR-P $< 0{,}05$ : ON REJETTE $H_0$}
+  \ecrire[rouge][8]{(12,18)}{ROSE : $d_{obs}$ \qquad JAUNE : VALEUR-P}
+  \ecrire[rouge][8]{(12,11)}{TABLEAU $2\times2$ : AJOUTER CORRECT = FALSE POUR RETROUVER $D = Z^2$ (VOIR PLUS LOIN)}
+}
+
+% =============================================================================
+% 4. Tableaux 2x2
+% =============================================================================
+\annot{53}{Rappel : au chapitre 4}{
+  \surligner[jaune]{(35,31)}{(51,35.8)}
+  \ecrire[vert][9]{(95,41.5)}{EX. 4 : $2{,}81^2 \approx 7{,}91$}
+  \ecrire[violet][8]{(120,25)}{(BILATÉRAL)}
+}
+
+\annot{54}{Exemple 4 : tabagisme}{
+  \ecrire[vert][8]{(126,50)}{$\hat p_1 = 0{,}20$}
+  \ecrire[vert][8]{(126,43.5)}{$\hat p_2 = 0{,}10$}
+  \ecrire[violet][9]{(96,20.5)}{$H_0 : p_1 = p_2$\\ $H_1 : p_1 \neq p_2$}
+}
+
+\annot{55}{Exemple 4 : les deux approches}{
+  \ecrire[orange][8]{(121,45)}{$E_{11} = \dfrac{150\times55}{400}$\\ $\phantom{E_{11}} = 20{,}625$}
+  \ecrire[vert][8]{(119,34.5)}{$\dfrac{(30-20{,}625)^2}{20{,}625} = 4{,}26$}
+  \entourer[rouge]{(103,10.6)}{16}{3.2}
+}
+
+\annot{56}{QUIZ}{
+  \ecrire[vert][8.5]{(22,61.5)}{NON ! ÉTUDE OBSERVATIONNELLE : ASSOCIATION $\neq$ CAUSALITÉ.\\ LES FUMEUSES PEUVENT DIFFÉRER (ÂGE, REVENU, ALIMENTATION, SUIVI...)}
+  \ecrire[vert][8.5]{(22,39.5)}{$H_1 : p_1 > p_2$ : TEST $Z$ UNILATÉRAL (IMPOSSIBLE AVEC LE $\chi^2$)\\ $z_{obs} = 2{,}81 > z_{0{,}05} = 1{,}645$ : ON REJETTE $H_0$ ; VALEUR-P $= 0{,}0025$}
+  \ecrire[vert][8.5]{(22,17)}{TEST D'INDÉPENDANCE (SEUL $n = 400$ FIXÉ).\\ MÊMES CALCULS, MÊME $D = 7{,}91$ : SEULE LA CONCLUSION CHANGE.}
+}
+
+\annot{57}{Petits effectifs}{
+  \surligner[jaune]{(108,44.8)}{(145.5,48.4)}
+  \ecrireg[violet][8]{(94,34.4)}{$\leftarrow$ $D = Z^2 = 2{,}81^2$}
+  \ecrireg[violet][8]{(94,21.2)}{$\leftarrow$ YATES : $D$ UN PEU PLUS PETIT}
+  \ecrireg[violet][8]{(46,14.5)}{$\leftarrow$ VALEUR-P EXACTE : MÊME CONCLUSION}
+  \ecrire[vert][8]{(20,8.5)}{ICI TOUS LES $E_{ij} \geq 5$ : LE $\chi^2$ SUFFIT.}
+}
+
+% =============================================================================
+% 5. Synthèse
+% =============================================================================
+\annot{59}{Trois tests, une même distance}{
+  \surligner[jaune]{(76,41)}{(104,45)}
+  \surligner[jaune]{(110,41)}{(136,45)}
+  \surligner[rose]{(76,35)}{(101,38.6)}
+  \surligner[rose]{(110,35)}{(137,38.6)}
+  \ecrire[violet][8]{(104,32)}{(MÊME FORMULE : $n_i \leftrightarrow O_{i\bullet}$)}
+  \entourer[rouge]{(78.3,14.9)}{9}{2.6}
+}
+
+\annot{60}{QUIZ}{
+  \ecrire[vert][8.5]{(22,60)}{HOMOGÉNÉITÉ (3 LACS, $n_i = 60$ FIXÉS) : DL $= (3-1)(2-1) = 2$}
+  \ecrire[vert][8.5]{(22,43.5)}{ADÉQUATION : DL $= 2 - 1 = 1$ \quad ($d_{obs} = 0{,}39 < 3{,}84$ : 3:1 COMPATIBLE)}
+  \ecrire[vert][8.5]{(22,25.5)}{INDÉPENDANCE (SEUL $n = 500$ FIXÉ) : DL $= (4-1)(2-1) = 3$}
+  \ecrire[vert][8.5]{(22,8)}{HOMOGÉNÉITÉ $2\times2$ = COMPARAISON DE 2 PROPORTIONS (CH. 4) : 1 DL}
+}
+
+\produire{Chapitre_7}
+\end{document}

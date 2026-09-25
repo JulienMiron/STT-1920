@@ -1,0 +1,385 @@
+\documentclass{article}
+\usepackage{annot}
+\begin{document}
+
+% ---------------------------------------------------------------------------
+% Prédictions
+\annot{4}{Intervalle de confiance pour la moyenne}{
+  \surligner[jaune]{(121,71.2)}{(141,75)}
+  \surligner[jaune]{(9.5,66)}{(71.5,69.9)}
+  \ecrire[vert][10]{(10,29)}{$x^* = 6{,}5$ H : ON ESTIME\\[1mm]
+    $E(Y) = \beta_0 + \beta_1 \times 6{,}5$\\[1mm]
+    = UNE CONSTANTE $\Rightarrow$ IC}
+  \ecrire[violet][9]{(10,10)}{(LA MOYENNE DE TOUS LES PLANTS À 6,5 H)}
+  % petit dessin : IC sur la droite en x* = 6,5
+  \draw[crayon lisse, black!70] (105,4) -- (105,30) (105,4) -- (152,4);
+  \draw[crayon, orange, line width=1pt] (107,8) -- (150,27);
+  \foreach \x/\y in {110/13, 113/7, 118/14, 122/10, 127/19, 131/15, 136/22, 140/18, 145/26, 148/21}{
+    \fill[black] (\x,\y) circle (0.55);}
+  \draw[crayon lisse, bleu, line width=1.1pt] (138,19.2) -- (138,25.2)
+    (136.8,19.2) -- (139.2,19.2) (136.8,25.2) -- (139.2,25.2);
+  \draw[crayon lisse, bleu, densely dashed] (138,19) -- (138,4);
+  \ecrire[bleu][8]{(135.5,3.5)}{6,5}
+  \ecrire[bleu][8]{(124,31)}{IC POUR $E(Y)$}
+}
+
+\annot{5}{IC pour la moyenne de}{
+  \surligner[rose]{(37,50.5)}{(119,60.3)}
+  \ecrire[violet][8.5]{(68,64.6)}{MOYENNE}
+  \ecrire[violet][8.5]{(95,64.6)}{VARIANCE}
+  \ecrire[violet][8.5]{(121,27)}{$\leftarrow$ ERREUR-TYPE\\\phantom{$\leftarrow$} DE $b_0 + b_1 x^*$}
+  \ecrire[vert][9.5]{(12,10)}{$\sigma^2$ INCONNUE $\rightarrow$ ON L'ESTIME PAR $MSE$ $\rightarrow$ LOI $t_{n-2}$}
+}
+
+\annot{6}{Exemple : IC pour la production moyenne}{
+  \ecrire[vert][10.5]{(10,67)}{$x^* = 6{,}5$ : \ $\hat y = 1{,}3724 + 0{,}4313 \times 6{,}5 = 4{,}176$ KG}
+  \ecrire[vert][10.5]{(10,60)}{ERREUR-TYPE : $\sqrt{MSE\left[\dfrac1n + \dfrac{(x^* - \bar x)^2}{S_{XX}}\right]}
+    = \sqrt{0{,}3228\left[\dfrac{1}{60} + \dfrac{(6{,}5 - 5{,}5)^2}{175}\right]}$}
+  \ecrire[vert][10.5]{(40,45.6)}{$= \sqrt{0{,}3228 \times 0{,}02238} = \sqrt{0{,}00722} = 0{,}0850$}
+  \ecrire[orange][9.5]{(118,41)}{$t_{58\,;\,0{,}025} = 2{,}0017$}
+  \ecrire[vert][10.5]{(10,38)}{IC À 95 \% : \ $4{,}176 \pm 2{,}0017 \times 0{,}0850 = 4{,}176 \pm 0{,}170$}
+  \ecrire[rouge][12]{(40,30)}{$\Rightarrow$ [4,01 ; 4,35] KG}
+  \encadrer[rouge]{(38,23.5)}{(95,31.5)}
+  \ecrire[violet][9.5]{(10,19)}{AVEC 95 \% DE CONFIANCE, LA PRODUCTION MOYENNE DE TOUS LES PLANTS\\
+    RECEVANT 6,5 H DE SOLEIL PAR JOUR EST ENTRE 4,01 ET 4,35 KG.}
+}
+
+\annot{7}{Précision optimale}{
+  \entourer[rouge]{(107,62.5)}{8}{3}
+  \ecrire[bleu][13]{(10,44)}{QUAND $x^* = \bar x = 5{,}5$ H}
+  \ecrire[vert][9.5]{(10,33)}{LE TERME $(x^* - \bar x)^2$ S'ANNULE :\\[1mm]
+    ERREUR-TYPE MINIMALE $= \sqrt{MSE/n}$}
+  \ecrire[violet][9.5]{(10,15)}{PLUS $x^*$ EST LOIN DE $\bar x$,\\MOINS L'ESTIMATION EST PRÉCISE.}
+  % dessin : bandes en sablier
+  \draw[crayon lisse, black!70] (100,5) -- (100,40) (100,5) -- (152,5);
+  \draw[crayon, orange, line width=1pt] (102,12) -- (150,36);
+  \draw[crayon lisse, bleu, dashed, domain=-24:24, samples=40, smooth] plot ({126+\x},{24+\x/2+1.3+0.008*\x*\x});
+  \draw[crayon lisse, bleu, dashed, domain=-24:24, samples=40, smooth] plot ({126+\x},{24+\x/2-1.3-0.008*\x*\x});
+  \draw[crayon lisse, rouge, densely dotted] (126,24) -- (126,5);
+  \ecrire[rouge][9]{(124,4.5)}{$\bar x$}
+  \ecrire[bleu][8]{(103,43)}{PLUS ÉTROIT EN $\bar x$}
+}
+
+\annot{8}{Bornes de confiance}{
+  \draw[crayon lisse, rouge, line width=1.2pt] (100.7,49.6) -- (100.7,53.2)
+    (99.5,49.6) -- (101.9,49.6) (99.5,53.2) -- (101.9,53.2);
+  \ecrire[rouge][9]{(132,60)}{À 6,5 H :\\{[4,01 ; 4,35]}}
+  \fleche[rouge][-25]{(131,56)}{(102.5,53)}
+  \ecrire[violet][9]{(132,42)}{PLUS ÉTROIT\\EN $\bar x = 5{,}5$}
+  \fleche[violet][20]{(131,38.5)}{(86.5,44.5)}
+  \ecrire[violet][9]{(132,28)}{S'ÉLARGIT\\LOIN DE $\bar x$}
+}
+
+\annot{9}{Intervalle de prédiction pour une observation future}{
+  \entourer[rouge]{(55.2,52.8)}{2.8}{2.5}
+  \ecrire[vert][9]{(75,48.8)}{$\hat y = 1{,}3724 + 0{,}4313 \times 6{,}5 = 4{,}18$ KG (MÊME VALEUR)}
+  \ecrire[vert][10]{(18,27)}{PLUS GRANDE ! UN PLANT VARIE AUTOUR DE LA MOYENNE :}
+  \ecrire[vert][10]{(18,19)}{$V(Y^* - \hat y) = \underbrace{\sigma^2}_{\text{PLANT}}
+    + \underbrace{\sigma^2\left[\frac1n + \frac{(x^* - \bar x)^2}{S_{XX}}\right]}_{\text{DROITE}}$}
+}
+
+\annot{10}{Intervalle de prédiction}{
+  \surligner[jaune]{(26.3,66)}{(57.5,69.9)}
+  \entourer[rouge]{(90.5,31.3)}{3.6}{2.8}
+  \ecrire[rouge][9.5]{(15,19)}{LE « 1 + » : VARIANCE $\sigma^2$ D'UNE NOUVELLE OBSERVATION}
+  \fleche[rouge][20]{(118,17.5)}{(93.5,28.8)}
+  \ecrire[vert][9.5]{(15,10)}{$\Rightarrow$ L'IP EST TOUJOURS PLUS LARGE QUE L'IC}
+}
+
+\annot{11}{Exemple}{
+  \ecrire[vert][10.5]{(10,65)}{$\hat y = 4{,}176$ KG \ (MÊME VALEUR QU'AVANT)}
+  \ecrire[vert][10.5]{(10,59.5)}{ERREUR-TYPE : $\sqrt{0{,}3228\left[1 + \dfrac{1}{60} + \dfrac{(6{,}5 - 5{,}5)^2}{175}\right]}$}
+  \ecrire[vert][10.5]{(40,45.3)}{$= \sqrt{0{,}3228 \times 1{,}02238} = \sqrt{0{,}3300} = 0{,}5745$}
+  \ecrire[vert][10.5]{(10,38.8)}{IP À 95 \% : \ $4{,}176 \pm 2{,}0017 \times 0{,}5745 = 4{,}176 \pm 1{,}150$}
+  \ecrire[rouge][12]{(40,31.8)}{$\Rightarrow$ [3,03 ; 5,33] KG}
+  \encadrer[rouge]{(38,25.3)}{(95,33.3)}
+  \ecrire[violet][9.5]{(10,21.5)}{AVEC 95 \% DE CONFIANCE, UN PLANT QUI REÇOIT 6,5 H DE SOLEIL\\
+    PAR JOUR PRODUIRA ENTRE 3,03 ET 5,33 KG.}
+  \ecrire[orange][9.5]{(10,9.5)}{IC : $\pm\, 0{,}17$ \qquad IP : $\pm\, 1{,}15$ \qquad $\Rightarrow$ ENVIRON 7 FOIS PLUS LARGE !}
+}
+\apres{11}{
+  \ecrire[violet][13]{(8,85)}{POURQUOI LE « 1 + » ?}
+  \ecrire[vert][11]{(8,75)}{NOUVELLE OBSERVATION : \ $Y^* = \beta_0 + \beta_1 x^* + \varepsilon^*$}
+  \ecrire[vert][11]{(8,67)}{PRÉDICTION : \ $\hat y^* = b_0 + b_1 x^*$}
+  \ecrire[vert][11]{(8,58)}{$Y^* - \hat y^* = \underbrace{(\beta_0 + \beta_1 x^*) - (b_0 + b_1 x^*)}_{\text{ERREUR SUR LA DROITE}}
+    \ + \underbrace{\varepsilon^*}_{\text{VARIATION DU PLANT}}$}
+  \ecrire[vert][11]{(8,38)}{$V(Y^* - \hat y^*) = \sigma^2\left[\dfrac1n + \dfrac{(x^* - \bar x)^2}{S_{XX}}\right] + \sigma^2$
+    \quad (INDÉPENDANTS)}
+  \ecrire[vert][11]{(38,24)}{$= \sigma^2\left[1 + \dfrac1n + \dfrac{(x^* - \bar x)^2}{S_{XX}}\right]$}
+  \encadrer[rouge]{(36,11)}{(103,25)}
+  \ecrire[orange][10]{(110,22)}{SI $n \to \infty$ :\\IC $\to$ 0\\MAIS IP $\to \pm 1{,}96\,\sigma$}
+}
+
+\annot{12}{Bornes de prédiction}{
+  \draw[crayon lisse, vert, line width=1.2pt] (102.6,42.8) -- (102.6,62.2)
+    (101.4,42.8) -- (103.8,42.8) (101.4,62.2) -- (103.8,62.2);
+  \draw[crayon lisse, violet, line width=1.2pt] (100.2,51) -- (100.2,53.9)
+    (99,51) -- (101.4,51) (99,53.9) -- (101.4,53.9);
+  \ecrire[vert][9]{(132,66)}{IP\\(UN PLANT)}
+  \ecrire[violet][9]{(132,48)}{IC\\(MOYENNE)}
+  \fleche[violet][-20]{(131,45)}{(126,51)}
+  \ecrire[vert][8.5]{(36,80.5)}{LES 60 POINTS SONT TOUS DANS LES BORNES DE PRÉDICTION}
+}
+
+\annot{13}{En R}{
+  \entourer[violet]{(57,58.1)}{21.5}{2.6}
+  \entourer[vert]{(57,43.8)}{21.5}{2.6}
+  \ecrire[violet][9]{(81.5,60.3)}{$\leftarrow$ IC (MOYENNE)}
+  \ecrire[vert][9]{(81.5,46)}{$\leftarrow$ IP (UN PLANT)}
+  \ecrire[orange][9.5]{(10,17.5)}{LARGEURS : \ IC : $4{,}346 - 4{,}005 = 0{,}34$ \qquad IP : $5{,}325 - 3{,}026 = 2{,}30$}
+  \ecrire[orange][9.5]{(10,9.5)}{$2{,}30 / 0{,}34 = 6{,}8$ : ENVIRON 7 FOIS PLUS LARGE}
+}
+
+\annot{14}{IC ou intervalle de prédiction}{
+  \surligner[jaune]{(94.8,34.5)}{(100.5,39)}
+  \ecrire[vert][7.5]{(127.5,30.2)}{($\approx 2{,}2$ KG ICI)}
+}
+
+\annot{15}{QUIZ}{
+  \ecrire[vert][10]{(20,63)}{IC POUR LA MOYENNE ($E(Y)$ À 7 H)}
+  \ecrire[vert][10]{(20,43)}{INTERVALLE DE PRÉDICTION (UN SEUL PLANT)}
+  \ecrire[rouge][9]{(20,23)}{FAUX ! L'IP TEND VERS $\hat y \pm 1{,}96\,\sigma$ (LARGEUR $\approx 2 \times 1{,}96 \times 0{,}568 = 2{,}2$ KG) ;\\
+    C'EST L'IC QUI TEND VERS 0.}
+  \ecrire[rouge][8.5]{(20,7.5)}{FAUX ! 7 H EST PLUS LOIN DE $\bar x = 5{,}5$ QUE 6,5 H $\Rightarrow$ IC PLUS LARGE ($\pm 0{,}195$ VS $\pm 0{,}170$)}
+}
+
+% ---------------------------------------------------------------------------
+% Qualité de l'ajustement
+\annot{17}{Coefficient de détermination}{
+  \ecrire[vert][10]{(72,50.8)}{$\dfrac{SSR}{SST} = 1 - \dfrac{SSE}{SST}$}
+  \ecrire[vert][9]{(41,27.5)}{$SSR = 0$ : $b_1 = 0$}
+  \ecrire[vert][9]{(41,17.5)}{$SSE = 0$ : POINTS SUR LA DROITE}
+  % mini-graphiques
+  \draw[crayon lisse, black!70] (104,5) -- (104,27) (104,5) -- (127,5);
+  \draw[crayon, orange, line width=1pt] (105,16) -- (126,16);
+  \foreach \x/\y in {107/22, 110/10, 113/19, 116/12, 119/23, 122/9, 125/18}{
+    \fill[black] (\x,\y) circle (0.55);}
+  \ecrirec[vert][9]{(115.5,31)}{$R^2 = 0$}
+  \draw[crayon lisse, black!70] (132,5) -- (132,27) (132,5) -- (155,5);
+  \draw[crayon, orange, line width=1pt] (133,7) -- (154,25);
+  \foreach \x in {135,138.5,142,145.5,149,152.5}{
+    \fill[black] (\x,{7+(\x-133)*18/21}) circle (0.55);}
+  \ecrirec[vert][9]{(143.5,31)}{$R^2 = 1$}
+}
+
+\annot{18}{Exemple}{
+  \surligner[jaune]{(37,66)}{(52,69.8)}
+  \surligner[jaune]{(37,61.4)}{(52,65.2)}
+  \ecrire[vert][10.5]{(10,52)}{$R^2 = \dfrac{SSR}{SST} = \dfrac{32{,}547}{32{,}547 + 18{,}721} = \dfrac{32{,}547}{51{,}268} = 0{,}635$}
+  \ecrire[violet][10]{(10,38)}{63,5 \% DE LA VARIABILITÉ DE LA PRODUCTION EST EXPLIQUÉE\\
+    PAR LA RELATION LINÉAIRE AVEC L'ENSOLEILLEMENT.}
+  \ecrire[orange][9.5]{(10,23)}{LE RESTE (36,5 \%) : AUTRES FACTEURS ET HASARD}
+  \ecrire[violet][8.5]{(10,13)}{(DANS \code{summary()} : \code{Multiple R-squared = 0.6348})}
+}
+
+\annot{19}{Coefficient de corrélation}{
+  \ecrire[vert][10]{(10,36)}{ESTIME \ $\rho = \dfrac{Cov(X,Y)}{\sigma_X\,\sigma_Y}$ \quad OÙ \
+    $Cov(X,Y) = E\big[(X - E(X))(Y - E(Y))\big]$}
+  \ecrire[vert][10]{(10,20)}{TOMATES : \ $r = \dfrac{75{,}47}{\sqrt{175 \times 51{,}268}} = \dfrac{75{,}47}{94{,}72} = 0{,}797$}
+  \ecrire[violet][9]{(10,6.5)}{SANS UNITÉ \ ; \ $r^2 = R^2$}
+}
+
+\annot{20}{Propriétés de}{
+  \ecrire[vert][9]{(36,68.4)}{$b_1 > 0$ : POINTS AUTOUR D'UNE DROITE DE PENTE POSITIVE}
+  \ecrire[vert][9]{(36,61.7)}{$b_1 < 0$ : POINTS AUTOUR D'UNE DROITE DE PENTE NÉGATIVE}
+  \ecrire[rouge][8]{(111,47.7)}{MAIS $\neq$ AUCUNE RELATION !}
+  \surligner[jaune]{(17,31.1)}{(112,34.9)}
+  \ecrire[vert][10]{(17,24)}{$r$ ET $b_1$ ONT TOUJOURS LE MÊME SIGNE.}
+}
+\apres{20}{
+  \ecrire[violet][13]{(8,85)}{QUE VAUT $r$ ICI ?}
+  \draw[crayon lisse, black!70] (15,12) -- (15,72) (15,12) -- (85,12);
+  \foreach \k in {-5,...,5}{
+    \fill[black] ({50+6*\k},{16+2*\k*\k}) circle (0.8);}
+  \draw[crayon, orange, line width=1pt] (18,36) -- (82,36);
+  \ecrire[orange][10]{(84,38.5)}{DROITE : $b_1 = 0$}
+  \ecrire[rouge][13]{(95,72)}{$r = 0$ !}
+  \ecrire[vert][11]{(95,60)}{MAIS LA RELATION\\EST PARFAITE\\($Y = X^2$) !}
+  \ecrire[violet][11]{(95,32)}{$r$ MESURE SEULEMENT\\LE LIEN LINÉAIRE.\\[2mm]
+    $\Rightarrow$ TOUJOURS REGARDER\\LE GRAPHIQUE !}
+}
+
+\annot{21}{Quelques nuages}{
+  % droites y = r x dans chaque panneau (unités réduites)
+  \foreach \cx/\cy/\r in {51.2/53.9/0.3, 78.9/53.9/0.6, 107.3/53.9/0.9,
+                          51.8/20.5/-0.3, 80/20.5/-0.6, 108.2/20.5/-0.9}{
+    \draw[crayon lisse, orange, line width=1pt] ({\cx-3*3.94},{\cy-3*3.94*\r}) -- ({\cx+3*3.94},{\cy+3*3.94*\r});}
+  \ecrire[vert][10]{(4,58)}{$r > 0$}
+  \ecrire[rouge][10]{(4,25)}{$r < 0$}
+  \ecrire[violet][9]{(125,60)}{PLUS $|r|$ EST\\PROCHE DE 1,\\PLUS LES\\POINTS SONT\\SERRÉS AUTOUR\\DE LA DROITE}
+}
+
+\annot{22}{Exemple}{
+  \ecrire[vert][11]{(18,63)}{$r = \text{SIGNE}(b_1) \times \sqrt{R^2}$}
+  \ecrire[vert][11]{(24,54)}{$= \text{SIGNE}(0{,}431) \times \sqrt{0{,}635}$}
+  \ecrire[vert][11]{(24,45)}{$= +\,0{,}797$}
+  \encadrer[rouge]{(22,38)}{(48,45.5)}
+  \ecrire[violet][9.5]{(95,50)}{LIEN LINÉAIRE\\POSITIF ET\\ASSEZ FORT}
+  \surligner[jaune]{(61.5,21.2)}{(88.5,25)}
+}
+
+\annot{23}{QUIZ}{
+  \ecrire[vert][9]{(20,68)}{$r = +\sqrt{0{,}792} = 0{,}89$ (PENTE POSITIVE)\\
+    79 \% DE LA VARIABILITÉ DE L'ÉTENDUE DES AILES EST EXPLIQUÉE PAR LE POIDS.}
+  \ecrire[rouge][9]{(20,52)}{FAUX ! $|-0{,}9| = 0{,}9 > 0{,}5$ : LIEN PLUS FORT (MAIS NÉGATIF)}
+  \ecrire[rouge][9]{(20,37)}{FAUX ! $r$ NE MESURE QUE LE LIEN LINÉAIRE (EX. : EN U, $r \approx 0$)}
+  \ecrire[rouge][9]{(20,17)}{FAUX ! IL FAUT EXAMINER LES RÉSIDUS\\
+    (EX. 3 PLUS LOIN : $R^2 = 0{,}875$ MAIS RELATION COURBE)}
+}
+
+\annot{25}{Régression vers la moyenne}{
+  \draw[crayon lisse, vert, densely dashed] (112.6,26) -- (112.6,67.6);
+  \fill[rouge] (112.6,59.0) circle (0.9);
+  \fill[black] (112.6,67.6) circle (0.9);
+  \ecrire[vert][8.5]{(124,72)}{PÈRE : 74 PO}
+  \ecrire[black][8.5]{(124,66)}{PENTE 1 : 75}
+  \ecrire[rouge][8.5]{(124,60)}{FILS PRÉDIT :\\$68{,}7 + 0{,}511(74 - 67{,}7)$\\$= 71{,}9$ PO}
+  \ecrire[violet][8.5]{(124,43)}{PLUS PRÈS DE\\LA MOYENNE :\\PENTE $\approx 0{,}5 < 1$}
+}
+
+% ---------------------------------------------------------------------------
+% Vérification des postulats
+\annot{27}{Les postulats}{
+  \ecrire[rouge][8.5]{(122,69.3)}{$\leftarrow$ LE PLUS IMPORTANT}
+  \ecrire[violet][8.5]{(103,47.7)}{(MOINS GRAVE SI $n$ EST GRAND)}
+}
+
+\annot{28}{Analyse des résidus}{
+  \ecrire[bleu][11]{(88,77)}{$e_i = y_i - (b_0 + b_1 x_i)$}
+  % dessin d'un résidu
+  \draw[crayon lisse, black!70] (12,3) -- (12,27) (12,3) -- (58,3);
+  \draw[crayon, orange, line width=1pt] (13,6) -- (57,24);
+  \foreach \x/\y in {17/11, 22/6.5, 27/15, 33/10, 39/18, 45/14.5, 51/25}{
+    \fill[black] (\x,\y) circle (0.55);}
+  \draw[crayon lisse, rouge, line width=1.1pt] (51,24.6) -- (51,21.9);
+  \draw[crayon lisse, bleu, line width=1.1pt] (45,14.9) -- (45,19.2);
+  \ecrire[rouge][8]{(52,21)}{$e_i > 0$}
+  \ecrire[bleu][8]{(38,25)}{$e_i < 0$}
+  \ecrire[vert][10]{(65,28)}{RÉSIDU = OBSERVÉ $-$ PRÉDIT}
+  \ecrire[vert][10]{(65,21.5)}{= ÉCART VERTICAL ENTRE LE POINT ET LA DROITE}
+  \ecrire[violet][9.5]{(65,14)}{$e_i > 0$ : AU-DESSUS ; \ $e_i < 0$ : EN DESSOUS}
+  \ecrire[violet][9.5]{(65,7.5)}{PROPRIÉTÉ : $\sum e_i = 0$}
+}
+
+\annot{29}{Calcul des résidus}{
+  \ecrirec[vert][10]{(125.4,32.3)}{4,82}
+  \ecrirec[vert][10]{(125.4,24.2)}{$-0{,}74$}
+  \ecrire[vert][10]{(12,15)}{$\hat y_{51} = 1{,}372 + 0{,}431 \times 8 = 4{,}82$ \qquad
+    $e_{51} = 4{,}08 - 4{,}82 = -0{,}74$}
+  \ecrire[violet][9]{(12,7.5)}{$\rightarrow$ CE PLANT A PRODUIT 0,74 KG DE MOINS QUE PRÉVU (POINT SOUS LA DROITE)}
+}
+
+\annot{30}{(P1) Linéarité}{
+  \draw[crayon lisse, vert] (49,49.3) -- (69,49.3) (49,41.3) -- (69,41.3);
+  \draw[crayon lisse, rouge, line width=1pt] (123,41.5) .. controls (127,49.5) and (134,49.5) .. (139,42.5);
+  \ecrirec[vert][9.5]{(40,12)}{BANDE HORIZONTALE AUTOUR DE 0}
+  \coche{(75,12.8)}
+  \ecrirec[rouge][9.5]{(113,12)}{ARC $\Rightarrow$ RELATION COURBE}
+  \croix{(138,12.3)}
+}
+
+\annot{31}{(P2) Homoscédasticité}{
+  \draw[crayon lisse, vert] (28,46.3) -- (45,46.3) (28,40.3) -- (45,40.3);
+  \draw[crayon lisse, orange, line width=1pt] (69,44.5) -- (90,52.5) (69,41.8) -- (90,33.5);
+  \draw[crayon lisse, orange, line width=1pt] (108,44) .. controls (112,52) and (122,52) .. (126,44.5)
+    (108,42) .. controls (112,34) and (122,34) .. (126,42);
+  \coche{(51,61)}
+  \croix{(93,61)}
+  \croix{(134,61)}
+}
+
+\annot{32}{Exemple 1 : résidus en fonction}{
+  \draw[crayon lisse, vert, line width=1pt] (50,64.6) -- (123,64.6) (50,29.2) -- (123,29.2);
+  \ecrire[vert][9]{(128,66)}{BANDE\\HORIZONTALE\\AUTOUR DE 0}
+  \ecrire[vert][9]{(128,50)}{PAS DE\\TENDANCE :\\(P1) OK}
+  \ecrire[vert][9]{(128,34)}{PAS\\D'ENTONNOIR :\\(P2) OK}
+  \ecrire[rouge][10]{(98,9.5)}{OUI, LES DEUX !}
+}
+
+\annot{34}{(P3) Données chronologiques}{
+  \entourer[vert]{(88.6,36)}{2.6}{2}
+  \entourer[rouge]{(95.8,31.6)}{5.5}{2}
+  \entourer[vert]{(101.6,35.5)}{2.2}{2}
+  \entourer[rouge]{(107.6,31)}{3}{2}
+  \entourer[vert]{(112,36)}{2.2}{2}
+  \ecrirec[vert][9.5]{(50,9)}{INDÉPENDANCE PLAUSIBLE}
+  \ecrirec[rouge][9.5]{(112,10)}{RÉSIDUS VOISINS SE RESSEMBLENT\\$\Rightarrow$ DÉPENDANCE (P3)}
+  \ecrire[violet][8.5]{(127,48)}{EX. : MESURES\\QUOTIDIENNES,\\APPAREIL QUI\\SE DÉRÈGLE\ldots}
+}
+
+\annot{35}{(P4) Normalité}{
+  \draw[crayon lisse, bleu, line width=1pt, domain=-2.2:2.2, samples=50, smooth]
+    plot ({50.1+9*\x},{29.3+35*exp(-\x*\x/2)});
+  \entourer[violet]{(99.5,36.4)}{3.5}{2}
+  \entourer[violet]{(133.5,58.5)}{3}{2.2}
+  \ecrire[vert][9.5]{(10,15)}{HISTOGRAMME : EN CLOCHE,\\À PEU PRÈS SYMÉTRIQUE}
+  \coche{(61,13.5)}
+  \ecrire[vert][9.5]{(85,15)}{QQ-PLOT : POINTS PRÈS DE LA DROITE}
+  \coche{(154,14)}
+  \ecrire[violet][8.5]{(85,8)}{(PETITS ÉCARTS AUX EXTRÉMITÉS : ACCEPTABLE)}
+}
+
+\annot{36}{(P4) Test de normalité}{
+  \entourer[vert]{(74.4,38.5)}{7.5}{2.4}
+  \ecrire[vert][9.5]{(90,48.5)}{VALEUR-P $= 0{,}137 > 0{,}05$\\$\Rightarrow$ ON NE REJETTE PAS $H_0$\\
+    NORMALITÉ PLAUSIBLE (P4)}
+  \ecrire[violet][9]{(10,15)}{ATTENTION : NE PAS REJETER $H_0$ $\neq$ PROUVER LA NORMALITÉ.\\
+    ON REGARDE AUSSI LES GRAPHIQUES.}
+}
+
+\annot{37}{QUIZ}{
+  \ecrire[rouge][8]{(35,72.2)}{(P2) ENTONNOIR}
+  \ecrire[rouge][8]{(69,72.2)}{(P1) ARC}
+  \ecrire[rouge][8]{(102,72.2)}{(P3) GRAPPES}
+  \ecrire[vert][8]{(133.5,72.2)}{AUCUN}
+  \ecrire[vert][8]{(92,32.5)}{JOURS RAPPROCHÉS $\Rightarrow$ CONDITIONS\\SEMBLABLES : DÉPENDANCE (P3)}
+  \ecrire[rouge][9]{(36,17.8)}{FAUX !}
+  \ecrire[vert][8.5]{(20,9.5)}{LES RÉSIDUS RÉVÈLENT MIEUX UNE LÉGÈRE COURBURE, L'ENTONNOIR,\\LA NON-NORMALITÉ.}
+}
+
+\annot{38}{Valeurs aberrantes et influentes}{
+  \draw[crayon lisse, rouge, line width=1.1pt] (44.6,56.6) -- (44.6,47.6);
+  \ecrire[rouge][7]{(31,60)}{GRAND\\RÉSIDU}
+  \fleche[rouge][10]{(122.3,55.3)}{(122.3,50.6)}
+  \ecrire[rouge][8]{(141,57)}{TIRE LA\\DROITE !}
+  \ecrire[violet][8]{(141,46)}{$x$ LOIN\\DES AUTRES}
+  \fleche[violet][-20]{(142,40.5)}{(137.2,41.6)}
+}
+
+\annot{41}{Exemple 3 : concentration}{
+  \entourer[rouge]{(74.6,30.2)}{2}{2}
+  \ecrire[rouge][7]{(34,37.5)}{$\hat C(12) = -1{,}0$ ?!}
+  \draw[crayon lisse, rouge, line width=1pt] plot[smooth] coordinates
+    {(94,52.5) (102,44.5) (110,39.5) (118,36.8) (124,36.3) (130,41) (136,55)};
+  \ecrire[rouge][8]{(103,57.5)}{RÉSIDUS EN U !}
+  \ecrire[violet][8.5]{(50,12.8)}{(P1) NON RESPECTÉ, (P2) DOUTEUX, $\hat C < 0$ (VOIR PAGE SUIVANTE)}
+}
+\apres{41}{
+  \ecrire[violet][13]{(8,85)}{EXEMPLE 3 : LES POSTULATS SONT-ILS RESPECTÉS ?}
+  \ecrire[vert][10.5]{(8,75)}{(P1) : RÉSIDUS EN U (POSITIFS AUX EXTRÉMITÉS, NÉGATIFS AU CENTRE)\\
+    \phantom{(P1) :} $\Rightarrow$ RELATION COURBE, PAS LINÉAIRE.}
+  \ecrire[vert][10.5]{(8,62)}{(P2) : DISPERSION PLUS GRANDE POUR LES FORTES CONCENTRATIONS : DOUTEUX.}
+  \ecrire[rouge][10.5]{(8,53)}{À 12 H : $\hat C = 14{,}172 - 1{,}2639 \times 12 = -1{,}0$ MG/L : IMPOSSIBLE !}
+  \ecrire[violet][10.5]{(8,40)}{EN PHARMACOLOGIE : $C = C_0\, e^{-k t}$\\[2mm]
+    $\Rightarrow \ln C = \ln C_0 - k\, t$ : LINÉAIRE EN $t$ !}
+  % dessins
+  \draw[crayon lisse, black!70] (105,6) -- (105,34) (105,6) -- (130,6);
+  \draw[crayon lisse, orange, line width=1pt, domain=0:23, samples=40, smooth] plot ({106+\x},{7+25*exp(-\x/7)});
+  \ecrire[black][9]{(108,40)}{$C$}
+  \draw[crayon lisse, black!70] (135,6) -- (135,34) (135,6) -- (158,6);
+  \draw[crayon lisse, orange, line width=1pt] (136,31) -- (157,9);
+  \ecrire[black][9]{(137,40)}{$\ln C$}
+  \ecrire[black][8]{(125,5.5)}{$t$}
+  \ecrire[black][8]{(153,5.5)}{$t$}
+  \fleche[violet][25]{(122,30)}{(140,32)}
+}
+
+\annot{42}{Exemple 3 (suite)}{
+  \ecrire[vert][9.5]{(6,79)}{$\widehat{\ln C} = 3{,}011 - 0{,}249\,t$}
+  \ecrire[vert][9.5]{(6,72)}{$\Leftrightarrow \hat C = e^{3{,}011} \times e^{-0{,}249\,t} = 20{,}3 \times 0{,}78^{\,t}$}
+  \ecrire[violet][8.5]{(6,64)}{DÉCROISSANCE EXPONENTIELLE : $-22\,\%$ PAR HEURE}
+  \ecrire[vert][9]{(55,57)}{LINÉAIRE !}
+}
+
+\produire{Chapitre_6b}
+\end{document}

@@ -1,0 +1,418 @@
+\documentclass{article}
+\usepackage{annot}
+
+% --- Petits dessins propres à ce chapitre --------------------------------
+% \minicible{(cx,cy)}{rayon}{dx}{dy}{dispersion} : cible à main levée
+\newcommand{\minicible}[5]{%
+  \begin{scope}[shift={#1}]
+    \draw[crayon lisse, violet] (0,0) circle (#2);
+    \draw[crayon lisse, violet] (0,0) circle ({#2*0.55});
+    \fill[violet] (0,0) circle (0.4);
+    \foreach \a/\r in {30/0.2,120/0.3,210/0.15,300/0.25,75/0.18,180/0.22,260/0.28}{
+      \fill[rouge] ({#3+#5*\r*cos(\a)},{#4+#5*\r*sin(\a)}) circle (0.38);}
+  \end{scope}}
+% densité khi-deux à 6 d.l. (pour les dessins)
+\newcommand{\chisix}[1]{((#1)^2*exp(-(#1)/2)/16)}
+
+\begin{document}
+
+% ---------------------------------------------------------------- p. 4
+\annot{4}{Démarche générale}{
+  \ecrire[rouge][9]{(60,88)}{$X_1, \ldots, X_n$ INDÉPENDANTES, MÊME LOI}
+  \fleche[rouge][-15]{(86,82.6)}{(90,77)}
+  \souligner[rouge]{(43.5,36.4)}{(76,36.4)}
+}
+
+% ---------------------------------------------------------------- p. 5
+\annot{5}{Exemples motivants}{
+  \ecrire[violet][9]{(86,60.6)}{$\leftarrow$ PARAMÈTRES INCONNUS : $\mu$ ET $\sigma^2$}
+  \ecrire[violet][9]{(87,32.9)}{$\leftarrow$ PARAMÈTRE INCONNU : $p$}
+  \ecrire[violet][9]{(20,9.5)}{$\to$ COMPARER $\mu_A$ ET $\mu_B$ (CHAPITRE 4)}
+}
+
+% ---------------------------------------------------------------- p. 7
+\annot{7}{Population vs}{
+  \ecrire[rouge][9]{(14,78)}{SOUVENT TRÈS GRANDE, « INFINIE »}
+  \ecrire[rouge][9]{(96,78)}{CE QUE L'ON OBSERVE}
+  \entourer[violet]{(63,45)}{9.5}{2.8}
+  \entourer[violet]{(126.3,44)}{12.5}{2.8}
+  \ecrire[violet][8]{(10,34.8)}{$\uparrow$ LETTRES GRECQUES}
+  \ecrire[violet][8]{(84,30.2)}{$\uparrow$ LETTRES LATINES}
+}
+
+% ---------------------------------------------------------------- p. 8
+\annot{8}{QUIZ}{
+  \croix{(7,53)}
+  \croix{(7,45)}
+  \entourer[vert]{(14.5,37)}{3.4}{2.8}
+  \ecrire[vert][9]{(10,15.3)}{%
+    $\overline{X} \sim N(25,\ 4/16)$ \ DONC \ $\sigma_{\overline{X}} = \sqrt{4/16} = 0{,}5$ G\\[0.4mm]
+    « PAS TROP LOIN » : \ $P(24 < \overline{X} < 26) = P(-2 < Z < 2) = 0{,}9544$}
+}
+
+% ---------------------------------------------------------------- p. 9
+\annot{9}{Statistique et loi}{
+  \surligner[jaune]{(61.5,60.2)}{(137.5,64)}
+  \ecrire[vert][9]{(14,50.5)}{EX. : $\bar{x}$ CHANGE D'UN ÉCHANTILLON À L'AUTRE $\Rightarrow$ $\overline{X}$ EST UNE V.A. ET A UNE LOI}
+}
+
+% ---------------------------------------------------------------- p. 10
+\annot{10}{QUIZ}{
+  \ecrire[violet][9]{(118,67.8)}{$\leftarrow$ ÉCHANTILLON}
+  \ecrire[violet][8]{(106,52.6)}{$\leftarrow$ TOUT LE LAC = POPULATION}
+  \ecrire[violet][9]{(111,37.8)}{$\leftarrow$ ÉCHANTILLON}
+  \ecrire[violet][9]{(114,22.8)}{$\leftarrow$ POPULATION}
+  \ecrire[rouge][8]{(12,9.6)}{RÈGLE : POPULATION $\to$ PARAMÈTRE (GREC) ; \ ÉCHANTILLON $\to$ STATISTIQUE (LATIN)}
+}
+
+% ---------------------------------------------------------------- p. 11
+\annot{11}{Variables aléatoires}{
+  \surligner[rose]{(110,59.6)}{(148,63.6)}
+  \surligner[rose]{(123,51.8)}{(151.5,55.8)}
+  \ecrire[vert][9]{(14,45)}{EX. : \ $\overline{X} = (X_1 + \cdots + X_n)/n$ : UNE V.A. \qquad $\bar{x} = 938/7 = 134$ : UN NOMBRE}
+}
+
+% ---------------------------------------------------------------- p. 12
+\annot{12}{Tableau synthèse}{
+  \draw[crayon, sharp corners, vert] (101.5,38.6) rectangle (116,63.2);
+  \ecrire[vert][8]{(98,37.2)}{SANS BIAIS !}
+  \entourer[orange]{(133.5,58.3)}{3.6}{3.3}
+  \ecrire[orange][8]{(8,7.2)}{$\sqrt{n}$ AU DÉNOMINATEUR : \ $n \uparrow \ \Rightarrow$ ERREUR-TYPE $\downarrow$}
+}
+
+% ---------------------------------------------------------------- p. 14
+\annot{14}{Qualités d'un bon}{
+  \ecrire[orange][8]{(76,87.5)}{BIAIS $= E[T] - \theta$ \ (CENTRE DES POINTS $-$ CIBLE)}
+  \ecrire[vert][9]{(21,37.5)}{IDÉAL}
+  \coche{(26.5,30.5)}
+  \ecrire[rouge][9]{(128.5,37.5)}{PIRE}
+  \draw[crayon lisse, orange, pointe] (67,33.9) -- (70,36.3);
+  \ecrire[orange][8]{(49.5,30.5)}{BIAIS}
+  \fleche[orange][25]{(55,31)}{(66.3,33.4)}
+}
+
+% ---------------------------------------------------------------- p. 15
+\annot{15}{Le biais}{
+  \ecrire[violet][8]{(92,79)}{$\ne$ « PRÉJUGÉ » DU LANGAGE COURANT}
+  \ecrire[vert][9]{(26,13.5)}{%
+    $\hat{\sigma}^2 = \frac{1}{n}\sum (X_i - \overline{X})^2 \ \Rightarrow\ E[\hat{\sigma}^2] = \frac{n-1}{n}\,\sigma^2 < \sigma^2$}
+}
+
+% ---------------------------------------------------------------- p. 16
+\annot{16}{QUIZ}{
+  \minicible{(30,7.5)}{5}{2.3}{1.8}{2.2}
+  \ecrire[violet][8]{(37,11)}{BALANCE :\\ DÉCALÉE, SERRÉE}
+  \minicible{(80,7.5)}{5}{0}{0}{9}
+  \ecrire[violet][8]{(87,11)}{$n = 3$ :\\ CENTRÉE, ÉTALÉE}
+  \ecrire[violet][8]{(118,11)}{CLINIQUE : ÉCHANTILLON\\ NON REPRÉSENTATIF}
+}
+
+% ---------------------------------------------------------------- p. 17
+\annot{17}{Comment agir}{
+  \entourer[rouge]{(128.4,28)}{7.5}{2.6}
+  \ecrire[vert][9]{(18,15)}{%
+    $\mathrm{ET} = \dfrac{\sigma}{\sqrt{4n}} = \dfrac{\sigma}{2\sqrt{n}} = \dfrac{1}{2}\cdot\dfrac{\sigma}{\sqrt{n}}$}
+  \ecrire[orange][9]{(95,14)}{EX. ($\sigma = 4$) : $n = 25 \to 100$\\ ET : $0{,}8 \to 0{,}4$}
+}
+
+% ---------------------------------------------------------------- p. 18
+\annot{18}{Biais ou précision}{
+  \ecrire[violet][8]{(84,69.5)}{PRÉCISION}
+  \fleche[violet][-10]{(91,64.8)}{(94,50)}
+  \ecrire[violet][8]{(113,69.5)}{BIAIS$^2$ (JUSTESSE)}
+  \fleche[violet][10]{(121,64.8)}{(114,50.5)}
+}
+\apres{18}{
+  \ecrire[violet][13]{(8,84)}{POURQUOI EQM = VAR + BIAIS$^2$ ?}
+  \ecrire[vert][12]{(8,72)}{%
+    $E[(T-\theta)^2] = E\big[\big(\underbrace{T - E[T]}_{A} + \underbrace{E[T] - \theta}_{b\ (\text{CONSTANTE})}\big)^2\big]$\\[3mm]
+    $\qquad = E[A^2] + 2\,b\,E[A] + b^2$\\[3mm]
+    $\qquad = \mathrm{Var}(T) + 0 + [\mathrm{Biais}(T)]^2$}
+  \ecrire[rouge][11]{(8,24)}{CAR $E[A] = E[T] - E[T] = 0$}
+  \ecrire[orange][11]{(8,13)}{UN PEU DE BIAIS PEUT ÊTRE PAYANT\\ SI LA VARIANCE BAISSE BEAUCOUP !}
+  \minicible{(135,30)}{12}{4.5}{3.5}{5}
+  \draw[crayon lisse, orange, pointe] (135,30) -- (139.5,33.5);
+  \ecrire[orange][10]{(141,26)}{$b$}
+}
+
+% ---------------------------------------------------------------- p. 20
+\annot{20}{Exemple 1 : Pression}{
+  \trait[violet]{(41,50.8) .. controls (41,48.5) and (78,50) .. (79.5,47.8) .. controls (81,50) and (118,48.5) .. (118,50.8)}
+  \ecrire[violet][8]{(121,57)}{7 RÉALISATIONS\\ DE $X \sim N(\mu, \sigma^2)$}
+  \ecrire[violet][8]{(93,69.8)}{$\leftarrow$ $\mu$ ET $\sigma^2$ INCONNUS}
+}
+
+% ---------------------------------------------------------------- p. 21
+\annot{21}{Variabilité d'échantillonnage}{
+  \ecrire[violet][8]{(4,58)}{SIMULATION :\\ ON CHOISIT\\ $\mu$ ET $\sigma^2$\\ (EN VRAI :\\ INCONNUS)}
+  \draw[crayon, sharp corners, vert] (115.5,21.2) rectangle (125.5,55.5);
+  \ecrire[vert][8]{(128,54)}{$\sigma = \sqrt{62}$\\ $\approx 7{,}9$}
+  \ecrire[vert][8]{(128,42)}{$x_i$ : DE\\ 121 À 150}
+  \ecrire[vert][8]{(128,31)}{$\bar{x}$ : DE\\ 129,7 À 136}
+}
+
+% ---------------------------------------------------------------- p. 22
+\annot{22}{Simulation : 1000}{
+  \ecrire[violet][8]{(139,68)}{ÉT. DES\\ DONNÉES :\\ $\sigma = 4$}
+  \ecrire[vert][8]{(139,42)}{ÉT. DES\\ $\bar{x}$ :\\ $4/\sqrt{25}$\\ $= 0{,}8$}
+}
+
+% ---------------------------------------------------------------- p. 23
+\annot{23}{Distribution de la population}{
+  \ecrire[bleu][8]{(40,67)}{$X$ : ÉCART-TYPE\\ $\sqrt{62} = 7{,}87$}
+  \ecrire[orange][8]{(111,56)}{$\overline{X}$ : ÉCART-TYPE\\ $\sqrt{62/7} = 2{,}98$}
+  \fleche[orange][20]{(111,51)}{(104,45)}
+  \ecrire[vert][8]{(12,8)}{VARIANCE : $62 \to 62/7 = 8{,}86$ ; \ ÉCART-TYPE $\sqrt{7} \approx 2{,}6$ FOIS PLUS PETIT}
+}
+
+% ---------------------------------------------------------------- p. 24
+\annot{24}{Effet de la taille}{
+  \entourer[orange]{(118.5,41)}{6}{2.4}
+  \entourer[orange]{(118.5,31)}{6}{2.4}
+  \fleche[orange][-45]{(125,40)}{(125,32)}
+  \ecrire[orange][8]{(128,38.5)}{$\div 2$}
+  \ecrire[orange][9]{(104,13)}{$n \times 4 \ \Rightarrow$ ET $\div\, 2$}
+}
+
+% ---------------------------------------------------------------- p. 25
+\annot{25}{Propriétés théoriques}{
+  \ecrire[violet][8]{(66,86.5)}{RAPPELS : $E[aX] = a\,E[X]$ \quad $\mathrm{Var}(aX) = a^2\,\mathrm{Var}(X)$}
+  \ecrire[vert][9]{(122,57)}{SANS BIAIS !}
+  \ecrire[vert][8]{(12,39.8)}{$\sum \mathrm{Var}(X_i) = \sigma^2 + \cdots + \sigma^2 = n\sigma^2$ \quad (PAS DE COVARIANCE CAR INDÉPENDANTES)}
+}
+
+% ---------------------------------------------------------------- p. 26
+\annot{26}{QUIZ}{
+  \entourer[vert]{(21,50)}{3}{2.4}
+  \ecrire[vert][9]{(76,52.9)}{$\sqrt{64}/\sqrt{16} = 8/4 = 2$}
+  \ecrire[violet][8]{(12,8)}{$\sigma$ : VARIABILITÉ DES INDIVIDUS \qquad $\sigma/\sqrt{n}$ : VARIABILITÉ DE LA MOYENNE}
+}
+
+% ---------------------------------------------------------------- p. 28
+\annot{28}{Estimateur de la variance}{
+  \ecrire[violet][8]{(13,52)}{DEGRÉS DE\\ LIBERTÉ}
+  \fleche[violet][-20]{(31,45)}{(60,47.3)}
+  \ecrire[vert][8]{(103,57)}{ESTIMATEUR DE $\sigma$ :\\ $S = \sqrt{S^2}$}
+  \ecrire[vert][8]{(10,7)}{EX. $n=3$ : SI $x_1 - \bar{x} = 2$ ET $x_2 - \bar{x} = -5$, ALORS FORCÉMENT $x_3 - \bar{x} = 3$}
+}
+
+% ---------------------------------------------------------------- p. 29
+\annot{29}{Variance de}{
+  \surligner[jaune]{(51.5,51.8)}{(105.5,55.8)}
+  \ecrire[rouge][8]{(90,43)}{NORMALITÉ REQUISE !}
+  \ecrire[violet][8]{(90,36)}{$\sigma^4 = (\sigma^2)^2$}
+  \ecrire[vert][8]{(36,67.5)}{EX. 1 ($s^2 = 39{,}33$, $n = 7$) : $\widehat{\mathrm{ET}}(S^2) = \sqrt{2\,(39{,}33)^2/6} = 22{,}7$}
+}
+
+% ---------------------------------------------------------------- p. 30
+\annot{30}{Simulation : distribution}{
+  \ecrire[orange][8]{(80,86.5)}{LOI EMPIRIQUE (1000 SIMULATIONS)}
+  \ecrire[rouge][8]{(30,66)}{QUEUE}
+  \fleche[rouge][20]{(38,62)}{(41,46)}
+}
+
+% ---------------------------------------------------------------- p. 31
+\annot{31}{Retour sur l'exemple 1}{
+  \ecrire[violet][8]{(112,65.2)}{$\leftarrow$ ESTIME $\mu$}
+  \ecrire[violet][8]{(117,36.3)}{$\leftarrow$ ESTIME $\sigma$}
+  \ecrire[violet][8]{(68,56.8)}{(DÉTAILS : PAGE SUIVANTE)}
+  \ecrire[rouge][8]{(8,6.3)}{6,27 = VARIABILITÉ D'UNE PERSONNE ; \ 2,37 = VARIABILITÉ DE $\bar{x}$}
+}
+\apres{31}{
+  \ecrire[violet][13]{(8,85)}{EXEMPLE 1 : CALCUL DE $s^2$ \quad ($\bar{x} = 134$)}
+  \begin{scope}[shift={(8,0)}]
+    \draw[crayon, violet] (0,69) -- (100,69);
+    \draw[crayon, violet] (22,75) -- (22,14);
+    \draw[crayon, violet] (0,20) -- (100,20);
+    \ecrirec[violet][11]{(11,72.5)}{$x_i$}
+    \ecrirec[violet][11]{(45,72.5)}{$x_i - \bar{x}$}
+    \ecrirec[violet][11]{(80,72.5)}{$(x_i - \bar{x})^2$}
+    \foreach \vx/\d/\c [count=\k] in {141/7/49, 130/-4/16, 135/1/1, 138/4/16, 137/3/9, 122/-12/144, 135/1/1}{
+      \ecrirec[vert][11]{(11,{69-\k*6.8+2.5})}{$\vx$}
+      \ecrirec[vert][11]{(45,{69-\k*6.8+2.5})}{$\d$}
+      \ecrirec[vert][11]{(80,{69-\k*6.8+2.5})}{$\c$}
+    }
+    \ecrirec[rouge][11]{(11,15.5)}{$938$}
+    \ecrirec[rouge][11]{(45,15.5)}{$0$ !}
+    \ecrirec[rouge][11]{(80,15.5)}{$236$}
+  \end{scope}
+  \ecrire[vert][12]{(114,56)}{$s^2 = \dfrac{236}{7-1}$\\[3mm] $\phantom{s^2} = 39{,}33$}
+  \ecrire[vert][11]{(114,30)}{$s = \sqrt{39{,}33}$\\[1mm] $\phantom{s} = 6{,}27$}
+  \ecrire[orange][10]{(49.5,10.5)}{$\uparrow$ LA SOMME DES ÉCARTS VAUT TOUJOURS 0}
+}
+
+% ---------------------------------------------------------------- p. 32
+\annot{32}{Diviser par}{
+  \entourer[vert]{(121.5,34.8)}{6.5}{2.6}
+  \ecrire[vert][8]{(133,36)}{PLUS\\ PETITE !}
+  \ecrire[orange][8]{(133,50)}{$53{,}1 - 62$\\ $= -8{,}9$}
+  \ecrire[vert][8]{(60,13.3)}{$\mathrm{EQM}(\hat{\sigma}^2) = (2n-1)\,\sigma^4/n^2 \ < \ 2\sigma^4/(n-1) = \mathrm{EQM}(S^2)$}
+}
+
+% ---------------------------------------------------------------- p. 34
+\annot{34}{Pourquoi connaître}{
+  \ecrire[vert][8]{(128,68.8)}{$\leftarrow$ EX. 3 (C)}
+  \ecrire[vert][8]{(105,63.6)}{$\leftarrow$ EX. 4}
+  \surligner[jaune]{(26,30.4)}{(133,35.3)}
+  \surligner[jaune]{(26,24.3)}{(133,30)}
+  \ecrire[orange][8]{(135,32.5)}{$\leftarrow$ ICI}
+}
+
+% ---------------------------------------------------------------- p. 35
+\annot{35}{Loi de}{
+  \ecrire[rouge][8]{(110,65.5)}{MÊME SI $n$ EST PETIT !}
+  \entourer[rouge]{(62,11.3)}{5}{3}
+  \ecrire[rouge][8]{(89,13.4)}{$\leftarrow$ ERREUR-TYPE DE $\overline{X}$}
+}
+
+% ---------------------------------------------------------------- p. 36
+\annot{36}{Exemple 3}{
+  \cloche[bleu]{(138,50.3)}{32}{11}
+  \begin{scope}[shift={(138,50.3)}]
+    \fill[bleu, opacity=0.35, domain=3.4:16, samples=30, smooth]
+      (3.4,0) -- plot (\x, {11*exp(-(\x/5.333)^2/2)}) -- (16,0) -- cycle;
+  \end{scope}
+  \ecrire[bleu][7]{(139.2,49.8)}{138}
+  \ecrire[bleu][7]{(148,59)}{0,26}
+  \ecrire[vert][8]{(126,18.4)}{$\to$ PAGE SUIVANTE}
+}
+\apres{36}{
+  \ecrire[violet][13]{(8,85)}{EXEMPLE 3 (C) : \ $\overline{X} \sim N(133,\ 62/7)$, \ $\sigma_{\overline{X}} = 2{,}976$}
+  \ecrire[vert][12]{(8,72)}{%
+    $P(|\overline{X} - 133| < 5) = P(128 < \overline{X} < 138)$\\[3mm]
+    $\quad = P\Big(\dfrac{128 - 133}{2{,}976} < Z < \dfrac{138 - 133}{2{,}976}\Big)$\\[3mm]
+    $\quad = P(-1{,}68 < Z < 1{,}68)$\\[2mm]
+    $\quad = 1 - 2 \times 0{,}0465 = 0{,}9070$}
+  \begin{scope}[shift={(128,40)}]
+    \fill[vert, opacity=0.3, domain=-10.1:10.1, samples=40, smooth]
+      (-10.1,0) -- plot (\x, {26*exp(-(\x/6)^2/2)}) -- (10.1,0) -- cycle;
+    \draw[crayon lisse, bleu] (-24,0) -- (24,0);
+    \draw[crayon lisse, bleu, domain=-22:22, samples=60, smooth] plot (\x, {26*exp(-(\x/6)^2/2)});
+    \draw[crayon lisse, bleu] (-10.1,0) -- (-10.1,-1.5) (10.1,0) -- (10.1,-1.5);
+  \end{scope}
+  \ecrirec[vert][11]{(128,50)}{$0{,}9070$}
+  \ecrirec[bleu][9]{(118,35.5)}{$128$}
+  \ecrirec[bleu][9]{(138,35.5)}{$138$}
+  \ecrirec[rouge][9]{(108,45)}{$0{,}0465$}
+  \ecrirec[rouge][9]{(148,45)}{$0{,}0465$}
+  \ecrire[orange][11]{(8,20)}{POUR UN SEUL ADULTE : $P(128 < X < 138) = P(-0{,}64 < Z < 0{,}64) = 0{,}4778$\\[1mm]
+    $\Rightarrow$ LA MOYENNE DE 7 EST BEAUCOUP PLUS PROCHE DE $\mu$ !}
+}
+
+% ---------------------------------------------------------------- p. 37
+\annot{37}{Et si la population}{
+  \ecrire[vert][8]{(80,13)}{EXPONENTIELLE : $n=5$ ENCORE ASYMÉTRIQUE ;\\ $n = 30$ : PRESQUE NORMALE}
+}
+
+% ---------------------------------------------------------------- p. 38
+\annot{38}{La loi du khi-deux}{
+  \ecrire[vert][8]{(62,87)}{$Z_i^2 \ge 0 \ \Rightarrow\ K \ge 0$ ; \quad EX. $k = 6$ : $E[K] = 6$, $\mathrm{Var}(K) = 12$}
+}
+
+% ---------------------------------------------------------------- p. 39
+\annot{39}{Loi échantillonnale de}{
+  \ecrire[violet][8]{(118,57.5)}{$n-1$ DEGRÉS\\ DE LIBERTÉ}
+  \fleche[violet][20]{(118,51.3)}{(108.5,51.8)}
+  \ecrire[vert][9]{(14,54)}{EX. 1 : $\frac{6\,S^2}{62} \sim \chi^2_6$}
+}
+
+% ---------------------------------------------------------------- p. 40
+\annot{40}{Table de la loi}{
+  \entourer[vert]{(43.5,38.6)}{3.4}{2}
+  \entourer[rouge]{(81.6,38.6)}{3.9}{2}
+  \entourer[orange]{(74.3,38.6)}{3.9}{2}
+  \ecrire[vert][8]{(8,7.8)}{$\chi^2_{6;\,0{,}95} = 1{,}64$ : AIRE 0,95 À DROITE (DONC 0,05 À GAUCHE)}
+}
+
+% ---------------------------------------------------------------- p. 41
+\annot{41}{Exemple 4}{
+  \entourer[orange]{(97.6,57.6)}{4}{2.2}
+  \ecrire[orange][8]{(106,79.5)}{TABLE : $\chi^2_{6;\,0{,}10} = 10{,}64$}
+  \ecrire[orange][8]{(58,35.3)}{$\chi^2_{6;\,0{,}95} = 1{,}64$ ET $\chi^2_{6;\,0{,}05} = 12{,}59$ (5 \% DE CHAQUE CÔTÉ)}
+  \ecrire[vert][8]{(104,29.8)}{$\to$ PAGE SUIVANTE}
+}
+\apres{41}{
+  \ecrire[violet][13]{(8,85)}{EXEMPLE 4 (C) : \ $P(S^2 > 100)$ \ AVEC $\frac{6\,S^2}{62} \sim \chi^2_6$}
+  \ecrire[vert][12]{(8,72)}{%
+    $P(S^2 > 100) = P\Big(\chi^2_6 > \dfrac{6 \times 100}{62}\Big) = P(\chi^2_6 > 9{,}68)$\\[4mm]
+    LIGNE $k = 6$ : \ $5{,}35 < 9{,}68 < 10{,}64$\\[1mm]
+    \phantom{LIGNE $k = 6$ :} ($\gamma = 0{,}50$) \quad ($\gamma = 0{,}10$)\\[4mm]
+    DONC \ $0{,}10 < P(S^2 > 100) < 0{,}50$}
+  \ecrire[orange][11]{(8,17)}{DANS R : \ \code{pchisq(9.68, 6, lower.tail = FALSE)} $= 0{,}139$}
+  \begin{scope}[shift={(110,30)}]
+    \fill[vert, opacity=0.35, domain=9.68:18, samples=40, smooth]
+      (4*9.68,0) -- plot ({4*\x}, {180*\chisix{\x}}) -- (72,0) -- cycle;
+    \draw[crayon lisse, bleu] (0,0) -- (74,0);
+    \draw[crayon lisse, bleu] (0,0) -- (0,28);
+    \draw[crayon lisse, bleu, domain=0:18, samples=60, smooth] plot ({4*\x}, {180*\chisix{\x}});
+    \draw[crayon lisse, rouge] (4*5.35,0) -- (4*5.35,-1.5);
+    \draw[crayon lisse, rouge] (4*10.64,0) -- (4*10.64,-1.5);
+    \draw[crayon lisse, vert] (4*9.68,0) -- (4*9.68,-1.5);
+  \end{scope}
+  \ecrirec[rouge][8]{(131.4,26.5)}{5,35}
+  \ecrirec[vert][8]{(148.7,26.5)}{9,68}
+  \ecrirec[rouge][8]{(152.6,22)}{10,64}
+  \ecrirec[vert][10]{(152,40)}{$0{,}139$}
+  \fleche[vert][-20]{(152,37)}{(152,33)}
+}
+
+% ---------------------------------------------------------------- p. 42
+\annot{42}{QUIZ}{
+  \ecrire[vert][8]{(112,71)}{(APPROX., TLC, SI LA POP.\\ N'EST PAS NORMALE)}
+  \begin{scope}[shift={(138,41)}]
+    \draw[crayon lisse, bleu] (0,0) -- (19,0);
+    \draw[crayon lisse, bleu, domain=0:18, samples=50, smooth] plot ({\x}, {60*\chisix{\x}});
+    \draw[crayon lisse, rouge, dashed] (6,0) -- (6,9.5);
+  \end{scope}
+  \ecrirec[rouge][7]{(144,39)}{$\sigma^2$}
+  \ecrire[violet][8]{(12,9)}{$S$ VARIE AUSSI $\Rightarrow$ LOI PLUS ÉTALÉE (QUEUES PLUS ÉPAISSES) QUE $N(0,1)$}
+}
+
+% ---------------------------------------------------------------- p. 44
+\annot{44}{Exemple 2 : Un sondage}{
+  \ecrire[violet][8]{(113,63.5)}{$n = 1028$ ESSAIS ;\\ SUCCÈS = ENVIRONNEMENT}
+  \ecrire[rouge][9]{(104,32.8)}{$n = 1028$, \ $p = \,?$}
+}
+
+% ---------------------------------------------------------------- p. 45
+\annot{45}{Propriétés de l'estimateur}{
+  \ecrire[vert][9]{(104,42.5)}{$\leftarrow$ SANS BIAIS !}
+  \ecrire[orange][8]{(76,22.5)}{MAXIMALE SI $p = 0{,}5$}
+  \ecrire[violet][8]{(14,11)}{RAPPEL : $E[aY] = a\,E[Y]$, \ $\mathrm{Var}(aY) = a^2\,\mathrm{Var}(Y)$ \ AVEC $a = \frac{1}{n}$}
+}
+
+% ---------------------------------------------------------------- p. 46
+\annot{46}{Retour sur l'exemple 2}{
+  \ecrire[violet][8]{(6,38)}{$p$ INCONNU\\ $\to$ ON MET $\hat{p}$}
+  \fleche[violet][-20]{(24,32)}{(52,36.5)}
+  \ecrire[vert][8]{(10,12)}{SI ON REFAISAIT LE SONDAGE, $\hat{p}$ VARIERAIT D'ENVIRON 1,3 \% AUTOUR DE $p$\\[0.5mm]
+    $\hat{p}$ BIAISÉ ? NON, CAR $E[\widehat{P}] = p$}
+}
+
+% ---------------------------------------------------------------- p. 47
+\annot{47}{Loi échantillonnale de}{
+  \ecrire[vert][8]{(118,5)}{$\to$ PAGE SUIVANTE}
+}
+\apres{47}{
+  \ecrire[violet][13]{(8,85)}{EXEMPLE 2 : SI $p = 0{,}20$ ET $n = 1028$, \ $P(\widehat{P} \ge 0{,}21)$ ?}
+  \ecrire[vert][12]{(8,72)}{%
+    $\mathrm{ET}(\widehat{P}) = \sqrt{\dfrac{0{,}2 \times 0{,}8}{1028}} = 0{,}0125$\\[4mm]
+    $P(\widehat{P} \ge 0{,}21) \approx P\Big(Z \ge \dfrac{0{,}21 - 0{,}20}{0{,}0125}\Big)$\\[3mm]
+    $\qquad = P(Z \ge 0{,}80) = 0{,}2119$}
+  \ecrire[orange][11]{(8,20)}{AVEC LA BINOMIALE EXACTE : 0,219 \ (TRÈS PROCHE)}
+  \ecrire[rouge][11]{(8,12)}{ICI ON CONNAÎT $p$ : ON UTILISE $p$, PAS $\hat{p}$, DANS L'ERREUR-TYPE}
+  \begin{scope}[shift={(128,40)}]
+    \fill[vert, opacity=0.35, domain=4.8:22, samples=40, smooth]
+      (4.8,0) -- plot (\x, {24*exp(-(\x/6)^2/2)}) -- (22,0) -- cycle;
+    \draw[crayon lisse, bleu] (-24,0) -- (24,0);
+    \draw[crayon lisse, bleu, domain=-22:22, samples=60, smooth] plot (\x, {24*exp(-(\x/6)^2/2)});
+    \draw[crayon lisse, bleu] (0,0) -- (0,-1.5) (4.8,0) -- (4.8,-1.5);
+  \end{scope}
+  \ecrirec[bleu][9]{(128,35.5)}{$0{,}20$}
+  \ecrirec[bleu][9]{(137,31)}{$0{,}21$}
+  \ecrirec[vert][11]{(148,52)}{$0{,}2119$}
+  \fleche[vert][-20]{(148,48)}{(138,43)}
+}
+
+\produire{Chapitre_3a}
+\end{document}

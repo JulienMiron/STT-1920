@@ -1,0 +1,777 @@
+\documentclass{article}
+\usepackage{annot}
+\usetikzlibrary{decorations.pathreplacing}
+% Petites aides locales (dessins à main levée)
+\newcommand{\Vcadre}[3][vert]{\draw[crayon, sharp corners, #1] #2 rectangle #3;}
+\newcommand{\Vcercle}[3][vert]{\draw[crayon, #1] #2 circle (#3);}
+\begin{document}
+
+% ============================================================================
+% 2.1 Probabilités et statistique / expérience aléatoire
+% ============================================================================
+\annot{3}{Où en sommes-nous}{
+  \entourer[violet]{(83.3,61.2)}{7}{2.6}
+  \entourer[violet]{(112.6,61.2)}{7}{2.6}
+  \ecrire[violet][9.5]{(34,8)}{$\rightarrow$ ON Y REVIENT : EXEMPLE 1 (SUITE), RÉPONSE $= 7/8$}
+}
+
+\annot{4}{Probabilités vs statistique}{
+  \ecrire[violet][9.5]{(28,50)}{$\leftarrow$ EX. : LA VRAIE PROPORTION $p$ DE FEMELLES (INCONNUE)}
+  \ecrire[vert][11]{(12,16)}{PROPORTION OBSERVÉE : $\hat p = \frac{112}{200} = 0.56$ \quad VS \quad $0.5$ ?}
+  \ecrire[violet][10]{(12,8)}{ÉCART DÛ AU HASARD ? $\rightarrow$ ON RÉPONDRA AVEC LES PROBABILITÉS (TESTS, CH. 3)}
+}
+
+\annot{6}{Expérience aléatoire}{
+  \ecrire[violet][9.5]{(82.5,35.5)}{$\leftarrow$ EX. : DÉ $\Rightarrow$ CARDINAL $= 6$}
+  \ecrire[vert][10.5]{(12,8.5)}{EX. : PILE OU FACE $\Rightarrow \Omega = \{P, F\}$ \qquad LANCER D'UN DÉ $\Rightarrow \Omega = \{1,2,3,4,5,6\}$}
+}
+
+\annot{7}{Exemple 1 : quel est}{
+  \ecrire[violet][9.5]{(116,70)}{DISCRET\\ (FINI : 8 ÉLÉMENTS)}
+  \ecrire[violet][9.5]{(74,52)}{DISCRET (DÉNOMBRABLE)}
+  \ecrire[violet][9.5]{(48,35.5)}{CONTINU (UN INTERVALLE)}
+  \ecrire[vert][10.5]{(12,17)}{$\Omega_1$, $\Omega_2$ : DISCRETS \quad $\Omega_3$ : CONTINU}
+  % arbre des 8 résultats
+  \begin{scope}
+    \draw[crayon, vert] (98.5,16) -- (106,23);  \draw[crayon, vert] (98.5,16) -- (106,9);
+    \foreach \y/\d in {24/4, 8/4}{
+      \draw[crayon, vert] (110,\y) -- (118,\y+\d);
+      \draw[crayon, vert] (110,\y) -- (118,\y-\d);}
+    \foreach \y in {28,20,12,4}{
+      \draw[crayon, vert] (122,\y) -- (130,\y+2);
+      \draw[crayon, vert] (122,\y) -- (130,\y-2);}
+    \ecrirec[vert][8]{(108,24)}{F} \ecrirec[vert][8]{(108,8)}{M}
+    \foreach \y/\l in {28/F,20/M,12/F,4/M}{\ecrirec[vert][8]{(120,\y)}{\l}}
+    \foreach \y/\l in {30/F,26/M,22/F,18/M,14/F,10/M,6/F,2/M}{\ecrirec[vert][7.5]{(132,\y)}{\l}}
+    \foreach \y/\l in {30/FFF,26/FFM,22/FMF,18/FMM,14/MFF,10/MFM,6/MMF,2/MMM}{
+      \ecrire[violet][7]{(136,\y+1.2)}{\l}}
+  \end{scope}
+}
+
+\annot{8}{Événement}{
+  \entourer[violet]{(26,62.3)}{13}{2.8}
+  \ecrire[violet][9.5]{(100,31.5)}{$\leftarrow$ 10 ÉLÉMENTS}
+  \ecrire[violet][9.5]{(103,22)}{$\leftarrow$ UN INTERVALLE}
+  \ecrire[vert][10.5]{(12,14)}{EX. : LANCER D'UN DÉ, $\Omega = \{1, \ldots, 6\}$\\
+    $B$ = « OBTENIR UN NOMBRE PAIR » $= \{2, 4, 6\} \subset \Omega$}
+}
+
+\annot{9}{Exemple 2 : une espèce}{
+  \ecrirec[violet][9.5]{(9.5,53.7)}{1}
+  \ecrirec[violet][9.5]{(9.5,48)}{2}
+  \ecrirec[violet][9.5]{(9.5,37.4)}{3}
+  \ecrire[vert][10.5]{(10,25)}{$\Omega_1 = \{0,1\} = \Omega_2$ \qquad $\Omega_3 = [0, \infty)$}
+  \ecrire[violet][9.5]{(10,19.5)}{(0 : ABSENTE, 1 : PRÉSENTE)}
+  \ecrire[vert][10]{(50,15)}{A = « HYDROCHARIS PRÉSENTE »\\
+    B = « AUTRE MACROPHYTE PRÉSENT »\\
+    C = « PROFONDEUR $>$ 2 M »}
+}
+
+\annot{10}{Rappel des opérations}{
+  \ecrire[orange][10.5]{(42,66)}{« NON A »}
+  \ecrire[violet][9.5]{(42,60.5)}{TOUT CE QUI\\ N'EST PAS\\ DANS A}
+  \ecrire[violet][9.5]{(118,66)}{SI B SE\\ RÉALISE, A SE\\ RÉALISE AUSSI}
+  \ecrire[orange][10.5]{(42,31)}{« A ET B »}
+  \ecrire[violet][9.5]{(42,25.5)}{LES DEUX\\ EN MÊME\\ TEMPS}
+  \ecrire[orange][10.5]{(118,31)}{« A OU B »}
+  \ecrire[violet][9.5]{(118,25.5)}{AU MOINS\\ UN DES\\ DEUX}
+}
+
+\annot{11}{Événements mutuellement exclusifs}{
+  \entourer[rouge]{(82.5,56.3)}{7.8}{2.6}
+  \Vcadre{(14,4)}{(62,25)}
+  \Vcercle{(24,14)}{5.5} \Vcercle{(38,16)}{4.5} \Vcercle{(51,11)}{4.5}
+  \ecrirec[vert][9.5]{(24,14)}{A} \ecrirec[vert][9.5]{(38,16)}{B} \ecrirec[vert][9.5]{(51,11)}{C}
+  \ecrirec[vert][8]{(59,22)}{$\Omega$}
+  \ecrire[vert][10]{(68,24)}{AUCUNE ZONE COMMUNE !\\[1mm]
+    EX. (DÉ) : A = « OBTENIR 1 », B = « OBTENIR 2 »\\
+    $A \cap B = \varnothing$ $\Rightarrow$ MUTUELLEMENT EXCLUSIFS}
+}
+
+\annot{12}{QUIZ}{
+  \ecrire[vert][10.5]{(18,57.5)}{$A \cap C = C \neq \varnothing$ \quad (EX. : FFM EST DANS A ET DANS C)\\
+    $\Rightarrow$ \textcolor{rouge}{NON, PAS MUTUELLEMENT EXCLUSIFS}}
+  \ecrire[violet][9.5]{(18,48.5)}{(MÊME SI $A \cap B = \varnothing$ ET $B \cap C = \varnothing$)}
+  \ecrire[vert][10.5]{(18,28.5)}{$A \cap B = (150, 175) \neq \varnothing$ $\Rightarrow$ \textcolor{rouge}{NON}}
+  % droite des précipitations
+  \draw[crayon lisse, vert, pointe] (20,6) -- (146,6);
+  \foreach \v/\x in {0/20, 150/72.5, 175/81.25, 200/90, 300/125}{
+    \draw[crayon lisse, vert] (\x,5) -- (\x,7);
+    \ecrirec[vert][7.5]{(\x,3)}{\v}}
+  \fill[rose, opacity=.35] (72.5,11.5) rectangle (81.25,19);
+  \draw[crayon, orange, line width=1.1pt] (72.5,17.5) -- (144,17.5);
+  \draw[crayon lisse, orange, pointe] (140,17.5) -- (146,17.5);
+  \ecrirec[orange][9.5]{(68.5,17.5)}{A}
+  \draw[crayon, violet, line width=1.1pt] (20,13) -- (81.25,13);
+  \ecrirec[violet][9.5]{(16.5,13)}{B}
+  \draw[crayon, vert, line width=1.1pt] (90,9.5) -- (125,9.5);
+  \ecrirec[vert][9.5]{(107.5,12.5)}{C}
+  \ecrire[rose][8]{(84,22)}{$A \cap B$}
+}
+
+\annot{13}{Interprétation d'une probabilité}{
+  \souligner[violet]{(128,71.3)}{(139,71.3)}
+  \ecrire[violet][9.5]{(67.5,69.5)}{0 : IMPOSSIBLE \quad 1 : CERTAIN}
+  \fleche[violet][-20]{(122,67.3)}{(131,70.8)}
+  \ecrire[violet][10.5]{(100,22)}{$\leftarrow$ « À LONG TERME »}
+  \ecrire[vert][10.5]{(12,12.5)}{EX. : ON LANCE UNE PIÈCE $m = 1000$ FOIS : $m_A = 507$ « FACE »\\
+    $\Rightarrow f_A = 507/1000 = 0.507 \approx 0.5 = P(\text{FACE})$}
+}
+
+\annot{14}{La fréquence relative}{
+  \ecrire[violet][9.5]{(48,66.5)}{AU DÉBUT (PEU DE VÊLAGES) :\\ BEAUCOUP DE VARIATION}
+  \fleche[violet][20]{(47,61)}{(37.5,64)}
+  \ecrire[vert][10]{(84,43)}{APRÈS 1000 VÊLAGES : $f_A = 0.457$}
+  \fleche[vert][-35]{(143,43)}{(135,47.5)}
+  \ecrire[vert][11]{(12,17)}{QUAND $m$ AUGMENTE, $f_A$ SE STABILISE AUTOUR DE $P(A)$}
+  \ecrire[rouge][10.5]{(12,10.5)}{(LOI DES GRANDS NOMBRES)}
+}
+
+% ============================================================================
+% 2.2 Propriétés
+% ============================================================================
+\annot{16}{Définition}{
+  \entourer[vert]{(33.4,64.6)}{12}{3}
+  \ecrire[vert][10]{(52,68.5)}{EX. (DÉ) : $A_1$ = « OBTENIR 1 », $A_2$ = « OBTENIR 5 »\\
+    M. EXCLUSIFS $\Rightarrow P(A_1 \cup A_2) = \frac16 + \frac16 = \frac13$}
+  \ecrire[violet][9.5]{(86,31)}{$\leftarrow$ SUITE INFINIE}
+  \Vcadre[orange]{(120,23.5)}{(155,34.5)}
+  \begin{scope}
+    \clip (129.5,29) circle (3.8) (145.5,29) circle (3.8);
+    \fill[pattern=north east lines, pattern color=orange] (120,23) rectangle (155,35);
+  \end{scope}
+  \Vcercle[orange]{(129.5,29)}{3.8} \Vcercle[orange]{(145.5,29)}{3.8}
+  \ecrire[orange][7.5]{(120.6,34)}{$A_1$} \ecrire[orange][7.5]{(136.4,34)}{$A_2$}
+}
+
+\annot{17}{Spécification des probabilités}{
+  \ecrire[violet][10]{(92,66.5)}{$\rightarrow$ FRÉQUENCE RELATIVE $f_A$}
+  \ecrire[violet][10]{(90,48.5)}{$\rightarrow$ SYMÉTRIE : $P(6) = \frac16$,\\ \qquad $P(\text{FACE}) = \frac12$}
+  \ecrire[vert][10.5]{(14,12)}{$\rightarrow$ C'EST CE MODÈLE QUI DONNE LES 8 RÉSULTATS\\ \quad ÉQUIPROBABLES DE L'EXEMPLE 1}
+}
+
+\annot{18}{Le cas équiprobable}{
+  \ecrire[violet][9]{(100,59.3)}{$\leftarrow$ NB DE RÉSULTATS DANS A}
+  \ecrire[violet][9]{(100,53)}{$\leftarrow$ NB DE RÉSULTATS POSSIBLES}
+  \ecrire[vert][10.5]{(14,15)}{EX. : DÉ, A = « PAIR » $= \{2,4,6\} \Rightarrow P(A) = \frac36 = \frac12$}
+  \ecrire[rouge][10]{(14,6.5)}{ATTENTION : SEULEMENT SI LES RÉSULTATS SONT ÉQUIPROBABLES !}
+}
+
+\annot{19}{Résultats découlant des axiomes}{
+  \ecrire[violet][9.5]{(68,69.5)}{$\leftarrow$ IMPOSSIBLE}
+  \surligner[jaune]{(17.5,52)}{(77,56.6)}
+  \ecrire[vert][10]{(42,7.5)}{EX. : A = « OBTENIR 5 » AU DÉ $\Rightarrow P(A^c) = 1 - 1/6 = 5/6$}
+  \ecrire[violet][9.5]{(124,42.8)}{$\rightarrow$ P. SUIVANTE}
+  % Venn du complément
+  \begin{scope}
+    \clip (6,5) rectangle (36,25);
+    \fill[even odd rule, pattern=north east lines, pattern color=orange] (6,5) rectangle (36,25) (16,15) circle (6);
+  \end{scope}
+  \Vcadre[orange]{(6,5)}{(36,25)} \Vcercle[orange]{(16,15)}{6}
+  \ecrirec[vert][9.5]{(16,15)}{A} \ecrirec[orange][9.5]{(30.5,9)}{$A^c$}
+}
+
+\annot{20}{Formule de Poincaré}{
+  \begin{scope}
+    \clip (59.9,67.2) circle (6.2);
+    \fill[rose, opacity=.55] (66.1,67.2) circle (6.2);
+  \end{scope}
+  \begin{scope}
+    \clip (93.3,67.2) circle (6.2);
+    \fill[rose, opacity=.55] (99.5,67.2) circle (6.2);
+  \end{scope}
+  \ecrirec[violet][10.5]{(29.5,53.5)}{$P(A \cup B)$}
+  \ecrirec[violet][10.5]{(63,53.5)}{$P(A)$}
+  \ecrirec[violet][10.5]{(96.5,53.5)}{$P(B)$}
+  \ecrirec[violet][10.5]{(130,53.5)}{$P(A \cap B)$}
+  \ecrire[vert][11]{(14,42)}{$P(A) + P(B)$ COMPTE LA ZONE \textcolor{rose}{$A \cap B$} DEUX FOIS\\
+    $\Rightarrow$ ON L'ENLÈVE UNE FOIS}
+  \ecrire[vert][10.5]{(14,26)}{EX. (DÉ) : A = « PAIR » $= \{2,4,6\}$, \quad B = « AU MOINS 5 » $= \{5,6\}$\\[1mm]
+    $P(A \cup B) = \frac36 + \frac26 - \frac16 = \frac46$ \quad ($A \cap B = \{6\}$)}
+}
+
+\annot{21}{Résultats utiles}{
+  \ecrire[violet][9.5]{(104,66)}{$\leftarrow$ « PAS LES DEUX »}
+  \ecrire[violet][9.5]{(104,60.5)}{$\leftarrow$ « NI A, NI B »}
+  % (A u B)^c
+  \fill[pattern=north east lines, pattern color=orange] (20,12) rectangle (60,38);
+  \fill[white] (34,25) circle (8); \fill[white] (46,25) circle (8);
+  \Vcadre[orange]{(20,12)}{(60,38)} \Vcercle[orange]{(34,25)}{8} \Vcercle[orange]{(46,25)}{8}
+  \ecrirec[vert][9.5]{(30,27)}{A} \ecrirec[vert][9.5]{(50,27)}{B}
+  \ecrirec[vert][10.5]{(40,7)}{$(A \cup B)^c = A^c \cap B^c$}
+  % (A n B)^c
+  \begin{scope}
+    \fill[pattern=north east lines, pattern color=violet] (95,12) rectangle (135,38);
+    \begin{scope}
+      \clip (109,25) circle (8);
+      \fill[white] (121,25) circle (8);
+    \end{scope}
+  \end{scope}
+  \Vcadre[violet]{(95,12)}{(135,38)} \Vcercle[violet]{(109,25)}{8} \Vcercle[violet]{(121,25)}{8}
+  \ecrirec[vert][9.5]{(104,28)}{A} \ecrirec[vert][9.5]{(126,28)}{B}
+  \ecrirec[vert][10.5]{(115,7)}{$(A \cap B)^c = A^c \cup B^c$}
+}
+
+\annot{22}{Exemple 1 (suite)}{
+  \entourer{(135.8,67.6)}{14.5}{2.8}
+  \entourer{(14.4,62.2)}{6.5}{2.6}
+  \ecrire[vert][10.5]{(16,58)}{%
+    $P(\text{AU MOINS 1 FEMELLE}) = 1 - P(\text{AUCUNE FEMELLE})$\\[1mm]
+    $\qquad = 1 - P(M_1 \cap M_2 \cap M_3)$\\[1mm]
+    $\qquad = 1 - P(M_1)\,P(M_2)\,P(M_3)$ \quad $\leftarrow$ INDÉPENDANCE\\[1mm]
+    $\qquad = 1 - \frac12\cdot\frac12\cdot\frac12 = 1-\frac18 = \frac78$}
+  \ecrire[violet][9.5]{(122,52)}{COMPLÉMENT :\\ AUCUNE FEMELLE\\ = 3 MÂLES}
+  \fleche{(131,52.5)}{(134,64.6)}
+  \ecrire[violet][9.5]{(16,14)}{$M_i$ = « LE $i$\textsuperscript{E} VEAU EST UN MÂLE », \quad $P(M_i) = 1/2$}
+}
+
+\annot{23}{Exemple 2 (suite)}{
+  \surligner[jaune]{(38.8,66.4)}{(44.6,70.2)}
+  \surligner[jaune]{(62.8,61.8)}{(68.6,65.6)}
+  \surligner[jaune]{(111.6,61.8)}{(118,65.6)}
+  \ecrire[violet][10]{(118,24)}{$P(A) = 0.15$\\ $P(B) = 0.25$\\ $P(A \cup B) = 0.35$}
+  \ecrire[vert][11]{(20,46)}{$P\big((A \cup B)^c\big) = 1 - P(A \cup B) = 1 - 0.35 = $ \textcolor{rouge}{0.65}}
+  \ecrire[violet][9.5]{(20,40)}{(ZONE D'EAU LIBRE = NI A NI B)}
+  \ecrire[vert][11]{(20,24)}{$P(A \cup B) = P(A) + P(B) - P(A \cap B)$ \quad \textcolor{violet}{(POINCARÉ)}\\[1mm]
+    $\Rightarrow P(A \cap B) = P(A) + P(B) - P(A \cup B)$\\[1mm]
+    $\qquad = 0.15 + 0.25 - 0.35 = $ \textcolor{rouge}{0.05}}
+}
+
+\annot{24}{Exemple 2 : piste de solution}{
+  \ecrire[vert][10]{(6,56)}{A SEULEMENT :\\ $0.15 - 0.05 = 0.10$}
+  \fleche[vert][-20]{(22,47)}{(64,40.5)}
+  \ecrire[vert][10]{(6,32)}{LES DEUX :\\ $0.05$ (B)}
+  \fleche[vert][25]{(24,27)}{(78,38)}
+  \ecrire[vert][10]{(110,56)}{B SEULEMENT :\\ $0.25 - 0.05 = 0.20$}
+  \fleche[vert][20]{(118,47)}{(97,40.5)}
+  \ecrire[vert][10]{(110,32)}{NI A NI B :\\ $1 - 0.35 = 0.65$ (A)}
+  \fleche[vert][-25]{(112,24)}{(66,25)}
+  \ecrire[violet][10.5]{(30,15)}{VÉRIF. : $0.10 + 0.05 + 0.20 + 0.65 = 1$}
+  \coche[violet]{(115,12.5)}
+}
+
+% ============================================================================
+% 2.3 Analyse combinatoire
+% ============================================================================
+\annot{26}{Pourquoi compter}{
+  \surligner[jaune]{(132.5,71.4)}{(147.5,75.4)}
+  \ecrire[vert][10.5]{(112,62)}{$2^{10} = 1024$}
+  \ecrire[vert][10.5]{(40,50.5)}{$\binom{20}{5} = 15\,504$ \quad \textcolor{violet}{(EXEMPLE 3)}}
+  \ecrire[violet][10.5]{(14,20)}{L'ORDRE COMPTE ?}
+  \ecrire[violet][10.5]{(60,23)}{OUI $\rightarrow$ PERMUTATIONS}
+  \ecrire[violet][10.5]{(60,15.5)}{NON $\rightarrow$ COMBINAISONS}
+  \trait[violet]{(52,17) -- (57,20.5)} \trait[violet]{(52,17) -- (57,13.5)}
+}
+
+\annot{27}{Principe fondamental}{
+  % mini arbre : 2 races x 3 régimes
+  \draw[crayon, vert] (104,40.5) -- (111,43.5); \draw[crayon, vert] (104,40.5) -- (111,37.5);
+  \foreach \y in {43.5,37.5}{
+    \foreach \d in {-2,0,2}{\draw[crayon, vert] (113,\y) -- (120,\y+\d);}}
+  \ecrire[vert][8.5]{(122,46)}{2 RACES\\ $\times$ 3 RÉGIMES\\ = 6 GROUPES}
+  \ecrire[violet][10]{(72,18.5)}{$\leftarrow n_1 \times n_2 \times n_3$}
+  \ecrire[violet][10]{(72,7.8)}{$\leftarrow$ $n_i = 2$ POUR CHAQUE VEAU}
+}
+
+\annot{28}{Permutations}{
+  \surligner[jaune]{(74.8,71.2)}{(85.8,75.2)}
+  \ecrire[violet][9.5]{(107,47.5)}{ON S'ARRÊTE\\ APRÈS $k$ CHOIX}
+  \ecrire[vert][10]{(48,26.5)}{$5! = 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = 120$ \quad (5 CHOIX, PUIS 4, PUIS 3\ldots)}
+  \ecrire[vert][10]{(14,8)}{$P_{8,3} = \frac{8!}{5!} = 8 \times 7 \times 6$ : \quad $T_1$ : 8 PARCELLES, $T_2$ : 7, $T_3$ : 6}
+}
+
+\annot{29}{Combinaisons}{
+  \surligner[rose]{(9,65.9)}{(31,70)}
+  \ecrire[violet][9.5]{(110,55.5)}{LES $k!$ ORDRES\\ DONNENT LE MÊME\\ SOUS-ENSEMBLE}
+  \ecrire[vert][10]{(55,25.5)}{$= \frac{336}{3!} = \frac{336}{6}$}
+  \ecrire[vert][10]{(73,15)}{$\rightarrow$ FFM, FMF, MFF}
+}
+
+\annot{30}{Exemple 3 : un lot}{
+  \ecrire[violet][9.5]{(100,59.5)}{$\leftarrow$ L'ORDRE NE COMPTE PAS}
+  \ecrire[violet][9.5]{(21,33.5)}{(LES 5 SEMENCES SONT TOUTES SAINES)}
+  \ecrire[vert][10.5]{(58,23.5)}{$\binom{4}{1}\binom{16}{4} \big/ \binom{20}{5} = 4 \times 1820 / 15\,504$}
+  \ecrire[vert][9.5]{(107,17)}{$= 7\,280 / 15\,504 \approx$ \textcolor{rouge}{0.470}}
+}
+
+\annot{31}{QUIZ}{
+  \ecrire[vert][10.5]{(20,63)}{COMBINAISON (L'ORDRE NE COMPTE PAS) : $\binom{9}{4} = 126$}
+  \ecrire[vert][10.5]{(20,43)}{PERMUTATION : $6! = 720$}
+  \ecrire[vert][10.5]{(20,23)}{PERMUTATION (MÈRE $\ne$ PÈRE : L'ORDRE COMPTE) : $P_{7,2} = 7 \times 6 = 42$}
+  \ecrire[violet][9.5]{(92,8.3)}{$\rightarrow$ PAGE SUIVANTE}
+}
+\apres{31}{
+  \ecrire[vert][14]{(8,85)}{EXACTEMENT 2 FEMELLES PARMI 10 VEAUX ?}
+  \ecrire[vert][13.5]{(8,74)}{$\Omega$ : SÉQUENCES DE 10 LETTRES F OU M\\[1mm]
+    CARDINAL$(\Omega) = 2^{10} = 1024$ \textcolor{violet}{(ÉQUIPROBABLES)}}
+  \ecrire[vert][13.5]{(8,54)}{A : ON CHOISIT LA POSITION DES 2 F PARMI LES 10\\[1mm]
+    CARDINAL$(A) = \binom{10}{2} = \frac{10 \times 9}{2} = 45$}
+  \ecrire[violet][12]{(12,34)}{EX. : FFMMMMMMMM, \; FMFMMMMMMM, \; \ldots, \; MMMMMMMMFF}
+  \ecrire[rouge][14]{(8,25)}{$P(A) = \frac{45}{1024} \approx 0.044$}
+  \ecrire[violet][12]{(8,13)}{(ON RETROUVERA ÇA AVEC LA LOI BINOMIALE,\\ \ 2\textsuperscript{E} PARTIE DU CHAPITRE)}
+}
+
+% ============================================================================
+% 2.4 Probabilité conditionnelle et indépendance
+% ============================================================================
+\annot{33}{Une information partielle}{
+  \entourer[rouge]{(121.2,17.7)}{11.5}{2.8}
+  \ecrire[violet][9.5]{(57,21.5)}{$A \cap B$}
+  \fleche[violet][-20]{(57,19)}{(38,31)}
+  \ecrire[vert][10.5]{(12,11)}{B DEVIENT LE NOUVEAU $\Omega$ :\\ ON NE REGARDE QUE LA PARTIE DE A QUI EST DANS B}
+}
+
+\annot{34}{Probabilité conditionnelle}{
+  \ecrire[violet][10]{(102,60)}{« $\mid$ » SE LIT « SACHANT »}
+  \ecrire[violet][10]{(102,54)}{B = NOUVEL ESPACE\\ \quad ÉCHANTILLONNAL}
+  \ecrire[violet][9.5]{(118,20)}{$\leftarrow$ DÉF. $\times P(B)$}
+  \ecrire[violet][9.5]{(120,10)}{(ARBRES !)}
+}
+
+\annot{35}{Attention}{
+  \ecrire[violet][9.5]{(38,56.5)}{$\uparrow$ ON DIVISE PAR $P(B)$}
+  \ecrire[violet][9.5]{(97,56.5)}{$\uparrow$ ON DIVISE PAR $P(A)$}
+  \entourer[rouge]{(81,14.5)}{12}{2.8}
+}
+
+\annot{36}{Exemple 3 (suite)}{
+  \ecrire[violet][9.5]{(70,64.5)}{(4 INFECTÉES SUR 20)}
+  % arbre des deux tirages
+  \draw[crayon, vert] (17,9) -- (37,14); \draw[crayon, vert] (17,9) -- (37,4);
+  \ecrirec[vert][9.5]{(40,14)}{$I_1$} \ecrirec[vert][9.5]{(40,4)}{$I_1^c$}
+  \ecrirec[vert][7.5]{(25,14.3)}{4/20} \ecrirec[vert][7.5]{(25,4)}{16/20}
+  \draw[crayon, vert] (43,14) -- (60,16.5); \draw[crayon, vert] (43,14) -- (60,11.5);
+  \ecrirec[vert][9.5]{(63.5,16.5)}{$I_2$} \ecrirec[vert][9.5]{(63.5,11)}{$I_2^c$}
+  \ecrirec[vert][7.5]{(50,18)}{3/19} \ecrirec[vert][7.5]{(52,11)}{16/19}
+  \draw[crayon, vert] (44,4) -- (52,4); \ecrire[vert][9.5]{(53,5.5)}{\ldots}
+  \ecrire[rouge][10]{(68,18)}{$\frac{4}{20} \times \frac{3}{19} \approx 0.0316$}
+  \ecrire[violet][9.5]{(104,15)}{ÉTAPES SUCCESSIVES\\ $\Rightarrow$ ARBRE + RÈGLE\\ \quad DE MULTIPLICATION}
+}
+
+\annot{37}{QUIZ}{
+  % B inclus dans A
+  \Vcadre{(50,58)}{(80,70.5)} \Vcercle{(63,64)}{5.5} \Vcercle{(65,63)}{2.3}
+  \ecrirec[vert][7.5]{(55.5,67.5)}{A} \ecrirec[vert][7]{(65,63)}{B}
+  \ecrire[vert][10.5]{(85,68.5)}{$A \cap B = B \Rightarrow P(A \mid B) = \frac{P(B)}{P(B)} = $ \textcolor{rouge}{1}}
+  % A inclus dans B
+  \Vcadre{(50,41)}{(80,53.5)} \Vcercle{(63,47)}{5.5} \Vcercle{(65,46)}{2.3}
+  \ecrirec[vert][7.5]{(55.5,50.5)}{B} \ecrirec[vert][7]{(65,46)}{A}
+  \ecrire[vert][10.5]{(85,51.5)}{$A \cap B = A \Rightarrow P(A \mid B) = $ \textcolor{rouge}{$\frac{P(A)}{P(B)}$}}
+  % disjoints
+  \Vcadre{(50,21.5)}{(80,34)} \Vcercle{(59,27.5)}{4} \Vcercle{(71,27.5)}{4}
+  \ecrirec[vert][7.5]{(59,27.5)}{A} \ecrirec[vert][7.5]{(71,27.5)}{B}
+  \ecrire[vert][10.5]{(85,32)}{$A \cap B = \varnothing \Rightarrow P(A \mid B) = \frac{0}{P(B)} = $ \textcolor{rouge}{0}}
+  \ecrire[violet][10.5]{(14,14)}{SI ON SAIT QUE B S'EST PRODUIT, A NE PEUT PAS SE PRODUIRE}
+}
+
+\annot{38}{Indépendance de deux}{
+  \ecrire[vert][10]{(76,64.5)}{$P(A) = \frac12$ \qquad $P(B) = \frac12$}
+  \ecrire[vert][10]{(72,58.5)}{$P(A \cap B) = P(\text{« F » ET « FACE »}) = \frac14 = \frac12 \cdot \frac12$}
+  \ecrire[rouge][10]{(92,43)}{$\ne$ MUTUELLEMENT EXCLUSIFS !}
+  \ecrire[violet][9.5]{(112,15.5)}{$\leftarrow$ ON MULTIPLIE}
+}
+
+\annot{39}{Indépendance et probabilité}{
+  \ecrire[vert][9.5]{(100,60.5)}{PREUVE : $P(A \mid B) = \frac{P(A)\,P(B)}{P(B)}$}
+  \ecrire[rouge][9.5]{(114,26)}{$\leftarrow$ LES 4 CONDITIONS !}
+}
+
+\annot{40}{QUIZ}{
+  \ecrire[vert][10]{(18,65)}{$P(A \cap B) = 0.15 + 0.25 - 0.35 = 0.05$ \quad VS \quad $P(A)\,P(B) = 0.15 \times 0.25 = 0.0375$}
+  \ecrire[vert][10]{(18,59.5)}{$0.05 \ne 0.0375 \Rightarrow$ \textcolor{rouge}{NON INDÉPENDANTS} \quad
+    \textcolor{violet}{(OU : $P(A \mid B) = 0.20 \ne 0.15$)}}
+  \ecrire[vert][10.5]{(18,43.5)}{$P(A \cap B) = 0.05 > 0 \Rightarrow$ \textcolor{rouge}{NON, PAS MUTUELLEMENT EXCLUSIFS}}
+  \ecrire[violet][10]{(18,38.5)}{(IL Y A DES ZONES OÙ LES DEUX ESPÈCES SONT PRÉSENTES)}
+  \ecrire[rouge][11]{(18,17)}{NON ! (JAMAIS)}
+  \ecrire[violet][10]{(55,16)}{$\rightarrow$ PAGE SUIVANTE}
+}
+\apres{40}{
+  \ecrire[vert][14]{(8,85)}{SUPPOSONS DEUX ÉVÉNEMENTS $A$ ET $B$\\[2mm]
+    AVEC $P(A)>0$ ET $P(B)>0$.\\[2mm]
+    SI $A$ ET $B$ SONT MUTUELLEMENT EXCLUSIFS,\\ PEUVENT-ILS ÊTRE INDÉPENDANTS ?}
+  \ecrire[vert][13.5]{(8,52)}{M. EXCLUSIFS : $A \cap B = \varnothing \Rightarrow P(A \cap B) = 0$\\[1mm]
+    MAIS $P(A)\,P(B) > 0$\\[1mm]
+    DONC $P(A \cap B) \ne P(A)\,P(B)$}
+  \ecrire[rouge][14]{(8,30)}{$\Rightarrow$ JAMAIS INDÉPENDANTS !}
+  \ecrire[violet][13]{(8,19)}{INTUITION : SI $A$ SE PRODUIT, $B$ NE PEUT PAS SE PRODUIRE.\\[1mm]
+    SAVOIR $A$ CHANGE TOUT POUR $B$ : $P(B \mid A) = 0 \ne P(B)$.}
+  \Vcadre{(116,33)}{(154,55)}
+  \Vcercle{(127,44)}{6.5} \Vcercle{(144,44)}{6.5}
+  \ecrirec[vert][13]{(127,44)}{A} \ecrirec[vert][13]{(144,44)}{B}
+  \ecrirec[vert][11]{(150.5,51.5)}{$\Omega$}
+}
+
+% ============================================================================
+% Probabilités totales et Bayes
+% ============================================================================
+\annot{41}{Exemple 4 : un test}{
+  \entourer[rouge]{(112,26)}{8}{3}
+  \ecrire[violet][10]{(14,21.5)}{$M$ : MALADE \quad $M^c$ : NON MALADE \quad $T^+$ : TEST POSITIF \quad $T^-$ : TEST NÉGATIF}
+  \ecrire[vert][10.5]{(14,14.5)}{DONC $P(T^+ \mid M^c) = 1 - 0.90 = 0.10$ \quad \textcolor{violet}{(FAUX POSITIFS)}}
+  \ecrire[rouge][11]{(14,7.5)}{RÉPONSE : ENVIRON 16 \% SEULEMENT ! (VOIR PLUS LOIN)}
+}
+
+\annot{42}{Partition et loi}{
+  \ecrire[violet][9.5]{(125,34)}{ON DÉCOUPE\\ A EN\\ MORCEAUX}
+  \ecrire[vert][10.5]{(14,8.5)}{EX. 4 : $P(T^+) = P(T^+ \mid M)\,P(M) + P(T^+ \mid M^c)\,P(M^c)$}
+}
+
+\annot{43}{Exemple 4 : arbre}{
+  \ecrire[violet][9]{(8,72)}{PRÉVALENCE}
+  \fleche[violet][-20]{(20,68.5)}{(32,63)}
+  \ecrire[violet][9]{(45,80)}{SENSIBILITÉ}
+  \fleche[violet][-20]{(61,77)}{(66,73.5)}
+  \ecrire[violet][9]{(40,33)}{SPÉCIFICITÉ}
+  \fleche[violet][20]{(58,33)}{(65,35.5)}
+  \ecrire[violet][9.5]{(98,81)}{VRAIS POSITIFS}
+  \fleche[violet][-20]{(123,78)}{(133,75.5)}
+  \ecrire[violet][9.5]{(98,55.5)}{FAUX POSITIFS}
+  \fleche[violet][20]{(123,52.5)}{(134,49.5)}
+  \ecrire[violet][10]{(14,6.5)}{VÉRIF. : $0.019 + 0.001 + 0.098 + 0.882 = 1$}
+  \coche[violet]{(89,4.5)}
+}
+
+\annot{44}{Théorème de Bayes}{
+  \ecrire[violet][9.5]{(112,45)}{$\leftarrow$ MULTIPLICATION}
+  \ecrire[violet][9.5]{(112,38)}{$\leftarrow$ PROB. TOTALES}
+  \ecrire[vert][10.5]{(14,9)}{EN BREF : $P(B_j \mid A) = P(A \cap B_j) / P(A)$ = LA DÉFINITION !}
+}
+
+\annot{45}{Exemple 4 : la valeur}{
+  \ecrire[violet][9]{(124,57)}{$\leftarrow$ $P(T^+)$ (PROB.\\ \quad TOTALES)}
+  \entourer[violet]{(53.5,17.3)}{14.5}{2.8}
+  \entourer[violet]{(108.5,17.3)}{12.5}{2.8}
+}
+
+\annot{46}{Pourquoi si peu}{
+  \entourer[vert]{(75.5,64.6)}{4.5}{2.3}
+  \entourer[vert]{(75.5,51.3)}{6}{2.3}
+  \entourer[rouge]{(75.5,59.3)}{4.5}{2.3}
+  \ecrire[violet][9.5]{(58,42.5)}{$200 = 0.02 \times 10\,000$ \qquad $190 = 0.95 \times 200$\\
+    $980 = 0.10 \times 9\,800$ \quad (FAUX POSITIFS)}
+}
+
+\annot{47}{QUIZ}{
+  \ecrire[vert][10.5]{(18,63.5)}{VPN $= \frac{P(M^c \cap T^-)}{P(T^-)} = \frac{0.882}{0.882 + 0.001} = \frac{0.882}{0.883} \approx $ \textcolor{rouge}{0.999}}
+  \ecrire[vert][10.5]{(18,42)}{VPP $= \frac{0.30 \times 0.95}{0.30 \times 0.95 + 0.70 \times 0.10} = \frac{0.285}{0.355} \approx $ \textcolor{rouge}{0.803}}
+  \ecrire[violet][10]{(18,28)}{$\rightarrow$ ARBRE : PAGE SUIVANTE}
+}
+\apres{47}{
+  \ecrire[vert][14]{(8,86)}{CLINIQUE SPÉCIALISÉE : PRÉVALENCE $P(M) = 0.30$}
+  % arbre
+  \draw[crayon, vert] (10,58) -- (32,68); \draw[crayon, vert] (10,58) -- (32,48);
+  \ecrirec[vert][13.5]{(35,69)}{$M$} \ecrirec[vert][13.5]{(35.5,47)}{$M^c$}
+  \ecrirec[violet][11]{(17,67)}{0.30} \ecrirec[violet][11]{(17,49)}{0.70}
+  \draw[crayon, vert] (39,70) -- (58,76); \draw[crayon, vert] (39,68) -- (58,64);
+  \draw[crayon, vert] (40,48) -- (58,53); \draw[crayon, vert] (40,46) -- (58,41);
+  \ecrirec[vert][13]{(61.5,76)}{$T^+$} \ecrirec[vert][13]{(61.5,64)}{$T^-$}
+  \ecrirec[vert][13]{(61.5,53)}{$T^+$} \ecrirec[vert][13]{(61.5,41)}{$T^-$}
+  \ecrirec[violet][11]{(46,76.5)}{0.95} \ecrirec[violet][11]{(47,63)}{0.05}
+  \ecrirec[violet][11]{(47,53.5)}{0.10} \ecrirec[violet][11]{(47,40.5)}{0.90}
+  \ecrire[vert][13]{(68,78.5)}{$0.30 \times 0.95 = $ \textcolor{rouge}{0.285}}
+  \ecrire[vert][13]{(68,66.5)}{$0.30 \times 0.05 = 0.015$}
+  \ecrire[vert][13]{(68,55.5)}{$0.70 \times 0.10 = $ \textcolor{rouge}{0.070}}
+  \ecrire[vert][13]{(68,43.5)}{$0.70 \times 0.90 = 0.630$}
+  \ecrire[vert][13.5]{(8,31)}{$P(T^+) = 0.285 + 0.070 = 0.355$\\[2mm]
+    VPP $= P(M \mid T^+) = \frac{0.285}{0.355} \approx$ \textcolor{rouge}{0.803}}
+  \ecrire[rouge][13]{(8,11)}{PRÉVALENCE 2 \% : VPP $\approx$ 16 \% \qquad PRÉVALENCE 30 \% : VPP $\approx$ 80 \%}
+  \ecrire[violet][13]{(112,31)}{LA VPP DÉPEND\\ BEAUCOUP DE LA\\ PRÉVALENCE !}
+}
+
+% ============================================================================
+% 2.5 Variables aléatoires
+% ============================================================================
+\annot{49}{Exemple 5}{
+  \ecrire[vert][10]{(96,27)}{FFM, FMF, MFF}
+  \fleche[vert][-30]{(118,27)}{(119,30.5)}
+  \ecrire[vert][10]{(12,26)}{$X : \Omega \rightarrow \mathbb{R}$}
+  \draw[crayon lisse, violet, pointe] (38,6) -- (140,6);
+  \foreach \k/\x in {0/45, 1/71, 2/107, 3/135}{
+    \draw[crayon lisse, violet] (\x,5) -- (\x,7);
+    \ecrirec[violet][9.5]{(\x,2.5)}{\k}}
+  \ecrirec[vert][7.5]{(45,18)}{MMM}
+  \foreach \x/\l in {60/FMM, 71/MFM, 82/MMF}{\ecrirec[vert][7.5]{(\x,18)}{\l}}
+  \foreach \x/\l in {96/FFM, 107/FMF, 118/MFF}{\ecrirec[vert][7.5]{(\x,18)}{\l}}
+  \ecrirec[vert][7.5]{(135,18)}{FFF}
+  \foreach \x/\y in {45/45, 60/71, 71/71, 82/71, 96/107, 107/107, 118/107, 135/135}{
+    \draw[crayon lisse, vert, -{Stealth[length=1.2mm]}] (\x,16) -- (\y,7.8);}
+  \ecrire[violet][9.5]{(12,20)}{$\Omega$}
+  \ecrire[violet][9.5]{(12,8)}{$\mathbb{R}$}
+}
+
+\annot{50}{Variable aléatoire}{
+  \ecrire[vert][10.5]{(14,22)}{EX. 5 : $X(FFM) = 2$, \quad $X(MMM) = 0$}
+  \ecrire[violet][10.5]{(14,15)}{$X$ : LA VARIABLE (MAJUSCULE) \qquad $x$ : UNE VALEUR (MINUSCULE)}
+  \ecrire[vert][10.5]{(14,8)}{$P(X = 2) = P(\{FFM, FMF, MFF\}) = 3/8$}
+}
+
+\annot{51}{QUIZ}{
+  \ecrire[rouge][10.5]{(93,72.8)}{CONTINUE}
+  \ecrire[rouge][10.5]{(124,64.8)}{CONTINUE}
+  \ecrire[rouge][10.5]{(109,56.8)}{CONTINUE}
+  \ecrirec[violet][9.5]{(11,47)}{4}
+  \ecrire[rouge][10.5]{(31.5,36.5)}{$\rightarrow$ DISCRÈTE (0 OU 1)}
+  \ecrire[rouge][10.5]{(14,26)}{4 $\rightarrow$ DISCRÈTE (ON COMPTE : 0, 1, 2, \ldots)}
+  \ecrire[violet][10]{(14,15)}{TRUC : ON MESURE $\rightarrow$ CONTINUE \qquad ON COMPTE $\rightarrow$ DISCRÈTE}
+}
+
+\annot{52}{Cas discret et continu}{
+  \ecrire[rouge][9.5]{(100,47.8)}{$f(x) \ne P(X = x)$ !}
+  \ecrire[vert][10]{(14,6.5)}{DISCRET : $P(2 \le X < 5) = p(2) + p(3) + p(4)$ \qquad CONTINU : $\int_2^5 f(x)\,dx$}
+}
+
+\annot{53}{Fonction de masse}{
+  \ecrire[violet][10]{(65,33)}{$\leftarrow$ C'EST UNE PROBABILITÉ}
+  \ecrire[violet][10]{(50,27.5)}{$\leftarrow$ LA SOMME DE TOUS LES BÂTONS $= 1$}
+  \ecrire[vert][10.5]{(14,15)}{EX. 5 : $p(2) = P(X = 2) = 3/8$}
+}
+
+\annot{54}{Retour à l'exemple 5}{
+  \foreach \y/\v in {53.5/3, 47.8/2, 42/2, 36.3/2, 30.6/1, 24.8/1, 19/1, 13.3/0}{
+    \ecrirec[vert][10]{(30,\y)}{\v}}
+  \foreach \y/\v in {51.3/{1/8}, 44.8/{3/8}, 38.4/{3/8}, 31.6/{1/8}}{
+    \ecrirec[vert][10]{(100,\y)}{\v}}
+  \ecrire[violet][9.5]{(86,26.5)}{TOTAL : $\frac{1+3+3+1}{8} = 1$}
+  % mini diagramme en bâtons
+  \draw[crayon lisse, violet] (92,4) -- (142,4);
+  \foreach \k/\h in {0/4, 1/12, 2/12, 3/4}{
+    \draw[vert, line width=1.6pt] ({100+10*\k},4) -- ({100+10*\k},{4+\h});
+    \ecrirec[violet][8]{({100+10*\k},2)}{\k}}
+  \ecrire[violet][8]{(143,12)}{$p(x)$}
+}
+
+\annot{55}{QUIZ}{
+  \ecrire[vert][10.5]{(20,66)}{$\frac16 + \frac26 + \frac36 = 1$ ET $0 \le p(x) \le 1$ $\Rightarrow$ \textcolor{rouge}{OUI}}
+  \ecrire[vert][10.5]{(20,49)}{$p(0) = \frac{0 - 1}{4} = -\frac14 < 0$ $\Rightarrow$ \textcolor{rouge}{NON}}
+  \ecrire[violet][9.5]{(20,42.5)}{(ET LA SOMME VAUT $1/2$)}
+  \ecrire[vert][10.5]{(20,32)}{$0.3 + 0.3 + 0.3 = 0.9 \ne 1$ $\Rightarrow$ \textcolor{rouge}{NON}}
+}
+
+\annot{56}{Exemple 6}{
+  \surligner[jaune]{(108,30.6)}{(131,40.6)}
+  \surligner[rose]{(108,58.2)}{(131,63)}
+  \draw[crayon lisse, vert, decorate, decoration={brace, amplitude=1.5mm}] (133,63) -- (133,30.5);
+  \ecrire[vert][9.5]{(137,49)}{$\sum$\\ $= 1$}
+  \ecrire[vert][10.5]{(14,21)}{a) $P(X > 3) = p(4) + p(5) = 0.10 + 0.05 = $ \textcolor{rouge}{0.15}}
+  \ecrire[vert][10.5]{(14,14.5)}{b) $P(X \ge 1) = 1 - P(X = 0) = 1 - 0.13 = $ \textcolor{rouge}{0.87}}
+  \ecrire[violet][9.5]{(20,8)}{$\uparrow$ COMPLÉMENT : PLUS RAPIDE QUE $p(1) + \cdots + p(5)$}
+}
+
+\annot{57}{Exemple 6 : représentation}{
+  \ecrire[vert][10]{(100,64)}{$P(X > 3)$ = BÂTONS\\ 4 ET 5 $= 0.15$}
+  \fleche[vert][-20]{(108,56)}{(110.4,40)}
+  \fleche[vert][-15]{(122,56)}{(126,33)}
+  \ecrire[violet][10.5]{(14,11)}{HAUTEUR DE CHAQUE BÂTON $= p(x)$ \qquad SOMME DES HAUTEURS $= 1$}
+}
+
+\annot{58}{Aspects importants}{
+  \ecrire[violet][10]{(81,58.8)}{$\leftrightarrow \overline{x}$}
+  \ecrire[violet][10]{(99,51.8)}{$\leftrightarrow s^2, s$}
+  \ecrire[violet][9.5]{(34,44.5)}{(SYMÉTRIQUE ? ASYMÉTRIQUE ?)}
+  \ecrire[vert][10.5]{(14,22)}{ÉCHANTILLON : $\overline{x}$, $s$ \quad (ON LES CALCULE AVEC LES DONNÉES)}
+  \ecrire[vert][10.5]{(14,15)}{POPULATION (MODÈLE) : $\mu$, $\sigma$ \quad (PARAMÈTRES, SOUVENT INCONNUS)}
+}
+
+\annot{59}{Mesure de la tendance}{
+  \ecrire[violet][9.5]{(105,48)}{MOYENNE PONDÉRÉE\\ PAR LES PROBABILITÉS}
+  \ecrire[vert][10.5]{(14,16.5)}{EX. 5 : $E(X) = 0 \cdot \frac18 + 1 \cdot \frac38 + 2 \cdot \frac38 + 3 \cdot \frac18 = \frac{12}{8} = 1.5$ FEMELLE}
+  \ecrire[violet][10]{(14,7.5)}{$\mu$ N'EST PAS NÉCESSAIREMENT UNE VALEUR POSSIBLE DE $X$ !}
+}
+
+\annot{60}{Exemple 6 (suite)}{
+  \ecrire[vert][11]{(14,62)}{$\mu = E(X) = \sum_x x \cdot p(x)$\\[1.5mm]
+    $= 0(0.13) + 1(0.26) + 2(0.27) + 3(0.19) + 4(0.10) + 5(0.05)$\\[1.5mm]
+    $= 0 + 0.26 + 0.54 + 0.57 + 0.40 + 0.25$\\[1.5mm]
+    $=$ \textcolor{rouge}{2.02 OTITES}}
+  \ecrire[violet][10.5]{(14,31)}{EN MOYENNE (SUR UN TRÈS GRAND NOMBRE DE BÉBÉS),\\
+    UN BÉBÉ FAIT 2.02 OTITES DURANT SES 2 PREMIÈRES ANNÉES.}
+  % diagramme en bâtons avec mu = point d'équilibre
+  \draw[crayon lisse, violet] (108,8) -- (148,8);
+  \foreach \k/\p in {0/.13, 1/.26, 2/.27, 3/.19, 4/.10, 5/.05}{
+    \draw[vert, line width=1.6pt] ({113+6*\k},8) -- ({113+6*\k},{8+40*\p});
+    \ecrirec[violet][7.5]{({113+6*\k},6)}{\k}}
+  \fill[rouge] (125.1,8) -- (123.6,4.2) -- (126.6,4.2) -- cycle;
+  \ecrire[rouge][9.5]{(93,9)}{$\mu = 2.02$}
+  \fleche[rouge][-20]{(110,6)}{(123,5.5)}
+}
+
+\annot{61}{Variabilité d'une variable}{
+  \ecrire[violet][9.5]{(91,56.5)}{$\leftarrow$ 1, 2, \ldots, 6 ÉQUIPROBABLES}
+  \ecrire[violet][9.5]{(70,50.5)}{$\leftarrow$ MOYENNE : LES DÉS SE COMPENSENT}
+  \ecrire[vert][10.5]{(14,17)}{MÊME $\mu$, MAIS $X_2$ EST BEAUCOUP MOINS DISPERSÉE QUE $X_1$}
+  \ecrire[violet][10]{(14,10)}{$\rightarrow$ ON LE VOIT À LA PAGE SUIVANTE}
+}
+
+\annot{62}{Petite simulation}{
+  \ecrire[vert][9.5]{(33,58)}{$X_1$ VARIE\\ DE 1 À 6}
+  \ecrire[vert][9.5]{(33,34)}{$X_2$ RESTE\\ ENTRE 3.2\\ ET 4.1}
+  \ecrire[violet][10]{(62,14.5)}{$X_2$ : TRÈS CONCENTRÉE AUTOUR DE 3.5}
+}
+
+\annot{63}{Mesure de dispersion}{
+  \ecrire[violet][9.5]{(124,50)}{MOYENNE DES\\ ÉCARTS AU\\ CARRÉ}
+  \ecrire[violet][10]{(50,32)}{$\leftarrow$ MÊMES UNITÉS QUE $X$ (PLUS FACILE À INTERPRÉTER)}
+  \ecrire[vert][10.5]{(14,9.5)}{RAPPEL : $\overline{x} \leftrightarrow \mu$, \quad $s^2 \leftrightarrow \sigma^2$, \quad $s \leftrightarrow \sigma$}
+}
+
+\annot{64}{Une formule de calcul}{
+  \ecrire[vert][10]{(71,54.5)}{EX. 5 : $E(X^2) = 0^2 \cdot \frac18 + 1^2 \cdot \frac38 + 2^2 \cdot \frac38 + 3^2 \cdot \frac18 = 3$}
+  \ecrire[vert][10]{(108,41.5)}{EX. 5 : $\sigma^2 = 3 - 1.5^2$\\ \qquad $= 0.75$}
+  \ecrire[rouge][10]{(14,10)}{ATTENTION : $E(X^2) \ne \left[E(X)\right]^2$ !}
+}
+
+\annot{65}{Exemple 6 (suite)}{
+  \foreach \y/\a/\b in {51.9/0/0, 46.6/0.26/0.26, 40.3/0.54/1.08, 34.8/0.57/1.71, 28.6/0.40/1.60, 22.6/0.25/1.25}{
+    \ecrirec[vert][10]{(80,\y)}{\a}
+    \ecrirec[vert][10]{(102,\y)}{\b}}
+  \ecrire[rouge][10]{(80.3,16.6)}{2.02}
+  \ecrire[rouge][10]{(102.2,16.6)}{5.90}
+  \ecrire[vert][10]{(114,60)}{$\sigma^2 = E(X^2) - \mu^2$\\[0.5mm]
+    $= 5.90 - 2.02^2$\\[0.5mm]
+    $= 5.90 - 4.0804$\\[0.5mm]
+    $= 1.8196 \approx$ \textcolor{rouge}{1.82}\\[2mm]
+    $\sigma = \sqrt{1.8196}$\\[0.5mm]
+    $\approx$ \textcolor{rouge}{1.35 OTITE}}
+  \ecrire[violet][9]{(114,19)}{($\sigma^2$ EN OTITES$^2$)}
+}
+
+\annot{66}{QUIZ}{
+  \ecrire[vert][11]{(20,57)}{$E(X) = 0 \times 0.85 + 1 \times 0.15 = $ \textcolor{rouge}{0.15}}
+  \ecrire[vert][11]{(20,39.5)}{$E(X^2) = 0^2 \times 0.85 + 1^2 \times 0.15 = 0.15$\\[0.5mm]
+    $\operatorname{Var}(X) = 0.15 - 0.15^2 = $ \textcolor{rouge}{0.1275} \quad \textcolor{violet}{$(= 0.15 \times 0.85)$}}
+  \ecrire[vert][11]{(20,14)}{$E(X) = p$, \quad $E(X^2) = p$, \quad $\operatorname{Var}(X) = p - p^2 = $ \textcolor{rouge}{$p(1-p)$}}
+}
+
+\annot{67}{Fonction de densité}{
+  % petite densité avec aire ombrée
+  \fill[bleu, opacity=.3] (122,43) -- plot[domain=-6:4, samples=25] ({128+\x},{43+9*exp(-(\x/(34/6))^2/2)}) -- (132,43) -- cycle;
+  \cloche[bleu]{(128,43)}{34}{9}
+  \ecrirec[bleu][8]{(122,41.3)}{a} \ecrirec[bleu][8]{(132,41.3)}{b}
+  \ecrire[violet][10]{(58,28)}{$\leftarrow$ LA COURBE EST AU-DESSUS DE L'AXE DES $x$}
+  \ecrire[violet][10]{(48,22.8)}{$\leftarrow$ AIRE TOTALE SOUS LA COURBE $= 1$}
+  \ecrire[vert][10.5]{(14,11)}{DISCRET : SOMME $\sum$ \quad $\longrightarrow$ \quad CONTINU : INTÉGRALE $\int$ (AIRE)}
+}
+
+\annot{68}{Probabilité = aire}{
+  \ecrire[violet][10]{(98,73)}{AIRE BLEUE\\ = PROBABILITÉ}
+  \fleche[violet][20]{(100,66)}{(76,67)}
+  \ecrire[vert][10.5]{(14,10)}{UNE « LIGNE » N'A PAS D'AIRE : $P(X = a) = 0$ \quad \textcolor{rouge}{($\le$ OU $<$ : MÊME CHOSE)}}
+}
+
+\annot{69}{Exemple 7}{
+  \ecrire[violet][9]{(97,57.5)}{$f(50) = 1/15$}
+  \fleche[violet][-25]{(105,54)}{(113.3,42)}
+  \fill[pattern=north east lines, pattern color=violet]
+    (114.1,29.3) -- (114.1,41.2) -- (127.3,53) -- (129.9,48.3) -- (129.9,29.3) -- cycle;
+  \ecrire[rouge][10.5]{(123,16.8)}{$= 1/6 \approx 0.167$}
+  \ecrire[rouge][10.5]{(123,11.5)}{$\approx 0.62$}
+  \ecrire[violet][9.5]{(128,6)}{(P. SUIVANTE)}
+}
+\apres{69}{
+  \ecrire[vert][13.5]{(8,86)}{EXEMPLE 7 : PMG}
+  % croquis de la densité
+  \draw[crayon lisse, violet, pointe] (98,48) -- (156,48);
+  \fill[pattern=north east lines, pattern color=orange] (102,48) -- (118,61) -- (118,48) -- cycle;
+  \fill[violet, opacity=.3] (118,48) -- (118,61) -- (134,74) -- (137.2,68.8) -- (137.2,48) -- cycle;
+  \draw[crayon, vert] (100,48) -- (102,48) -- (134,74) -- (150,48) -- (154,48);
+  \foreach \v/\x in {45/102, 50/118, 56/137.2, 60/150}{
+    \draw[crayon lisse, violet] (\x,47) -- (\x,49);
+    \ecrirec[violet][10]{(\x,45)}{\v}}
+  \ecrirec[violet][10]{(134,77)}{55}
+  \ecrire[orange][11]{(96,60)}{a)}
+  \ecrire[violet][11]{(124,58)}{b)}
+  % a)
+  \ecrire[vert][13]{(8,76)}{a) $P(X < 50)$ = AIRE DU TRIANGLE\\[1mm]
+    $= \frac{\text{BASE} \times \text{HAUTEUR}}{2} = \frac{5 \times f(50)}{2}$\\[1mm]
+    $= \frac{5 \times 5/75}{2} = \frac{25}{150} = $ \textcolor{rouge}{$\frac16 \approx 0.167$}}
+  % b)
+  \ecrire[vert][13]{(8,40)}{b) $P(50 < X < 56) = F(56) - F(50)$\\[1mm]
+    $F(56) = 1 - P(X > 56) = 1 - \frac{4 \times f(56)}{2} = 1 - \frac{4 \times 8/75}{2} = 1 - \frac{16}{75} = \frac{59}{75}$\\[1mm]
+    $\Rightarrow P(50 < X < 56) = \frac{59}{75} - \frac16 = $ \textcolor{rouge}{0.62}}
+  \ecrire[violet][11]{(8,11)}{OU : $\int_{50}^{55} \frac{x - 45}{75}\,dx + \int_{55}^{56} \frac{120 - 2x}{75}\,dx = 0.50 + 0.12 = 0.62$}
+}
+
+\annot{70}{QUIZ}{
+  \ecrire[vert][10.5]{(20,67)}{\textcolor{rouge}{VRAI} \quad EX. : $f(x) = 2$ SUR $[0, 0.5]$ : AIRE $= 2 \times 0.5 = 1$}
+  \ecrire[vert][10.5]{(20,52)}{\textcolor{rouge}{VRAI} \quad (UNE LIGNE N'A PAS D'AIRE)}
+  \ecrire[vert][10.5]{(20,36.5)}{\textcolor{rouge}{VRAI} \quad CAR $P(X = 50) = 0$}
+  \ecrire[vert][10.5]{(20,21)}{\textcolor{rouge}{FAUX} \quad $P(X < 2) = p(0) + p(1) = 0.39$ \quad MAIS \quad $P(X \le 2) = 0.39 + 0.27 = 0.66$}
+  \ecrire[violet][10]{(20,13)}{DISCRET : $\le$ ET $<$, CE N'EST PAS PAREIL !}
+}
+
+\annot{71}{Fonction de répartition}{
+  \ecrire[violet][10]{(112,63)}{AIRE À GAUCHE\\ DE $x$}
+  \ecrire[vert][10]{(110,41.5)}{EX. 7 : $F(56) - F(50) = 0.62$}
+  % F(50) sur la répartition
+  \draw[crayon lisse, rouge] (120.1,13.8) -- (120.1,15.7) -- (103,15.7);
+  \fill[rouge] (120.1,15.7) circle (0.5);
+  \ecrire[rouge][8.5]{(104,25)}{$F(50) = 1/6$}
+  \fleche[rouge][-25]{(111,21.3)}{(119.6,16.4)}
+  % aire sous la densité à gauche de 50
+  \fill[pattern=north east lines, pattern color=bleu] (30.7,13.8) -- (41.6,17.1) -- (41.6,13.8) -- cycle;
+  \ecrire[bleu][8.5]{(29.5,26)}{AIRE $= F(50)$}
+  \fleche[bleu][20]{(33,22.3)}{(38.5,15.3)}
+}
+
+\annot{72}{Espérance et variance}{
+  \ecrire[vert][10.5]{(14,22)}{DISCRET : $\sum_x x \cdot p(x)$ \quad $\longrightarrow$ \quad CONTINU : $\int x \cdot f(x)\,dx$}
+  \ecrire[vert][10.5]{(14,13)}{FORMULE PRATIQUE AUSSI : $\sigma^2 = E(X^2) - \mu^2$, AVEC $E(X^2) = \int x^2 f(x)\,dx$}
+}
+
+\annot{73}{Exemple 7 (suite)}{
+  \ecrire[vert][11]{(8,66)}{$\mu = E(X) = \int_{-\infty}^{\infty} x\,f(x)\,dx = \int_{45}^{55} x \cdot \frac{x - 45}{75}\,dx + \int_{55}^{60} x \cdot \frac{120 - 2x}{75}\,dx$\\[2mm]
+    $= \frac{1}{75}\left[\frac{x^3}{3} - \frac{45 x^2}{2}\right]_{45}^{55} + \frac{1}{75}\left[60 x^2 - \frac{2 x^3}{3}\right]_{55}^{60}$\\[2mm]
+    $= \frac{310}{9} + \frac{170}{9} = \frac{480}{9} = \frac{160}{3} \approx$ \textcolor{rouge}{53.3 G}}
+  \ecrire[violet][10]{(8,27)}{($f(x) = 0$ AILLEURS : CES PARTIES DE L'INTÉGRALE VALENT 0)}
+  \ecrire[violet][10]{(8,15)}{ASYMÉTRIE À GAUCHE : $\mu \approx 53.3 < 55$ (LE SOMMET)}
+  % croquis
+  \draw[crayon lisse, violet] (98,9) -- (154,9);
+  \draw[crayon, vert] (100,9) -- (133.3,29) -- (150,9);
+  \draw[crayon lisse, rouge, dashed] (127.8,9) -- (127.8,25.7);
+  \fill[rouge] (127.8,9) -- (126.3,5.5) -- (129.3,5.5) -- cycle;
+  \ecrire[rouge][9]{(106,7.5)}{$\mu \approx 53.3$}
+  \ecrirec[violet][8]{(100,6.5)}{45} \ecrirec[violet][8]{(150,6.5)}{60} \ecrirec[violet][8]{(133.3,32)}{55}
+}
+
+\annot{74}{Résultats utiles (p. 50)}{
+  \ecrire[vert][10]{(68,55.5)}{EX. : $E(2X + 3) = 2\,E(X) + 3$}
+  \ecrire[violet][9.5]{(68,48.3)}{$\leftarrow$ TOUJOURS VRAI (MÊME SI DÉPENDANTES)}
+  \ecrire[vert][10]{(68,41.5)}{EX. : $\operatorname{Var}(2X + 3) = 4 \operatorname{Var}(X)$}
+  \ecrire[rouge][10.5]{(14,12)}{ATTENTION : $\operatorname{Var}(aX) = a^2 \operatorname{Var}(X)$, PAS $a \operatorname{Var}(X)$ !}
+  \ecrire[violet][10]{(14,5.5)}{AUSSI : $\operatorname{Var}(X - Y) = \operatorname{Var}(X) + \operatorname{Var}(Y)$ SI INDÉPENDANTES}
+}
+
+\annot{75}{Exemple 8}{
+  \ecrire[violet][10]{(14,52)}{X : TEMPÉRATURE EN °C, \qquad $Y = 1.8X + 32$ : TEMPÉRATURE EN °F}
+  \ecrire[vert][11]{(14,46)}{$E(Y) = E(1.8X + 32) = 1.8\,E(X) + 32$\\[1mm]
+    $\qquad = 1.8 \times 37.6 + 32 = $ \textcolor{rouge}{99.68 °F}}
+  \ecrire[vert][11]{(14,26)}{$\operatorname{Var}(Y) = \operatorname{Var}(1.8X + 32) = 1.8^2 \operatorname{Var}(X)$\\[1mm]
+    $\qquad = 3.24 \times 1.44 = $ \textcolor{rouge}{4.6656 (°F)$^2$}}
+  \ecrire[violet][10]{(14,11)}{LE « +32 » DÉPLACE SANS ÉTALER : IL DISPARAÎT DE LA VARIANCE.\\
+    ÉCART TYPE : $\sqrt{4.6656} = 2.16$ °F $= 1.8 \times 1.2$}
+}
+
+\annot{76}{Exemple 9}{
+  \ecrire[violet][10]{(14,52.5)}{$X_i$ = MASSE DE L'ORANGE $i$ ($i = 1, \ldots, 7$), \qquad $S = X_1 + \cdots + X_7$}
+  \ecrire[vert][11]{(14,46)}{$E(S) = E(X_1) + \cdots + E(X_7) = 7 \times 204 = $ \textcolor{rouge}{1428 G}}
+  \ecrire[vert][11]{(14,26)}{$\operatorname{Var}(S) = \operatorname{Var}(X_1) + \cdots + \operatorname{Var}(X_7) = 7 \times 256 = 1792$ G$^2$
+    \quad \textcolor{violet}{(INDÉPENDANTES)}\\[1mm]
+    $\sigma_S = \sqrt{1792} \approx$ \textcolor{rouge}{42.3 G}}
+  \ecrire[rouge][10]{(14,10)}{ATTENTION : PAS $\operatorname{Var}(7X) = 7^2 \times 256$ ! (VOIR LE QUIZ)}
+}
+
+\annot{77}{QUIZ}{
+  \ecrire[vert][11]{(12,63)}{$\operatorname{Var}(7X) = 7^2 \operatorname{Var}(X) = 49 \times 256 = 12\,544$ G$^2$ \quad ($\sigma = 112$ G)}
+  \ecrire[vert][11]{(12,56)}{$\operatorname{Var}(X_1 + \cdots + X_7) = 7 \times 256 = 1792$ G$^2$ \quad ($\sigma \approx 42.3$ G)}
+  \ecrire[violet][10.5]{(12,46)}{$7X$ : 7 FOIS LA MÊME ORANGE. SI ELLE EST LOURDE,\\ LES 7 LE SONT !\\[1mm]
+    $X_1 + \cdots + X_7$ : 7 ORANGES DIFFÉRENTES,\\ LES LOURDES ET LES LÉGÈRES SE COMPENSENT.}
+  \ecrire[rouge][11]{(12,20)}{$\Rightarrow$ VARIANCE PLUS PETITE POUR LE SAC}
+  \cloche[orange]{(125,3)}{50}{7}
+  \cloche[vert]{(125,3)}{19}{18.5}
+  \ecrire[orange][9.5]{(139,11)}{$7X$}
+  \ecrire[vert][9.5]{(132,21)}{SAC}
+  \ecrirec[violet][8]{(125,1.3)}{1428}
+}
+
+\produire{Chapitre_2a}
+\end{document}

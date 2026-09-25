@@ -23,3 +23,8 @@
 /diapos/*.snm
 /diapos/*.toc
 /diapos/*.vrb
+
+# Diapos annotées : PDF H22 (sources personnelles, volumineux) et compilation
+/diapos/Annotées/H22/
+/diapos/Annotées/sources/.build/
+**/.DS_Store

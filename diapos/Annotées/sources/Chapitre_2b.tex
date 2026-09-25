@@ -1,0 +1,565 @@
+\documentclass{article}
+\usepackage{annot}
+
+% ---------------------------------------------------------------------------
+% Outils locaux (TikZ) pour ce chapitre
+% ---------------------------------------------------------------------------
+% \zone[couleur]{(cx,y0)}{largeur}{hauteur}{a}{b} : aire ombrée sous une
+% petite cloche dessinée avec \cloche (mêmes 3 premiers arguments), entre
+% a et b exprimés en écarts types (la cloche couvre -3 à 3).
+\NewDocumentCommand{\zone}{O{orange} m m m m m}{%
+  \begin{scope}[shift={#2}]
+    \fill[#1, opacity=0.45] ({#5*#3/6},0) --
+      plot[domain=#5:#6, samples=30, smooth] ({\x*#3/6}, {#4*exp(-(\x)^2/2)})
+      -- ({#6*#3/6},0) -- cycle;
+  \end{scope}}
+% \hachure : même chose, mais hachuré (comme au crayon)
+\NewDocumentCommand{\hachure}{O{orange} m m m m m}{%
+  \begin{scope}[shift={#2}]
+    \fill[pattern=north east lines, pattern color=#1] ({#5*#3/6},0) --
+      plot[domain=#5:#6, samples=30, smooth] ({\x*#3/6}, {#4*exp(-(\x)^2/2)})
+      -- ({#6*#3/6},0) -- cycle;
+  \end{scope}}
+% Diapo 44 (croquis de l'exemple 4) : conversion taille (cm) -> mm
+\newcommand{\cx}[1]{35.8+(#1-65)*4.85}
+\newcommand{\dens}[1]{41.1+255*exp(-((#1)-74)^2/18)/(3*sqrt(2*pi))}
+
+% \rep{...} : réponse finale encadrée en rouge (dans le fil du texte)
+\newcommand{\rep}[2][vert]{{\color{rouge}\setlength{\fboxrule}{0.9pt}%
+  \setlength{\fboxsep}{1.5pt}\fbox{\color{#1}#2}}}
+
+\renewcommand{\TaillePolice}{10.5}
+
+\begin{document}
+
+% ===========================================================================
+% Introduction
+% ===========================================================================
+\annot{3}{Contexte}{
+  \ecrire[violet][9]{(129,52)}{SUCCÈS = 1\\ ÉCHEC = 0}
+  \entourer[rouge]{(86.7,26.2)}{2.3}{2.5}
+}
+
+\annot{4}{Quelques lois classiques}{
+  \surligner[jaune]{(9,64)}{(150,67.6)}
+  \surligner[jaune]{(9,51.6)}{(150,55.2)}
+  \surligner[jaune]{(9,43.8)}{(150,47.3)}
+  \ecrire[violet][10.5]{(12,18)}{DISCRÈTES : BINOMIALE, POISSON (VALEURS 0, 1, 2, ...)\\
+    CONTINUE : NORMALE (TOUTES LES VALEURS RÉELLES)}
+}
+
+\annot{5}{Un concept important}{
+  \ecrire[rouge][9]{(114,34.5)}{$\leftarrow$ SEULEMENT SI\\ INDÉPENDANTES !}
+  \ecrire{(12,12.5)}{EX. : $P(X=1 \text{ ET } Y=6) = P(X=1)\,P(Y=6) = \frac12 \cdot \frac16 = \frac1{12}$}
+}
+
+% ===========================================================================
+% Loi binomiale
+% ===========================================================================
+\annot{7}{Loi de Bernoulli}{
+  \ecrire{(10,23)}{$E(Y) = 1\cdot p + 0\cdot(1-p)$\\ $\qquad = p$}
+  \ecrire{(80,23)}{$E(Y^2) = 1^2\cdot p + 0^2\cdot(1-p) = p$\\
+    $\text{VAR}(Y) = E(Y^2) - [E(Y)]^2$\\ $\qquad\quad\;\; = p - p^2 = p(1-p)$}
+}
+
+\annot{8}{Exemple 1}{
+  \ecrire[violet][9]{(101,40)}{BINOMIALE : ON RÉPÈTE $n$ FOIS\\ UNE ÉPREUVE DE BERNOULLI\\ ET ON COMPTE LES SUCCÈS}
+  \ecrire[rouge][10.5]{(129,24)}{5 FAÇONS\\ $= \binom51$}
+}
+
+\annot{9}{Rappel : coefficient binomial}{
+  \ecrire{(14,25.5)}{$\binom52 = \frac{5!}{2!\,3!} = \frac{5\cdot 4}{2} = 10$}
+  \ecrire[violet][9]{(80,30.8)}{$\{A,B\}, \{A,C\}, \{A,D\}, \{A,E\}, \{B,C\}$,\\
+    $\{B,D\}, \{B,E\}, \{C,D\}, \{C,E\}, \{D,E\}$ : 10 !}
+  \ecrire[vert][9.5]{(38,8.3)}{$\binom{49}{6} = \frac{49!}{6!\,43!} = 13\,983\,816$}
+  \ecrire[violet][9]{(118,58)}{$\leftarrow$ "$n$ CHOISIT $r$"}
+}
+
+\annot{10}{Loi binomiale}{
+  \ecrire[vert][11.5]{(60,87.5)}{$X \sim \text{BIN}(n,\,p)$}
+  \ecrire[violet][9]{(92,34)}{PROB. D'UNE SUITE AVEC $k$ SUCCÈS}
+  \fleche[violet][-10]{(98,30.4)}{(96,26.5)}
+  \ecrire[violet][9]{(12,16.3)}{NB DE FAÇONS DE PLACER\\ LES $k$ SUCCÈS}
+  \fleche[violet][5]{(51,13.5)}{(81.8,17)}
+}
+\apres{10}{
+  \ecrire[violet][14]{(10,84)}{CONDITIONS POUR UNE LOI BINOMIALE}
+  \souligner[violet]{(10,76.5)}{(98,76.5)}
+  \ecrire[vert][13]{(14,72)}{1) $n$ ÉPREUVES, NOMBRE FIXÉ D'AVANCE\\[1.5mm]
+    2) CHAQUE ÉPREUVE : SUCCÈS OU ÉCHEC\\[1.5mm]
+    3) MÊME PROBABILITÉ DE SUCCÈS $p$ À CHAQUE FOIS\\[1.5mm]
+    4) ÉPREUVES INDÉPENDANTES}
+  \ecrire[rouge][13]{(14,36)}{$X$ = NB DE SUCCÈS $\sim$ BIN$(n,\,p)$ \quad VALEURS : $0, 1, \ldots, n$}
+  \ecrire[vert][12.5]{(14,22)}{EX. 1 : 5 GRAINS, SUCCÈS = GERME, $p = 0.85$\\[1mm]
+    $\Rightarrow X$ = NB DE GRAINS QUI GERMENT $\sim$ BIN$(5;\ 0.85)$}
+}
+
+\annot{11}{Allure de la loi binomiale}{
+  \ecrire[rouge][10.5]{(44,69.5)}{$np = 10(0.2) = 2$}
+  \fleche[rouge][-20]{(44,66.5)}{(35.5,69)}
+  \ecrire[rouge][10.5]{(133,70)}{$np = 5$}
+  \ecrire[violet][9]{(104,40.5)}{$p = 0.5$ : SYMÉTRIQUE\\ $p < 0.5$ : QUEUE VERS\\ LA DROITE}
+}
+
+\annot{12}{Espérance et variance}{
+  \ecrire[rouge][9]{(123,38.5)}{$\leftarrow$ INDÉPENDANCE !}
+  \ecrire{(12,24)}{EX. 1 : $E(X) = 5 \times 0.85 = 4.25$ GRAINS\\[0.5mm]
+    $\text{VAR}(X) = 5 \times 0.85 \times 0.15 = 0.6375$\\[0.5mm]
+    ÉCART TYPE : $\sigma = \sqrt{0.6375} \approx 0.80$ GRAIN}
+  \ecrire[rouge][9]{(88,23.3)}{ATTENTION : VARIANCE $\neq$ ÉCART TYPE}
+}
+
+\annot{13}{Exemple 1 (suite)}{
+  \ecrire[vert][11.5]{(12,59)}{$X$ = NB DE GRAINS QUI GERMENT $\sim$ BIN$(5;\ 0.85)$\\[2mm]
+    UN SEUL NE GERME PAS $\Leftrightarrow$ $X = 4$\\[2mm]
+    $P(X = 4) = \binom54 (0.85)^4 (0.15)^1$\\[2mm]
+    $\qquad\qquad = 5 \times 0.5220 \times 0.15$\\[2mm]
+    $\qquad\qquad =$ \rep{$0.3915$}}
+  \ecrire[violet][10.5]{(100,34)}{OU : $Y$ = NB QUI NE\\ GERMENT PAS $\sim$ BIN$(5;\ 0.15)$\\[1mm]
+    $P(Y = 1) = \binom51 (0.15)(0.85)^4$\\ $\qquad\quad\; = 0.3915$ AUSSI}
+}
+
+\annot{14}{Exemple 2}{
+  \ecrire{(14,56.5)}{$X$ = NB DE CANARDS INFESTÉS $\sim$ BIN$(7;\ 0.95)$\\
+    $P(X > 5) = P(X = 6) + P(X = 7) = 0.9556$ \quad {\color{violet}(DÉTAILS $\rightarrow$)}}
+  \ecrire{(20,33)}{$E(X) = np = 7 \times 0.95 = 6.65$ CANARDS}
+  \ecrire{(20,14)}{$\sigma = \sqrt{np(1-p)} = \sqrt{7 \times 0.95 \times 0.05} = \sqrt{0.3325} \approx 0.577$}
+}
+\apres{14}{
+  \ecrire[violet][14]{(10,84)}{EXEMPLE 2 A) \quad $X \sim$ BIN$(7;\ 0.95)$}
+  \ecrire[vert][13]{(12,72)}{$P(X > 5) = P(X = 6) + P(X = 7)$\\[3mm]
+    $\quad = \binom76 (0.95)^6 (0.05)^1 + \binom77 (0.95)^7 (0.05)^0$\\[3mm]
+    $\quad = 7 \times 0.7351 \times 0.05 + 1 \times 0.6983 \times 1$\\[3mm]
+    $\quad = 0.2573 + 0.6983$\\[3mm]
+    $\quad =$ \rep{$0.9556$}}
+  \ecrire[rouge][12.5]{(100,50)}{"PLUS DE 5"\\ = 6 OU 7\\ (PAS 5 !)}
+  \ecrire[violet][12.5]{(80,22)}{OU : $1 - P(X \le 5)$\\ = \code{1 - pbinom(5, 7, 0.95)}}
+}
+
+\annot{15}{Calculs dans R}{
+  \surligner[jaune]{(10,51.2)}{(36,54)}
+  \surligner[jaune]{(10,37.8)}{(36,40.6)}
+  \ecrire[violet][10.5]{(12,28)}{d $\rightarrow$ $P(X = k)$ \quad (UNE SEULE VALEUR)\\[1mm]
+    p $\rightarrow$ $P(X \le k)$ \quad (CUMULÉ : $0, 1, \ldots, k$)}
+  \ecrire[rouge][9]{(82,46.3)}{$\leftarrow$ COMPLÉMENT}
+}
+
+\annot{16}{QUIZ}{
+  \ecrire[vert][10]{(18,50.5)}{$X \sim$ BIN$(4;\ 1/4)$ : 4 ENFANTS INDÉPENDANTS, $p = 1/4$ CHACUN}
+  \coche{(141,47.5)}
+  \ecrire{(18,34)}{$E(X) = np = 4 \times \frac14 = 1$ ENFANT}
+  \ecrire{(18,17)}{$P(X = 0) = \binom40 \left(\tfrac14\right)^0 \left(\tfrac34\right)^4 = (0.75)^4 \approx 0.3164$}
+}
+
+% ===========================================================================
+% Loi de Poisson
+% ===========================================================================
+\annot{18}{Contexte}{
+  \souligner{(101.5,52.6)}{(112.7,52.6)}
+  \souligner{(87.5,46.8)}{(101,46.8)}
+  \souligner{(67.5,41)}{(77,41)}
+  \souligner{(83,35.1)}{(113,35.1)}
+  \ecrire[violet][10.5]{(12,17)}{$X$ = NB D'ÉVÉNEMENTS : 0, 1, 2, ... (PAS DE MAXIMUM,\\
+    CONTRAIREMENT À LA BINOMIALE OÙ $X \le n$)}
+}
+
+\annot{20}{Loi de Poisson}{
+  \ecrire[vert][11.5]{(62,87.5)}{$X \sim$ POISSON$(\lambda)$}
+  \ecrire[violet][9]{(40,49)}{$e \approx 2.718$}
+  \fleche[violet][-20]{(58,46.5)}{(75.5,44.5)}
+  \ecrire[rouge][10.5]{(60,12)}{ESPÉRANCE = VARIANCE = $\lambda$ !}
+}
+
+\annot{21}{Allure de la loi de Poisson}{
+  \ecrire[rouge][10.5]{(58,78)}{$\lambda = 2$}
+  \ecrire[rouge][10.5]{(141,78)}{$\lambda = 10$}
+  \ecrire[violet][9]{(44,67)}{ASYMÉTRIQUE}
+  \ecrire[violet][9]{(128,44.8)}{PLUS SYMÉTRIQUE}
+}
+
+\annot{23}{Propriété d'additivité}{
+  \ecrire{(12,33)}{EX. : 5 GLOBULES BLANCS PAR CARRÉ EN MOYENNE\\[1mm]
+    10 CARRÉS (INDÉPENDANTS) $\Rightarrow$ POISSON$(10 \times 5 = 50)$}
+  \ecrire[violet][10.5]{(12,15)}{$\lambda t$ = TAUX $\times$ LONGUEUR DE L'INTERVALLE}
+}
+
+\annot{24}{Exemple 3}{
+  \ecrire[vert][10]{(14,57.5)}{$X$ = NB DE GLOBULES SUR UN CARRÉ $\sim$ POISSON$(\lambda = 5)$\\
+    $P(X < 3) = P(X=0) + P(X=1) + P(X=2)$\\
+    $\qquad\;\; = e^{-5}\left(\frac{5^0}{0!} + \frac{5^1}{1!} + \frac{5^2}{2!}\right) = 18.5\, e^{-5} \approx$ \rep{$0.1247$}}
+  \ecrire{(14,28)}{1 $\mu$L = 10 CARRÉS : $Y$ = NB DANS 1 $\mu$L $\sim$ POISSON$(10 \times 5 = 50)$\\[1mm]
+    $P(Y = 45) = \frac{e^{-50}\, 50^{45}}{45!} \approx$ \rep{$0.0458$}}
+  \ecrire[violet][9]{(80,14)}{$\leftarrow$ ADDITIVITÉ (CARRÉS INDÉPENDANTS)}
+}
+
+\annot{25}{Calculs dans R}{
+  \ecrire[violet][9]{(99,60.5)}{$\leftarrow$ 0, 1 OU 2 GLOBULES}
+  \surligner[jaune]{(10,51.2)}{(34,53.8)}
+  \surligner[jaune]{(10,37.8)}{(36,40.4)}
+  \ecrire[violet][10.5]{(12,26)}{MÊME LOGIQUE QUE POUR LA BINOMIALE :\\[1mm]
+    dpois $\rightarrow$ $P(X = k)$ \qquad ppois $\rightarrow$ $P(X \le k)$}
+}
+
+\annot{26}{Loi des événements rares}{
+  \ecrire[vert][10.5]{(20,12)}{$\lambda = np = 20 \times 0.2 = 4$\\ APPROX. MOYENNE}
+  \ecrire[vert][10.5]{(98,12)}{$\lambda = np = 200 \times 0.02 = 4$\\ EXCELLENTE APPROX. !}
+}
+
+\annot{27}{QUIZ}{
+  \ecrire{(18,55.5)}{BINOMIALE : $X \sim$ BIN$(n = 300\,000;\ p = 10^{-5})$}
+  \ecrire{(18,38.5)}{POISSON, $\lambda = np = 300\,000 \times 10^{-5} = 3$ \quad {\color{violet}($n$ GRAND, $p$ PETIT)}}
+  \ecrire{(18,22.5)}{$P(X \ge 1) = 1 - P(X = 0) = 1 - \frac{e^{-3}\,3^0}{0!} = 1 - e^{-3} \approx 0.9502$}
+}
+
+\annot{28}{QUIZ}{
+  \ecrire{(143,67.5)}{BIN.}
+  \ecrire{(121,58.3)}{POISSON}
+  \ecrire[vert][9.5]{(128,44.6)}{BIN $\approx$\\ POISSON(0.15)}
+  \ecrire[rouge][10]{(79,34.8)}{NI L'UNE NI L'AUTRE (CONTINUE)}
+  \ecrire[rouge][10]{(92,20.8)}{NI L'UNE NI L'AUTRE :\\ PAS INDÉPENDANTS (CONTAGION)}
+}
+
+% ===========================================================================
+% Loi normale
+% ===========================================================================
+\annot{30}{La loi normale}{
+  \surligner[jaune]{(64.5,70.8)}{(103,74.4)}
+  \cloche[bleu]{(40,6)}{36}{14}
+  \ecrire[violet][10.5]{(64,17)}{EN FORME DE CLOCHE,\\ SYMÉTRIQUE}
+}
+
+\annot{31}{Loi normale : définition}{
+  \ecrire[violet][10.5]{(12,17)}{$\mu$ : ESPÉRANCE (CENTRE) \qquad $\sigma^2$ : VARIANCE (ÉTALEMENT)}
+  \ecrire[rouge][10.5]{(12,10)}{ATTENTION : 2E PARAMÈTRE = VARIANCE. EX. : $N(74, 9)$ $\Rightarrow$ $\sigma = \sqrt9 = 3$}
+}
+
+\annot{32}{Allure de la densité}{
+  \ecrire[violet][9]{(12,13)}{$\mu$ = CENTRE DE SYMÉTRIE (MOYENNE = MÉDIANE = MODE)\\[0.5mm]
+    $\sigma^2$ PLUS GRAND $\Rightarrow$ VALEURS LOIN DE $\mu$ PLUS PROBABLES}
+}
+
+\annot{34}{Propriétés de la densité}{
+  \zone[jaune]{(111,42.7)}{50}{27}{-3}{3}
+  \ecrirec[rouge][10.5]{(104,50)}{AIRE\\ = 1}
+  \ecrire[violet][9]{(124,72)}{POINTS\\ D'INFLEXION}
+  \fleche[violet][-25]{(127,64.5)}{(119.5,57.5)}
+  \ecrire[rouge][10.5]{(12,12)}{$\Rightarrow$ UNE SEULE TABLE : CELLE DE LA $N(0,1)$ (STANDARDISATION)}
+}
+
+\annot{35}{QUIZ}{
+  \ecrire{(15,55)}{ÉGALES ! PAR SYMÉTRIE ($2\sigma$ DE CHAQUE CÔTÉ)}
+  \cloche[bleu]{(137,50)}{36}{9}
+  \zone[orange]{(137,50)}{36}{9}{-3}{-2}
+  \zone[orange]{(137,50)}{36}{9}{2}{3}
+  \ecrire{(15,40)}{$P(3400 < X < 3500)$ : PRÈS DE $\mu$, LA DENSITÉ EST PLUS HAUTE}
+  \ecrire{(15,19)}{DIMINUERAIT : 2400 SERAIT À\\ $2.5\,\sigma$ DE LA MOYENNE}
+  \cloche[bleu]{(125,4)}{40}{15}
+  \zone[orange]{(125,4)}{40}{15}{-2}{-1.8}
+  \zone[vert]{(125,4)}{40}{15}{0}{0.2}
+  \ecrire[vert][8]{(128,21)}{PLUS GRANDE}
+  \fleche[vert][-20]{(131,17.5)}{(126.2,12)}
+}
+
+\annot{36}{Loi normale standard}{
+  \ecrire[rouge][9]{(126,48)}{AIRES\\ ÉGALES}
+  \fleche[rouge][20]{(124,45)}{(98,26)}
+  \fleche[rouge][-10]{(133,40.5)}{(122,27)}
+  \ecrire{(12,16)}{EX. : $\Phi(-1) = 1 - \Phi(1)$\\ $\qquad\;\; = 1 - 0.8413 = 0.1587$}
+  \ecrire[violet][9]{(80,12)}{$\Phi(z)$ = AIRE À GAUCHE DE $z$}
+}
+
+\annot{37}{Table de la loi normale standard}{
+  \surligner[jaune]{(36.5,38.1)}{(123,40.4)}
+  \surligner[rose]{(83.2,40.4)}{(90.2,74.8)}
+  \entourer[rouge]{(86.7,39.2)}{4.6}{1.8}
+  \ecrire[violet][9]{(3,60)}{ENTIER\\ + 1RE\\ DÉCIMALE}
+  \fleche[violet][-20]{(12,48)}{(36.5,40)}
+  \ecrire[violet][9]{(126,80)}{2E DÉCIMALE}
+  \fleche[violet][20]{(128,76.5)}{(91,74.5)}
+  \ecrire[vert][10.5]{(126,64)}{EX. :\\ $P(Z \le 1.15)$\\ $= 0.8749$}
+  \cloche[bleu]{(140,30)}{30}{13}
+  \zone[vert]{(140,30)}{30}{13}{-3}{1.15}
+  \ecrirec[vert][8]{(145.75,27.5)}{1.15}
+  \ecrirec[bleu][8]{(140,27.5)}{0}
+}
+
+\annot{38}{Table de la loi normale standard (suite)}{
+  \surligner[jaune]{(36.5,59.5)}{(123,61.8)}
+  \surligner[rose]{(58.8,61.8)}{(65.8,75.2)}
+  \entourer[rouge]{(62.3,60.6)}{4.6}{1.8}
+  \ecrire[vert][10.5]{(126,64)}{EX. :\\ $\Phi(2.12)$\\ $= 0.9830$}
+  \entourer[rouge]{(71.65,9.2)}{3.2}{1.5}
+  \entourer[rouge]{(71.65,6.9)}{3.2}{1.5}
+  \ecrire[violet][9]{(121,11)}{$\leftarrow$ QUANTILES :\\ $\Phi(1.96) = 0.975$}
+}
+
+\annot{39}{QUIZ}{
+  \ecrire{(37,71)}{$= \Phi(1.15) = 0.8749$}
+  \ecrire{(37,61)}{$= 1 - \Phi(1.15) = 0.1251$}
+  \ecrire{(38,40.8)}{$= 1 - \Phi(1.4) = 0.0808$}
+  \ecrire{(110,71)}{$= 2\Phi(2) - 1 = 0.9544$}
+  \ecrire{(12,34.5)}{C) $\Phi(2.12) - \Phi(0.4)$\\ $\;\; = 0.9830 - 0.6554 = 0.3276$}
+  \cloche[bleu]{(40,4)}{40}{15}
+  \zone[vert]{(40,4)}{40}{15}{0.4}{2.12}
+  \ecrire{(92,35)}{F) $\Phi(c) = 0.78 \Rightarrow c \approx 0.77$\\
+    G) $\Phi(c) = 1 - 0.025 = 0.975$\\ $\qquad \Rightarrow c = 1.96$}
+  \cloche[bleu]{(130,3)}{36}{12}
+  \zone[rouge]{(130,3)}{36}{12}{1.96}{3}
+  \ecrire[rouge][8]{(141,13)}{0.025}
+}
+
+\annot{40}{Standardisation}{
+  \ecrire[violet][9]{(84,81)}{CENTRER}
+  \fleche[violet][-20]{(98,78.5)}{(110,68.5)}
+  \ecrire[violet][9]{(128,81)}{RÉDUIRE}
+  \fleche[violet][25]{(130,78)}{(111.5,59.5)}
+  \ecrire[vert][9]{(92,54)}{$Z$ = NB D'ÉCARTS TYPES ENTRE $X$ ET $\mu$}
+  \ecrire{(12,11)}{EX. : $X \sim N(74, 9)$ : $P(X < 71) = P\left(Z < \frac{71-74}{3}\right) = \Phi(-1)$}
+}
+
+\annot{41}{Standardisation : centrer}{
+  \ecrire[violet][8]{(122,61.5)}{1. CENTRER}
+  \fleche[violet][-20]{(122,58.5)}{(114,57.5)}
+  \ecrire[violet][8]{(116,70.5)}{2. RÉDUIRE}
+  \fleche[violet][-20]{(116,68)}{(112,64.5)}
+  \surligner[jaune]{(74,15.8)}{(110.5,19.5)}
+}
+
+\annot{42}{Règle empirique}{
+  \ecrire[rouge][8]{(140,58)}{2.5 \%}
+  \fleche[rouge][-20]{(143,54.5)}{(127.5,48)}
+  \ecrire[rouge][8]{(88.5,62)}{2.5 \%}
+  \fleche[rouge][20]{(91,58.5)}{(94,48)}
+}
+
+\annot{43}{Exemple 4}{
+  \entourer[rouge]{(50.6,68)}{5.6}{2.5}
+  \ecrire[rouge][10.5]{(140,78)}{$\sigma = 3$ !}
+  \ecrire{(14,54)}{$P(X < 71) = P\left(Z < \frac{71-74}{3}\right) = P(Z < -1) = 1 - \Phi(1)$\\[0mm]
+    $\qquad\qquad = 1 - 0.8413 =$ \rep{$0.1587$} \quad SOIT 15.9 \% DES FILLETTES}
+  \ecrire[violet][9]{(36,34.5)}{$\rightarrow$ CROQUIS ET CALCUL AUX PAGES SUIVANTES}
+  \ecrire[rouge][9]{(62,8.5)}{$\leftarrow$ ON CHERCHE UN QUANTILE (AIRE CONNUE, $x$ INCONNU)}
+}
+
+\annot{44}{Exemple 4 : commencer}{
+  \fill[pattern=north east lines, pattern color=orange]
+    ({\cx{70}},41.1) -- plot[domain=70:75, samples=30, smooth] ({\cx{\x}}, {\dens{\x}}) -- ({\cx{75}},41.1) -- cycle;
+  \fill[rose, opacity=0.5]
+    ({\cx{64}},41.1) -- plot[domain=64:67.02, samples=20, smooth] ({\cx{\x}}, {\dens{\x}}) -- ({\cx{67.02}},41.1) -- cycle;
+  \ecrire[orange][10.5]{(95,70)}{B) $P(70 < X < 75)$}
+  \fleche[orange][-25]{(97,65)}{(83,57)}
+  \ecrire[rose][10.5]{(38,68)}{C) AIRE = 0.01}
+  \fleche[rose][-30]{(43,63)}{(44.5,43)}
+  \ecrirec[rose][9]{(45.6,35.3)}{$x^*$}
+  \ecrire{(12,24)}{C) $P(X < x^*) = 0.01 \Leftrightarrow P\left(Z < \frac{x^* - 74}{3}\right) = 0.01$\\[1mm]
+    TABLE : $\Phi(2.326) = 0.99$ $\Rightarrow$ $\frac{x^* - 74}{3} = -2.326$\\[1mm]
+    $x^* = 74 - 2.326 \times 3 =$ \rep{$67.02$ CM}}
+}
+\apres{44}{
+  \ecrire[violet][14]{(10,84)}{EXEMPLE 4 B) \quad $X \sim N(74, 9)$, \ $\sigma = 3$}
+  \ecrire[vert][13]{(10,73)}{$P(70 < X < 75) = P\left(\frac{70 - 74}{3} < Z < \frac{75 - 74}{3}\right)$\\[2mm]
+    $\quad = P(-1.33 < Z < 0.33)$\\[2mm]
+    $\quad = \Phi(0.33) - \Phi(-1.33)$\\[2mm]
+    $\quad = \Phi(0.33) - \bigl[1 - \Phi(1.33)\bigr]$\\[2mm]
+    $\quad = 0.6293 - \bigl[1 - 0.9082\bigr]$\\[2mm]
+    $\quad = 0.6293 - 0.0918 =$ \rep{$0.5375$}}
+  \ecrire[violet][11.5]{(80,13)}{(R : 0.5393, À CAUSE\\ DE L'ARRONDI DES $z$)}
+  % croquis : échelle X puis échelle Z
+  \cloche[bleu]{(132,52)}{44}{18}
+  \hachure[orange]{(132,52)}{44}{18}{-1.333}{0.333}
+  \ecrirec[bleu][10.5]{(122.2,49)}{70}
+  \ecrirec[bleu][10.5]{(135.5,49)}{75}
+  \trait[bleu]{(132,51) -- (132,70.5)}
+  \ecrirec[bleu][9]{(132,73.5)}{74}
+  \ecrire[bleu][10.5]{(152,58)}{$X$}
+  \cloche[bleu]{(132,24)}{44}{18}
+  \hachure[orange]{(132,24)}{44}{18}{-1.333}{0.333}
+  \ecrirec[bleu][10.5]{(122.2,21)}{$-1.33$}
+  \ecrirec[bleu][10.5]{(135.5,21)}{$0.33$}
+  \ecrire[bleu][10.5]{(152,30)}{$Z$}
+  \fleche[violet][20]{(150,46)}{(150,36)}
+}
+
+\annot{45}{Exemple 4 : calculs dans R}{
+  \ecrire[rouge][9]{(44,50.2)}{(TABLE : 0.5375)}
+  \ecrire[violet][10.5]{(12,21)}{pnorm $\rightarrow$ AIRE À GAUCHE : $P(X \le x)$\\[1mm]
+    qnorm $\rightarrow$ QUANTILE : LE $x$ POUR UNE AIRE À GAUCHE DONNÉE}
+  \souligner[rouge]{(92,27.8)}{(101,27.8)}
+}
+
+\annot{46}{QUIZ}{
+  \ecrire{(18,55.5)}{$z = \frac{6.1 - 5.0}{0.5} = 2.2$ ÉCARTS TYPES AU-DESSUS DE LA MOYENNE}
+  \ecrire{(18,35)}{$P(X > 6.1) = P(Z > 2.2) = 1 - \Phi(2.2) = 1 - 0.9861 = 0.0139$}
+  \ecrire{(18,19)}{$\Phi(z) = 0.95 \Rightarrow z = 1.645$\\[1mm]
+    $x = 5.0 + 1.645 \times 0.5 = 5.82$ MMOL/L}
+  \cloche[bleu]{(132,3)}{36}{13}
+  \zone[vert]{(132,3)}{36}{13}{-3}{1.645}
+  \ecrirec[vert][8]{(129,6.5)}{95 \%}
+}
+
+\annot{47}{Combinaisons linéaires}{
+  \surligner[jaune]{(51.8,53.8)}{(77.7,57.3)}
+  \entourer[rouge]{(125.9,28.9)}{2.1}{2.3}
+  \ecrire[violet][9]{(82,8.3)}{(ESPÉRANCE : PAS BESOIN D'INDÉPENDANCE)}
+}
+
+\annot{48}{Exemple 5}{
+  \ecrire[vert][9.5]{(12,41)}{$O_i \sim N(204, 256)$ ORANGES, \ $B \sim N(50, 10)$ EMBALLAGE, \ $T = O_1 + \cdots + O_7 + B$\\[0.5mm]
+    $E(T) = 7(204) + 50 = 1478$ \qquad $\text{VAR}(T) = 7(256) + 10 = 1802$\\[0.5mm]
+    $T \sim N(1478,\ 1802)$ \ {\color{violet}(SOMME DE NORMALES INDÉPENDANTES)}\\[0.5mm]
+    $P(T < 1400) = P\left(Z < \frac{1400 - 1478}{\sqrt{1802}}\right) = P(Z < -1.84) = 1 - 0.9671 =$ \rep{$0.0329$}}
+}
+\apres{48}{
+  \ecrire[rouge][14]{(10,84)}{ATTENTION : 7 ORANGES $\neq$ 7 FOIS LA MÊME ORANGE}
+  \ecrire[vert][13]{(12,70)}{$O_1 + O_2 + \cdots + O_7$ : \quad $\text{VAR} = 7 \times 256 = 1792$}
+  \coche{(124,67)}
+  \ecrire[rouge][13]{(12,56)}{$7\,O_1$ : \quad $\text{VAR} = 7^2 \times 256 = 12\,544$}
+  \croix{(96,53)}
+  \ecrire[violet][12.5]{(12,40)}{7 ORANGES INDÉPENDANTES : UNE TROP LOURDE\\ PEUT ÊTRE COMPENSÉE PAR UNE TROP LÉGÈRE.}
+  \ecrire[vert][12.5]{(12,20)}{ÉCART TYPE DU SAC :\\ $\sqrt{1802} = 42.4$ G}
+  \cloche[bleu]{(120,6)}{54}{20}
+  \zone[vert]{(120,6)}{54}{20}{-3}{-1.84}
+  \ecrirec[bleu][10.5]{(120,3)}{1478}
+  \ecrirec[vert][10.5]{(103.4,3)}{1400}
+  \ecrire[vert][10.5]{(92,18)}{0.0329}
+  \fleche[vert][-20]{(99,13.5)}{(102,8)}
+}
+
+\annot{49}{Exemple 6}{
+  \ecrire{(12,48)}{$D = F - M \sim N(26 - 30,\ 7 + 9) = N(-4,\ 16)$\\[1mm]
+    $P(F > M) = P(D > 0) = P\left(Z > \frac{0 - (-4)}{\sqrt{16}}\right) = P(Z > 1)$\\[1mm]
+    $\qquad\qquad = 1 - \Phi(1) = 1 - 0.8413 =$ \rep{$0.1587$}}
+  \ecrire[rouge][9]{(120,49)}{$\leftarrow$ VARIANCES\\ \phantom{$\leftarrow$} S'ADDITIONNENT !}
+  \cloche[bleu]{(128,5)}{40}{15}
+  \zone[vert]{(128,5)}{40}{15}{1}{3}
+  \ecrirec[bleu][9]{(126.5,2.5)}{$-4$}
+  \ecrirec[bleu][9]{(135.2,2.5)}{0}
+}
+
+\annot{52}{Exemple exploratoire}{
+  \surligner[orange]{(26.5,21)}{(36,57.5)}
+  \ecrire[violet][9]{(44,60)}{UNIFORME}
+  \fleche[violet][-20]{(58,56.5)}{(72,54)}
+  \ecrire[violet][9]{(44,43)}{UNIFORME}
+  \fleche[violet][-20]{(58,39.5)}{(72,37)}
+  \ecrire[rouge][9]{(44,27)}{TRIANGLE /\\ CLOCHE !}
+  \draw[crayon lisse, rouge, line width=1pt, domain=-2.05:2.05, samples=40, smooth]
+    plot ({111.6+\x*15.55}, {21.5+7.1*exp(-(\x)^2/2)});
+}
+
+\annot{53}{QUIZ}{
+  \ecrire{(12,28)}{1) VRAI : 1, 2, 3\\ ÉQUIPROBABLES}
+  \coche{(52,22)}
+  \foreach \s/\p in {2/1,3/2,4/3,5/2,6/1}{
+    \fill[vert] ({100.5+(\s-2)*10.1}, {37.1+\p*46/9}) circle (0.7);}
+  \draw[crayon, vert, line width=1pt] (100.5,42.2) -- (120.7,52.4) -- (140.9,42.2);
+  \ecrire[rouge]{(80,28)}{2) FAUX ! 9 COUPLES ÉQUIPROBABLES :}
+  \ecrire[vert][9]{(84,23)}{$S = 2$ : (1,1) $\rightarrow$ 1/9\\
+    $S = 3$ : (1,2), (2,1) $\rightarrow$ 2/9\\
+    $S = 4$ : (1,3), (2,2), (3,1) $\rightarrow$ 3/9\\
+    $S = 5$ : 2/9, \quad $S = 6$ : 1/9}
+}
+
+\annot{54}{Sommes de variables exponentielles}{
+  \ecrire[violet][9]{(38,57)}{TRÈS ASYMÉTRIQUE}
+  \ecrire[violet][9]{(120,55)}{ENCORE\\ ASYMÉTRIQUE}
+  \ecrire[violet][8]{(57,27.5)}{PRESQUE\\ SYMÉTRIQUE}
+  \ecrire[rouge][10.5]{(100,27)}{CLOCHE !}
+}
+
+\annot{55}{Un résultat très}{
+  \surligner[jaune]{(118.5,62.3)}{(146.5,66.2)}
+  \entourer[rose]{(86.1,50.6)}{2.3}{2.3}
+  \entourer[rose]{(86.8,41.2)}{2.3}{2.3}
+  \ecrire[violet][9]{(72,60)}{$\leftarrow$ RÈGLE DU POUCE : $n \ge 30$}
+  \ecrire[violet][9]{(123,45)}{ÉCART TYPE :\\ $\sigma / \sqrt{n}$}
+  \ecrire[rouge][10.5]{(78,30)}{PEU IMPORTE LA LOI DES $X_i$ !}
+}
+
+\annot{56}{Le TLC en action}{
+  \ecrire[vert][9]{(12,8)}{$\sigma/\sqrt{n}$ : \ $2/\sqrt5 = 0.89$ ; \ $2/\sqrt{10} = 0.63$ ; \ $2/\sqrt{30} = 0.37$}
+}
+
+\annot{57}{Conditions d'application du TLC}{
+  \ecrire[violet][9]{(124,52)}{$\leftarrow$ VU AVEC LES DÉS}
+  \ecrire[violet][9]{(95,47)}{(EX. : EXPONENTIELLE)}
+}
+
+\annot{58}{QUIZ}{
+  \ecrire[vert][10]{(111,61.8)}{OUI : TLC ($n = 50 \ge 30$)}
+  \ecrire[vert][10]{(55,46.6)}{OUI, ET EXACTEMENT : MOY. DE NORMALES INDÉP.}
+  \ecrire[rouge][10]{(62,31.4)}{NON : $n = 6$ TROP PETIT (TRÈS ASYMÉTRIQUE)}
+  \ecrire[rouge][10]{(107,16.3)}{FAUX ! LE TLC PORTE\\ SUR $\overline{X}$ SEULEMENT}
+}
+
+\annot{59}{Exemple 7}{
+  \ecrire{(12,43.5)}{$X_i$ = CONCENTRATION DANS L'ÉTANG $i$ : LOI INCONNUE, $\mu = 4$, $\sigma = 1.5$\\[1mm]
+    $n = 40 \ge 30$ $\Rightarrow$ TLC : \ $\overline{X} = \frac{X_1 + \cdots + X_{40}}{40} \approx N\left(4,\ \frac{1.5^2}{40}\right)$}
+  \ecrire[violet][9]{(100,10)}{CALCUL : PAGE SUIVANTE $\rightarrow$}
+}
+\apres{59}{
+  \ecrire[violet][14]{(10,84)}{EXEMPLE 7 (SUITE)}
+  \ecrire[vert][13]{(10,73)}{$\overline{X} \approx N(4,\ 0.05625)$, \ ÉCART TYPE $= \frac{1.5}{\sqrt{40}} = 0.2372$\\[3mm]
+    $P(\overline{X} > 4.2) = P\left(\frac{\overline{X} - \mu}{\sigma/\sqrt{n}} > \frac{4.2 - 4}{0.2372}\right)$\\[3mm]
+    $\qquad = P(Z > 0.84)$\\[3mm]
+    $\qquad = 1 - \Phi(0.84) = 1 - 0.7995 =$ \rep{$0.2005$}}
+  \ecrire[violet][11.5]{(12,12)}{(R : 0.1995, À CAUSE DE L'ARRONDI DE $z$)}
+  \cloche[bleu]{(130,30)}{44}{18}
+  \zone[orange]{(130,30)}{44}{18}{0.84}{3}
+  \ecrirec[bleu][10.5]{(130,27)}{4}
+  \ecrirec[orange][10.5]{(137.5,27)}{4.2}
+  \ecrire[orange][10.5]{(141,46)}{0.2005}
+  \fleche[orange][20]{(146,41.5)}{(141,35)}
+}
+
+\annot{60}{Application : approximation}{
+  \ecrire[rouge][10.5]{(22,14)}{$np = 6 \times 0.2 = 1.2 < 5$\\ ASYMÉTRIQUE}
+  \croix{(70,11)}
+  \ecrire[vert][10.5]{(96,14)}{$np = 6 \ge 5$, $n(1-p) = 24 \ge 5$\\ BONNE APPROX.}
+  \coche{(150,11)}
+}
+
+\annot{61}{Correction pour la continuité}{
+  \ecrire[violet][9]{(14,33)}{$j - \frac12 = 4.5$}
+  \fleche[violet][-20]{(38,30)}{(69,28)}
+  \ecrire[violet][9]{(118,33)}{$\ell + \frac12 = 7.5$}
+  \fleche[violet][20]{(118,30)}{(91.5,28)}
+  \ecrire[violet][9]{(118,22)}{($j = 5$, $\ell = 7$)}
+}
+\apres{61}{
+  \ecrire[violet][14]{(10,84)}{CORRECTION POUR LA CONTINUITÉ}
+  \ecrire[violet][12.5]{(10,76)}{$X$ BINOMIALE (ENTIERS), $Y$ NORMALE DE MÊME $\mu$ ET $\sigma^2$}
+  \ecrire[vert][13]{(12,66)}{$P(X \le k) \approx P(Y \le k + 0.5)$\\[2.5mm]
+    $P(X < k) = P(X \le k - 1) \approx P(Y \le k - 0.5)$\\[2.5mm]
+    $P(X \ge k) \approx P(Y \ge k - 0.5)$\\[2.5mm]
+    $P(X > k) = P(X \ge k + 1) \approx P(Y \ge k + 0.5)$\\[2.5mm]
+    $P(X = k) \approx P(k - 0.5 \le Y \le k + 0.5)$}
+  \ecrire[rouge][12.5]{(12,17)}{TRUC : DESSINER LES BÂTONS ET INCLURE\\ (OU EXCLURE) CHAQUE BARRE AU COMPLET}
+  % petit dessin : barres centrées sur les entiers
+  \foreach \k/\h in {0/4,1/9,2/14,3/9,4/4}{
+    \draw[crayon lisse, bleu] ({118+\k*7-3.5},38) rectangle ({118+\k*7+3.5},{38+\h});}
+  \fill[orange, opacity=0.4] (128.5,38) rectangle (135.5,52);
+  \draw[crayon lisse, rouge, dashed] (128.5,36) -- (128.5,56);
+  \draw[crayon lisse, rouge, dashed] (135.5,36) -- (135.5,56);
+  \ecrirec[bleu][10.5]{(132,34.5)}{$k$}
+  \ecrirec[rouge][9]{(124,59)}{$k - 0.5$}
+  \ecrirec[rouge][9]{(140,59)}{$k + 0.5$}
+}
+
+\annot{62}{Exemple 8}{
+  \ecrire{(12,51)}{$X$ = NB D'ÉTUDIANTS $\sim$ BIN$(400;\ 0.4)$ \ $\approx$ \ $N(np,\ np(1-p)) = N(160,\ 96)$\\[1mm]
+    $np = 160 \ge 5$ ET $n(1-p) = 240 \ge 5$ : OK\\[1mm]
+    $P(150 \le X \le 160) \approx P(149.5 < Y < 160.5)$ \ {\color{violet}$\leftarrow$ CORRECTION POUR LA CONTINUITÉ}\\[1mm]
+    $\quad = P\left(\frac{149.5 - 160}{\sqrt{96}} < Z < \frac{160.5 - 160}{\sqrt{96}}\right) = P(-1.07 < Z < 0.05)$\\[1mm]
+    $\quad = \Phi(0.05) - \bigl[1 - \Phi(1.07)\bigr] = 0.5199 - 0.1423 =$ \rep{$0.3776$}}
+  \ecrire[violet][9]{(100,10)}{(VALEUR EXACTE : 0.3799)}
+}
+
+\annot{63}{Exemple 8 : vérification}{
+  \surligner[jaune]{(10,63.3)}{(38,66.6)}
+  \surligner[jaune]{(10,44.4)}{(38,47.7)}
+  \ecrire[rouge][9]{(42,48.3)}{$\leftarrow$ TRÈS PROCHE ! (TABLE : 0.3776)}
+}
+
+\produire{Chapitre_2b}
+\end{document}

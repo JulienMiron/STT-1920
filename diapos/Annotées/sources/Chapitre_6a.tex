@@ -1,0 +1,390 @@
+\documentclass{article}
+\usepackage{annot}
+\begin{document}
+
+% ---------------------------------------------------------------------------
+% Exemple 1 : les données
+\annot{7}{Exemple 1 : ensoleillement}{
+  \entourer[violet]{(100.7,73)}{13.5}{2.8}
+  \entourer[violet]{(16,68)}{7}{2.7}
+  \ecrire[violet][9.5]{(10,18)}{$X$ = HEURES DE SOLEIL : VARIABLE EXPLICATIVE (FIXÉE PAR NOUS)\\
+    $Y$ = PRODUCTION (KG) : VARIABLE RÉPONSE}
+  \ecrire[vert][9.5]{(10,7.5)}{$n = 60$ PAIRES $(x_i, y_i)$ \quad EX. : $(3\,;\ 2{,}92)$, \dots, $(8\,;\ 4{,}72)$}
+}
+
+\annot{8}{Exemple 1 : les 60 plants}{
+  % droite tracée « à l'oeil »
+  \trait[orange]{(48.6,37.8) -- (122,60.3)}
+  \ecrire[violet][8]{(128,60)}{10 PLANTS\\PAR DURÉE}
+  \ecrire[vert][8]{(128,45)}{PLUS DE\\SOLEIL\\$\Rightarrow$ PLUS DE\\TOMATES}
+  \ecrire[orange][8]{(5,62)}{LIEN\\POSITIF}
+  \ecrire[violet][8]{(5,40)}{DISPERSION\\SEMBLABLE\\À CHAQUE $x$}
+}
+
+\annot{9}{Exemple 2 : poids et envergure}{
+  \entourer[violet]{(112,63)}{9.5}{2.7}
+  \ecrire[violet][9.5]{(10,16)}{$X$ = POIDS (G), \quad $Y$ = ÉTENDUE DES AILES (CM)\\
+    ICI ON NE CONTRÔLE PAS $X$ : ÉTUDE OBSERVATIONNELLE}
+}
+
+\annot{10}{Exemple 2 : les hirondelles}{
+  \trait[orange]{(52.8,32.7) -- (119.4,68.2)}
+  \ecrire[vert][8.5]{(10,70)}{LIEN\\POSITIF,\\ASSEZ\\LINÉAIRE}
+  \ecrire[violet][8]{(128,45)}{PLUS LOURD\\$\Rightarrow$ AILES\\PLUS GRANDES\\(EN MOYENNE)}
+}
+
+\annot{11}{Attention : association}{
+  \surligner[jaune]{(51,14.6)}{(69,18.2)}
+  \entourer[violet]{(50,71.4)}{17.5}{2.8}
+  \entourer[violet]{(58.5,54.7)}{20}{2.8}
+  \ecrirec[rouge][10]{(80,4.3)}{CORRÉLATION $\neq$ CAUSALITÉ !}
+}
+
+% ---------------------------------------------------------------------------
+\annot{13}{Le modèle}{
+  \ecrire[vert][10]{(28,27.6)}{ORDONNÉE À L'ORIGINE}
+  \ecrire[violet][8]{(88,27.2)}{(MOYENNE DE $Y$ QUAND $X = 0$)}
+  \ecrire[vert][10]{(28,21.5)}{PENTE}
+  \ecrire[violet][8]{(46,21.1)}{(VARIATION MOYENNE DE $Y$ QUAND $X$ AUGMENTE DE 1)}
+  \souligner[orange]{(55,45.3)}{(75,45.3)}
+  \souligner[rouge]{(76,45.3)}{(80.5,45.3)}
+  \ecrire[orange][8.5]{(15,50)}{DROITE (INCONNUE)}
+  \ecrire[rouge][8.5]{(112,50)}{ERREUR ALÉATOIRE}
+  \ecrire[violet][8]{(94,39.5)}{PARAMÈTRES INCONNUS : $\beta_0$, $\beta_1$, $\sigma^2$}
+}
+
+\annot{14}{Les postulats}{
+  \surligner[jaune]{(18,70)}{(29.2,73.8)}
+  \surligner[jaune]{(18,58.3)}{(43.8,62.1)}
+  \surligner[jaune]{(18,46.6)}{(34.5,50.4)}
+  \surligner[jaune]{(18,34.9)}{(29.2,38.7)}
+  \entourer[rouge]{(83,15.9)}{9.5}{3}
+  \ecrire[rouge][8.5]{(104,19.5)}{MOYENNE 0,\\MÊME VARIANCE $\sigma^2$}
+  \fleche[rouge][20]{(103,16)}{(93,16)}
+}
+
+\annot{15}{Illustration du modèle}{
+  % un point et son erreur
+  \fill[rouge] (91.9,62.1) circle (0.7);
+  \draw[crayon lisse, rouge, line width=1pt] (91.9,61.3) -- (91.9,54.4);
+  \ecrire[rouge][9]{(93.3,60.5)}{$\varepsilon_i$}
+  \ecrire[orange][8]{(127,72)}{LA DROITE\\= $E(Y)$\\(MOYENNE)}
+  \ecrire[violet][8]{(127,56)}{CLOCHES :\\LOI NORMALE\\(P4)}
+  \ecrire[violet][8]{(127,39)}{MÊME\\LARGEUR\\PARTOUT :\\$\sigma^2$ (P2)}
+  \fleche[violet][-20]{(126,52)}{(118,50)}
+}
+
+% ---------------------------------------------------------------------------
+\annot{17}{Estimation par les moindres carrés}{
+  \surligner[jaune]{(67.2,70.7)}{(106.4,74.6)}
+  % petit dessin : écarts verticaux
+  \draw[crayon lisse, black!70] (112,4) -- (112,30) (112,4) -- (152,4);
+  \draw[crayon, orange, line width=1pt] (113,8) -- (151,27);
+  \foreach \x/\y in {117/15, 124/10, 131/22, 138/16, 145/27}{
+    \fill[black] (\x,\y) circle (0.6);
+    \pgfmathsetmacro{\yd}{8+(\x-113)*19/38}
+    \draw[crayon lisse, rouge] (\x,\y) -- (\x,\yd);
+  }
+  \ecrire[rouge][7.5]{(134,33.5)}{$\varepsilon_i$ = ÉCARTS\\VERTICAUX}
+  \ecrire[vert][10]{(10,29)}{ON CHERCHE LA DROITE QUI REND\\
+    LA SOMME DES CARRÉS DES ÉCARTS\\ LA PLUS PETITE POSSIBLE.}
+  \ecrire[violet][10]{(10,12)}{$\dfrac{\partial}{\partial\beta_0} = 0$ \quad ET \quad
+    $\dfrac{\partial}{\partial\beta_1} = 0$ \quad (VOIR PAGE SUIVANTE)}
+}
+\apres{17}{
+  \ecrire[violet][13]{(8,85)}{MOINDRES CARRÉS : $Q(\beta_0,\beta_1) = \sum (y_i - \beta_0 - \beta_1 x_i)^2$}
+  \ecrire[vert][11.5]{(8,72)}{$\dfrac{\partial Q}{\partial \beta_0} = -2\sum (y_i - b_0 - b_1 x_i) = 0$\\[2mm]
+    $\Rightarrow \sum y_i = n\,b_0 + b_1 \sum x_i$\\[2mm]
+    $\Rightarrow b_0 = \bar y - b_1 \bar x$}
+  \ecrire[vert][11.5]{(8,38)}{$\dfrac{\partial Q}{\partial \beta_1} = -2\sum x_i\,(y_i - b_0 - b_1 x_i) = 0$\\[2mm]
+    ON REMPLACE $b_0$ PAR $\bar y - b_1 \bar x$ :\\[2mm]
+    $\sum x_i (y_i - \bar y) = b_1 \sum x_i (x_i - \bar x)$\\[2mm]
+    $\Rightarrow b_1 = \dfrac{S_{XY}}{S_{XX}}$}
+  \encadrer[rouge]{(6,4)}{(52,14.5)}
+  \ecrire[orange][11]{(100,72)}{LA DROITE PASSE\\TOUJOURS PAR\\LE POINT $(\bar x, \bar y)$ !}
+  \draw[crayon lisse, black!70] (102,30) -- (102,52) (102,30) -- (150,30);
+  \draw[crayon, orange, line width=1pt] (104,33) -- (148,50);
+  \fill[rouge] (126,41.5) circle (0.8);
+  \draw[crayon lisse, rouge, densely dashed] (126,41.5) -- (126,30) (126,41.5) -- (102,41.5);
+  \ecrire[rouge][10]{(123.5,29)}{$\bar x$}
+  \ecrire[rouge][10]{(96,44)}{$\bar y$}
+}
+
+\annot{18}{Estimateurs}{
+  \ecrire[vert][10]{(10,27)}{EXEMPLE 1 : \ $\bar x = 5{,}5$, \ $\bar y = 3{,}744$, \ $S_{XX} = 175$, \ $S_{XY} = 75{,}47$\\[1.5mm]
+    $b_1 = \dfrac{75{,}47}{175} = 0{,}4313$ \qquad $b_0 = 3{,}744 - 0{,}4313 \times 5{,}5 = 1{,}372$}
+  \ecrire[violet][8]{(100,40)}{$\hat y_i$ = VALEUR PRÉDITE\\(SUR LA DROITE)}
+  \fleche[violet][20]{(98.5,37.5)}{(93,34.5)}
+}
+
+\annot{19}{Notations}{
+  \ecrire[violet][8.5]{(110,58)}{$S_{XX}$ : ÉTALEMENT DES $x_i$}
+  \ecrire[violet][8.5]{(110,42)}{$S_{YY}$ : ÉTALEMENT DES $y_i$}
+  \ecrire[violet][8.5]{(110,28)}{$S_{XY}$ : PEUT ÊTRE $< 0$ !\\SIGNE DE $S_{XY}$\\= SIGNE DE $b_1$}
+  \ecrire[vert][10]{(10,14)}{EXEMPLE 1 : $s_X^2 = 2{,}966 \Rightarrow S_{XX} = 59 \times 2{,}966 = 175$}
+}
+
+\annot{20}{Inférence sur les paramètres}{
+  \ecrire[rouge][8.5]{(108,52)}{$\leftarrow$ SANS BIAIS}
+  \ecrire[violet][8]{(122,44.5)}{PLUS $S_{XX}$ EST\\GRAND, PLUS $b_1$\\EST PRÉCIS}
+  \fleche[violet][-25]{(121,41)}{(117.5,41.5)}
+  \ecrire[vert][8]{(10,7.5)}{$\sigma^2$ INCONNUE $\rightarrow$ ON L'ESTIME PAR $MSE$ $\rightarrow$ LOI $t_{n-2}$ AU LIEU DE $N(0,1)$}
+}
+
+\annot{21}{Remarques}{
+  \ecrire[vert][10]{(18,75)}{$b_0$ ET $b_1$ SONT SANS BIAIS : $E(b_0) = \beta_0$, \ $E(b_1) = \beta_1$}
+  \ecrire[vert][10]{(18,55)}{LA PRÉCISION DE $b_1$ AUGMENTE AVEC $n$ ET AVEC L'ÉTALEMENT\\
+    DES $x_i$ ($S_{XX}$) : CHOISIR DES $x$ BIEN ÉTALÉS !}
+  \ecrire[vert][10]{(18,35)}{$\sigma^2$ EST INCONNUE : ON L'ESTIME PAR $MSE = \dfrac{SSE}{n-2}$}
+  \ecrire[vert][10]{(18,15)}{ON UTILISE ALORS LA LOI $t_{n-2}$}
+  \ecrire[violet][8]{(90,15)}{($n-2$ : 2 PARAMÈTRES ESTIMÉS,\\ $\beta_0$ ET $\beta_1$)}
+}
+
+\annot{22}{En R}{
+  \entourer[vert]{(40,41.8)}{7.2}{3.6}
+  \ecrire[vert][9]{(110,45.8)}{$\leftarrow b_0$}
+  \ecrire[vert][9]{(110,42.4)}{$\leftarrow b_1$}
+  \entourer[violet]{(59.5,41.8)}{7.2}{3.6}
+  \ecrire[violet][8]{(47,54.3)}{ERREURS-TYPES}
+  \entourer[orange]{(59.1,26.8)}{4.6}{1.8}
+  \entourer[orange]{(74.7,26.8)}{3.4}{1.8}
+  \entourer[rose]{(53.1,23.4)}{6}{1.8}
+  \ecrire[orange][9]{(10,15.5)}{$\hat\sigma = \sqrt{MSE} = 0{,}5681 \Rightarrow MSE = 0{,}5681^2 = 0{,}3228$}
+  \ecrire[orange][9]{(118,15.5)}{$58 = n - 2$}
+  \ecrire[rose][9]{(10,8.5)}{$R^2 = 0{,}635$ (VOIR CHAPITRE 6B) \qquad $F = 100{,}8$ : TEST DE FISHER (PLUS LOIN)}
+  \fleche[orange][10]{(70,13)}{(59,24.6)}
+  \fleche[orange][20]{(117,13.5)}{(76.5,25)}
+  \fleche[rose][-15]{(8.5,6.5)}{(47,22.2)}
+}
+
+\annot{23}{Estimation des paramètres}{
+  \entourer[vert]{(39.7,68.5)}{7.2}{3.4}
+  \ecrire[vert][10]{(8,44)}{$b_0 = 1{,}372$ KG \quad $b_1 = 0{,}431$ KG/H\\[1mm]
+    $\hat y = 1{,}372 + 0{,}431\,x$}
+  \ecrire[vert][9]{(8,30.5)}{$b_1$ : CHAQUE HEURE DE SOLEIL DE\\PLUS AUGMENTE LA PRODUCTION\\MOYENNE DE 0,43 KG}
+  \ecrire[rouge][9]{(8,15)}{$b_0$ : PRODUCTION MOYENNE À 0 H ?\\HORS DES DONNÉES (3 À 8 H) !}
+  % triangle de pente
+  \draw[crayon lisse, vert, line width=1pt] (106.5,41.2) -- (127.1,41.2) -- (127.1,47.5);
+  \ecrire[vert][7]{(111,40.5)}{+2 H}
+  \ecrire[vert][7]{(128,42)}{+0,86}
+}
+
+\annot{24}{Interprétation des paramètres}{
+  \entourer[rouge]{(88.3,62.8)}{13.5}{2.6}
+  \surligner[jaune]{(118,24.2)}{(145,28.2)}
+}
+
+\annot{25}{Extrapolation dangereuse}{
+  \draw[crayon lisse, vert] (43.5,28.5) -- (43.5,26.5) -- (59,26.5) -- (59,28.5);
+  \ecrire[vert][7]{(40,26)}{DONNÉES}
+  \ecrire[rouge][8.5]{(10,15)}{TOMATES : $x$ OBSERVÉ DE 3 À 8 H SEULEMENT\\
+    $\Rightarrow$ NE PAS PRÉDIRE À 0 H NI À 24 H !}
+  \ecrire[violet][8]{(100,15)}{LA DROITE N'EST QU'UNE\\APPROXIMATION LOCALE}
+}
+
+\annot{26}{QUIZ}{
+  \ecrire[vert][9]{(20,63.5)}{$2 \times b_1 = 2 \times 0{,}431 = 0{,}86$ KG DE PLUS POUR A (EN MOYENNE)}
+  \ecrire[rouge][9]{(20,46.5)}{FAUX ! $b_1$ DÉPEND DES UNITÉS (EN GRAMMES : 431 G/H).\\
+    \textcolor{vert}{POUR JUGER DU LIEN : TEST OU IC.}}
+  \ecrire[rouge][9]{(20,29.5)}{FAUX ! 0 H EST HORS DU DOMAINE OBSERVÉ (3 À 8 H) : EXTRAPOLATION}
+  \ecrire[vert][9]{(20,12.3)}{$1{,}372 + 0{,}431\,x = 4 \Rightarrow x = \dfrac{4 - 1{,}372}{0{,}431} = 6{,}1$ H PAR JOUR}
+}
+
+\annot{27}{QUIZ}{
+  \ecrire[vert][9]{(20,55)}{$\hat y = -4{,}43 + 0{,}328\,x$ \quad $b_1 > 0$ : LIEN POSITIF}
+  \ecrire[vert][9]{(20,39.5)}{CHAQUE GRAMME DE PLUS : ÉTENDUE MOYENNE DES AILES + 0,33 CM}
+  \ecrire[vert][9]{(20,24.5)}{$b_0 = -4{,}43$ CM : ÉTENDUE MOYENNE D'UN OISEAU DE 0 G ?!}
+  \ecrire[rouge][9]{(20,17)}{ABSURDE (NÉGATIF) : EXTRAPOLATION,\\LES POIDS OBSERVÉS VONT DE 39 À 57 G.}
+}
+
+\annot{28}{Intervalles de confiance sur les paramètres}{
+  \entourer[violet]{(59.5,68.5)}{7.3}{3.4}
+  \ecrire[violet][8]{(50,64.8)}{ERREURS-TYPES}
+  \ecrire[vert][9.5]{(8,17.5)}{PENTE : $0{,}43126 \pm 2{,}0017 \times 0{,}04295 = 0{,}431 \pm 0{,}086 \Rightarrow [0{,}345\,;\ 0{,}517]$\\[1mm]
+    ORDONNÉE : $1{,}37242 \pm 2{,}0017 \times 0{,}24733 = 1{,}372 \pm 0{,}495 \Rightarrow [0{,}877\,;\ 1{,}868]$}
+  \ecrire[orange][9]{(26,24)}{$t_{58\,;\,0{,}025} = 2{,}0017$}
+}
+
+\annot{29}{En R : Modèles}{
+  \entourer[vert]{(87.7,58.5)}{24}{2.8}
+  \ecrire[vert][10]{(10,34)}{OUI : $0 \notin [0{,}345\,;\ 0{,}517]$}
+  \ecrire[vert][10]{(10,26)}{$\Rightarrow$ ON REJETTE $H_0 : \beta_1 = 0$ AU SEUIL DE 5 \%}
+  \ecrire[vert][10]{(10,18)}{LA RELATION LINÉAIRE EST SIGNIFICATIVE.}
+  \ecrire[violet][8]{(10,9)}{(MÊMES BORNES QUE NOTRE CALCUL À LA MAIN)}
+}
+
+\annot{32}{Test de Student sur la pente}{
+  \ecrire[violet][8]{(101,69.8)}{(DROITE HORIZONTALE)}
+  % loi t bilatérale
+  \begin{scope}[shift={(24,4)}]
+    \fill[rouge, opacity=0.45, domain=7:12, samples=20] (7,0) -- plot (\x,{10*exp(-(\x/3.7)^2/2)}) -- (12,0) -- cycle;
+    \fill[rouge, opacity=0.45, domain=-12:-7, samples=20] (-12,0) -- plot (\x,{10*exp(-(\x/3.7)^2/2)}) -- (-7,0) -- cycle;
+  \end{scope}
+  \cloche[bleu]{(24,4)}{24}{10}
+  \ecrire[rouge][7]{(4,18)}{REJET SI $|t_{obs}|$\\TROP GRAND}
+  \ecrire[violet][8]{(124,17)}{$n-2$ D.L. :\\2 PARAMÈTRES\\ESTIMÉS}
+}
+
+\annot{33}{Exemple 1 (suite)}{
+  \cloche[bleu]{(122,68)}{22}{9}
+  \draw[crayon lisse, bleu] (115,67) -- (115,69) (129,67) -- (129,69);
+  \ecrire[bleu][6.5]{(111,66.5)}{$-2$}
+  \ecrire[bleu][6.5]{(127.5,66.5)}{$2$}
+  \draw[crayon lisse, rouge, pointe] (133,70) -- (152,70);
+  \ecrire[rouge][7]{(136,77)}{10,04 :\\TRÈS LOIN !}
+  \entourer[rouge]{(75,67.6)}{6}{2}
+}
+
+\annot{34}{QUIZ}{
+  \entourer[vert]{(83,66)}{14}{2.3}
+  \ecrire[vert][8]{(20,52.2)}{$t_{obs} = 11{,}70$ ; VALEUR-P $= 8{,}05 \times 10^{-14} < 0{,}05$\\
+    $\Rightarrow$ ON REJETTE $H_0$ : LIEN LINÉAIRE (POSITIF) SIGNIFICATIF}
+  \ecrire[vert][8.5]{(20,37)}{$0{,}328 \pm 2{,}028 \times 0{,}02806 = 0{,}328 \pm 0{,}057 \Rightarrow [0{,}271\,;\ 0{,}385]$}
+  \ecrire[violet][8]{(20,21)}{EN MOTS : AVEC 95 \% DE CONFIANCE, CHAQUE GRAMME DE PLUS AUGMENTE\\
+    L'ÉTENDUE MOYENNE DES AILES DE 0,27 À 0,39 CM.}
+  \ecrire[rouge][8.5]{(20,11)}{OUI : $0{,}5 \notin [0{,}271\,;\ 0{,}385]$ $\Rightarrow$ ON REJETTE $\beta_1 = 0{,}5$ (VOIR PAGE SUIVANTE)}
+}
+\apres{34}{
+  \ecrire[violet][13]{(8,85)}{HIRONDELLES : L'ORNITHOLOGUE A-T-ELLE RAISON ?}
+  \ecrire[vert][12]{(8,73)}{$H_0 : \beta_1 = 0{,}5$ \qquad CONTRE \qquad $H_1 : \beta_1 \neq 0{,}5$}
+  \ecrire[vert][12]{(8,61)}{$t_{obs} = \dfrac{b_1 - 0{,}5}{\text{ERREUR-TYPE}} = \dfrac{0{,}32824 - 0{,}5}{0{,}02806} = -6{,}12$}
+  \ecrire[vert][12]{(8,42)}{$|t_{obs}| = 6{,}12 > t_{36\,;\,0{,}025} = 2{,}028$}
+  \ecrire[rouge][12]{(8,32)}{$\Rightarrow$ ON REJETTE $H_0$ AU SEUIL DE 5 \%.}
+  \ecrire[violet][11]{(8,20)}{MÊME CONCLUSION QUE L'IC : 0,5 N'EST PAS DANS [0,271 ; 0,385].\\[1mm]
+    LA PENTE EST PLUTÔT D'ENVIRON 0,33 CM PAR GRAMME.}
+  \ecrire[orange][9]{(112,62)}{ATTENTION : LA SORTIE R\\TESTE SEULEMENT $\beta_1 = 0$ !\\
+    POUR UNE AUTRE VALEUR,\\ON CALCULE À LA MAIN.}
+}
+
+% ---------------------------------------------------------------------------
+\annot{36}{Hypothèses à tester}{
+  \ecrire[vert][10]{(86,54.3)}{$\beta_1 = 0$}
+  \ecrire[vert][10]{(86,48.3)}{$\beta_1 \neq 0$}
+  \ecrire[violet][8]{(104,53.8)}{(AUCUN LIEN LINÉAIRE)}
+  \ecrire[violet][8]{(104,47.8)}{(LIEN LINÉAIRE)}
+  \entourer[orange]{(115.2,28.8)}{8}{2.4}
+  \ecrire[orange][10]{(70,17)}{$F_{obs} = t_{obs}^2 = 10{,}042^2 = 100{,}8$}
+}
+
+\annot{37}{Décomposition de la variance}{
+  \ecrire[vert][11]{(70,16)}{$SST = SSR + SSE$}
+  \ecrire[violet][8]{(56,8)}{TOTALE \quad = \quad EXPLIQUÉE PAR $X$ \quad + \quad NON EXPLIQUÉE}
+}
+
+\annot{38}{Décomposition de la variance : illustration}{
+  \ecrire[rouge][8.5]{(129,69)}{$\rightarrow$ SSE}
+  \ecrire[bleu][8.5]{(129,56)}{$\rightarrow$ SSR}
+  \ecrire[vert][8.5]{(129,45)}{$\rightarrow$ SST}
+  \ecrire[violet][7.5]{(129,38)}{(ON ÉLÈVE\\AU CARRÉ ET\\ON SOMME\\SUR LES 60\\POINTS)}
+  \ecrire[violet][8]{(3,62)}{MOYENNE\\$\bar y = 3{,}744$}
+  \fleche[violet][-20]{(12,54)}{(44,48.5)}
+  \ecrire[violet][8]{(20,8)}{ÉCART TOTAL = ÉCART EXPLIQUÉ PAR LA DROITE + RÉSIDU}
+}
+
+\annot{39}{Décomposition de la variance}{
+  \ecrire[vert][8.5]{(28,34)}{SST (TOTALE)}
+  \ecrire[vert][8.5]{(60,34)}{SSR (EXPLIQUÉE)}
+  \ecrire[vert][8.5]{(104,34)}{SSE (RÉSIDUELLE)}
+  \ecrire[violet][9]{(10,24)}{$SSE = \sum \hat\varepsilon_i^{\,2}$ : C'EST CE QUE LES MOINDRES CARRÉS MINIMISENT}
+  \ecrire[orange][9]{(10,14)}{DEGRÉS DE LIBERTÉ : \ $n - 1 \ = \ 1 \ + \ (n-2)$ \qquad EX. : $59 = 1 + 58$}
+}
+
+\annot{40}{Table d'ANOVA}{
+  % Régression
+  \ecrirec[violet][9]{(73,58.3)}{$SSR$}
+  \ecrirec[vert][9]{(73,53.8)}{32,547}
+  \ecrirec[vert][9]{(97.5,56)}{1}
+  \ecrirec[violet][9]{(119,58.3)}{$MSR = SSR/1$}
+  \ecrirec[vert][9]{(119,53.8)}{32,547}
+  \ecrirec[violet][9]{(142,58.3)}{$\frac{MSR}{MSE}$}
+  \ecrirec[vert][9]{(142,53.8)}{100,8}
+  % Erreur
+  \ecrirec[violet][9]{(73,48)}{$SSE$}
+  \ecrirec[vert][9]{(73,43.5)}{18,721}
+  \ecrirec[vert][9]{(97.5,48)}{$n-2$}
+  \ecrirec[vert][9]{(97.5,43.5)}{58}
+  \ecrirec[violet][9]{(119,48)}{$MSE = \frac{SSE}{n-2}$}
+  \ecrirec[vert][9]{(119,43.5)}{0,323}
+  % Total
+  \ecrirec[violet][9]{(73,36.3)}{$SST$}
+  \ecrirec[vert][9]{(73,31.8)}{51,268}
+  \ecrirec[vert][9]{(97.5,36.3)}{$n-1$}
+  \ecrirec[vert][9]{(97.5,31.8)}{59}
+  \ecrire[vert][9]{(30,21.8)}{$\hat\sigma^2 = MSE = 0{,}323$}
+  \ecrire[vert][9]{(82,9.3)}{$R^2 = \frac{32{,}547}{51{,}268} = 0{,}635$}
+}
+
+\annot{41}{Table d'ANOVA en R}{
+  \surligner[jaune]{(37,47)}{(52,50.6)}
+  \surligner[jaune]{(37,42.3)}{(52,45.9)}
+  \surligner[rose]{(64,47)}{(79.3,50.6)}
+  \surligner[rose]{(81.5,47)}{(104,50.6)}
+  \ecrire[vert][9]{(10,26)}{$SSR = 32{,}547$ \ (1 D.L.) \qquad $SSE = 18{,}721$ \ (58 D.L.)}
+  \ecrire[vert][9]{(10,19)}{$MSE = \dfrac{18{,}721}{58} = 0{,}3228$ \qquad $F_{obs} = \dfrac{32{,}547 / 1}{0{,}3228} = 100{,}8$}
+  \ecrire[rouge][9]{(10,7.5)}{VALEUR-P $= 2{,}66 \times 10^{-14} < 0{,}05 \Rightarrow$ ON REJETTE $H_0$}
+}
+
+\annot{42}{Conséquence}{
+  \ecrire[vert][10]{(46,74)}{$F = \dfrac{MSR}{MSE} \sim F_{1,\,n-2}$}
+  \ecrire[violet][9]{(22,63)}{$MSR$ ET $MSE$ ESTIMENT TOUS DEUX $\sigma^2$ $\Rightarrow$ $F_{obs} \approx 1$}
+  \ecrire[vert][9.5]{(18,29)}{PLUS GRANDE ! \ $E(MSR) = \sigma^2 + \beta_1^2\,S_{XX} > \sigma^2$}
+  \ecrire[rouge][9]{(18,20)}{$\Rightarrow$ ON REJETTE $H_0$ QUAND $F_{obs}$ EST GRAND\\
+    \phantom{$\Rightarrow$} (TEST UNILATÉRAL À DROITE)}
+  % loi F avec zone de rejet
+  \begin{scope}[shift={(108,5)}]
+    \fill[rouge, opacity=0.45, domain=22:42, samples=30] (22,0) -- plot (\x,{12*(\x/6)*exp(1-\x/6)}) -- (42,0) -- cycle;
+    \draw[crayon lisse, bleu] (0,0) -- (44,0);
+    \draw[crayon lisse, bleu, domain=0:42, samples=60, smooth] plot (\x,{12*(\x/6)*exp(1-\x/6)});
+    \draw[crayon lisse, rouge] (22,0) -- (22,-1);
+    \ecrire[rouge][7.5]{(19,-1)}{4,01}
+    \ecrire[rouge][8]{(28,13)}{REJET $H_0$}
+    \fleche[rouge][10]{(33,9)}{(27,2.5)}
+    \ecrire[bleu][7.5]{(4,16)}{$F_{1,58}$}
+  \end{scope}
+}
+\apres{42}{
+  \ecrire[violet][13]{(8,85)}{QUE SIGNIFIE UN GRAND $F$ ?}
+  % gauche : pente nulle
+  \draw[crayon lisse, black!70] (10,22) -- (10,62) (10,22) -- (70,22);
+  \draw[crayon, orange, line width=1pt] (12,42) -- (68,43);
+  \draw[crayon lisse, bleu, dashed] (12,42.5) -- (68,42.5);
+  \foreach \x/\y in {15/50, 19/36, 24/47, 28/33, 33/45, 37/52, 42/38, 46/49, 51/34, 55/44, 60/51, 64/37}{
+    \fill[black] (\x,\y) circle (0.6);}
+  \ecrire[vert][11]{(10,18)}{$b_1 \approx 0$ : $\hat y_i \approx \bar y$\\$SSR$ PETITE $\Rightarrow F \approx 1$}
+  % droite : pente forte
+  \draw[crayon lisse, black!70] (90,22) -- (90,62) (90,22) -- (150,22);
+  \draw[crayon, orange, line width=1pt] (92,26) -- (148,59);
+  \draw[crayon lisse, bleu, dashed] (92,42.5) -- (148,42.5);
+  \foreach \x/\y in {95/30, 99/26, 104/34, 108/32, 113/39, 117/35, 122/45, 126/42, 131/50, 135/47, 140/56, 144/53}{
+    \fill[black] (\x,\y) circle (0.6);}
+  \ecrire[vert][11]{(90,18)}{DROITE LOIN DE $\bar y$ :\\$SSR$ GRANDE $\Rightarrow F$ GRAND}
+  \ecrire[bleu][10]{(70,45)}{$\bar y$}
+  \ecrire[rouge][11]{(40,74)}{$F = MSR/MSE$ : EXPLIQUÉ / NON EXPLIQUÉ}
+}
+
+\annot{43}{Exemple}{
+  \ecrire[vert][10]{(18,66)}{VALEUR-P $= P(F_{1,58} > 100{,}83) = 2{,}66 \times 10^{-14}$}
+  \ecrire[violet][8]{(18,58)}{(COLONNE Pr(>F) DE LA TABLE D'ANOVA EN R)}
+  \ecrire[vert][10]{(18,40)}{OUI : \ $2{,}66 \times 10^{-14} < 0{,}05 \Rightarrow$ ON REJETTE $H_0$}
+  \ecrire[vert][10]{(18,31)}{OU : \ $F_{obs} = 100{,}8 > F_{1,58\,;\,0{,}05} = 4{,}01$}
+  \ecrire[rouge][10]{(18,20)}{IL Y A UN LIEN LINÉAIRE SIGNIFICATIF ENTRE\\L'ENSOLEILLEMENT ET LA PRODUCTION.}
+}
+
+\annot{44}{Lien entre le test}{
+  \surligner[jaune]{(78,50.3)}{(108.5,54.3)}
+}
+
+\annot{45}{QUIZ}{
+  \ecrire[vert][9.5]{(1,73)}{VRAI}
+  \ecrire[rouge][9.5]{(1,50.5)}{FAUX}
+  \ecrire[vert][9.5]{(1,33.8)}{VRAI}
+  \ecrire[rouge][9.5]{(1,11)}{FAUX}
+  \ecrire[vert][8.5]{(20,61)}{$b_1 \approx 0 \Rightarrow \hat y_i = \bar y + b_1 (x_i - \bar x) \approx \bar y$ \ ET $SSR$ EST PETITE}
+  \ecrire[vert][8.5]{(20,43)}{$b_1$ VARIE D'UN ÉCHANTILLON À L'AUTRE, AUTOUR DE 0}
+  \ecrire[vert][8.5]{(20,22.5)}{$F = t^2 \Rightarrow |t_{obs}| = \sqrt{6{,}25} = 2{,}5$}
+  \ecrire[rouge][8.5]{(95,17)}{ASSOCIATION $\neq$ CAUSALITÉ !}
+  \fleche[rouge][-20]{(128,13.5)}{(140,10.5)}
+}
+
+\produire{Chapitre_6a}
+\end{document}

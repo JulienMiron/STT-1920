@@ -1,0 +1,569 @@
+\documentclass{article}
+\usepackage{annot}
+
+% ---------------------------------------------------------------------------
+% Outils locaux (propres à ce chapitre)
+% \queue[couleur]{(cx,y0)}{largeur}{hauteur}{a}{b} : ombre l'aire sous une
+%   \cloche de mêmes dimensions entre a et b (en écarts-types; largeur = 6 é.-t.)
+% \hachure[couleur]{(cx,y0)}{largeur}{hauteur}{a}{b} : même chose, hachurée
+% ---------------------------------------------------------------------------
+\NewDocumentCommand{\queue}{O{orange} m m m m m}{%
+  \begin{scope}[shift={#2}]
+    \fill[#1, opacity=0.45] ({(#5)*(#3)/6},0) -- plot[domain=#5:#6, samples=30, smooth]
+      ({\x*(#3)/6}, {(#4)*exp(-(\x)^2/2)}) -- ({(#6)*(#3)/6},0) -- cycle;
+  \end{scope}}
+\NewDocumentCommand{\hachure}{O{orange} m m m m m}{%
+  \begin{scope}[shift={#2}]
+    \fill[pattern=north east lines, pattern color=#1] ({(#5)*(#3)/6},0) -- plot[domain=#5:#6, samples=30, smooth]
+      ({\x*(#3)/6}, {(#4)*exp(-(\x)^2/2)}) -- ({(#6)*(#3)/6},0) -- cycle;
+  \end{scope}}
+
+\begin{document}
+
+% ===================== Des hypothèses de recherche =====================
+\annot{3}{Où en sommes-nous}{
+  \ecrire[vert][10]{(62,68.8)}{$\to$ ESTIMER}
+  \entourer[rouge]{(94.2,53.8)}{20.5}{3.1}
+  \ecrire[violet][9]{(44,49.6)}{$\to$ C'EST LE TEST D'HYPOTHÈSES}
+}
+
+\annot{4}{Des questions de recherche}{
+  \ecrire[vert][10]{(116,63.6)}{$H_1 : \mu < 0{,}5$}
+  \ecrire[vert][10]{(30,50.2)}{$H_1 : p > 0{,}10$}
+  \ecrire[vert][10]{(58,37)}{$H_1 : \sigma > 2$ \ (OU $\sigma^2 > 4$)}
+  \ecrire[vert][10]{(42,23.8)}{$H_1 : \mu \neq 130$}
+  \souligner[violet]{(126,9.7)}{(144.5,9.7)}
+  \souligner[violet]{(10,4.7)}{(27,4.7)}
+  \ecrire[violet][9]{(32,8.2)}{$\to$ $\mu_0$, $p_0$, $\sigma_0$ : ICI 0,5 ; 0,10 ; 2 ; 130}
+}
+
+\annot{5}{Hypothèses statistiques}{
+  \surligner[jaune]{(18,34.3)}{(44,38.3)}
+  \surligner[jaune]{(45,17.1)}{(63.8,21)}
+  \ecrire[violet][9]{(44,33)}{$\leftarrow$ COMME UN ACCUSÉ : INNOCENT JUSQU'À PREUVE DU CONTRAIRE}
+  \ecrire[vert][10]{(10,14.5)}{$H_0$ : « STATU QUO », CONTIENT TOUJOURS L'ÉGALITÉ\\
+    $H_1$ : CE QUE LE CHERCHEUR VEUT DÉMONTRER}
+}
+
+\annot{6}{Quelques règles pour formuler}{
+  \ecrire[violet][9]{(68,49.8)}{$\leftarrow$ « DIFFÈRE »}
+  \ecrire[vert][10]{(12,24.5)}{EX. 7 (SOURIS) : \ $H_0 : \mu = 25$ \ VS \ $H_1 : \mu > 25$}
+  \ecrire[rouge][10]{(12,17.5)}{JAMAIS : \ $H_0 : \mu > 25$ \quad NI \quad $H_1 : \mu = 25$}
+  \croix[rouge]{(78,15.2)}
+  \ecrire[violet][9]{(12,10.5)}{LE SENS DE $H_1$ VIENT DE LA QUESTION DE RECHERCHE, PAS DES DONNÉES !}
+}
+
+\annot{7}{QUIZ}{
+  \ecrire[vert][11]{(20,61)}{$H_0 : \mu = 3{,}5$ \quad VS \quad $H_1 : \mu > 3{,}5$ \quad (UNILATÉRAL À DROITE)}
+  \ecrire[vert][11]{(20,42)}{$H_0 : p = 0{,}20$ \quad VS \quad $H_1 : p > 0{,}20$}
+  \ecrire[vert][11]{(20,23)}{$H_0 : \mu = 72$ \quad VS \quad $H_1 : \mu \neq 72$ \quad (BILATÉRAL)}
+  \ecrire[rouge][9]{(68,9.5)}{NON : IL FAUT AUSSI CONNAÎTRE $s$ (ERREUR-TYPE) !}
+}
+
+% ===================== La logique d'un test =====================
+\annot{9}{Exemple 7}{
+  \souligner[violet]{(81,60.7)}{(92,60.7)}
+  \ecrire[violet][9]{(95,63.5)}{$\leftarrow$ RARE EN PRATIQUE !}
+  \ecrire[violet][9]{(117,37.5)}{$\leftarrow$ UNILATÉRAL}
+  \ecrire[vert][9]{(8,14.5)}{SI $H_0$ VRAIE : $\overline{X} \sim N(25\,;\ 2^2/16)$, \ ÉCART-TYPE $= 2/\sqrt{16} = 0{,}5$ G}
+  \ecrire[violet][9]{(8,8.5)}{ÉCART $= 26{,}1 - 25 = 1{,}1$ G $= 1{,}1/0{,}5 = 2{,}2$ ERREURS-TYPES : EST-CE BEAUCOUP ?}
+}
+
+\annot{10}{Les étapes d'un test}{
+  \ecrire[vert][10]{(112,73)}{0,05 OU 0,01}
+  \ecrire[violet][9]{(32,61.5)}{$\leftarrow$ $Z_0$, $T_0$, ... (LOI CONNUE SI $H_0$ VRAIE)}
+  \ecrire[violet][9]{(60,36.6)}{$\leftarrow$ 1 À 3 : AVANT DE VOIR LES DONNÉES}
+  \souligner[rouge]{(126,16.8)}{(146,16.8)}
+  \souligner[rouge]{(14,11.8)}{(22,11.8)}
+  \ecrire[rouge][9]{(30,15)}{« NON COUPABLE » $\neq$ « INNOCENT »}
+}
+
+\annot{11}{Statistique de test et loi}{
+  \ecrire[violet][8]{(72,59.4)}{$\leftarrow$ ERREUR-TYPE DE $\overline{X}$}
+  % Z : centre 119, 1 é.-t. = 8,2 mm ; 2,2 -> 137
+  \trait[rouge]{(137,33.9) -- (137,41)}
+  \ecrire[rouge][8]{(131,47)}{$z_{obs} = 2{,}2$}
+  \fleche[rouge][-20]{(137,43)}{(137.3,41.3)}
+  % Xbarre : centre 43,5 ; 26,1 -> 43,5 + 2,2 x 8,2
+  \trait[vert]{(61.5,33.9) -- (61.5,41)}
+  \ecrire[vert][8]{(56,47)}{$\bar{x} = 26{,}1$}
+  \ecrire[vert][8]{(44.8,34.3)}{$= 25$}
+}
+
+\annot{12}{Règle de décision}{
+  \entourer[violet]{(115.5,73)}{10}{2.9}
+  \ecrire[violet][8]{(12,58)}{AIRE 0,95}
+  \fleche[violet][-15]{(20,53.5)}{(66,42.5)}
+  \ecrire[vert][9]{(66,25.8)}{$z_{obs} = 2{,}2$ TOMBE DANS LA RÉGION DE REJET}
+  \ecrire[vert][9]{(10,17.5)}{$1{,}645$ : TABLE $N(0,1)$ OU \code{qnorm(0.95)} DANS R}
+  \ecrire[violet][9]{(10,11.5)}{MÊME RÈGLE SUR L'ÉCHELLE DE $\bar{x}$ : VOIR PAGE SUIVANTE}
+}
+\apres{12}{
+  \ecrire[violet][13]{(8,84)}{EXEMPLE 7 : LA RÈGLE SUR DEUX ÉCHELLES}
+  % gauche : Xbarre ~ N(25 ; 0,5^2), 1 é.-t. = 7 mm
+  \queue[orange]{(40,40)}{42}{26}{1.645}{3}
+  \cloche[violet]{(40,40)}{42}{26}
+  \trait[violet]{(40,40) -- (40,66)}
+  \trait[rouge]{(51.5,38) -- (51.5,50)}
+  \trait[vert]{(55.4,38) -- (55.4,46)}
+  \ecrirec[violet][11]{(40,36)}{25}
+  \ecrirec[rouge][11]{(50,31)}{25,82}
+  \ecrirec[vert][11]{(60,36)}{26,1}
+  \ecrire[violet][11]{(8,74)}{$\overline{X} \sim N(25\,;\ 0{,}5^2)$ SI $H_0$ VRAIE}
+  \ecrire[orange][11]{(57,58)}{$\alpha = 0{,}05$}
+  \fleche[orange][-20]{(62,54)}{(56,43)}
+  % droite : Z ~ N(0,1)
+  \queue[orange]{(120,40)}{42}{26}{1.645}{3}
+  \cloche[violet]{(120,40)}{42}{26}
+  \trait[violet]{(120,40) -- (120,66)}
+  \trait[rouge]{(131.5,38) -- (131.5,50)}
+  \trait[vert]{(135.4,38) -- (135.4,46)}
+  \ecrirec[violet][11]{(120,36)}{0}
+  \ecrirec[rouge][11]{(130,31)}{1,645}
+  \ecrirec[vert][11]{(140,36)}{2,2}
+  \ecrire[violet][11]{(96,74)}{$Z_0 = \dfrac{\overline{X} - 25}{0{,}5} \sim N(0,1)$}
+  \ecrire[orange][11]{(137,58)}{$\alpha = 0{,}05$}
+  \fleche[orange][-20]{(142,54)}{(136,43)}
+  \fleche[violet][25]{(70,52)}{(98,52)}
+  \ecrirec[violet][11]{(84,60)}{STANDARDISER}
+  \ecrire[vert][12]{(8,24)}{$25{,}82 = 25 + 1{,}645 \times 0{,}5$ \qquad (VALEUR CRITIQUE SUR L'ÉCHELLE DE $\bar{x}$)}
+  \ecrire[vert][12]{(8,15)}{$\bar{x} = 26{,}1 > 25{,}82 \iff z_{obs} = 2{,}2 > 1{,}645$ \ $\Rightarrow$ \ REJET DE $H_0$}
+}
+
+\annot{13}{Exemple 7 (suite)}{
+  \entourer[rouge]{(82,39)}{9.5}{2.9}
+  % petite cloche : centre 128, 1 é.-t. = 6 mm
+  \queue[orange]{(128,38.5)}{36}{13}{1.645}{3}
+  \cloche[violet]{(128,38.5)}{36}{13}
+  \trait[rouge]{(141.2,37.5) -- (141.2,47.5)}
+  \ecrirec[orange][8]{(138,36.6)}{1,645}
+  \ecrire[rouge][9]{(139,52)}{2,2}
+  \ecrire[vert][9]{(8,11.5)}{MAIS ON PEUT SE TROMPER : SI $H_0$ ÉTAIT VRAIE, CE SERAIT UNE ERREUR DE TYPE I}
+}
+
+% ===================== Erreurs de type I et II =====================
+\annot{15}{Deux erreurs possibles}{
+  \surligner[rose]{(67,46.9)}{(94.3,50.7)}
+  \surligner[rose]{(98.5,39.2)}{(127,43)}
+  \ecrire[rouge][8]{(70,46.3)}{(FAUX POSITIF)}
+  \ecrire[rouge][8]{(102,38.6)}{(FAUX NÉGATIF)}
+  \ecrire[vert][8]{(132,33.6)}{$\leftarrow$ ON LE FIXE}
+  \ecrire[violet][8]{(121,27.8)}{$\leftarrow$ DÉPEND DE\\ \ \ $\mu_1$, $n$, $\sigma$, $\alpha$}
+  \ecrire[vert][9]{(20,13)}{PUISSANCE = CAPACITÉ DE DÉTECTER UN EFFET QUI EXISTE VRAIMENT}
+}
+
+\annot{16}{Deux analogies}{
+  \ecrire[violet][9]{(84,17.5)}{$\alpha = P(\text{CONDAMNER UN INNOCENT})$\\ $\beta = P(\text{ACQUITTER UN COUPABLE})$}
+}
+
+\annot{17}{Visualiser}{
+  % puissance : aire sous la courbe H1 (centre 90,5 ; é.-t. 10,65 ; base 36,2 ; haut. 25,3) à droite de 86,7
+  \fill[pattern=north east lines, pattern color=vert] (86.7,36.2) -- plot[domain=86.7:124, samples=40, smooth]
+    (\x, {36.2+25.3*exp(-((\x-90.5)/10.65)^2/2)}) -- (124,36.2) -- cycle;
+  \ecrire[vert][9]{(126,51)}{PUISSANCE\\ $1 - \beta$}
+  \fleche[vert][-20]{(125,46)}{(100,43)}
+  \ecrire[violet][8]{(50,69.8)}{$\longleftarrow$ NON-REJET}
+  \ecrire[violet][8]{(113,69.8)}{REJET $\longrightarrow$}
+  \ecrire[rouge][9]{(8,15)}{À $n$ FIXE : SI $\alpha$ DIMINUE, LA LIGNE ROUGE VA À DROITE $\Rightarrow$ $\beta$ AUGMENTE}
+}
+
+\annot{18}{Quelques remarques importantes}{
+  \surligner[jaune]{(53.5,56.4)}{(74,60.2)}
+  \ecrire[violet][9]{(12,30)}{$\alpha$ : FIXÉ PAR LE CHERCHEUR \qquad $\beta$ : À PLANIFIER (TAILLE D'ÉCHANTILLON)}
+  \surligner[rose]{(14,10)}{(114,13.8)}
+}
+
+\annot{19}{QUIZ}{
+  \ecrire[vert][9]{(18,66.5)}{TYPE I : CONCLURE QUE LA DIÈTE AUGMENTE LA MASSE, ALORS QUE NON.\\
+    TYPE II : NE PAS DÉTECTER UNE AUGMENTATION QUI EXISTE.}
+  \ecrire[vert][9]{(18,44.5)}{TYPE II = FAUX NÉGATIF (MALADE NON TRAITÉ) : LE PLUS GRAVE.\\
+    $\Rightarrow$ PRIVILÉGIER LA PUISSANCE $1-\beta$ (SENSIBILITÉ)}
+  \ecrire[rouge][10]{(18,26.5)}{FAUX !}
+  \ecrire[vert][9]{(38,26.5)}{$1-\alpha = P(\text{NE PAS REJETER } H_0 \mid H_0 \text{ VRAIE})$}
+  \ecrire[vert][9]{(38,20)}{$\neq P(H_0 \text{ VRAIE} \mid \text{NON-REJET})$ \quad (VOIR EX. 8)}
+}
+
+% ===================== La valeur-p =====================
+\annot{21}{La valeur-p (seuil observé)}{
+  \surligner[jaune]{(108.5,59.9)}{(146,63.7)}
+  \entourer[rouge]{(53.6,34.9)}{5}{2.3}
+  \ecrire[violet][8]{(6,21)}{AIRE À DROITE DE 2,2 SOUS $N(0,1)$ :\\ \code{1 - pnorm(2.2)} DANS R}
+  \ecrire[vert][8]{(6,12)}{PETITE VALEUR-P $\Rightarrow$ DONNÉES SURPRENANTES\\ SI $H_0$ VRAIE $\Rightarrow$ ON REJETTE $H_0$}
+}
+
+\annot{22}{Calcul de la valeur-p selon}{
+  \queue[orange]{(150,50)}{14}{5}{1}{3}
+  \cloche[violet]{(150,50)}{14}{5}
+  \queue[orange]{(150,42)}{14}{5}{-3}{-1}
+  \cloche[violet]{(150,42)}{14}{5}
+  \queue[orange]{(150,33.8)}{14}{5}{-3}{-1.3}
+  \queue[orange]{(150,33.8)}{14}{5}{1.3}{3}
+  \cloche[violet]{(150,33.8)}{14}{5}
+  \ecrire[violet][8]{(90,25.7)}{$\leftarrow$ pnorm = AIRE À GAUCHE}
+  \ecrire[rouge][8]{(131,21.3)}{« 2 × » :\\ 2 QUEUES}
+}
+
+\annot{23}{Interpréter une valeur-p}{
+  \ecrire[violet][9]{(34,52.6)}{$\to$ ON DIT : « PREUVE INSUFFISANTE CONTRE $H_0$ »}
+  \ecrire[rouge][8]{(108,36.8)}{VOIR EX. 8}
+  \ecrire[rouge][8]{(98,26.3)}{$\leftarrow$ PEUT-ÊTRE UN MANQUE DE PUISSANCE}
+  \ecrire[rouge][8]{(121,21)}{$\leftarrow$ DÉPEND DE $n$ !}
+}
+
+\annot{24}{Exemple 8}{
+  \entourer[rouge]{(84.8,44.8)}{3.3}{2.6}
+  \entourer[orange]{(109.5,38.2)}{3}{2.6}
+  \ecrire[rouge][8]{(30,64.5)}{45 = FAUX POSITIFS}
+  \ecrire[orange][8]{(85,64.5)}{20 = FAUX NÉGATIFS}
+  \entourer[rouge]{(100,20.8)}{3.9}{2.6}
+}
+
+\annot{25}{QUIZ}{
+  \ecrire[vert][9]{(102,69)}{VRAI : $t_{obs} = -1{,}39 < 0$}
+  \ecrire[vert][9]{(72,57.8)}{FAUX : $0{,}09 > 0{,}05$}
+  \ecrire[vert][9]{(74,47.2)}{VRAI : $0{,}09 \le 0{,}10$}
+  \ecrire[vert][9]{(122,36.5)}{FAUX}
+  \ecrire[violet][8]{(133,35.8)}{(PAGE SUIV.)}
+  \ecrire[vert][9]{(122,26)}{INFO INSUFFISANTE}
+  \ecrire[vert][8]{(70,10.4)}{FAUX : $s/\sqrt{n}$ PLUS PETIT $\Rightarrow$ $|t_{obs}|$ PLUS GRAND\\ $\Rightarrow$ VALEUR-P PLUS PETITE}
+}
+\apres{25}{
+  \ecrire[violet][13]{(8,85)}{QUIZ : MÊME $\bar{x}$, MÊME $s$, MAIS $\mu_0$ CHANGE}
+  % axe commun : 1 unité de mu = 16 mm ; erreur-type = 0,5 -> 8 mm ; xbar = 4,305
+  % x = 16 + (v - 2,5) * 16 : 4 -> 40 ; 5 -> 56 ; 6 -> 72 ; xbar -> 44,9
+  \draw[crayon lisse, violet] (8,40) -- (100,40);
+  \cloche[orange]{(40,40)}{48}{22}
+  \cloche[vert]{(56,40)}{48}{22}
+  \cloche[bleu]{(72,40)}{48}{22}
+  \queue[vert]{(56,40)}{48}{22}{-3}{-1.39}
+  \trait[rouge]{(44.9,38) -- (44.9,68)}
+  \ecrirec[rouge][11]{(44.9,72)}{$\bar{x}$}
+  \ecrirec[orange][11]{(40,35)}{4}
+  \ecrirec[vert][11]{(56,35)}{5}
+  \ecrirec[bleu][11]{(72,35)}{6}
+  \ecrire[vert][11]{(8,27)}{$\mu_0 = 5$ : $t_{obs} = \dfrac{\bar{x}-5}{s/\sqrt{20}} = -1{,}39$, \ VALEUR-P $= 0{,}09$}
+  \ecrire[orange][11]{(8,15)}{$\mu_0 = 4$ : $\bar{x}$ EST PLUS PRÈS DE 4 (OU AU-DESSUS) $\Rightarrow$ $t_{obs} > -1{,}39$\\
+    $\Rightarrow$ VALEUR-P $> 0{,}09 > 0{,}05$ : ON NE REJETTE PAS. \ FAUX}
+  \ecrire[bleu][11]{(100,72)}{$\mu_0 = 6$ : $\bar{x}$ PLUS LOIN\\ À GAUCHE DE 6\\ $\Rightarrow$ $t_{obs} < -1{,}39$\\
+    $\Rightarrow$ VALEUR-P $< 0{,}09$\\[1mm] MAIS $< 0{,}05$ ?\\ ÇA DÉPEND DE $s$ !\\ $\Rightarrow$ INFO INSUFFISANTE}
+}
+
+% ===================== Unilatéral / bilatéral =====================
+\annot{27}{Trois formes de région}{
+  \entourer[violet]{(64.3,35.3)}{5}{2.6}
+  \entourer[violet]{(116.8,35.3)}{4.5}{2.6}
+  \ecrire[violet][8]{(106,24.2)}{$\leftarrow$ PLUS EXIGEANT}
+  \ecrire[vert][9]{(8,16.5)}{EX. 7 : $H_1 : \mu > 25$ $\Rightarrow$ REJET SI $z_{obs} > 1{,}645$ \quad ($z_{obs} = 2{,}2$ : REJET)}
+  \ecrire[vert][9]{(8,10)}{SI ON AVAIT PRIS $H_1 : \mu \neq 25$ : REJET SI $|z_{obs}| > 1{,}96$ \quad (ICI AUSSI REJET)}
+}
+
+\annot{28}{Unilatéral ou bilatéral}{
+  \surligner[jaune]{(118,70.8)}{(128,74.5)}
+  \ecrire[violet][9]{(44,68.5)}{(SINON : TRICHE, VOIR « ATTENTION ! »)}
+  \ecrire[vert][9]{(78,40.3)}{EX. : NITRATES, MERCURE, INFECTION}
+}
+
+\annot{29}{QUIZ}{
+  \ecrire[vert][10]{(18,65)}{VRAI : $t_{obs} = 1{,}85 > 0$ DANS LE SENS DE $H_1$ $\Rightarrow$ $0{,}08/2 = 0{,}04$}
+  \ecrire[vert][10]{(18,48)}{VRAI : MAUVAIS SENS $\Rightarrow$ $P(T \le 1{,}85) = 1 - 0{,}04 = 0{,}96$}
+  \ecrire[vert][10]{(18,31)}{FAUX : $0{,}08 > 0{,}05$ $\Rightarrow$ ON NE REJETTE PAS $H_0$}
+  % cloche avec les deux queues au-delà de 1,85 (1 é.-t. = 7 mm)
+  \queue[orange]{(122,6)}{42}{15}{-3}{-1.85}
+  \queue[orange]{(122,6)}{42}{15}{1.85}{3}
+  \cloche[violet]{(122,6)}{42}{15}
+  \ecrirec[rouge][8]{(109,4)}{$-1{,}85$}
+  \ecrirec[rouge][8]{(135,4)}{$1{,}85$}
+  \ecrire[orange][8]{(144,17)}{0,04}
+  \fleche[orange][-20]{(147,13.5)}{(137.5,7.5)}
+  \ecrire[orange][8]{(95,17)}{0,04}
+  \fleche[orange][20]{(98,13.5)}{(106.5,7.5)}
+}
+
+% ===================== Puissance =====================
+\annot{31}{Calcul de la puissance}{
+  \ecrire[violet][9]{(76,52.5)}{(RÈGLE DE L'EXEMPLE 7)}
+  \entourer[rouge]{(140.5,39.5)}{6}{3}
+  \ecrire[vert][9]{(100,33.4)}{$\beta = 1 - 0{,}639 = 0{,}361$}
+  \ecrire[vert][8]{(50,11.6)}{$= P(Z > 0{,}64)$}
+  \ecrire[vert][8]{(96,11.6)}{$= P(Z > -2{,}36)$}
+}
+
+\annot{32}{Déterminant 1}{
+  \ecrire[rouge][8]{(26,23.3)}{$\beta$ GRAND : PUISSANCE FAIBLE}
+  \ecrire[vert][8]{(86,23.3)}{$\beta$ PETIT : PUISSANCE ÉLEVÉE}
+}
+
+\annot{33}{Déterminant 2}{
+  \ecrire[rouge][8]{(20,24.2)}{BEAUCOUP DE CHEVAUCHEMENT}
+  \ecrire[vert][8]{(92,24.2)}{PEU DE CHEVAUCHEMENT}
+}
+
+\annot{34}{Déterminant 3}{
+  \ecrire[rouge][10]{(84,16.5)}{COMPROMIS $\alpha \leftrightarrow \beta$ !}
+}
+
+\annot{35}{En résumé}{
+  \ecrire[violet][9]{(18,58)}{$\alpha\uparrow$}
+  \fleche[violet][0]{(26,54)}{(26,44)}
+  \ecrire[violet][8]{(8,42)}{PUISS. $\uparrow$}
+  \ecrire[vert][9]{(130,58.5)}{$n\uparrow$}
+  \fleche[vert][0]{(133,54)}{(133,44)}
+  \ecrire[vert][8]{(129,42)}{PUISS. $\uparrow$}
+  \entourer[vert]{(116,48)}{4.5}{2.5}
+  \ecrire[violet][8]{(78,74.5)}{$\leftarrow$ $\mu_1 - \mu_0 = 1$ G}
+}
+
+\annot{36}{Taille d'échantillon pour}{
+  \ecrire[violet][8]{(3,31.5)}{$z_{0{,}05} = 1{,}645$\\ $z_\beta = z_{0{,}20}$\\ \quad $= 0{,}842$}
+  \ecrire[violet][8]{(133,31)}{$\delta = 26 - 25$\\ \ \ $= 1$}
+  \ecrire[rouge][8]{(133,23)}{ARRONDIR\\ VERS LE HAUT !}
+}
+
+\annot{37}{QUIZ}{
+  \ecrire[vert][10]{(18,66)}{FAUX : $\alpha \downarrow$ $\Rightarrow$ $\beta \uparrow$ $\Rightarrow$ PUISSANCE $\downarrow$ \quad (0,64 $\to$ 0,37)}
+  \ecrire[vert][10]{(18,50)}{VRAI : ÉCART PLUS GRAND $\Rightarrow$ PUISSANCE PLUS GRANDE (0,99 VS 0,26)}
+  \ecrire[vert][9]{(66,34.8)}{FAUX : PUISSANCE $\approx 0{,}30$ SEULEMENT !}
+  \ecrire[vert][9]{(18,29)}{« ABSENCE DE PREUVE » $\neq$ « PREUVE DE L'ABSENCE » \ (PAGE SUIVANTE)}
+  \ecrire[vert][8]{(42,13.3)}{VRAI : TROP D'ANIMAUX = GASPILLAGE ; TROP PEU = EXPÉRIENCE INUTILE}
+}
+\apres{37}{
+  \ecrire[violet][13]{(8,85)}{PUISSANCE AVEC SEULEMENT $n = 5$ SOURIS ($\mu_1 = 26$)}
+  \ecrire[vert][12]{(8,72)}{ERREUR-TYPE : $\dfrac{\sigma}{\sqrt{n}} = \dfrac{2}{\sqrt{5}} = 0{,}894$}
+  \ecrire[vert][12]{(8,57)}{RÈGLE : REJET SI $\bar{x} > 25 + 1{,}645 \times 0{,}894 = 26{,}47$}
+  \ecrire[vert][12]{(8,46)}{$1 - \beta = P(\overline{X} > 26{,}47 \mid \mu = 26)
+    = P\!\left(Z > \dfrac{26{,}47 - 26}{0{,}894}\right)$}
+  \ecrire[vert][12]{(38,32)}{$= P(Z > 0{,}53) = 0{,}30$}
+  \entourer[rouge]{(74,29.6)}{6}{3.6}
+  \ecrire[rouge][12]{(8,18)}{SI LA DIÈTE MARCHE VRAIMENT, ON NE LE VOIT QUE\\ 3 FOIS SUR 10 !
+    UN NON-REJET NE PROUVE RIEN.}
+  % deux cloches : 1 é.-t. = 0,894 g -> 6 mm ; 1 g = 6,7 mm
+  \hachure[vert]{(141.7,40)}{36}{16}{0.53}{3}
+  \cloche[violet]{(135,40)}{36}{16}
+  \draw[crayon lisse, vert, dashed, domain=-18:18, samples=40, smooth]
+      plot ({141.7+\x}, {40+16*exp(-(\x/6)^2/2)});
+  \trait[rouge]{(144.9,38) -- (144.9,60)}
+  \ecrirec[violet][11]{(135,36)}{25}
+  \ecrirec[vert][11]{(141.7,31)}{26}
+  \ecrirec[rouge][11]{(149,36)}{26,47}
+}
+
+% ===================== Tests sur une moyenne =====================
+\annot{39}{Test}{
+  \ecrire[violet][9]{(20,69.5)}{$\leftarrow$ $S$ : ÉCART-TYPE DE L'ÉCHANTILLON}
+  \ecrire[violet][8]{(3,34)}{$n-1$ :\\ DEGRÉS DE\\ LIBERTÉ}
+  \fleche[violet][10]{(12,36.5)}{(52,44.3)}
+  \ecrire[violet][8]{(123,29.5)}{BILATÉRAL :\\ $\alpha/2$ ET « 2 × »}
+}
+
+\annot{40}{Exemple 1 (retour)}{
+  \entourer[violet]{(61.5,62.7)}{10.5}{2.8}
+  \entourer[violet]{(110,54.4)}{9}{2.8}
+  \ecrire[violet][8]{(95,40)}{$2{,}37 = s/\sqrt{n}$ : ERREUR-TYPE}
+  \ecrire[vert][8]{(10,15)}{$t_{6\,;\,0{,}025}$ : TABLE DE STUDENT, 6 D.L., AIRE 0,025 À DROITE (\code{qt(0.975, 6)})}
+  \ecrire[vert][8]{(10,9.5)}{BILATÉRAL CAR ON CHERCHE UNE DIFFÉRENCE DANS LES DEUX SENS (« CONTREDISENT »)}
+}
+
+\annot{41}{Exemple 1 (retour) : la valeur-p}{
+  \ecrire[vert][8]{(92,31.5)}{$t_{obs}$}
+  \fleche[vert][20]{(97,30)}{(100.5,33.4)}
+  \ecrire[vert][8]{(10,13.5)}{$0{,}071 = P(t_6 \ge 1{,}69)$ = \code{1 - pt(1.69, 6)}}
+  \ecrire[rouge][8]{(10,8)}{$t_{obs}$ HORS DE LA RÉGION DE REJET $\iff$ VALEUR-P $> \alpha$ : ON NE REJETTE PAS $H_0$}
+}
+
+\annot{42}{Exemple 1 (retour) : avec R}{
+  \entourer[vert]{(21,45)}{11.5}{2.2}
+  \entourer[vert]{(43.3,45)}{7}{2.2}
+  \entourer[rouge]{(72.2,45)}{18.5}{2.2}
+  \entourer[violet]{(31.5,32.6)}{19.5}{2.2}
+  \ecrire[vert][9]{(108,65.5)}{$t_{obs} = 1{,}69$ ; 6 D.L.}
+  \ecrire[rouge][9]{(108,59)}{VALEUR-P $= 0{,}14 > 0{,}05$\\ $\Rightarrow$ ON NE REJETTE PAS $H_0$}
+  \fleche[rouge][20]{(107,52)}{(91,46.5)}
+  \ecrire[violet][9]{(55,34.6)}{$\leftarrow$ CONTIENT 130 !}
+}
+
+\annot{43}{Ne pas rejeter}{
+  % intervalle [128,20 ; 139,80] : x = 55 + (v - 126) * 6
+  \draw[crayon lisse, vert, line width=1pt] (68.2,62.5) -- (137.8,62.5);
+  \draw[crayon lisse, vert] (68.2,61.3) -- (68.2,63.7) (137.8,61.3) -- (137.8,63.7);
+  \fill[rouge] (79,62.5) circle (0.8);
+  \fill[violet] (109,62.5) circle (0.8);
+  \fill[violet] (133,62.5) circle (0.8);
+  \ecrirec[rouge][8]{(79,65.5)}{130}
+  \ecrirec[violet][8]{(109,65.5)}{135}
+  \ecrirec[violet][8]{(133,65.5)}{139}
+  \ecrire[vert][8]{(50,64)}{IC 95 \%}
+  \surligner[jaune]{(88.8,42.4)}{(109.8,46.2)}
+  \ecrire[violet][9]{(74,40.3)}{COMPATIBLE $\neq$ PROUVÉ !}
+}
+
+\annot{44}{Cas}{
+  \ecrire[violet][9]{(38,66)}{$n = 50 \ge 30$ : PAS BESOIN DE LA NORMALITÉ (TLC)}
+  % cloche N(0,1), 1 é.-t. = 6,67 mm, queue gauche -2,326
+  \queue[orange]{(132,25.5)}{40}{13}{-3}{-2.326}
+  \cloche[violet]{(132,25.5)}{40}{13}
+  \trait[rouge]{(111,24.5) -- (111,31)}
+  \ecrirec[orange][8]{(118,23.8)}{$-2{,}326$}
+  \ecrire[rouge][8]{(86,41.5)}{$z_{obs} = -3{,}14$}
+  \fleche[rouge][20]{(100,38)}{(110.5,31.5)}
+  \ecrire[orange][8]{(126,24.6)}{$\alpha = 0{,}01$}
+}
+
+\annot{45}{Exemple 9}{
+  \entourer[rouge]{(98.2,45.1)}{7.5}{2.8}
+  \ecrire[vert][9]{(43,41.4)}{$\to$ $H_1 : \mu > 10$ \ (UNILATÉRAL)}
+  \ecrire[vert][10]{(72,13.5)}{SOLUTION : PAGES SUIVANTES $\to$}
+}
+\apres{45}{
+  \ecrire[violet][13]{(8,86)}{EXEMPLE 9 : LES 5 ÉTAPES}
+  \ecrire[vert][11]{(8,76)}{1) $H_0 : \mu = 10$ \ VS \ $H_1 : \mu > 10$, \ $\alpha = 0{,}05$\\[2.5mm]
+    2) $T_0 = \dfrac{\overline{X} - 10}{S/\sqrt{12}} \sim t_{11}$ SI $H_0$ VRAIE ;\\[1.5mm]
+    \quad REJET DE $H_0$ SI $t_{obs} > t_{11\,;\,0{,}05} = 1{,}796$\\[2.5mm]
+    3) $t_{obs} = \dfrac{11{,}25 - 10}{1{,}551/\sqrt{12}} = \dfrac{1{,}25}{0{,}448} = 2{,}79$\\[2.5mm]
+    4) $2{,}79 > 1{,}796$ $\Rightarrow$ ON REJETTE $H_0$}
+  \ecrire[rouge][11]{(8,17)}{5) AU SEUIL DE 5 \%, LA CONCENTRATION MOYENNE DE NITRATES\\
+    \quad DÉPASSE SIGNIFICATIVEMENT LA NORME DE 10 MG/L.}
+  % cloche t11 (approx. normale), 1 é.-t. = 6 mm
+  \queue[orange]{(128,40)}{36}{18}{1.796}{3}
+  \cloche[violet]{(128,40)}{36}{18}
+  \trait[rouge]{(144.7,38) -- (144.7,50)}
+  \ecrirec[violet][11]{(128,36)}{0}
+  \ecrirec[orange][11]{(137,31)}{1,796}
+  \ecrire[rouge][11]{(142,56)}{2,79}
+  \ecrire[violet][11]{(98,64)}{LOI $t_{11}$}
+}
+\apres{45}{
+  \ecrire[violet][13]{(8,86)}{EXEMPLE 9 (SUITE)}
+  \ecrire[vert][11]{(8,76)}{2) TABLE DE STUDENT, LIGNE 11 D.L. :}
+  % extrait de table
+  \draw[crayon, violet] (14,52) rectangle (104,66);
+  \draw[crayon, violet] (14,59) -- (104,59);
+  \draw[crayon, violet] (40,52) -- (40,66);
+  \ecrire[violet][11]{(16,65)}{AIRE}
+  \ecrire[violet][11]{(16,58)}{$t_{11}$}
+  \ecrire[violet][11]{(44,65)}{0,05 \quad\ 0,01 \quad\ 0,005}
+  \ecrire[violet][11]{(44,58)}{1,796 \quad 2,718 \quad 3,106}
+  \ecrire[rouge][11]{(76,49)}{$\uparrow$ 2,79}
+  \ecrire[vert][11]{(8,43)}{$2{,}718 < 2{,}79 < 3{,}106$ \ $\Rightarrow$ \ $0{,}005 <$ VALEUR-P $< 0{,}01$}
+  \ecrire[vert][11]{(8,34)}{R : \code{t.test(x, mu = 10, alternative = "greater")}\\
+    \quad $\to$ VALEUR-P $= 0{,}0088$ \ (OU \code{1 - pt(2.79, 11)})}
+  \ecrire[vert][11]{(8,17)}{3) SEUL UN DÉPASSEMENT DE LA NORME POSE UN PROBLÈME DE SANTÉ :\\
+    \quad LE SENS DE $H_1$ EST FIXÉ PAR LA QUESTION, AVANT LES DONNÉES.}
+  \queue[orange]{(135,52)}{34}{18}{2.79}{3.2}
+  \cloche[violet]{(135,52)}{34}{18}
+  \trait[rouge]{(150.8,50) -- (150.8,58)}
+  \ecrire[rouge][11]{(138,72)}{VALEUR-P\\ $= 0{,}0088$}
+  \fleche[rouge][-25]{(150,63)}{(151.5,53.5)}
+}
+
+% ===================== Proportion et variance =====================
+\annot{47}{Test sur une proportion}{
+  \entourer[rouge]{(40,42.8)}{12}{2.6}
+  \ecrire[rouge][9]{(70,20.3)}{$\leftarrow$ $p_0$ ET NON $\hat{p}$ !}
+}
+
+\annot{48}{Exemple 4 (retour)}{
+  \ecrire[vert][8]{(64,69.5)}{« INTERVIENT SI DÉPASSE » $\Rightarrow$ UNILATÉRAL}
+  % cloche N(0,1), 1 é.-t. = 6 mm
+  \queue[orange]{(126,40)}{36}{11}{1.645}{3}
+  \cloche[violet]{(126,40)}{36}{11}
+  \trait[rouge]{(134.9,39) -- (134.9,47)}
+  \ecrirec[orange][8]{(140.5,38.8)}{1,645}
+  \ecrire[rouge][8]{(126,55.5)}{1,49}
+  \fleche[rouge][-20]{(130,52.5)}{(134.6,47.3)}
+  \entourer[rouge]{(61.7,35)}{14.5}{2.8}
+}
+
+\annot{49}{Exemple 4 (retour) : avec R}{
+  \entourer[rouge]{(92,61.6)}{20}{2.2}
+  \entourer[rouge]{(28,48.9)}{19}{2.2}
+  \ecrire[rouge][8]{(114,63.6)}{$\leftarrow$ 0,068 COMME À LA MAIN}
+  \ecrire[rouge][9]{(50,50.6)}{$\leftarrow$ VALEUR-P EXACTE (BINOMIALE)}
+  \ecrire[violet][8]{(55,45)}{0,068 $\neq$ 0,100 : APPROXIMATION NORMALE GROSSIÈRE ($np_0 = 8$)}
+}
+
+\annot{50}{QUIZ}{
+  \ecrire[vert][10]{(18,61)}{$H_0 : p = 0{,}25$ \ VS \ $H_1 : p \neq 0{,}25$ \quad (BILATÉRAL)}
+  \ecrire[vert][8]{(18,46.3)}{$z_{obs} = \dfrac{0{,}2101 - 0{,}25}{\sqrt{0{,}25 \times 0{,}75/1028}} = \dfrac{-0{,}0399}{0{,}0135} = -2{,}95$}
+  \ecrire[vert][8]{(100,45.5)}{VALEUR-P $= 2\,P(Z \ge 2{,}95)$\\ $= 0{,}003 < 0{,}05$ $\Rightarrow$ REJET DE $H_0$}
+  \ecrire[vert][9]{(18,29.5)}{$0{,}25 \notin [0{,}185\,;\,0{,}235]$ $\Rightarrow$ REJET AUSSI : MÊME CONCLUSION}
+  \ecrire[rouge][8]{(18,23)}{AU SEUIL DE 5 \%, LA PROPORTION DIFFÈRE SIGNIFICATIVEMENT DE 25 \% (PLUS PETITE)}
+  % droite : x = 20 + (v - 0,17) * 900
+  \draw[crayon lisse, violet] (25,10) -- (95,10);
+  \draw[crayon lisse, vert, line width=1.2pt] (33.5,10) -- (78.5,10);
+  \draw[crayon lisse, vert] (33.5,8.5) -- (33.5,11.5) (78.5,8.5) -- (78.5,11.5);
+  \fill[rouge] (92,10) circle (0.9);
+  \ecrirec[vert][8]{(33.5,6)}{0,185}
+  \ecrirec[vert][8]{(78.5,6)}{0,235}
+  \ecrirec[rouge][8]{(92,6)}{0,25}
+  \ecrirec[vert][8]{(56,13.5)}{IC À 95 \%}
+}
+
+\annot{51}{Test sur}{
+  \ecrire[violet][8]{(46,69.3)}{ON TESTE $\sigma^2$ : « $\sigma \le 2$ » $\to$ $\sigma_0^2 = 4$ (EX. 10)}
+}
+
+\annot{52}{Exemple 10}{
+  % courbe khi-deux 19 d.l. : x = 110 + u ; hauteur 12 ; base y = 44
+  \fill[orange, opacity=0.45] (140.1,44) -- plot[domain=30.14:45, samples=30, smooth]
+     ({110+\x}, {44+12*exp(8.5*ln(\x/17)-(\x-17)/2)}) -- (155,44) -- cycle;
+  \draw[crayon lisse, violet] (110,44) -- (156,44);
+  \draw[crayon lisse, violet, domain=0.5:45, samples=60, smooth]
+     plot ({110+\x}, {44+12*exp(8.5*ln(\x/17)-(\x-17)/2)});
+  \trait[rouge]{(142.1,43) -- (142.1,52)}
+  \ecrire[violet][8]{(112,58.7)}{$\chi^2_{19}$}
+  \ecrirec[orange][8]{(137,42)}{30,14}
+  \ecrire[rouge][8]{(143.5,57)}{32,11}
+  \ecrire[orange][8]{(148,52)}{0,05}
+  \fleche[orange][-20]{(150,48.5)}{(145,45.3)}
+  \ecrire[vert][8]{(84,56)}{$\leftarrow$ UNILATÉRAL}
+  \entourer[rouge]{(59.5,30.3)}{8.5}{2.8}
+}
+
+\annot{54}{IC et test bilatéral}{
+  \surligner[jaune]{(26.3,53.9)}{(52.8,57.7)}
+  \ecrire[violet][9]{(34,41.8)}{$\theta_0 \notin$ IC $\iff$ REJET \qquad $\theta_0 \in$ IC $\iff$ NON-REJET}
+  \coche{(76,29)}
+  \coche{(46,18)}
+}
+
+\annot{55}{QUIZ}{
+  \ecrire[vert][9]{(18,60.5)}{FAUX : $3 \in [2{,}26\,;\,3{,}41]$}
+  \ecrire[vert][9]{(18,45.5)}{VRAI : $4 \notin$ IC À 99 \%}
+  \ecrire[vert][9]{(18,30.5)}{VRAI : IC À 95 \% PLUS ÉTROIT, INCLUS DANS L'IC À 99 \% $\Rightarrow$ 4 EXCLU AUSSI}
+  \ecrire[vert][9]{(18,15.5)}{INFO INSUFFISANTE : 2,5 EST DANS L'IC À 99 \%, MAIS DANS L'IC À 95 \% ?}
+  % droite : x = 95 + (v - 2) * 25
+  \draw[crayon lisse, violet] (97,57) -- (152,57);
+  \draw[crayon lisse, vert, line width=1.2pt] (101.5,60) -- (130.3,60);
+  \draw[crayon lisse, vert] (101.5,58.8) -- (101.5,61.2) (130.3,58.8) -- (130.3,61.2);
+  \draw[crayon lisse, orange, dashed, line width=1pt] (105,63.5) -- (126.8,63.5);
+  \ecrire[vert][8]{(132,62)}{99 \%}
+  \ecrire[orange][8]{(128,66.5)}{95 \% ?}
+  \fill[violet] (107.5,57) circle (0.7);
+  \fill[violet] (120,57) circle (0.7);
+  \fill[rouge] (145,57) circle (0.8);
+  \ecrirec[violet][8]{(107.5,55.2)}{2,5}
+  \ecrirec[violet][8]{(120,55.2)}{3}
+  \ecrirec[rouge][8]{(145,55.2)}{4}
+}
+
+\annot{56}{« Statistiquement significatif}{
+  \entourer[rouge]{(131,61)}{14.5}{3}
+  \surligner[jaune]{(10,46.8)}{(54,50.6)}
+  \ecrire[violet][9]{(58,50.4)}{$\leftarrow$ 0,8 MM HG, ALORS QUE $s = 12$ : MINUSCULE !}
+  \ecrire[violet][9]{(120,69.5)}{$n$ ÉNORME !}
+}
+
+\annot{57}{QUIZ}{
+  \ecrire[vert][9]{(18,66)}{FAUX : LA VALEUR-P DÉPEND AUSSI DE $n$ !\\ L'AMPLEUR DE L'EFFET SE LIT DANS L'ESTIMATION ET L'IC.}
+  \ecrire[vert][9]{(18,39.5)}{FAUX : AVEC $n = 2000$, L'ERREUR-TYPE EST $\sqrt{100} = 10$ FOIS PLUS PETITE :\\
+    UN PETIT EFFET DEVIENT SIGNIFICATIF.}
+  \ecrire[vert][10]{(62,23)}{VRAI (+ L'EXPERTISE DU DOMAINE)}
+}
+
+\annot{59}{Tableau récapitulatif}{
+  \surligner[jaune]{(43,22.2)}{(86.5,26)}
+  \ecrire[violet][10]{(10,14.5)}{+ TOUJOURS RAPPORTER L'IC POUR L'AMPLEUR DE L'EFFET}
+}
+
+\produire{Chapitre_3c}
+\end{document}

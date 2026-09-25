@@ -1,0 +1,475 @@
+\documentclass{article}
+\usepackage{annot}
+\begin{document}
+
+% ---------------------------------------------------------------- Introduction
+\annot{3}{Objectifs de l}{
+  \surligner[jaune]{(21.5,43.3)}{(36.5,47.6)}
+  \ecrire[violet][10]{(22,34)}{« INFLUENCE » : LIEN DE CAUSE À EFFET\\
+    SEULEMENT SI C'EST UNE EXPÉRIENCE RANDOMISÉE\\ (VOIR PLUS LOIN)}
+  \fleche[violet][25]{(20,31)}{(24,42.6)}
+  \ecrire[vert][10]{(22,17)}{$I$ POPULATIONS : $\mu_1,\ \mu_2,\ \ldots,\ \mu_I$ \quad ($I \ge 2$)}
+}
+
+\annot{4}{Exemples}{
+  \entourer{(139.7,72.6)}{2.2}{2.4}
+  \entourer{(62.6,59.4)}{2.2}{2.4}
+  \entourer{(73.6,46.2)}{2.2}{2.4}
+  \entourer{(133.4,33)}{2.2}{2.4}
+  \ecrire[violet][8]{(86,68.8)}{$I=7$ MÉLANGES}
+  \ecrire[violet][8]{(129.5,55.4)}{$I=3$ TRAITEMENTS}
+  \ecrire[violet][8]{(122,43.2)}{$I=4$ VARIÉTÉS}
+  \ecrire[violet][8]{(75,23.7)}{$I=5$ MÉTHODES}
+  \ecrire[vert][9]{(18,12)}{À CHAQUE FOIS : UN FACTEUR (QUALITATIF) ET UNE VARIABLE RÉPONSE\\
+    ON COMPARE LES MOYENNES DE PLUS DE 2 GROUPES}
+}
+
+% ------------------------------------------------- Principes d'expérimentation
+\annot{6}{Pourquoi planifier}{
+  \ecrire[orange][8]{(96,70)}{$\leftarrow$ AVANT DE RECUEILLIR LES DONNÉES !}
+  \souligner[rouge]{(76.5,54.9)}{(85.5,54.9)}
+  \souligner[rouge]{(100.5,54.9)}{(138.5,54.9)}
+  \ecrire[violet][8]{(100,51.5)}{FACTEUR = RÉGIME (3 NIVEAUX)}
+}
+
+\annot{7}{Trois principes essentiels}{
+  \surligner[jaune]{(21,58.5)}{(35,63)}
+  \surligner[jaune]{(21,46.5)}{(38,51)}
+  \surligner[jaune]{(21,32.5)}{(45,37)}
+  \ecrire[rouge][10]{(80,86.5)}{À RETENIR : CONTRÔLE, RÉPÉTITION,\\ RANDOMISATION}
+}
+
+\annot{8}{Expérience ou étude}{
+  \surligner[jaune]{(17.5,68.6)}{(35.5,72.8)}
+  \surligner[jaune]{(17.5,55.4)}{(48,59.6)}
+  \ecrire[vert][8]{(38,46.5)}{SOURIS : LE CHERCHEUR CHOISIT LE RÉGIME $\rightarrow$ EXPÉRIENCE\\
+    FUMEURS : ON NE PEUT PAS IMPOSER DE FUMER ! $\rightarrow$ ÉTUDE OBS.}
+  \entourer[rouge]{(93.5,22.4)}{10.5}{2.8}
+}
+
+\annot{9}{Vocabulaire}{
+  \surligner[jaune]{(21,32)}{(56,36.5)}
+  \ecrire[rouge][7.5]{(137,19)}{UNITÉ EXP. :\\ REÇOIT LE\\ TRAITEMENT}
+}
+
+\annot{10}{Devis complètement}{
+  \ecrire[violet][8]{(112,33)}{8 + 8 + 8 = 24 = $N$\\ CHAQUE SOURIS A LA\\ MÊME CHANCE DE RECEVOIR\\ CHAQUE RÉGIME}
+  \ecrire[rouge][8]{(118,18)}{$\Rightarrow$ PAS DE BIAIS !}
+}
+
+\annot{11}{QUIZ}{
+  \ecrire[vert][9.5]{(57,56)}{HAUTEUR DES PLANTS (CM) APRÈS 6 SEMAINES}
+  \ecrire[vert][9.5]{(76,42)}{ENGRAIS : 4 NIVEAUX (A, B, C, D)}
+  \ecrire[vert][9.5]{(64,27.3)}{UN PLANT (DANS SON POT)}
+  \ecrire[violet][8]{(24,19.5)}{6 PLANTS PAR ENGRAIS : $n_i = 6$, $N = 24$}
+  \ecrire[rouge][10]{(122,14.3)}{EXPÉRIENCE !}
+  \ecrire[violet][7.5]{(122,9)}{ENGRAIS ATTRIBUÉS\\ AU HASARD}
+}
+
+\annot{12}{QUIZ}{
+  \ecrire[rouge][10]{(126,63.4)}{LE BASSIN !}
+  \ecrire[vert][9]{(30,51)}{2 PAR TEMPÉRATURE (ET NON 30 !)}
+  \ecrire[violet][8]{(30,45.5)}{LES 15 TRUITES D'UN MÊME BASSIN NE SONT PAS INDÉPENDANTES}
+  \ecrire[rouge][9.5]{(114,29.3)}{OBSERVATIONNELLE}
+  \ecrire[rouge][9.5]{(30,16.5)}{NON ! VARIABLES CONFONDANTES :}
+  \ecrire[violet][8]{(30,11)}{NOURRITURE, PRÉDATEURS, DENSITÉ DE POPULATION, ...}
+}
+\apres{12}{
+  \ecrire[vert][13]{(8,84)}{TRUITES : QUI REÇOIT LE TRAITEMENT ?}
+  % six bassins
+  \foreach \k/\t/\c in {0/15/bleu,1/15/bleu,2/18/orange,3/18/orange,4/21/rouge,5/21/rouge}{
+    \draw[crayon, \c] ({10+\k*24},48) rectangle ({30+\k*24},66);
+    \ecrirec[\c][11]{({20+\k*24},70)}{\t\,°C}
+    \foreach \p in {1,...,15}{
+      \pgfmathsetmacro{\xx}{12+\k*24+mod(\p*7,17)}
+      \pgfmathsetmacro{\yy}{50+mod(\p*5,14)}
+      \fill[\c] (\xx,\yy) ellipse (0.9 and 0.45);
+    }
+  }
+  \ecrire[violet][11]{(10,44)}{LA TEMPÉRATURE EST FIXÉE POUR TOUT LE BASSIN :}
+  \ecrire[rouge][13]{(10,37.5)}{UNITÉ EXPÉRIMENTALE = LE BASSIN}
+  \ecrire[vert][11]{(10,29.5)}{$\Rightarrow$ 2 RÉPÉTITIONS PAR TEMPÉRATURE (PAS $2 \times 15 = 30$)}
+  \ecrire[vert][11]{(10,23)}{$\Rightarrow$ LES TRUITES = UNITÉS D'OBSERVATION (MESURES)}
+  \ecrire[orange][11]{(10,15)}{UN BASSIN PLUS CHAUD, PLUS ÉCLAIRÉ, ... AFFECTE SES 15 TRUITES\\
+    $\Rightarrow$ ELLES NE SONT PAS INDÉPENDANTES}
+}
+
+% ------------------------------------------------------------- L'idée de l'ANOVA
+\annot{14}{ANOVA}{
+  \ecrire[violet][8]{(96,86.5)}{= ANALYSIS OF VARIANCE}
+  \surligner[jaune]{(39.5,57)}{(70.5,61.5)}
+  \surligner[rose]{(39.5,43.5)}{(68.5,48)}
+  \ecrire[violet][8]{(100,38)}{TRAITEMENT = GROUPE\\ = NIVEAU DU FACTEUR}
+  \ecrire[vert][10]{(18,31)}{VARIABILITÉ TOTALE = VARIABILITÉ INTER + VARIABILITÉ INTRA}
+  \ecrire[vert][9]{(70,24)}{(FACTEUR)}
+  \ecrire[vert][9]{(116,24)}{(ERREUR)}
+  \ecrire[rouge][9.5]{(18,14)}{SI L'INTER EST GRANDE PAR RAPPORT À L'INTRA :\\
+    LE FACTEUR A UN EFFET SUR LA VARIABLE RÉPONSE}
+}
+
+\annot{15}{Comparons deux scénarios}{
+  % dispersion du groupe A dans chaque scénario (échelle du graphique)
+  \draw[crayon lisse, rouge] (104,53.7) -- (105.5,53.7) -- (105.5,63.1) -- (104,63.1);
+  \draw[crayon lisse, rouge] (126,40.2) -- (127.5,40.2) -- (127.5,71) -- (126,71);
+  \ecrire[rouge][8]{(129,76)}{DISPERSION\\ DE A}
+  \ecrire[vert][9]{(8,20)}{SCÉNARIO 1 : GROUPES BIEN SÉPARÉS}
+  \ecrire[vert][9]{(8,14)}{SCÉNARIO 2 : LES GROUPES SE CHEVAUCHENT BEAUCOUP !}
+  \ecrire[rouge][9]{(8,8)}{$\Rightarrow$ DANS QUEL CAS EST-ON CONVAINCU QUE $\mu_A \neq \mu_B$ ?}
+}
+
+\annot{16}{Scénario 1 : décomposition}{
+  \ecrire[violet][8]{(3,62)}{MOYENNE\\ GLOBALE}
+  \fleche[violet][-20]{(10,54)}{(36.5,46.4)}
+  \ecrire[vert][7.5]{(80,54)}{$\overline{y}_{1\bullet}=15{,}32$}
+  \ecrire[violet][7.5]{(80,49)}{$\overline{y}_{\bullet\bullet}=12{,}46$}
+  \ecrire[bleu][7.5]{(80,44)}{$\overline{y}_{2\bullet}=9{,}61$}
+  \ecrire[vert][8]{(22,22.5)}{ÉCARTS DES OBS.\\ À LA MOYENNE\\ GLOBALE}
+  \ecrire[vert][8]{(62,22.5)}{ÉCARTS DES\\ MOYENNES DE GROUPE\\ À LA MOY. GLOBALE}
+  \ecrire[vert][8]{(108,22.5)}{ÉCARTS DES OBS.\\ À LA MOYENNE\\ DE LEUR GROUPE}
+  \ecrirec[rouge][11]{(38,6)}{$SST$}
+  \ecrirec[rouge][11]{(78,6)}{$SST_R$}
+  \ecrirec[rouge][11]{(125,6)}{$SSE$}
+}
+
+\annot{17}{Scénario 1 : table}{
+  \ecrire[violet][8]{(34,72)}{D.L.}
+  \fleche[violet][-20]{(37,68.5)}{(38.5,66)}
+  \ecrire[violet][8]{(46,78)}{SOMMES\\ DE CARRÉS}
+  \ecrire[violet][8]{(66,78)}{CARRÉS\\ MOYENS}
+  \entourer[orange]{(72.9,58.2)}{6.8}{2.4}
+  \entourer[orange]{(73.9,53.1)}{5.8}{2.4}
+  \ecrire[orange][8]{(81.5,54.8)}{$\leftarrow MSE$}
+  \ecrire[vert][10]{(12,22)}{$F_{obs} = \dfrac{MST_R}{MSE} = \dfrac{65{,}27}{8{,}65} = 7{,}54$}
+  \ecrire[rouge][9]{(12,9.5)}{VALEUR-P $= 0{,}033 < 0{,}05$ : DIFFÉRENCE SIGNIFICATIVE ENTRE A ET B}
+}
+
+\annot{18}{Scénario 2 : décomposition}{
+  \entourer[rouge]{(126,43)}{21}{21}
+  \ecrire[vert][9]{(8,20)}{MÊMES MOYENNES QU'AU SCÉNARIO 1, DONC MÊME VARIABILITÉ « TRAITEMENT »,}
+  \ecrire[rouge][9]{(8,13)}{MAIS LES ÉCARTS RÉSIDUELS SONT BEAUCOUP PLUS GRANDS !}
+}
+
+\annot{19}{Scénario 2 : table}{
+  \ecrire[vert][10]{(12,30)}{$F_{obs} = \dfrac{65{,}15}{43{,}91} = 1{,}48$ \quad (SCÉNARIO 1 : $7{,}54$)}
+  \ecrire[violet][9]{(12,18)}{$65{,}15 \approx 65{,}27$ \ MAIS \ $MSE = 43{,}91 \gg 8{,}65$}
+  \ecrire[rouge][9]{(12,11)}{VALEUR-P $= 0{,}269 > 0{,}05$ : ON NE REJETTE PAS $H_0$}
+  \entourer[rouge]{(109.2,58)}{7}{2.4}
+}
+
+% -------------------------------------------------------- Mathématique de l'ANOVA
+\annot{21}{Cadre}{
+  \entourer[rose]{(108.4,63)}{2.6}{2.4}
+  \entourer[rose]{(108.4,56)}{2.6}{2.4}
+  \entourer[rose]{(106.3,41.8)}{2.6}{2.4}
+  \ecrire[rose][9]{(122,60)}{MÊME VARIANCE\\ $\sigma^2$ POUR TOUS\\ LES GROUPES !}
+  \fleche[rose][-15]{(121,55)}{(111.5,56)}
+  \ecrire[violet][9]{(18,24)}{$I$ = NOMBRE DE GROUPES (TRAITEMENTS)}
+  \ecrire[violet][9]{(18,17)}{LES $n_i$ NE SONT PAS NÉCESSAIREMENT ÉGAUX}
+}
+
+\annot{22}{Notation pour les sommes}{
+  \ecrire[vert][8]{(113,23)}{$9{,}98+4{,}59+12{,}82$\\ $+\,11{,}03 = 38{,}42$}
+  \ecrire[vert][8]{(113,12.5)}{$61{,}27+38{,}42$\\ $= 99{,}69$}
+  \ecrire[violet][8]{(100,82)}{$\bullet$ = ON A SOMMÉ}
+  \fleche[violet][15]{(99,79)}{(94,74.5)}
+}
+
+\annot{23}{Hypothèses à confronter}{
+  \ecrire[vert][10]{(18,24)}{$H_1$ : $\mu_i \neq \mu_j$ POUR AU MOINS UNE PAIRE $(i,j)$}
+  \ecrire[rouge][10]{(18,14)}{ATTENTION : $H_1$ NE DIT PAS QUE TOUTES LES MOYENNES\\ SONT DIFFÉRENTES !}
+  \ecrire[violet][8]{(104,76)}{EX. $I=3$ : $\mu_1=\mu_2\neq\mu_3$\\ EST DANS $H_1$}
+}
+
+\annot{24}{Le modèle à un facteur}{
+  \ecrire[vert][9]{(24,53)}{MOYENNE DE LA POPULATION (TRAITEMENT) $i$}
+  \ecrire[vert][9]{(24,46.7)}{ERREUR ALÉATOIRE $= Y_{ij} - \mu_i \sim N(0,\sigma^2)$}
+  \ecrire[vert][9]{(42,32.3)}{$\overline{y}_{i\bullet}$ \ (MOYENNE ÉCHANTILLONNALE DU GROUPE $i$)}
+  \ecrire[vert][9]{(42,26.3)}{$\overline{y}_{\bullet\bullet}$ \ (MOYENNE GLOBALE DE TOUTES LES OBS.)}
+  \ecrire[vert][9]{(42,21.2)}{$MSE = \dfrac{SSE}{N-I} = \dfrac{1}{N-I}\sum_{i=1}^{I}\sum_{j=1}^{n_i}(y_{ij}-\overline{y}_{i\bullet})^2$}
+  \ecrire[violet][10]{(112,80)}{$\mu_i = \mu + \tau_i$}
+}
+\apres{24}{
+  \ecrire[vert][13]{(8,84)}{POURQUOI $MSE$ ESTIME-T-IL $\sigma^2$ ?}
+  \ecrire[vert][12]{(8,74)}{DANS LE GROUPE $i$ : \quad $\displaystyle\sum_{j=1}^{n_i}(y_{ij}-\overline{y}_{i\bullet})^2 = (n_i-1)\,s_i^2$}
+  \ecrire[vert][12]{(8,58)}{$\displaystyle SSE = (n_1-1)s_1^2 + (n_2-1)s_2^2 + \cdots + (n_I-1)s_I^2$}
+  \ecrire[vert][12]{(8,45)}{$\displaystyle MSE = \frac{(n_1-1)s_1^2 + \cdots + (n_I-1)s_I^2}{N-I}$}
+  \ecrire[violet][11]{(96,45)}{= MOYENNE PONDÉRÉE\\ DES VARIANCES $s_i^2$\\ (COMME $s_p^2$ DU TEST $t$,\\ CHAP. 4)}
+  \ecrire[orange][11]{(8,24)}{SCÉNARIO 1 : \ $SSE = (4-1)\,2{,}18^2 + (4-1)\,3{,}54^2 \approx 51{,}9$}
+  \ecrire[orange][11]{(8,14)}{$MSE = 51{,}9 / (8-2) \approx 8{,}65$}
+  \encadrer[rouge]{(6,15.5)}{(62,8)}
+}
+
+\annot{25}{Loi de}{
+  \ecrire[violet][8]{(3,52)}{LES 3\\ COURBES SONT\\ SUPERPOSÉES}
+  \fleche[violet][-20]{(14,40)}{(47,38)}
+  \ecrire[violet][8.5]{(131,48)}{$\tau_i = \mu_i - \mu$\\ = DÉCALAGE\\ DU GROUPE $i$}
+  \ecrire[rouge][8.5]{(131,33)}{$H_0$ : TOUS\\ LES $\tau_i = 0$}
+}
+
+\annot{26}{Décomposition de la variance}{
+  \surligner[jaune]{(31,41.5)}{(66,53)}
+  \surligner[rose]{(67,41.5)}{(99.5,53)}
+  \fill[orange, opacity=0.25, rounded corners=0.8mm] (100.5,41.5) rectangle (133.5,53);
+  \ecrire[violet][9]{(78,86.5)}{TOTALE = TRAITEMENT + RÉSIDUELLE}
+  \ecrire[vert][8]{(128,34)}{$SSE =$\\ $\sum_i (n_i-1)s_i^2$}
+  \ecrire[rose][8]{(128,22)}{$n_i$ : CHAQUE\\ MOYENNE\\ « VAUT » $n_i$ OBS.}
+}
+
+\annot{27}{QUIZ}{
+  \ecrire[vert][8.5]{(30,11.8)}{EXP. 2 : PLUS GRANDS $SST_R$ ET $SST$ ; \ $SSE$ PAREILS (MÊMES VARIANCES)}
+  \ecrire[violet][8]{(124,6)}{$\rightarrow$ PAGE SUIVANTE}
+}
+\apres{27}{
+  \ecrire[vert][13]{(8,85)}{$SST_R = \sum_i n_i(\overline{y}_{i\bullet}-\overline{y}_{\bullet\bullet})^2$ \quad ($n_i = 4$, \ $\overline{y}_{\bullet\bullet} = 12$)}
+  \ecrire[vert][11.5]{(8,74)}{EXP. 1 : \ $4\,[(10-12)^2 + (12-12)^2 + (14-12)^2] = 32$}
+  \ecrire[vert][11.5]{(8,66)}{EXP. 2 : \ $4\,[(6-12)^2 + (12-12)^2 + (18-12)^2] = 288$}
+  % tableau
+  \begin{scope}[shift={(14,13)}]
+    \draw[crayon, violet] (0,36.5) -- (132,36.5);
+    \draw[crayon, violet] (0,20.2) -- (132,20.2);
+    \draw[crayon, violet] (38,0) -- (38,44);
+    \ecrirec[violet][11]{(58,40.5)}{$SST_R$}
+    \ecrirec[violet][11]{(86,40.5)}{$SSE$}
+    \ecrirec[violet][11]{(114,40.5)}{$SST$}
+    \ecrire[violet][11]{(1,34.5)}{EXP. 1}
+    \ecrire[violet][11]{(1,26)}{EXP. 2}
+    \ecrire[violet][11]{(1,17.5)}{SCÉNARIO 1}
+    \ecrire[violet][11]{(1,9)}{SCÉNARIO 2}
+    \ecrirec[vert][11]{(58,32)}{32}   \ecrirec[vert][11]{(86,32)}{24,5}   \ecrirec[vert][11]{(114,32)}{56,5}
+    \ecrirec[rouge][11]{(58,23.5)}{288} \ecrirec[vert][11]{(86,23.5)}{24,5} \ecrirec[rouge][11]{(114,23.5)}{312,5}
+    \ecrirec[vert][11]{(58,15)}{65,27} \ecrirec[vert][11]{(86,15)}{51,91} \ecrirec[vert][11]{(114,15)}{117,18}
+    \ecrirec[vert][11]{(58,6.5)}{65,15} \ecrirec[rouge][11]{(86,6.5)}{263,45} \ecrirec[rouge][11]{(114,6.5)}{328,60}
+  \end{scope}
+  \ecrire[orange][10]{(8,11)}{MOYENNES PLUS ÉLOIGNÉES $\Rightarrow SST_R \uparrow$\\ OBS. PLUS DISPERSÉES DANS LES GROUPES $\Rightarrow SSE \uparrow$}
+}
+
+\annot{28}{Table d}{
+  \ecrire[violet][9]{(48,85)}{LES SC ET LES D.L. S'ADDITIONNENT, PAS LES CARRÉS MOYENS !}
+  \entourer[rose]{(139.5,42.5)}{5.5}{5.5}
+  \ecrire[vert][9]{(12,9.5)}{$SST_R + SSE = SST$ \qquad ET \qquad $(I-1) + (N-I) = N-1$}
+  \ecrire[violet][8]{(126,14)}{CM = SC / D.L.}
+}
+
+\annot{29}{Comparer}{
+  \ecrire[rouge][10]{(99,69)}{$\Rightarrow \dfrac{MST_R}{MSE} \approx 1$}
+  \ecrire[rouge][10]{(100,48)}{$\Rightarrow F = \dfrac{MST_R}{MSE}$ GRAND}
+  \ecrire[vert][9]{(20,20)}{RÉPONSE : QUAND $F_{obs}$ TOMBE DANS LA QUEUE DROITE DE LA LOI\\
+    DE FISHER $F_{I-1,\,N-I}$ (PROCHAINES DIAPOS)}
+  \begin{scope}[shift={(128,4)}]
+    \draw[crayon lisse, bleu] (0,0) -- (28,0);
+    \draw[crayon lisse, bleu, domain=0.05:28, samples=60, smooth] plot (\x, {12*(\x/4)*exp(-\x/4)*2.7});
+    \fill[orange, opacity=0.5, domain=18:28, samples=20] (18,0) -- plot (\x, {12*(\x/4)*exp(-\x/4)*2.7}) -- (28,0) -- cycle;
+  \end{scope}
+}
+
+\annot{30}{Pourquoi}{
+  \ecrire[violet][8]{(66,80.5)}{$\ge 0$ ; $= 0$ SEULEMENT SI TOUS LES $\tau_i = 0$}
+  \fleche[violet][-15]{(110,76)}{(115,58)}
+  \ecrire[vert][8]{(114,9.4)}{$\Rightarrow$ UNILATÉRAL À DROITE}
+}
+
+\annot{31}{Statistique de Fisher}{
+  \fill[rose, opacity=0.35, rounded corners=1mm] (16.5,43) rectangle (19,66);
+  \ecrire[rouge][9]{(10,15)}{3 POSTULATS : INDÉPENDANCE, NORMALITÉ, VARIANCES ÉGALES}
+  \ecrire[rouge][8]{(10,9)}{$\rightarrow$ À VÉRIFIER (FIN DU CHAPITRE)}
+  \ecrire[violet][8]{(102,9)}{D.L. NUMÉRATEUR : $I-1$\\ D.L. DÉNOMINATEUR : $N-I$}
+  \fleche[violet][25]{(125,10.5)}{(106,21)}
+}
+
+\annot{32}{Règle de décision}{
+  \ecrire[bleu][9]{(62,34)}{LOI $F_{I-1,\,N-I}$ (SI $H_0$ VRAIE)}
+  \fleche[bleu][20]{(62,30)}{(50,27)}
+  \draw[crayon, rouge, line width=1.3pt] (92.4,14.4) -- (117,14.4);
+  \ecrire[rouge][8]{(118.5,17.5)}{ZONE DE REJET}
+  \ecrire[vert][9]{(104,36)}{VALEUR-P $= P(F_{I-1,N-I} > F_{obs})$\\ = AIRE À DROITE DE $F_{obs}$}
+  \ecrire[orange][8]{(120,24)}{EX. : $F_{1,6;\,0{,}05} = 5{,}99$}
+}
+
+\annot{33}{Retour au scénario 1}{
+  \ecrire[vert][8]{(52,54)}{D.L. : \ $I-1 = 2-1 = 1$ \ ; \ $N-I = 8-2 = 6$}
+  \ecrire[vert][8]{(52,49.9)}{$MST_R = 65{,}27/1 = 65{,}27$ \ ; \ $MSE = 51{,}91/6 = 8{,}65$}
+  \ecrire[vert][8]{(52,45.8)}{$F_{obs} = 65{,}27 / 8{,}65 = 7{,}54$ \quad $\overline{y}_{\bullet\bullet} = 12{,}46$}
+  \ecrire[rouge][8]{(66,8.5)}{$F_{1,6;\,0{,}05} = 5{,}99 < 7{,}54$ : ON REJETTE $H_0$ AU SEUIL DE 5 \%}
+}
+
+\annot{34}{QUIZ}{
+  \ecrirec[rouge][10]{(63,43)}{140,0}
+  \ecrirec[rouge][10]{(87,50.5)}{3}
+  \ecrirec[rouge][10]{(87,43)}{20}
+  \ecrirec[rouge][10]{(87,33)}{23}
+  \ecrirec[violet][7]{(87,47)}{$4-1$}
+  \ecrirec[rouge][10]{(106,50.5)}{28}
+  \ecrirec[violet][7]{(106,47)}{$84/3$}
+  \ecrirec[rouge][10]{(106,43)}{7}
+  \ecrire[violet][8]{(26,28.3)}{$SSE = 224-84 = 140$ \quad D.L. : $24-4 = 20$, \ $24-1 = 23$ \quad $MSE = 140/20 = 7$}
+  \ecrirec[rouge][10]{(127,50.5)}{4,00}
+  \ecrirec[violet][7]{(127,47)}{$28/7$}
+  \ecrire[vert][8.5]{(20,18)}{$F_{obs} = 4{,}00 > 3{,}10$ : ON REJETTE $H_0$ (VALEUR-P $= 0{,}022$) ;\\
+    AU MOINS 2 ENGRAIS DONNENT DES HAUTEURS MOYENNES DIFFÉRENTES}
+  \ecrire[vert][8.5]{(106,10.2)}{$\hat\sigma^2 = MSE = 7$ CM$^2$\\ $\hat\sigma = \sqrt{7} = 2{,}65$ CM}
+}
+
+\annot{35}{Aurait-on pu faire}{
+  \entourer[rose]{(81.2,65.3)}{5.4}{2}
+  \entourer[rose]{(70.4,44.6)}{7}{2}
+  \entourer[orange]{(71,65.3)}{4.6}{2}
+  \entourer[orange]{(21.2,44.6)}{7}{2}
+  \ecrire[vert][10]{(104,36)}{$t_{obs}^2 = 2{,}7464^2$\\ $\quad = 7{,}543 = F_{obs}$ !}
+  \ecrire[violet][8]{(104,23)}{MÊME VALEUR-P : 0,0334}
+}
+
+\annot{36}{Student vs ANOVA}{
+  \ecrire[rouge][11]{(20,65)}{NON ! \ QUAND $I = 2$ : \ $t_{obs}^2 = F_{obs}$ \ ET \ $t_\nu^2 \sim F_{1,\nu}$}
+  \ecrire[vert][9]{(20,56)}{LES DEUX TESTS SONT ÉQUIVALENTS (TEST $t$ BILATÉRAL, VARIANCES ÉGALES)}
+  \ecrire[violet][8.5]{(20,50)}{EX. : $t_{6;\,0{,}025}^2 = 2{,}447^2 = 5{,}99 = F_{1,6;\,0{,}05}$}
+  \ecrire[rouge][11]{(20,32)}{POUR COMPARER PLUS DE 2 GROUPES ($I > 2$) EN UN SEUL TEST}
+  \ecrire[vert][9]{(20,23)}{(PLUSIEURS TESTS $t$ 2 À 2 $\Rightarrow$ LE RISQUE D'ERREUR AUGMENTE, VOIR PLUS LOIN)}
+}
+
+% ------------------------------------------------------ Exemple : conservation
+\annot{38}{Contexte}{
+  \ecrire[vert][10]{(20,33)}{FACTEUR : TRAITEMENT, $I = 3$ NIVEAUX\\
+    VARIABLE RÉPONSE : TBARS\\
+    $n_1 = n_2 = n_3 = 6$, DONC $N = 18$}
+  \ecrire[violet][8]{(100,20)}{TBARS ÉLEVÉ = VIANDE\\ PLUS RANCIE}
+}
+
+\annot{39}{Premier réflexe}{
+  \ecrire[rouge][8]{(130,64)}{CONTRÔLE\\ PLUS ÉLEVÉ\\ (PLUS RANCI)}
+  \ecrire[vert][8]{(130,44)}{DISPERSIONS\\ SEMBLABLES,\\ PAS DE VALEUR\\ EXTRÊME}
+  \ecrire[rouge][8]{(125,19)}{OUI ?}
+}
+
+\annot{40}{Test ANOVA}{
+  \ecrire[vert][10]{(75,72)}{$H_0 : \mu_1 = \mu_2 = \mu_3$}
+  \ecrire[vert][8.5]{(108,66.5)}{$H_1 : \mu_i \neq \mu_j$ POUR AU\\ MOINS UNE PAIRE $(i,j)$}
+  \entourer[rouge]{(42.3,31.1)}{8.2}{2.8}
+  \ecrire[rouge][9]{(10,24.5)}{NORMALITÉ, VARIANCES ÉGALES, INDÉPENDANCE :\\ À VÉRIFIER (FIN DU CHAPITRE)}
+}
+
+\annot{41}{Table d}{
+  \ecrirec[rouge][10]{(73,38.5)}{0,1412}
+  \ecrirec[violet][7]{(73,34.8)}{$0{,}2971 - 0{,}1559$}
+  \ecrirec[rouge][10]{(95.5,38.5)}{2}
+  \ecrirec[violet][7]{(95.5,34.8)}{$3-1$}
+  \ecrirec[rouge][10]{(119,38.5)}{0,0706}
+  \ecrirec[violet][7]{(119,34.8)}{$0{,}1412/2$}
+  \ecrirec[rouge][10]{(140,38.5)}{6,79}
+  \ecrirec[violet][7]{(140,34.8)}{$\frac{0{,}0706}{0{,}0104}$}
+  \ecrirec[rouge][10]{(73,29)}{0,1559}
+  \ecrirec[violet][7]{(73,25.3)}{$15 \times 0{,}0104$}
+  \ecrirec[rouge][10]{(95.5,29)}{15}
+  \ecrirec[violet][7]{(95.5,25.3)}{$18-3$}
+  \ecrirec[rouge][10]{(95.5,17.5)}{17}
+  \ecrirec[violet][7]{(95.5,13.8)}{$18-1$}
+  \ecrire[vert][8]{(14,8)}{ORDRE : D.L. $\rightarrow$ $SSE = 15 \times MSE$ $\rightarrow$ $SST_R = SST - SSE$ $\rightarrow$ $MST_R$ $\rightarrow$ $F$}
+}
+
+\annot{42}{Sortie R}{
+  \entourer[rouge]{(109.5,67.6)}{9}{2.8}
+  \ecrire[vert][8]{(80,78)}{= NOTRE 6,79 !}
+  \ecrire[rouge][10]{(12,38)}{VALEUR-P $= 0{,}0079 < 0{,}05$ : ON REJETTE $H_0$}
+  \ecrire[violet][8]{(12,31.5)}{(OU : $F_{obs} = 6{,}79 > F_{2,15;\,0{,}05} = 3{,}68$)}
+  \ecrire[rouge][10]{(12,18)}{AU SEUIL DE 5 \%, AU MOINS UN TRAITEMENT A UN TBARS\\ MOYEN DIFFÉRENT DES AUTRES.}
+}
+
+\annot{43}{QUIZ}{
+  \croix{(100,66.5)}
+  \croix{(100,57)}
+  \coche{(100,47.2)}
+  \croix{(100,37.8)}
+  \coche{(100,28.2)}
+  \croix{(119,18.2)}
+  \ecrire[rouge][8]{(105,58.5)}{PAS NÉCESSAIREMENT}
+  \ecrire[rouge][8]{(105,39.5)}{À L'ENVERS !}
+  \ecrire[vert][8.5]{(22,13)}{LE TEST $F$ NE DIT PAS QUELLES MOYENNES DIFFÈRENT\\
+    (TUKEY : CONTRÔLE VS EDUF, $p = 0{,}14$)}
+}
+
+\annot{44}{Contrastes}{
+  \ecrire[vert][10]{(20,63)}{COMPARAISONS 2 À 2 : $\mu_1$ VS $\mu_2$, \ $\mu_1$ VS $\mu_3$, \ $\mu_2$ VS $\mu_3$}
+  \ecrire[violet][9]{(20,55)}{NOMBRE DE PAIRES : $m = \dfrac{I(I-1)}{2}$ \quad ($I = 3 \Rightarrow m = 3$)}
+  \ecrire[rouge][10]{(20,35)}{PAS DIRECTEMENT : CHAQUE TEST A 5 \% DE RISQUE D'ERREUR\\ DE TYPE I}
+  \ecrire[rouge][10]{(20,23)}{$\Rightarrow$ LE RISQUE GLOBAL AUGMENTE AVEC LE NOMBRE DE TESTS}
+  \ecrire[vert][10]{(20,14)}{SOLUTION : COMPARAISONS MULTIPLES DE TUKEY}
+}
+
+\annot{45}{Le problème des comparaisons}{
+  \ecrire[orange][8.5]{(3,51)}{$m = \dfrac{I(I-1)}{2}$}
+  \ecrire[rouge][8.5]{(133,52)}{3 TESTS :\\ 14 \% !}
+  \entourer[rouge]{(104.2,50.5)}{3.8}{1.9}
+  \fleche[rouge][-20]{(131.5,49.5)}{(108.5,50.2)}
+}
+\apres{45}{
+  \ecrire[vert][13]{(8,84)}{$I = 3$ GROUPES $\Rightarrow m = 3$ TESTS $t$, CHACUN AU SEUIL DE 5 \%}
+  \ecrire[vert][12]{(8,70)}{$P(\text{AU MOINS UNE FAUSSE ALERTE}) = 1 - P(\text{AUCUNE FAUSSE ALERTE})$}
+  \ecrire[vert][12]{(8,58)}{$\qquad = 1 - 0{,}95 \times 0{,}95 \times 0{,}95$ \quad $\leftarrow$ SI INDÉPENDANTS (CHAP. 2)}
+  \ecrire[vert][12]{(8,46)}{$\qquad = 1 - 0{,}857 = 0{,}143$}
+  \surligner[jaune]{(46,39.5)}{(64,47)}
+  \ecrire[rouge][12]{(8,32)}{PRESQUE 3 FOIS LE SEUIL VOULU !}
+  \ecrire[violet][11]{(8,20)}{TUKEY : ON ÉLARGIT LES INTERVALLES (VALEURS-P AJUSTÉES)\\
+    POUR QUE LE RISQUE GLOBAL SOIT DE 5 \%}
+}
+
+\annot{46}{Comparaisons multiples de Tukey}{
+  \fill[jaune, opacity=0.35, rounded corners=0.8mm] (108.3,38.4) rectangle (122.3,48.4);
+  \entourer[rouge]{(31.6,47)}{23}{2.3}
+  \entourer[rouge]{(115.3,47)}{7.8}{2.3}
+  \ecrire[violet][8]{(125,66)}{DIFFÉRENCE\\ DES MOYENNES}
+  \fleche[violet][15]{(125,58.5)}{(70,52)}
+  \ecrire[rouge][9]{(10,22)}{CONTRÔLE VS $\alpha$137--141 : $p = 0{,}006 < 0{,}05$ $\rightarrow$ MOYENNES DIFFÉRENTES}
+  \ecrire[vert][9]{(10,15.5)}{LES 2 AUTRES PAIRES : PAS DE DIFFÉRENCE SIGNIFICATIVE ($p = 0{,}25$ ET $0{,}14$)}
+  \ecrire[violet][8]{(10,9)}{VALEURS-P DÉJÀ AJUSTÉES : ON LES COMPARE DIRECTEMENT À $\alpha$}
+}
+
+\annot{47}{Intervalles de confiance}{
+  \entourer[rouge]{(114.3,58.3)}{22.5}{3}
+  \ecrire[rouge][8]{(141,68)}{0 PAS\\ DEDANS :\\ SIGNIF.}
+  \ecrire[vert][8]{(141,46)}{0 DEDANS :\\ PAS\\ SIGNIF.}
+  \ecrire[violet][8]{(3,21)}{$0{,}217 \pm 0{,}153$\\ $= [\,0{,}064 \,;\, 0{,}370\,]$}
+}
+
+% ---------------------------------------------------- Vérification des postulats
+\annot{49}{Indépendance des observations}{
+  \ecrire[violet][9]{(20,79)}{PAS DE TEST : ON EXAMINE LA FAÇON DONT LES DONNÉES ONT ÉTÉ RECUEILLIES}
+  \ecrire[rouge][9.5]{(20,38)}{SI OUI $\Rightarrow$ OBS. DÉPENDANTES $\Rightarrow$ L'ANOVA À UN FACTEUR NE S'APPLIQUE PAS}
+  \ecrire[vert][9]{(20,30)}{(EX. : LES TRUITES D'UN MÊME BASSIN)}
+  \ecrire[vert][9]{(20,20)}{ICI : 18 PORTIONS DE VIANDE DISTINCTES, UN SEUL TRAITEMENT\\ PAR PORTION, ATTRIBUÉ AU HASARD $\Rightarrow$ OK}
+}
+
+\annot{50}{Homogénéité des variances}{
+  \ecrire[rouge][10]{(20,17.5)}{$B > \chi^2_{I-1;\,\alpha}$ \quad (OU VALEUR-P $< \alpha$)}
+  \begin{scope}[shift={(112,5.5)}]
+    \draw[crayon lisse, bleu] (0,0) -- (42,0);
+    \draw[crayon lisse, bleu, domain=0:42, samples=60, smooth] plot (\x, {15*(\x/3)*exp(-\x/6)});
+    \fill[orange, opacity=0.5, domain=28.5:42, samples=20] (28.5,0) -- plot (\x, {15*(\x/3)*exp(-\x/6)}) -- (42,0) -- cycle;
+    \ecrire[bleu][8]{(14,15)}{$\chi^2_{I-1}$}
+    \ecrire[orange][8]{(33,5.5)}{$\alpha$}
+    \ecrirec[rouge][7]{(28.5,-2.6)}{$\chi^2_{I-1;\alpha}$}
+  \end{scope}
+}
+
+\annot{51}{Exemple}{
+  \entourer[rouge]{(142.6,48)}{8.6}{2.6}
+  \ecrire[rouge][10]{(20,31)}{VALEUR-P $= 0{,}6894 > 0{,}05$ : ON NE REJETTE PAS $H_0$}
+  \ecrire[vert][10]{(20,23)}{L'ÉGALITÉ DES VARIANCES EST PLAUSIBLE (POSTULAT OK)}
+  \ecrire[violet][8.5]{(20,14)}{(OU : $B = 0{,}744 < \chi^2_{2;\,0{,}05} = 5{,}99$)}
+}
+
+\annot{52}{Normalité des observations}{
+  \ecrire[violet][8]{(96,66)}{$\rightarrow$ MÊME LOI POUR\\ \ \ TOUS LES GROUPES !}
+  \ecrire[vert][9]{(18,15)}{RÉSIDU = OBSERVATION $-$ MOYENNE DE SON GROUPE}
+  \ecrire[vert][8]{(18,9)}{EX. SCÉNARIO 1 : $18{,}49 - 15{,}32 = 3{,}17$ \quad ON TESTE LES $N$ RÉSIDUS ENSEMBLE}
+}
+
+\annot{53}{Test de normalité}{
+  \ecrire[orange][9]{(20,80)}{$H_0$ : LES $\varepsilon_{ij}$ SUIVENT UNE LOI NORMALE\\
+    $H_1$ : ILS NE SUIVENT PAS UNE LOI NORMALE}
+  \entourer[rouge]{(75.6,48)}{8.6}{2.6}
+  \ecrire[rouge][10]{(20,31)}{VALEUR-P $= 0{,}83 > 0{,}05$ : ON NE REJETTE PAS $H_0$}
+  \ecrire[vert][10]{(20,23)}{PAS D'ÉVIDENCE CONTRE LA NORMALITÉ}
+  \ecrire[violet][9]{(20,13)}{LES 3 POSTULATS SEMBLENT RESPECTÉS : L'ANOVA EST VALIDE}
+}
+
+\produire{Chapitre_5a}
+\end{document}

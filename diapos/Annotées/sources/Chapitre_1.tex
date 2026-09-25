@@ -1,0 +1,571 @@
+\documentclass{article}
+\usepackage{annot}
+\begin{document}
+
+% ===========================================================================
+% 1.1 Introduction
+% ===========================================================================
+\annot{3}{Pour commencer}{
+  \entourer[rouge]{(33.5,15.7)}{8}{2.8}
+  \ecrire[violet][9]{(124,57.5)}{1. CENTRE ?\\ 2. DISPERSION ?\\ 3. ABERRANTES ?}
+  \fleche[violet][-20]{(131,44)}{(110,29.8)}
+  \ecrire[vert][10]{(62,11)}{21 LIGNES $\times$ 7 = 147 POIDS}
+}
+
+\annot{4}{Deux types}{
+  \ecrire[vert][9]{(60,70.2)}{= CHAPITRE 1}
+  \ecrire[vert][9]{(62,45.6)}{= CHAPITRES 3 À 7}
+  \souligner[rouge]{(29.3,59.6)}{(43.2,59.6)}
+  \souligner[rouge]{(44,34.6)}{(64.2,34.6)}
+  \ecrire[violet][10]{(52,8.8)}{INFÉRENCE : ÉCHANTILLON $\rightarrow$ POPULATION}
+}
+
+% ===========================================================================
+% 1.2 Population, échantillon et variable
+% ===========================================================================
+\annot{7}{Exemple 1 : les serpents}{
+  \draw[crayon, violet] (137,55) ellipse (17 and 8);
+  \draw[crayon, vert, fill=vert, fill opacity=.15] (144,52) ellipse (6.5 and 3.3);
+  \ecrirec[violet][8]{(137,60)}{POPULATION}
+  \ecrirec[vert][9]{(144,52)}{147}
+  \fleche[orange][30]{(137.5,52.5)}{(125,55)}
+  \ecrire[orange][8]{(120.5,51.3)}{INFÉRENCE}
+  \ecrire[vert][9]{(10,11.8)}{STATISTIQUE : $\bar{x}$ (ÉCHANTILLON) \qquad PARAMÈTRE : $\mu$ (POPULATION)}
+}
+
+\annot{8}{Un jeu de données}{
+  \ecrirec[violet][8]{(48,54.5)}{NOM.}
+  \ecrirec[violet][8]{(60.8,54.5)}{NOM.}
+  \ecrirec[violet][8]{(75,54.5)}{CONTINUE}
+  \ecrirec[violet][8]{(104,54.5)}{DISCRÈTE}
+  \ecrirec[violet][8]{(131,54.5)}{ORDINALE}
+  \encadrer[orange]{(22,39.6)}{(141,43.7)}
+  \ecrire[orange][8]{(142.5,44)}{UN\\ INDIVIDU}
+}
+
+\annot{9}{Les types de variables}{
+  \surligner[jaune]{(75.8,17.8)}{(87,21.5)}
+  \ecrire[rouge][10]{(40,10.5)}{UN CODE N'EST PAS UNE MESURE !}
+}
+
+\annot{10}{QUIZ}{
+  \ecrire[vert][9]{(15,53.5)}{QUALITATIVE NOMINALE}
+  \ecrire[vert][9]{(15,41.3)}{QUANTITATIVE CONTINUE}
+  \ecrire[vert][9]{(15,29.2)}{QUALITATIVE ORDINALE}
+  \ecrire[vert][9]{(15,17.2)}{QUANTITATIVE DISCRÈTE}
+  \ecrire[vert][9]{(91,58.4)}{QUANTITATIVE CONTINUE}
+  \ecrire[vert][9]{(91,46.3)}{QUALITATIVE NOMINALE}
+  \ecrire[vert][9]{(91,29.2)}{QUALITATIVE ORDINALE}
+  \ecrire[violet][8]{(91,19)}{ORDRE NATUREL ? $\rightarrow$ ORDINALE\\ ON COMPTE ? $\rightarrow$ DISCRÈTE\\ ON MESURE ? $\rightarrow$ CONTINUE}
+}
+
+% ===========================================================================
+% 1.3 L'histogramme
+% ===========================================================================
+\annot{12}{Exemple 1 (suite) : données groupées}{
+  \ecrire[violet][8]{(53,58.5)}{( : EXCLU\\ ] : INCLUS}
+  \fleche[violet][15]{(52.5,53.5)}{(36.5,55.6)}
+  \entourer[rouge]{(40.8,46.7)}{2.8}{2}
+  \fleche[rouge][20]{(43.8,47.5)}{(104,58)}
+  \ecrire[vert][9]{(10,11.3)}{4 + 5 + 16 + 30 + 24 + 29 + 21 + 11 + 5 + 1 + 1 = 147}
+  \coche{(106,9.5)}
+}
+
+\annot{13}{Le choix des classes}{
+  \ecrire[violet][9]{(46,65)}{PLUS DE\\ DÉTAILS}
+  \ecrire[violet][9]{(131,63)}{PLUS\\ GROSSIER}
+  \souligner[rouge]{(46.5,7.3)}{(69.8,7.3)}
+  \ecrire[rouge][10]{(112,12.5)}{COMPROMIS !}
+  \fleche[rouge][25]{(111,8)}{(71,6.3)}
+}
+
+\annot{14}{Procédure pour tracer}{
+  \surligner[jaune]{(105.5,47.7)}{(118.5,51.3)}
+  \ecrire[vert][9]{(45,9.3)}{SURFACE = LARGEUR $\times$ HAUTEUR $= (c_j - c_{j-1}) \times h_j = f_j/n$}
+}
+
+\annot{15}{Formes de distributions}{
+  \cloche[bleu]{(34,31.8)}{48}{22}
+  \ecrire[violet][9]{(79,46)}{QUEUE $\rightarrow$}
+  \ecrire[violet][9]{(107,46)}{$\leftarrow$ QUEUE}
+}
+
+\annot{16}{Exemple 2 : classes}{
+  \ecrire[violet][8]{(106,49.2)}{LARGEUR 10}
+  \ecrire[violet][8]{(106,44.1)}{LARGEUR 10}
+  \ecrire[violet][8]{(106,39.0)}{LARGEUR 10}
+  \ecrire[violet][8]{(106,33.9)}{LARGEUR 20}
+  \ecrire[rouge][8]{(106,28.8)}{LARGEUR 40 !}
+  \ecrire[rouge][12]{(86,7.6)}{NON !}
+}
+
+\annot{17}{Exemple 2 (suite) : attention}{
+  \croix{(74,71.8)}
+  \coche{(153,72)}
+  \ecrire[rouge][8]{(52,64)}{SEMBLE\\ ÉNORME !}
+  \ecrire[vert][8]{(122,62)}{SURFACE :\\ 40 $\times$ 0.0032\\ = 0.129}
+  \fleche[vert][-20]{(136,50.5)}{(138,44)}
+}
+
+\annot{18}{Exemple 2 (suite) : calcul}{
+  \encadrer[orange]{(19,44.9)}{(140,49.6)}
+  \ecrire[violet][9]{(90,36.8)}{$\leftarrow$ SOMME DES $f_j/n$ = 1}
+  \ecrire[vert][8]{(128,31.5)}{SURFACE (40, 60] :\\ 20 $\times$ 0.0097\\ $\approx$ 0.1935 = $f_4/n$}
+}
+
+\annot{19}{QUIZ}{
+  \ecrire[vert][9]{(18,61.3)}{(45 + 35)/155 = 80/155 = 0.516, SOIT 51.6 \%\\
+    = SURFACE AU-DESSUS DE (20, 40] : 10 $\times$ 0.0290 + 10 $\times$ 0.0226}
+  \ecrire[vert][9]{(18,39)}{SURFACE TOTALE = 1 (100 \%)\\
+    SOMME DES HAUTEURS : PAS D'INTERPRÉTATION\\ (DÉPEND DES LARGEURS DES CLASSES)}
+  % petit histogramme de densité, zone (20, 40] ombrée
+  \begin{scope}[shift={(100,8)}, x=0.5mm, y=700mm]
+    \fill[orange, opacity=.45] (20,0) rectangle (30,0.0290);
+    \fill[orange, opacity=.45] (30,0) rectangle (40,0.0226);
+    \draw[crayon lisse, vert] (10,0) rectangle (20,0.0161);
+    \draw[crayon lisse, vert] (20,0) rectangle (30,0.0290);
+    \draw[crayon lisse, vert] (30,0) rectangle (40,0.0226);
+    \draw[crayon lisse, vert] (40,0) rectangle (60,0.0097);
+    \draw[crayon lisse, vert] (60,0) rectangle (100,0.0032);
+    \draw[crayon lisse, vert] (0,0) -- (105,0);
+  \end{scope}
+  \ecrire[orange][9]{(128,36)}{51.6 \%}
+  \fleche[orange][-20]{(127,33)}{(116,26)}
+  \ecrirec[vert][8]{(110,5.5)}{20}
+  \ecrirec[vert][8]{(120,5.5)}{40}
+  \ecrirec[vert][8]{(130,5.5)}{60}
+  \ecrirec[vert][8]{(150,5.5)}{100}
+}
+
+% ===========================================================================
+% 1.4 La moyenne et l'écart-type
+% ===========================================================================
+\annot{21}{Moyenne et écart-type}{
+  \ecrire[violet][9]{(112,59.5)}{$\bar{x}$ : « X BARRE »}
+  \ecrire[violet][9]{(84,24.3)}{$n-1$ : DEGRÉS DE LIBERTÉ}
+  \fleche[violet][20]{(83,21.8)}{(46,22.5)}
+  \souligner[rouge]{(126,13.5)}{(148,13.5)}
+}
+
+\annot{22}{Exemple 3 : calcul à la main}{
+  % petit diagramme en points : écarts à la moyenne
+  \begin{scope}[shift={(4,40)}]
+    \draw[crayon lisse, vert] (0,0) -- (36,0);
+    \foreach \v in {19,20,22,24,25} {\draw[crayon lisse, vert] ({(\v-18)*4.5},0.6) -- ({(\v-18)*4.5},-0.6);}
+    \foreach \v in {19,20,22,24,25} {\fill[vert] ({(\v-18)*4.5},2) circle (0.9);}
+    \draw[crayon lisse, rouge, line width=1.1pt] (18,-1) -- (18,11);
+    \draw[crayon lisse, orange, pointe] (18,5) -- (27,5);
+    \draw[crayon lisse, orange, pointe] (18,5) -- (9,5);
+    \draw[crayon lisse, orange, pointe] (18,8) -- (31.5,8);
+    \draw[crayon lisse, orange, pointe] (18,8) -- (4.5,8);
+  \end{scope}
+  \ecrirec[vert][8]{(8.5,37.5)}{19}
+  \ecrirec[vert][8]{(22,37.5)}{22}
+  \ecrirec[vert][8]{(35.5,37.5)}{25}
+  \ecrire[orange][8]{(29,49.5)}{+3}
+  \ecrire[orange][8]{(8,49.5)}{$-$3}
+  \ecrire[rouge][9]{(15,55)}{$\bar{x}$ = 22}
+  \entourer[rouge]{(40.2,27)}{2.8}{2.6}
+  \ecrire[rouge][9]{(55,36.5)}{UNITÉS AU CARRÉ !}
+  \fleche[rouge][20]{(55,33.5)}{(42.5,29.8)}
+  \ecrire[vert][9]{(97,28.2)}{RETOUR AUX GRAMMES}
+}
+\apres{22}{
+  \ecrire[vert][14]{(10,84)}{FORMULE DE CALCUL (PLUS RAPIDE À LA MAIN)}
+  \ecrire[vert][14]{(20,72)}{$s^2 = \dfrac{\sum x_i^2 - n\,\bar{x}^2}{n-1}$}
+  \ecrire[violet][12]{(10,52)}{EXEMPLE 3 :\\[2mm]
+    $\sum x_i^2$ = 484 + 625 + 361 + 576 + 400 = 2446\\[2mm]
+    $s^2$ = (2446 $-$ 5 $\times$ 22$^2$) / 4 = (2446 $-$ 2420) / 4 = 26 / 4 = 6.5 G$^2$}
+  \coche[vert]{(150,31)}
+  \ecrire[rouge][12]{(10,18)}{ATTENTION : NE PAS ARRONDIR $\bar{x}$ TROP TÔT !}
+}
+
+\annot{23}{Exemple 1 (suite) : les serpents dans R}{
+  \entourer[violet]{(77,47.4)}{3.8}{2.3}
+  \ecrire[violet][8]{(82,47.6)}{= $n-1$}
+  \ecrire[vert][9]{(92,36)}{\code{mean()} $\rightarrow \bar{x}$\\ \code{sd()} $\rightarrow s$ (DIVISE PAR $n-1$)}
+}
+
+\annot{24}{Interpréter l'écart-type}{
+  \ecrirec[orange][8]{(32.4,75.2)}{$\bar{x}-s$}
+  \ecrirec[orange][8]{(49.6,75.2)}{$\bar{x}+s$}
+  \ecrirec[bleu][8]{(23.7,78.6)}{$\bar{x}-2s$}
+  \ecrirec[bleu][8]{(58.3,78.6)}{$\bar{x}+2s$}
+  \ecrire[vert][10]{(86,44.5)}{70.7 \% $\approx$ 68 \%\\ 95.9 \% $\approx$ 95 \%\\ $\Rightarrow$ BIEN « EN CLOCHE »}
+  \coche{(126,42.5)}
+  \coche{(126,38)}
+}
+
+\annot{25}{Caractéristiques de la moyenne}{
+  \surligner[rose]{(32,56.3)}{(78.5,59.9)}
+  % balance : la moyenne est le point d'équilibre
+  \draw[crayon lisse, violet] (108,32) -- (150,32);
+  \foreach \xx/\hh in {112/1,120/2,127/3,134/2,145/1} {
+    \foreach \k in {1,...,\hh} {\draw[crayon lisse, vert] (\xx,{32+3*(\k-1)}) rectangle ({\xx+3},{32+3*\k});}}
+  \draw[crayon lisse, rouge, fill=rouge!30] (128.8,32) -- (126.3,27.5) -- (131.3,27.5) -- cycle;
+  \ecrire[rouge][8]{(133,30)}{$\bar{x}$ = POINT\\ D'ÉQUILIBRE}
+}
+
+\annot{26}{QUIZ}{
+  \ecrire[rouge][12]{(20,52)}{FAUX (EN GÉNÉRAL) !}
+  \ecrire[vert][10]{(20,45)}{SOMME DES 30 VALEURS = 30 $\times$ 112 = 3360\\
+    NOUVELLE MOYENNE = (3360 $-$ MIN $-$ MAX) / 28\\
+    = 112 SEULEMENT SI MIN + MAX = 2 $\times$ 112 = 224}
+  \ecrire[violet][10]{(20,25)}{EX. : MIN = 90, MAX = 150 $\Rightarrow$ (3360 $-$ 240) / 28 = 111.4 $\neq$ 112}
+}
+
+\annot{27}{Le coefficient de variation}{
+  \entourer[rouge]{(44.3,16.7)}{4.8}{2.5}
+  \entourer[rouge]{(101.5,16.7)}{5.8}{2.5}
+  \ecrire[vert][9]{(108,48)}{$s$ : RATS < LAPINS\\ CV : RATS > LAPINS\\ $\Rightarrow$ CV COMPARE DES\\ ÉCHELLES DIFFÉRENTES}
+}
+
+\annot{28}{Moyenne et écart-type à partir}{
+  \ecrire[violet][8]{(127,26)}{$\approx$ : APPROX.\\ (DONNÉES BRUTES\\ INCONNUES)}
+  \ecrire[vert][9]{(10,11.2)}{5825 = 375 + 1125 + 1225 + 1500 + 1600\\
+    $\sum f_j\,(m_j - \bar{x}^*)^2$ = 60 718 \quad $\Rightarrow$ \quad $s^*$ = $\sqrt{60\,718/154}$ = 19.86}
+}
+
+\annot{29}{QUIZ}{
+  \ecrire[vert][9]{(18,61.5)}{$\bar{x}$ = 34.882 $-$ 2 = 32.882 G \quad (DÉCALÉE DE 2 G)\\
+    $s$ = 0.956 G : INCHANGÉ (LES ÉCARTS $x_i - \bar{x}$ NE CHANGENT PAS)}
+  \ecrire[vert][9]{(18,39.5)}{$\times$ 1000 : $\bar{x}$ = 32 882 MG \quad $s$ = 956 MG\\
+    CV = 956 / 32 882 = 0.956 / 32.882 = 2.9 \% : INCHANGÉ}
+  \ecrire[violet][9]{(18,29)}{MAIS LA CORRECTION DE 2 G A CHANGÉ LE CV :\\ 0.956 / 34.882 = 2.74 \% $\rightarrow$ 0.956 / 32.882 = 2.91 \%}
+}
+\apres{29}{
+  \ecrire[vert][14]{(10,84)}{RÈGLE : SI $y_i = a\,x_i + b$ ALORS}
+  \ecrire[vert][14]{(25,75)}{$\bar{y} = a\,\bar{x} + b$ \qquad ET \qquad $s_y = |a|\, s_x$}
+  \ecrire[violet][11]{(10,63)}{CORRECTION : $a$ = 1, $b$ = $-2$ $\Rightarrow$ $\bar{x}$ BAISSE DE 2, $s$ INCHANGÉ\\[1mm]
+    G $\rightarrow$ MG : $a$ = 1000, $b$ = 0 $\Rightarrow$ $\bar{x}$ ET $s$ $\times$ 1000, CV INCHANGÉ}
+  \ecrire[rouge][11]{(10,49)}{LE CV CHANGE QUAND ON AJOUTE UNE CONSTANTE !}
+  % deux cloches décalées de 2 g (1 g = 12 mm)
+  \draw[crayon lisse, vert] (40,10) -- (155,10);
+  \cloche[bleu]{(110,10)}{69}{25}
+  \cloche[orange]{(86,10)}{69}{25}
+  \ecrirec[bleu][10]{(128,32)}{AVANT}
+  \ecrirec[orange][10]{(66,32)}{APRÈS}
+  \draw[crayon lisse, rouge, pointe] (110,38) -- (86,38);
+  \ecrirec[rouge][11]{(98,42)}{$-$2 G}
+  \ecrirec[vert][9]{(86,6.5)}{32.882}
+  \ecrirec[vert][9]{(110,6.5)}{34.882}
+  \ecrire[violet][10]{(10,26)}{MÊME FORME\\ MÊME $s$}
+}
+
+% ===========================================================================
+% 1.5 Les quantiles
+% ===========================================================================
+\annot{31}{Statistiques d'ordre}{
+  \entourer[vert]{(57.9,63.3)}{4.3}{2.5}
+  \entourer[vert]{(102.1,63.3)}{4.3}{2.5}
+  \ecrire[vert][9]{(120,64.5)}{$\rightarrow$ ON TRIE !}
+  \ecrirec[violet][9]{(48,17.5)}{MIN}
+  \ecrirec[violet][9]{(115,17.5)}{MAX}
+  \ecrire[violet][9]{(121,32)}{$(i)$ = RANG\\ (POSITION)}
+}
+
+\annot{32}{Les quantiles}{
+  \entourer[violet]{(85,46.6)}{8.5}{1.9}
+  \ecrire[violet][9]{(95,48.8)}{$\leftarrow$ POSITION (RANG)}
+  \ecrire[vert][9]{(10,15.5)}{$\gamma$ = 0 : $x_{(1)}$ = MIN \qquad $\gamma$ = 0.5 : MÉDIANE \qquad $\gamma$ = 1 : $x_{(n)}$ = MAX}
+}
+
+\annot{33}{Exemple 5 (suite) : quantile}{
+  % interpolation entre x(2) et x(3)
+  \draw[crayon lisse, vert] (100,45) -- (150,45);
+  \draw[crayon lisse, vert] (100,44) -- (100,46);
+  \draw[crayon lisse, vert] (150,44) -- (150,46);
+  \fill[rouge] (140,45) circle (0.9);
+  \ecrirec[vert][8]{(100,42.5)}{18.7}
+  \ecrirec[vert][8]{(150,42.5)}{19.5}
+  \ecrirec[rouge][8]{(140,42.5)}{19.34}
+  \draw[crayon lisse, orange, <->] (100.5,46.6) -- (139.5,46.6);
+  \ecrirec[orange][8]{(120,48)}{80 \%}
+  \entourer[violet]{(76.5,37.3)}{4.8}{2.4}
+  \ecrire[violet][9]{(97,38.3)}{ENTRE LE 59e ET LE 60e SERPENT}
+  \ecrire[vert][9]{(103,19.8)}{R : \code{quantile(poids, 0.4)}}
+}
+
+\annot{34}{Quartiles et centiles}{
+  \draw[crayon lisse, vert] (20,12) -- (140,12);
+  \foreach \xx in {20,50,80,110,140} {\draw[crayon lisse, vert] (\xx,10.5) -- (\xx,13.5);}
+  \foreach \xx in {35,65,95,125} {\ecrirec[orange][9]{(\xx,16.5)}{25 \%}}
+  \ecrirec[violet][9]{(20,7.8)}{MIN}
+  \ecrirec[violet][9]{(50,7.8)}{$Q_1$}
+  \ecrirec[violet][9]{(80,7.8)}{$Q_2 = m$}
+  \ecrirec[violet][9]{(110,7.8)}{$Q_3$}
+  \ecrirec[violet][9]{(140,7.8)}{MAX}
+}
+
+\annot{35}{La médiane}{
+  \ecrire[violet][9]{(101.5,30.3)}{$\frac{n+1}{2} = \frac{8}{2} = 4$}
+  \ecrire[vert][9]{(10,16)}{$Q_1 = x_{(1+6 \times 0.25)} = x_{(2.5)}$ = 18.7 + 0.5 $\times$ (19.5 $-$ 18.7) = 19.1 CM\\[1mm]
+    $Q_3 = x_{(1+6 \times 0.75)} = x_{(5.5)}$ = 22.3 + 0.5 $\times$ (24.6 $-$ 22.3) = 23.45 CM}
+}
+
+\annot{36}{Moyenne ou médiane}{
+  \ecrire[vert][9]{(90,53)}{MOYENNE = 23 / 5 = 4.6}
+  \ecrire[vert][9]{(75,33.5)}{MOYENNE = 30 / 5 = 6 \quad MÉDIANE = 5}
+  \entourer[rouge]{(135.2,22.6)}{3}{3}
+  \ecrire[rouge][8]{(140,31)}{VALEUR\\ EXTRÊME}
+}
+
+\annot{37}{QUIZ}{
+  \ecrire[rouge][12]{(20,52)}{VRAI !}
+  \ecrire[vert][10]{(20,45)}{$n$ = 30 (PAIR) : $m = (x_{(15)} + x_{(16)})/2$ = 114\\
+    ON RETIRE $x_{(1)}$ ET $x_{(30)}$ : IL RESTE 28 VALEURS\\
+    LES ANCIENS $x_{(15)}$ ET $x_{(16)}$ SONT MAINTENANT LES 14e ET 15e\\
+    $\Rightarrow$ MÊMES VALEURS DU MILIEU : MÉDIANE = 114}
+  \foreach \k in {1,...,30} {\fill[vert] ({20+4*(\k-1)},12) circle (0.8);}
+  \croix{(20,12)}
+  \croix{(136,12)}
+  \entourer[orange]{(78,12)}{4.5}{2.5}
+  \ecrirec[orange][8]{(78,17.5)}{MILIEU}
+}
+
+\annot{38}{QUIZ}{
+  \draw[crayon lisse, bleu, line width=1.1pt] (103.9,45.5) -- (103.9,77);
+  \draw[crayon lisse, rouge, line width=1.1pt] (105.7,45.5) -- (105.7,77);
+  \ecrire[rouge][9]{(118,73)}{$\bar{x}$ = 4.61}
+  \ecrire[bleu][9]{(118,67.5)}{$m$ = 3.8}
+  \fleche[rouge][10]{(117,71)}{(106.5,70.5)}
+  \fleche[bleu][10]{(117,65.5)}{(104.7,64)}
+  \ecrire[vert][9]{(15,50.5)}{PLUS GRANDE : $\bar{x} > m$}
+  \ecrire[vert][9]{(80,33.5)}{LA LONGUE QUEUE À DROITE\\ TIRE $\bar{x}$ VERS LE HAUT}
+  \ecrire[vert][9]{(15,17.5)}{ASYM. À GAUCHE : $\bar{x} < m$ \quad (GESTATION : 39.1 < 39.5 SEM.)\\
+    SYMÉTRIQUE : $\bar{x} \approx m$ \quad (PRESSION : 120.8 $\approx$ 121 MMHG)}
+}
+\apres{38}{
+  \ecrire[vert][14]{(10,84)}{MOYENNE OU MÉDIANE : ÇA DÉPEND DE LA FORME}
+  % symétrique
+  \draw[crayon lisse, vert] (8,30) -- (52,30);
+  \cloche[bleu]{(30,30)}{40}{30}
+  \draw[crayon lisse, violet, dashed] (30,30) -- (30,64);
+  \ecrirec[violet][10]{(30,68)}{$\bar{x} \approx m$}
+  \ecrirec[vert][10]{(30,22)}{SYMÉTRIQUE}
+  % asymétrique à droite
+  \draw[crayon lisse, vert] (58,30) -- (104,30);
+  \draw[crayon lisse, bleu, domain=0:44, samples=60, smooth] plot ({60+\x}, {30+30*(\x/8)*exp(1-\x/8)});
+  \draw[crayon lisse, violet] (73.4,30) -- (73.4,62);
+  \draw[crayon lisse, rouge] (76,30) -- (76,62);
+  \ecrirec[violet][10]{(70.5,66)}{$m$}
+  \ecrirec[rouge][10]{(79,66)}{$\bar{x}$}
+  \ecrirec[vert][10]{(81,22)}{QUEUE À DROITE}
+  \ecrirec[rouge][10]{(81,16)}{$\bar{x} > m$}
+  % asymétrique à gauche
+  \draw[crayon lisse, vert] (106,30) -- (152,30);
+  \draw[crayon lisse, bleu, domain=0:44, samples=60, smooth] plot ({150-\x}, {30+30*(\x/8)*exp(1-\x/8)});
+  \draw[crayon lisse, violet] (136.6,30) -- (136.6,62);
+  \draw[crayon lisse, rouge] (134,30) -- (134,62);
+  \ecrirec[violet][10]{(139.5,66)}{$m$}
+  \ecrirec[rouge][10]{(131,66)}{$\bar{x}$}
+  \ecrirec[vert][10]{(129,22)}{QUEUE À GAUCHE}
+  \ecrirec[rouge][10]{(129,16)}{$\bar{x} < m$}
+  \ecrire[orange][12]{(10,9)}{LA MOYENNE EST « TIRÉE » VERS LA QUEUE ; LA MÉDIANE RÉSISTE.}
+}
+
+\annot{39}{Résumé à cinq nombres}{
+  \ecrire[vert][9]{(10,14)}{ÉTENDUE = 37.61 $-$ 32.62 = 4.99 G : DÉPEND DES 2 EXTRÊMES (PAS ROBUSTE)\\
+    EIQ : MOITIÉ CENTRALE DES DONNÉES $\Rightarrow$ ROBUSTE}
+}
+
+\annot{40}{Exemple 1 (suite) : les quantiles}{
+  \entourer[violet]{(53.2,56.7)}{6.3}{2.1}
+  \entourer[violet]{(75.7,46.7)}{5.6}{2.1}
+  \fleche[violet][-25]{(59.5,56)}{(78,49)}
+  \ecrire[violet][9]{(100,58)}{MÊME $Q_3$ :\\ \code{summary()} ARRONDIT}
+}
+
+\annot{41}{Les rangs centiles}{
+  \draw[crayon lisse, vert] (25,12) -- (145,12);
+  \foreach \xx in {40,70,100,130} {\draw[crayon lisse, vert] (\xx,10.5) -- (\xx,13.5);}
+  \ecrirec[vert][8]{(40,8.2)}{$q_{0.12}$}
+  \ecrirec[vert][8]{(70,8.2)}{$q_{0.13}$ = 33.8994}
+  \ecrirec[vert][8]{(102,8.2)}{$q_{0.14}$ = 33.9232}
+  \ecrirec[vert][8]{(130,8.2)}{$q_{0.15}$}
+  \ecrirec[violet][9]{(55,15.5)}{13}
+  \ecrirec[violet][9]{(85,15.5)}{14}
+  \ecrirec[violet][9]{(115,15.5)}{15}
+  \entourer[violet]{(85,15.5)}{3.5}{2.3}
+  \fill[rouge] (70.8,12) circle (1);
+  \ecrirec[rouge][8]{(66,17.5)}{33.90}
+  \ecrire[violet][8]{(126,20.5)}{SEGMENTS}
+}
+
+\annot{42}{Les observations aberrantes}{
+  \entourer[rouge]{(141.8,34.9)}{5}{2.3}
+  \ecrire[vert][9]{(10,8.5)}{MIN = 32.62 > 32.1725 : PAS ABERRANT \quad MAX = 37.61 > 37.5525 : ABERRANT !}
+}
+
+% ===========================================================================
+% 1.6 Le diagramme en boîte
+% ===========================================================================
+\annot{44}{Le diagramme en boîte}{
+  \ecrirec[violet][9]{(49.5,50.5)}{BRAS}
+  \ecrirec[violet][9]{(97.5,50.5)}{BRAS}
+  \draw[crayon lisse, orange, <->] (62.3,63.5) -- (84.7,63.5);
+  \ecrire[orange][9]{(87,65.5)}{EIQ = 1.345}
+  \ecrire[rouge][9]{(122.5,55.8)}{ABERRANTE}
+}
+
+\annot{45}{Procédure de construction}{
+  \ecrire[violet][9]{(56,48.3)}{$\leftarrow$ « CLÔTURES »}
+  % schéma
+  \draw[crayon lisse, rouge, dashed] (30,4) -- (30,16);
+  \draw[crayon lisse, rouge, dashed] (125,4) -- (125,16);
+  \ecrirec[rouge][8]{(30,18.3)}{$b_{\text{inf}}$}
+  \ecrirec[rouge][8]{(125,18.3)}{$b_{\text{sup}}$}
+  \draw[crayon lisse, vert] (60,7) rectangle (85,13);
+  \draw[crayon lisse, vert] (70,7) -- (70,13);
+  \draw[crayon lisse, vert] (38,10) -- (60,10);
+  \draw[crayon lisse, vert] (85,10) -- (112,10);
+  \draw[crayon lisse, vert] (38,8.5) -- (38,11.5);
+  \draw[crayon lisse, vert] (112,8.5) -- (112,11.5);
+  \ecrirec[rouge][11]{(138,10)}{*}
+  \ecrire[rouge][8]{(135,7.5)}{ABERRANTE}
+}
+
+\annot{46}{Exemple 6 : tiques}{
+  \foreach \xx/\r in {45.1/1,51.5/2,57.5/3,63.8/4,70/5,76/6,82.5/7,90.2/8,98.5/9,106.4/10,114.7/11}
+    {\ecrirec[violet][8]{(\xx,54)}{\r}}
+  \draw[crayon lisse, orange] (60.6,56) -- (60.6,61);
+  \draw[crayon lisse, orange] (94.3,56) -- (94.3,61);
+  \entourer[orange]{(76,58.6)}{2.5}{2.3}
+  \ecrirec[orange][9]{(60.6,63)}{$Q_1$}
+  \ecrirec[orange][9]{(76,63)}{$Q_2$}
+  \ecrirec[orange][9]{(94.3,63)}{$Q_3$}
+  \entourer[rouge]{(114.7,58.6)}{3}{2.4}
+  \ecrire[vert][8]{(95,28)}{PLUS PETITE $\geq -3.5$ : 2\\ PLUS GRANDE $\leq 20.5$ : 14}
+  \ecrire[rouge][9]{(45,14.8)}{31 > 20.5 $\Rightarrow$ ABERRANTE}
+}
+\apres{46}{
+  \ecrire[vert][14]{(10,84)}{CONSTRUCTION À LA MAIN (EXEMPLE 6)}
+  \ecrire[vert][11]{(10,75)}{1. $Q_1$ = 5.5, $Q_2$ = 8, $Q_3$ = 11.5 $\rightarrow$ LA BOÎTE\\[1mm]
+    2. EIQ = 6 ; CLÔTURES : 5.5 $-$ 9 = $-$3.5 ET 11.5 + 9 = 20.5\\[1mm]
+    3. BRAS : JUSQU'À 2 ET JUSQU'À 14 (DANS LES CLÔTURES)\\[1mm]
+    4. 31 > 20.5 : ABERRANTE $\rightarrow$ UN POINT}
+  % axe : x(v) = 15 + 3.5 (v + 5)
+  \draw[crayon lisse, vert] (13,18) -- (157,18);
+  \foreach \v in {-5,0,5,...,35} {
+    \draw[crayon lisse, vert] ({15+3.5*(\v+5)},17) -- ({15+3.5*(\v+5)},19);
+    \ecrirec[vert][9]{({15+3.5*(\v+5)},14.5)}{\v}}
+  \foreach \v in {2,3,5,6,7,8,9,11,12,14,31} {\fill[vert] ({15+3.5*(\v+5)},21) circle (0.7);}
+  \draw[crayon lisse, bleu] (51.75,29) rectangle (72.75,37);
+  \draw[crayon lisse, bleu, line width=1.1pt] (60.5,29) -- (60.5,37);
+  \draw[crayon lisse, bleu] (39.5,33) -- (51.75,33);
+  \draw[crayon lisse, bleu] (72.75,33) -- (81.5,33);
+  \draw[crayon lisse, bleu] (39.5,31) -- (39.5,35);
+  \draw[crayon lisse, bleu] (81.5,31) -- (81.5,35);
+  \draw[crayon lisse, rouge] (141,33) circle (1.2);
+  \draw[crayon lisse, rouge, dashed] (20.25,24) -- (20.25,42);
+  \draw[crayon lisse, rouge, dashed] (104.25,24) -- (104.25,42);
+  \ecrirec[rouge][10]{(20.25,45)}{$-$3.5}
+  \ecrirec[rouge][10]{(104.25,45)}{20.5}
+  \ecrirec[rouge][10]{(141,38)}{31}
+}
+
+\annot{47}{Exemple 6 (suite) : le diagramme}{
+  \croix{(70.7,65.8)}
+  \ecrire[rouge][9]{(72,79.5)}{$\bar{x}$ = 9.82}
+  \fleche[rouge][10]{(74,76)}{(71,68)}
+  \entourer[rouge]{(123.5,65.8)}{2.4}{2.4}
+  \ecrire[rouge][8]{(127,72)}{SOURIS TRÈS\\ INFESTÉE}
+  \ecrire[vert][9]{(112,48)}{SANS LE 31 :\\ $\bar{x}$ = 77 / 10 = 7.7\\ $m$ = (7 + 8) / 2 = 7.5}
+}
+
+\annot{48}{Que nous apprend}{
+  % boîte symétrique
+  \draw[crayon lisse, vert] (30,7) rectangle (50,13);
+  \draw[crayon lisse, vert] (40,7) -- (40,13);
+  \draw[crayon lisse, vert] (18,10) -- (30,10);
+  \draw[crayon lisse, vert] (50,10) -- (62,10);
+  \ecrirec[vert][8]{(40,3.8)}{SYMÉTRIQUE}
+  % boîte asymétrique à droite
+  \draw[crayon lisse, orange] (100,7) rectangle (118,13);
+  \draw[crayon lisse, orange] (105,7) -- (105,13);
+  \draw[crayon lisse, orange] (94,10) -- (100,10);
+  \draw[crayon lisse, orange] (118,10) -- (138,10);
+  \draw[crayon lisse, orange] (144,10) circle (0.8);
+  \draw[crayon lisse, orange] (150,10) circle (0.8);
+  \ecrirec[orange][8]{(120,3.8)}{ASYMÉTRIQUE À DROITE}
+}
+
+\annot{49}{Diagrammes en boîte juxtaposés}{
+  \entourer[violet]{(31.2,60)}{5}{5.5}
+  \entourer[violet]{(50,37.8)}{6}{6}
+  \fleche[violet][-15]{(56.5,37)}{(83,34)}
+  \entourer[rouge]{(20.8,54.7)}{2}{2}
+}
+
+\annot{50}{QUIZ}{
+  \ecrire[rouge][10]{(30.5,43.6)}{= C}
+  \ecrire[rouge][10]{(83,43.6)}{= B}
+  \ecrire[rouge][10]{(135.5,43.6)}{= A}
+  \ecrire[vert][9]{(10,15)}{A : $\bar{x} \approx m$ (SYMÉTRIQUE) \qquad B : $\bar{x} > m$ (QUEUE À DROITE)\\
+    C : $\bar{x} < m$ (QUEUE À GAUCHE)}
+}
+
+\annot{51}{Petit détail technique}{
+  \entourer[violet]{(19,48.1)}{8.7}{2.2}
+  \entourer[rouge]{(30.7,41.4)}{3.5}{2}
+  \entourer[rouge]{(47.8,41.4)}{4.3}{2}
+  \ecrire[vert][9]{(10,19)}{CHARNIÈRE = MÉDIANE DE CHAQUE MOITIÉ (VOIR PAGE SUIVANTE)}
+}
+\apres{51}{
+  \ecrire[vert][13]{(10,84)}{$y$ :\quad 1 \ 2 \ 3 \ 7 \ 7 \ 7 \quad | \quad 8 \ 9 \ 10 \ 20 \ 21 \ 24 \qquad ($n$ = 12)}
+  \ecrire[violet][12]{(10,72)}{CHARNIÈRES (R) :\\[1mm]
+    INF. = MÉDIANE DE 1, 2, 3, 7, 7, 7 = (3 + 7) / 2 = 5\\[1mm]
+    SUP. = MÉDIANE DE 8, 9, 10, 20, 21, 24 = (10 + 20) / 2 = 15}
+  \ecrire[orange][12]{(10,48)}{QUARTILES (COURS) :\\[1mm]
+    $Q_1 = x_{(1 + 11 \times 0.25)} = x_{(3.75)}$ = 3 + 0.75 $\times$ (7 $-$ 3) = 6\\[1mm]
+    $Q_3 = x_{(1 + 11 \times 0.75)} = x_{(9.25)}$ = 10 + 0.25 $\times$ (20 $-$ 10) = 12.5}
+  \ecrire[rouge][12]{(10,20)}{MÉDIANE = (7 + 8) / 2 = 7.5 DANS LES DEUX CAS}
+}
+
+\annot{53}{Exemple 1 (suite) : les serpents}{
+  \entourer[rouge]{(71.2,72.5)}{2.5}{2.5}
+  \ecrire[rouge][8]{(75,77)}{37.61}
+  \surligner[jaune]{(123,70)}{(149.5,74)}
+}
+
+% ===========================================================================
+% 1.7 Diagrammes en pointes de tarte et en bâtons
+% ===========================================================================
+\annot{56}{Exemple 7 : une variable}{
+  \ecrire[vert][8]{(3,47)}{ANGLE =\\ FRÉQ. REL.\\ $\times$ 360$^\circ$}
+  \ecrire[violet][8]{(3,32)}{POMME :\\ 77 / 275\\ = 0.280\\ $\times$ 360\\ = 100.8$^\circ$}
+}
+
+\annot{57}{Exemple 7 (suite)}{
+  \entourer[violet]{(129.8,50)}{9}{5}
+  \ecrire[rouge][10]{(60,12)}{POIRE : 41 > PÊCHE : 39}
+}
+
+% ===========================================================================
+% 1.8 Données bivariées
+% ===========================================================================
+\annot{60}{Exemple 8 : deux variables}{
+  \trait[orange]{(21.5,29) -- (68.3,56.2)}
+  \ecrire[orange][10]{(74,58)}{$r > 0$}
+}
+
+\annot{61}{Le coefficient de corrélation}{
+  \ecrire[violet][8]{(113,61)}{PRODUIT DES\\ ÉCARTS\\ STANDARDISÉS}
+  \ecrire[vert][9]{(10,15)}{0.890 : PROCHE DE 1 $\Rightarrow$ POINTS PRÈS D'UNE DROITE CROISSANTE}
+}
+
+\annot{62}{Quelques valeurs}{
+  \foreach \xx in {8,10,...,40} {\fill[vert] (\xx,{32+0.09*(\xx-24)^2}) circle (0.7);}
+  \ecrire[rouge][10]{(12,67)}{$r \approx 0$ !}
+  \ecrire[rouge][8]{(5,28)}{RELATION FORTE\\ MAIS COURBE}
+}
+
+\annot{63}{QUIZ}{
+  \ecrire[vert][9]{(18,62.3)}{NON ! $r$ NE DÉPEND PAS DES UNITÉS :\\
+    ÉCARTS STANDARDISÉS $(x_i - \bar{x})/s_x$ SANS UNITÉ}
+  \ecrire[vert][9]{(18,39.5)}{$r$ = 0.890 AUSSI :\\
+    LA FORMULE EST SYMÉTRIQUE EN $X$ ET $Y$}
+}
+
+\produire{Chapitre_1}
+\end{document}

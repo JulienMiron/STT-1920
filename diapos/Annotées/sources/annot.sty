@@ -1,0 +1,180 @@
+% ============================================================================
+% annot.sty — Annotations « manuscrites » superposées aux diapos STT-1920
+% ============================================================================
+% Compiler avec LuaLaTeX (voir compiler.sh). Chaque fichier de chapitre :
+%
+%   \documentclass{article}
+%   \usepackage{annot}
+%   \begin{document}
+%   \annot{22}{Exemple 1 (suite)}{ ...commandes TikZ... }
+%   \apres{22}{ ...contenu d'une page blanche insérée après la page 22... }
+%   \produire{Chapitre_2a}
+%   \end{document}
+%
+% Coordonnées en millimètres, origine en bas à gauche de la diapo
+% (160 mm x 90 mm). Utiliser outils/grille.py pour les repérer.
+%
+% POUR CHANGER D'ÉCRITURE : remplacer le fichier de police ci-dessous
+% (\PoliceManuscrite) par celui de votre police (ex. créée avec Calligraphr).
+% ============================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{annot}[2026/09/25 Annotations manuscrites STT-1920]
+
+\providecommand{\PoliceManuscrite}{PermanentMarker.ttf}
+\providecommand{\TaillePolice}{9}   % taille par défaut (pt)
+
+\RequirePackage[paperwidth=160mm,paperheight=90mm,margin=0mm]{geometry}
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{fontspec}
+\setmainfont{\PoliceManuscrite}[Path=polices/]
+% Code R écrit à la main : police avec de vraies minuscules (R distingue
+% majuscules et minuscules), ex. \code{t.test(x, mu = 10)}
+\providecommand{\PoliceCode}{ArchitectsDaughter.ttf}
+\newfontfamily\policecode{\PoliceCode}[Path=polices/, Scale=1.12, AutoFakeBold=1.2]
+\newcommand{\code}[1]{{\policecode\bfseries #1}}
+\RequirePackage{mathastext}   % lettres des maths dans la police manuscrite
+% Chiffres, ponctuation, = + − < >, parenthèses et crochets des maths aussi dans la police
+% manuscrite (mathastext ne le fait pas sous LuaLaTeX)
+\AtBeginDocument{%
+  \count@=`0 \loop \Umathcode\count@=7 \symmtoperatorfont \count@
+    \ifnum\count@<`9 \advance\count@ 1 \repeat
+  \Umathcode`\==3 \symmtoperatorfont `\=
+  \Umathcode`\+=2 \symmtoperatorfont `\+
+  \Umathcode`\(=4 \symmtoperatorfont `\(
+  \Umathcode`\)=5 \symmtoperatorfont `\)
+  \Umathcode`\[=4 \symmtoperatorfont `\[
+  \Umathcode`\]=5 \symmtoperatorfont `\]
+  \Umathcode`\.=0 \symmtoperatorfont `\.
+  \Umathcode`\,=6 \symmtoperatorfont `\,
+  \Umathcode`\-=2 \symmtoperatorfont "2212
+  \Umathcode`\<=3 \symmtoperatorfont `\<
+  \Umathcode`\>=3 \symmtoperatorfont `\>
+  \Umathcode`\/=0 \symmtoperatorfont `\/
+  \Umathcode`\|=0 \symmtoperatorfont `\|}
+\RequirePackage{pdfpages}
+\RequirePackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,arrows.meta,calc,patterns}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+% ---------------------------------------------------------------------------
+% Couleurs d'encre (inspirées des annotations H22)
+% ---------------------------------------------------------------------------
+\definecolor{vert}{RGB}{0,125,70}
+\definecolor{violet}{RGB}{115,35,150}
+\definecolor{orange}{RGB}{238,120,20}
+\definecolor{rouge}{RGB}{210,30,40}
+\definecolor{rose}{RGB}{230,40,170}
+\definecolor{bleu}{RGB}{20,90,190}
+\definecolor{jaune}{RGB}{255,225,0}
+\definecolor{papier}{RGB}{250,246,232}      % fond des pages blanches
+
+% ---------------------------------------------------------------------------
+% Styles TikZ : trait de feutre légèrement irrégulier
+% ---------------------------------------------------------------------------
+\tikzset{
+  crayon/.style={line width=0.8pt, line cap=round, line join=round,
+    decorate, decoration={random steps, segment length=1.6mm, amplitude=0.12mm},
+    rounded corners=0.6mm},
+  crayon lisse/.style={line width=0.8pt, line cap=round, line join=round},
+  pointe/.style={-{Stealth[length=2mm,width=1.6mm,round]}},
+  texte/.style={align=left, inner sep=0.5pt,
+    font=\fontsize{\TaillePolice}{\TaillePolice pt+3pt}\selectfont},
+}
+\pgfmathsetseed{1920}
+
+% ---------------------------------------------------------------------------
+% Commandes d'annotation (à utiliser dans \annot{...}{...}{ ICI })
+% ---------------------------------------------------------------------------
+% \ecrire[couleur][taille]{(x,y)}{texte}   texte ancré en haut à gauche
+%   (\\ pour changer de ligne; maths $...$ permises)
+\NewDocumentCommand{\ecrire}{O{vert} O{\TaillePolice} m +m}{%
+  \node[texte, anchor=north west, text=#1,
+        font=\fontsize{#2}{#2 pt+3pt}\selectfont] at #3 {#4};}
+% \ecrirec : même chose, ancré au centre
+\NewDocumentCommand{\ecrirec}{O{vert} O{\TaillePolice} m +m}{%
+  \node[texte, anchor=center, align=center, text=#1,
+        font=\fontsize{#2}{#2 pt+3pt}\selectfont] at #3 {#4};}
+% \entourer[couleur]{(x,y)}{rx}{ry}        ellipse tracée à la main
+\NewDocumentCommand{\entourer}{O{violet} m m m}{%
+  \draw[crayon, #1, rotate around={-2:#2}] #2 ellipse ({#3} and {#4});}
+% \encadrer[couleur]{(x1,y1)}{(x2,y2)}     rectangle à main levée
+\NewDocumentCommand{\encadrer}{O{rouge} m m}{%
+  \draw[crayon, sharp corners, #1] #2 rectangle #3;}
+% \souligner[couleur]{(x1,y)}{(x2,y)}
+\NewDocumentCommand{\souligner}{O{vert} m m}{%
+  \draw[crayon, #1] #2 -- #3;}
+% \surligner[couleur]{(x1,y1)}{(x2,y2)}    surligneur transparent
+\NewDocumentCommand{\surligner}{O{jaune} m m}{%
+  \fill[#1, opacity=0.35, rounded corners=0.8mm] #2 rectangle #3;}
+% \fleche[couleur][courbure]{(x1,y1)}{(x2,y2)}   flèche courbe de 1 vers 2
+\NewDocumentCommand{\fleche}{O{violet} O{20} m m}{%
+  \draw[crayon lisse, pointe, #1] #3 to[bend left=#2] #4;}
+% \trait[couleur]{chemin TikZ}             trait libre, ex. {(0,0) -- (5,5)}
+\NewDocumentCommand{\trait}{O{vert} m}{%
+  \draw[crayon, #1] #2;}
+% \coche[couleur]{(x,y)}  et  \croix[couleur]{(x,y)}
+\NewDocumentCommand{\coche}{O{vert} m}{%
+  \draw[crayon lisse, #1, line width=1.1pt] ($#2+(-1.5,0.3)$) -- ($#2+(-0.4,-1)$) -- ($#2+(1.8,1.8)$);}
+\NewDocumentCommand{\croix}{O{rouge} m}{%
+  \draw[crayon lisse, #1, line width=1.1pt] ($#2+(-1.3,-1.3)$) -- ($#2+(1.3,1.3)$)
+    ($#2+(-1.3,1.3)$) -- ($#2+(1.3,-1.3)$);}
+% \cloche[couleur]{(cx,y0)}{largeur}{hauteur}   petite courbe normale
+\NewDocumentCommand{\cloche}{O{bleu} m m m}{%
+  \begin{scope}[shift={#2}]
+    \draw[crayon lisse, #1] (-{#3/2},0) -- ({#3/2},0);
+    \draw[crayon lisse, #1, domain=-{#3/2}:{#3/2}, samples=40, smooth]
+      plot (\x, {#4*exp(-(\x/(#3/6))^2/2)});
+  \end{scope}}
+
+% ---------------------------------------------------------------------------
+% Mécanique : enregistrement des annotations puis assemblage du PDF
+% ---------------------------------------------------------------------------
+\newcommand{\annot@titres}{}
+% \annot{page}{début du titre attendu}{commandes}
+\NewDocumentCommand{\annot}{m m +m}{%
+  \expandafter\gdef\csname annot@p#1\endcsname{#3}%
+  \expandafter\gdef\csname annot@t#1\endcsname{#2}}
+% \apres{page}{contenu}  : page blanche (papier) insérée après la page
+\NewDocumentCommand{\apres}{m +m}{%
+  \expandafter\ifx\csname annot@a#1\endcsname\relax
+    \expandafter\gdef\csname annot@a#1\endcsname{}\fi
+  \expandafter\g@addto@macro\csname annot@a#1\endcsname{\annot@blanche{#2}}}
+
+\newcommand{\annot@calque}[1]{%
+  \begin{tikzpicture}[remember picture, overlay, x=1mm, y=1mm,
+                      shift={(current page.south west)}]
+    #1
+  \end{tikzpicture}}
+
+\newcommand{\annot@blanche}[1]{%
+  \newpage
+  \begin{tikzpicture}[remember picture, overlay, x=1mm, y=1mm,
+                      shift={(current page.south west)}]
+    \fill[papier] (0,0) rectangle (160,90);
+    #1
+  \end{tikzpicture}\null}
+
+% Nombre de pages d'un PDF (LuaTeX)
+\newcommand{\annot@nbpages}[1]{%
+  \directlua{
+    local d = pdfe.open("\luaescapestring{#1}")
+    tex.sprint(pdfe.getnofpages(d))
+    pdfe.close(d)}}
+
+% \produire{Chapitre_2a}  — lit .build/Chapitre_2a-imprimable.pdf
+\newcommand{\produire}[1]{%
+  \edef\annot@src{.build/#1-imprimable.pdf}%
+  \edef\annot@n{\annot@nbpages{\annot@src}}%
+  \directlua{annot_verifier = annot_verifier or {}}%
+  \foreach \p in {1,...,\annot@n}{%
+    \expandafter\ifx\csname annot@p\p\endcsname\relax
+      \includepdf[pages=\p]{\annot@src}%
+    \else
+      \typeout{ANNOT-VERIF: page \p\space => \csname annot@t\p\endcsname}%
+      \includepdf[pages=\p, pagecommand={\annot@calque{\csname annot@p\p\endcsname}}]{\annot@src}%
+    \fi
+    \expandafter\ifx\csname annot@a\p\endcsname\relax\else
+      \csname annot@a\p\endcsname
+    \fi}}
+\endinput
