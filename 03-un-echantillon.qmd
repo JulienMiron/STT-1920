@@ -1,5 +1,13 @@
 # Estimation et tests d'hypothèses : problèmes à un échantillon
 
+```{r}
+#| label: diapos-ch3
+#| echo: false
+#| results: asis
+source("R/diapos.R")
+diapos_chapitre(3)
+```
+
 ::: {.callout-warning}
 Chapitre en cours de conversion.
 :::

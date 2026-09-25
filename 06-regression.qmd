@@ -1,5 +1,13 @@
 # Introduction à la régression
 
+```{r}
+#| label: diapos-ch6
+#| echo: false
+#| results: asis
+source("R/diapos.R")
+diapos_chapitre(6)
+```
+
 ::: {.callout-warning}
 Chapitre en cours de conversion.
 :::

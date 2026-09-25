@@ -1,6 +1,14 @@
 # La statistique descriptive {#sec-descriptive}
 
 ```{r}
+#| label: diapos-ch1
+#| echo: false
+#| results: asis
+source("R/diapos.R")
+diapos_chapitre(1)
+```
+
+```{r}
 #| label: setup
 #| include: false
 serpents <- read.csv("donnees/serpents.csv")

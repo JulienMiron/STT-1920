@@ -1,5 +1,13 @@
 # Tableaux de fréquences et tests du khi-deux
 
+```{r}
+#| label: diapos-ch7
+#| echo: false
+#| results: asis
+source("R/diapos.R")
+diapos_chapitre(7)
+```
+
 ::: {.callout-warning}
 Chapitre en cours de conversion.
 :::

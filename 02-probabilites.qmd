@@ -1,6 +1,14 @@
 # La théorie des probabilités {#sec-probabilites}
 
 ```{r}
+#| label: diapos-ch2
+#| echo: false
+#| results: asis
+source("R/diapos.R")
+diapos_chapitre(2)
+```
+
+```{r}
 #| label: setup-ch2
 #| include: false
 source("R/venn.R")

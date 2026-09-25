@@ -1,5 +1,13 @@
 # Introduction à l'analyse de la variance
 
+```{r}
+#| label: diapos-ch5
+#| echo: false
+#| results: asis
+source("R/diapos.R")
+diapos_chapitre(5)
+```
+
 ::: {.callout-warning}
 Chapitre en cours de conversion.
 :::
