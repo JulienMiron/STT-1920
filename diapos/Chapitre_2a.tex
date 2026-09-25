@@ -426,6 +426,264 @@
   \end{tikzpicture}
 \end{frame}
 
+%===============================================================================
+\section[Analyse combinatoire]{2.3 Notions d'analyse combinatoire}
+%===============================================================================
+
+\begin{frame}[t]{Pourquoi compter?}
+  Dans le \alert{cas équiprobable},
+  $P(A) = \operatorname{cardinal}(A) / \operatorname{cardinal}(\Omega)$ :
+  il suffit de \alert{compter}.
+
+  \medskip
+  Avec 3 veaux, on peut énumérer les 8 résultats à la main. Mais\ldots
+  \begin{itemize}\itemsep 2mm
+    \item avec 10 veaux, combien de séquences $F$/$M$ possibles?
+    \item combien d'échantillons différents de 5 semences peut-on prélever
+      dans un lot de 20?
+  \end{itemize}
+
+  \medskip
+  \uncover<2->{
+  $\Rightarrow$ L'\alert{analyse combinatoire} regroupe les techniques de
+  dénombrement utiles pour ces calculs (section 2.3 des notes). Trois outils
+  suffisent pour ce cours : le principe de multiplication, les
+  \alert{permutations} et les \alert{combinaisons}.
+  }
+\end{frame}
+
+\begin{frame}[t]{Principe fondamental du dénombrement}
+  \begin{Boite}{Principe fondamental du dénombrement}
+    Si une procédure comporte $k$ étapes successives, avec $n_1$ façons de
+    réaliser la 1\textsuperscript{re} étape, puis $n_2$ façons de réaliser la
+    2\textsuperscript{e} (peu importe le choix fait à la 1\textsuperscript{re}),
+    \ldots, puis $n_k$ façons de réaliser la $k$\textsuperscript{e}, alors il y
+    a en tout
+    \[ n_1 \times n_2 \times \cdots \times n_k \]
+    façons de réaliser la procédure.
+  \end{Boite}
+
+  \begin{itemize}\itemsep 1mm
+    \item<2-> Essai agronomique : 3 variétés de blé $\times$ 4 doses d'engrais
+      $\times$ 2 régimes d'irrigation $= 24$ traitements.
+    \item<3-> Exemple 1 : chaque veau est $F$ ou $M$, donc
+      $2 \times 2 \times 2 = 2^3 = 8$ résultats. Avec 10 veaux :
+      $2^{10} = 1024$ résultats.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Permutations}
+  Une \alert{permutation} est un arrangement \alert{ordonné} d'objets :
+  l'ordre compte.
+
+  \begin{Boite}{Nombre de permutations}
+    \begin{itemize}
+      \item de $n$ objets : $n! = n \times (n-1) \times \cdots \times 2 \times 1$
+        \ (« $n$ factoriel »; $0! = 1$);
+      \item de $k$ objets choisis parmi $n$ :
+        $\displaystyle P_{n,k} = n \times (n-1) \times \cdots \times (n-k+1)
+        = \frac{n!}{(n-k)!}$.
+    \end{itemize}
+  \end{Boite}
+
+  \uncover<2->{
+  \begin{itemize}\itemsep 1mm
+    \item Ordre de passage de 5 échantillons sanguins dans un analyseur :
+      $5! = 120$ ordres possibles.
+    \item On attribue 3 traitements \emph{différents} ($T_1$, $T_2$, $T_3$) à
+      3 des 8 parcelles d'un champ (une parcelle par traitement) :
+      $P_{8,3} = 8 \times 7 \times 6 = 336$ façons.
+  \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}[t]{Combinaisons}
+  Une \alert{combinaison} de $k$ objets parmi $n$ est un sous-ensemble de $k$
+  objets : l'ordre \alert{ne compte pas}.
+
+  \begin{Boite}{Nombre de combinaisons (coefficient binomial)}
+    \[ \binom{n}{k} = C_{n,k} = \frac{n!}{k!\,(n-k)!} = \frac{P_{n,k}}{k!} \]
+  \end{Boite}
+  {\small Chaque combinaison de $k$ objets correspond à $k!$ permutations :
+  on divise donc par $k!$.}
+
+  \uncover<2->{
+  \begin{itemize}\itemsep 1mm
+    \item On choisit 3 des 8 parcelles pour recevoir \emph{le même} engrais :
+      $\binom{8}{3} = 56$ façons (et non 336).
+    \item Exemple 1 : séquences de 3 veaux avec exactement 2 femelles
+      $= \binom{3}{2} = 3$ (on choisit la position des 2 $F$).
+  \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}[t]{Exemple 3 : un lot de semences}
+  Un lot de 20 semences contient 4 semences infectées par un champignon
+  pathogène. On en prélève 5 au hasard (sans remise) pour les analyser.
+
+  \begin{enumerate}[a)]\itemsep 5mm
+    \item Combien d'échantillons de 5 semences différents peut-on prélever?
+
+      \uncover<2->{\alert{$\binom{20}{5} = 15\,504$ échantillons, tous
+      équiprobables.}}
+    \item Quelle est la probabilité qu'aucune semence infectée ne soit
+      prélevée?
+
+      \uncover<3->{\alert{Il faut choisir les 5 semences parmi les 16 saines :
+      $\dfrac{\binom{16}{5}}{\binom{20}{5}} = \dfrac{4\,368}{15\,504}
+      \approx 0.282$.}}
+    \item Quelle est la probabilité que l'échantillon contienne exactement une
+      semence infectée?
+
+      \uncover<4->{{\small\color{gray} Indice : choisir 1 infectée parmi 4
+      \emph{et} 4 saines parmi 16.}}
+  \end{enumerate}
+
+  \medskip
+  \uncover<2->{{\small\color{gray} Dans R : \texttt{factorial(5)} donne
+  $5!$ et \texttt{choose(20, 5)} donne $\binom{20}{5}$.}}
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Permutation ou combinaison? Combien de possibilités?
+  \begin{itemize}\itemsep 1.0cm
+    \item On forme un comité de protection des animaux de 4 membres parmi 9
+      chercheurs.
+    \item On dépose 6 échantillons d'ADN dans les 6 puits d'un gel
+      d'électrophorèse. Combien d'ordres de dépôt?
+    \item Un généticien choisit 2 lignées parmi 7 pour un croisement : l'une
+      servira de mère, l'autre de père.
+    \item<2-> Retour à l'exemple 1 : quelle est la probabilité qu'une génisse
+      ait exactement 2 femelles parmi ses 10 premiers veaux?
+  \end{itemize}
+\end{frame}
+
+%===============================================================================
+\section[Probabilité conditionnelle]{2.4 Probabilité conditionnelle et indépendance}
+%===============================================================================
+
+\begin{frame}[t]{Une information partielle change les probabilités}
+  Retour à l'exemple 2 : $P(A) = 0.15$, $P(B) = 0.25$ et
+  $P(A \cap B) = 0.05$.
+
+  \medskip
+  On choisit un site au hasard et on nous apprend que \alert{l'espèce $B$ y
+  est présente}. Quelle est maintenant la probabilité d'y trouver
+  l'hydrocharis?
+
+  \medskip
+  \begin{columns}[c]
+    \column{0.42\textwidth}
+      \centering
+      \begin{tikzpicture}[scale=0.9]
+        \fill<2->[Dominante!40] (2.5,1.5) circle (1);
+        \begin{scope}\clip (1.5,1.5) circle (1);
+          \fill<2->[Accent!80] (2.5,1.5) circle (1);\end{scope}
+        \cadreVenn \contourAB
+        \node<2->[font=\scriptsize] at (2.0,1.5) {0.05};
+        \node<2->[font=\scriptsize] at (3.0,1.5) {0.20};
+      \end{tikzpicture}
+    \column{0.55\textwidth}
+      \uncover<2->{%
+      On sait qu'on est dans $B$ : \alert{$B$ devient le nouvel espace
+      échantillonnal}. Quelle fraction de $B$ est aussi dans $A$?
+      \[ \frac{P(A \cap B)}{P(B)} = \frac{0.05}{0.25} = 0.20. \]
+      }
+      \uncover<3->{%
+      L'information « $B$ est présente » fait passer la probabilité de $A$ de
+      0.15 à 0.20.
+      }
+  \end{columns}
+\end{frame}
+
+\begin{frame}[t]{Probabilité conditionnelle}
+  \begin{defn}
+    Soit $A$ et $B$ deux événements avec $P(B) > 0$. La \alert{probabilité
+    conditionnelle de $A$ sachant $B$} est
+    \[ P(A \mid B) = \frac{P(A \cap B)}{P(B)}. \]
+  \end{defn}
+
+  \uncover<2->{
+  $P(\,\cdot \mid B)$ respecte tous les axiomes et leurs conséquences :
+  $0 \le P(A \mid B) \le 1$, $P(B \mid B) = 1$,
+  $P(A^c \mid B) = 1 - P(A \mid B)$, etc.
+  }
+
+  \uncover<3->{
+  \begin{Boite}{Règle de multiplication (on isole l'intersection)}
+    \[ P(A \cap B) = P(A \mid B)\,P(B) = P(B \mid A)\,P(A) \]
+  \end{Boite}
+  Très utile quand l'expérience se déroule \alert{en étapes successives}.
+  }
+\end{frame}
+
+\begin{frame}[t]{Attention : $P(A \mid B) \neq P(B \mid A)$ !}
+  Retour à l'exemple 2 :
+  \[
+    P(A \mid B) = \frac{0.05}{0.25} = 0.20
+    \qquad \text{mais} \qquad
+    P(B \mid A) = \frac{0.05}{0.15} \approx 0.33.
+  \]
+  \begin{itemize}
+    \item 20\,\% des sites occupés par l'espèce $B$ contiennent aussi
+      l'hydrocharis;
+    \item 33\,\% des sites occupés par l'hydrocharis contiennent aussi
+      l'espèce $B$.
+  \end{itemize}
+
+  \medskip
+  \uncover<2->{
+  \textbf{Autre exemple :} presque toutes les personnes atteintes de la
+  rougeole font de la fièvre : $P(\text{fièvre} \mid \text{rougeole})
+  \approx 1$. Mais parmi les personnes qui font de la fièvre, très peu ont la
+  rougeole : $P(\text{rougeole} \mid \text{fièvre})$ est très petite.
+  }
+
+  \medskip
+  \uncover<3->{
+  Confondre les deux est une erreur \alert{très fréquente}. On la retrouvera
+  avec les tests diagnostiques (plus loin) et avec les tests d'hypothèses.
+  }
+\end{frame}
+
+\begin{frame}[t]{Exemple 3 (suite) : tirages successifs}
+  Lot de 20 semences, dont 4 infectées. On tire 2 semences \alert{l'une après
+  l'autre}, sans remise. Soit $I_1$ = « la 1\textsuperscript{re} est infectée »
+  et $I_2$ = « la 2\textsuperscript{e} est infectée ».
+
+  \begin{enumerate}[a)]\itemsep 7mm
+    \item Que vaut $P(I_1)$?
+      \uncover<2->{\alert{$4/20 = 0.2$}}
+    \item Que vaut $P(I_2 \mid I_1)$?
+      \uncover<3->{\alert{Il reste 19 semences, dont 3 infectées :
+      $3/19$.}}
+    \item Quelle est la probabilité que les deux semences soient infectées?
+
+      \uncover<4->{\alert{$P(I_1 \cap I_2) = P(I_1)\,P(I_2 \mid I_1)
+      = \dfrac{4}{20} \times \dfrac{3}{19} = \dfrac{12}{380} \approx 0.0316$.}}
+  \end{enumerate}
+
+  \medskip
+  \uncover<5->{{\small\color{gray} Vérification par dénombrement :
+  $\binom{4}{2} \big/ \binom{20}{2} = 6/190 \approx 0.0316$.}}
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Supposons $P(B) > 0$. Que vaut $P(A \mid B)$\ldots
+  {\small\color{gray} (faites un diagramme de Venn!)}
+  \begin{itemize}\itemsep 1.2cm
+    \item si $B \subset A$?
+    \item si $A \subset B$?
+    \item si $A$ et $B$ sont mutuellement exclusifs?
+  \end{itemize}
+\end{frame}
+
 \subsection{Indépendance}
 
 \begin{frame}[t]{Indépendance de deux événements}
@@ -451,6 +709,32 @@
   }
 \end{frame}
 
+\begin{frame}[t]{Indépendance et probabilité conditionnelle}
+  Si $P(B) > 0$, la règle de multiplication donne
+  $P(A \cap B) = P(A \mid B)\,P(B)$. Donc
+  \begin{Boite}{Reformulation}
+    $A$ et $B$ sont indépendants $\iff$ $P(A \mid B) = P(A)$.
+  \end{Boite}
+  Savoir que $B$ s'est réalisé \alert{ne change pas} la probabilité de $A$.
+
+  \medskip
+  \uncover<2->{
+  \textbf{Plus de deux événements :} $A$, $B$ et $C$ sont
+  \alert{(mutuellement) indépendants} si
+  \[
+    P(A \cap B) = P(A)\,P(B), \quad P(A \cap C) = P(A)\,P(C), \quad
+    P(B \cap C) = P(B)\,P(C)
+  \]
+  \[ \text{et} \quad P(A \cap B \cap C) = P(A)\,P(B)\,P(C). \]
+  }
+  \uncover<3->{%
+  \textbf{Exemple 1 :} si les vêlages sont indépendants et que
+  $P(F) = 1/2$ à chaque vêlage, alors
+  $P(MMM) = \frac12 \cdot \frac12 \cdot \frac12 = \frac18$. C'est ce qui
+  justifie que les 8 résultats de $\Omega_1$ sont équiprobables.
+  }
+\end{frame}
+
 \begin{frame}[plain,t]
   \centerline{\LARGE\bfseries\alert{QUIZ !}}
 
@@ -466,11 +750,203 @@
   \end{itemize}
 \end{frame}
 
+\subsection{Probabilités totales et théorème de Bayes}
+
+\begin{frame}[t]{Exemple 4 : un test de dépistage}
+  Un test rapide sert à dépister une maladie $M$. Dans la population visée :
+  \begin{itemize}\itemsep 2mm
+    \item \alert{prévalence} : 2\,\% des personnes ont la maladie,
+      \hfill $P(M) = 0.02$;
+    \item \alert{sensibilité} : le test est positif chez 95\,\% des malades,
+      \hfill $P(T^+ \mid M) = 0.95$;
+    \item \alert{spécificité} : le test est négatif chez 90\,\% des
+      non-malades, \hfill $P(T^- \mid M^c) = 0.90$.
+  \end{itemize}
+
+  \medskip
+  \uncover<2->{
+  Une personne choisie au hasard obtient un \alert{résultat positif}. Quelle
+  est la probabilité qu'elle soit réellement malade?
+
+  \smallskip
+  C'est la \alert{valeur prédictive positive} :
+  $\text{VPP} = P(M \mid T^+)$.
+  }
+
+  \medskip
+  \uncover<3->{
+  \textbf{Votre intuition?} \quad Environ 95\,\%? \quad 90\,\%? \quad 50\,\%?
+  \quad Moins?
+  }
+\end{frame}
+
+\begin{frame}[t]{Partition et loi des probabilités totales}
+  \begin{columns}[c]
+    \column{0.40\textwidth}
+      \centering
+      \begin{tikzpicture}[scale=0.55]
+        \draw (0,0) rectangle (4,3); \node at (3.7,2.75) {\scriptsize $\Omega$};
+        \draw (1,0) -- (1.3,3); \draw (2.2,0) -- (2,3); \draw (3.1,0) -- (3.0,3);
+        \node[font=\scriptsize] at (0.35,2.7) {$B_1$};
+        \node[font=\scriptsize] at (1.55,2.7) {$B_2$};
+        \node[font=\scriptsize] at (2.5,2.7) {$B_3$};
+        \node[font=\scriptsize] at (3.45,0.3) {$B_4$};
+        \fill[Accent, opacity=0.45] (2,1.3) ellipse (1.6 and 0.75);
+        \draw[thick, Accent!80!black] (2,1.3) ellipse (1.6 and 0.75);
+        \node[font=\small] at (2,1.3) {$A$};
+      \end{tikzpicture}
+    \column{0.57\textwidth}
+      \textbf{Partition :} $B_1, \ldots, B_k$ forment une \alert{partition}
+      de $\Omega$ s'ils sont mutuellement exclusifs et que leur union est
+      $\Omega$.
+
+      \smallskip
+      {\small Ex. : $\{M, M^c\}$ (malade ou non).}
+  \end{columns}
+
+  \uncover<2->{
+  \begin{Boite}{Loi des probabilités totales}
+    Pour toute partition $B_1, \ldots, B_k$ de $\Omega$ :
+    \[
+      P(A) = \sum_{i=1}^{k} P(A \cap B_i)
+           = \sum_{i=1}^{k} P(A \mid B_i)\,P(B_i).
+    \]
+    En particulier, avec la partition $\{B, B^c\}$ :
+    \ $P(A) = P(A \mid B)\,P(B) + P(A \mid B^c)\,P(B^c)$.
+  \end{Boite}
+  }
+\end{frame}
+
+\begin{frame}[t]{Exemple 4 : arbre de probabilités}
+  \centering
+  \begin{tikzpicture}[
+      grow=right, level distance=3.2cm,
+      level 1/.style={sibling distance=2.6cm},
+      level 2/.style={sibling distance=1.25cm},
+      every node/.style={font=\small},
+      edge from parent/.style={draw, -{Latex[length=2mm]}},
+      lab/.style={font=\scriptsize, fill=Fond, inner sep=1pt}]
+    \node {}
+      child {node {$M^c$}
+        child {node (d) {$T^-$} edge from parent node[lab, below] {0.90}}
+        child {node (c) {$T^+$} edge from parent node[lab, above] {0.10}}
+        edge from parent node[lab, below] {0.98}}
+      child {node {$M$}
+        child {node (b) {$T^-$} edge from parent node[lab, below] {0.05}}
+        child {node (a) {$T^+$} edge from parent node[lab, above] {0.95}}
+        edge from parent node[lab, above] {0.02}};
+    \begin{scope}[font=\small, anchor=west]
+      \node<2-> at ($(a)+(0.5,0)$) {$P(M \cap T^+) = 0.02 \times 0.95 = \alert{0.019}$};
+      \node<2-> at ($(b)+(0.5,0)$) {$P(M \cap T^-) = 0.02 \times 0.05 = 0.001$};
+      \node<2-> at ($(c)+(0.5,0)$) {$P(M^c \cap T^+) = 0.98 \times 0.10 = \alert{0.098}$};
+      \node<2-> at ($(d)+(0.5,0)$) {$P(M^c \cap T^-) = 0.98 \times 0.90 = 0.882$};
+    \end{scope}
+  \end{tikzpicture}
+
+  \raggedright
+  \medskip
+  \uncover<2->{{\small Chaque feuille : règle de multiplication (on multiplie
+  le long des branches).}}
+
+  \medskip
+  \uncover<3->{
+  Loi des probabilités totales :
+  $P(T^+) = P(M \cap T^+) + P(M^c \cap T^+) = 0.019 + 0.098 = 0.117$.
+  }
+\end{frame}
+
+\begin{frame}[t]{Théorème de Bayes}
+  Souvent, on connaît $P(A \mid B_j)$, mais on veut $P(B_j \mid A)$ :
+  il faut « renverser » le conditionnement.
+
+  \begin{Boite}{Théorème de Bayes}
+    Soit $B_1, \ldots, B_k$ une partition de $\Omega$ et $A$ un événement tel
+    que $P(A) > 0$. Alors, pour chaque $j$,
+    \[
+      P(B_j \mid A) = \frac{P(A \mid B_j)\,P(B_j)}
+                           {\sum_{i=1}^{k} P(A \mid B_i)\,P(B_i)}.
+    \]
+  \end{Boite}
+  {\small Le numérateur vient de la règle de multiplication, le dénominateur
+  de la loi des probabilités totales.}
+\end{frame}
+
+\begin{frame}[t]{Exemple 4 : la valeur prédictive positive}
+  Une personne obtient un test positif. Quelle est la probabilité qu'elle soit
+  malade? On applique le théorème de Bayes avec la partition $\{M, M^c\}$ :
+
+  \uncover<2->{
+  \begin{align*}
+    \text{VPP} = P(M \mid T^+)
+    &= \frac{P(T^+ \mid M)\,P(M)}{P(T^+ \mid M)\,P(M) + P(T^+ \mid M^c)\,P(M^c)} \\[1mm]
+    &= \frac{0.95 \times 0.02}{0.95 \times 0.02 + 0.10 \times 0.98}
+     = \frac{0.019}{0.117} \approx \alert{0.162}.
+  \end{align*}
+  }
+  \uncover<3->{
+  Seulement \alert{16\,\%} des personnes ayant un test positif sont
+  réellement malades!
+  }
+
+  \medskip
+  \uncover<4->{
+  \begin{Boite}{Attention !}
+    La sensibilité $P(T^+ \mid M) = 0.95$ n'est \alert{pas} la VPP
+    $P(M \mid T^+) \approx 0.16$ : on ne peut pas inverser le
+    conditionnement sans tenir compte de la prévalence $P(M)$.
+  \end{Boite}
+  }
+\end{frame}
+
+\begin{frame}[t]{Pourquoi si peu? Raisonnons sur 10\,000 personnes}
+  \centering
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}{l|cc|r}
+    \toprule
+    & Test positif ($T^+$) & Test négatif ($T^-$) & Total \\
+    \midrule
+    Malades ($M$)          & \uncover<2->{190}          & \uncover<2->{10}    & 200 \\
+    Non-malades ($M^c$)    & \uncover<3->{\alert{980}}  & \uncover<3->{8\,820} & 9\,800 \\
+    \midrule
+    Total                  & \uncover<4->{1\,170}       & \uncover<4->{8\,830} & 10\,000 \\
+    \bottomrule
+  \end{tabular}
+
+  \raggedright
+  \smallskip
+  \uncover<4->{
+  Parmi les 1\,170 tests positifs, seulement 190 viennent de personnes
+  malades : $\text{VPP} = 190 / 1\,170 \approx 0.162$.
+  }
+
+  \uncover<5->{
+  \begin{Boite}{À retenir}
+    Quand la maladie est \alert{rare}, les faux positifs (980) sont beaucoup
+    plus nombreux que les vrais positifs (190), même avec un bon test. La VPP
+    dépend de la \alert{prévalence}, pas seulement de la sensibilité et de
+    la spécificité.
+  \end{Boite}
+  }
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Exemple 4 : prévalence 2\,\%, sensibilité 95\,\%, spécificité 90\,\%.
+  \begin{itemize}\itemsep 1.5cm
+    \item Quelle est la \alert{valeur prédictive négative},
+      $\text{VPN} = P(M^c \mid T^-)$?
+    \item<2-> Le même test est utilisé dans une clinique spécialisée où
+      30\,\% des patients ont la maladie. Que devient la VPP?
+  \end{itemize}
+\end{frame}
+
 %===============================================================================
 \section[Variables aléatoires]{2.5 Variables aléatoires et distributions}
 %===============================================================================
 
-\begin{frame}[t]{Exemple 3}
+\begin{frame}[t]{Exemple 5}
   Le résultat d'une expérience aléatoire est souvent un nombre réel, ou encore
   on assigne une valeur réelle aux résultats possibles d'une expérience.
 
@@ -560,7 +1036,7 @@
   }
 \end{frame}
 
-\begin{frame}[t]{Retour à l'exemple 3}
+\begin{frame}[t]{Retour à l'exemple 5}
   Trouvons la fonction de masse de $X$ = nombre de femelles parmi les trois
   premiers veaux.
 
@@ -593,7 +1069,19 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}[t]{Exemple 4}
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Les fonctions suivantes sont-elles des fonctions de masse?
+  \begin{itemize}\itemsep 1.2cm
+    \item $p(x) = x/6$ \quad pour $x \in \{1, 2, 3\}$ (et 0 ailleurs)
+    \item $p(x) = (x-1)/4$ \quad pour $x \in \{0, 1, 2, 3\}$ (et 0 ailleurs)
+    \item $p(x) = 0.3$ \quad pour $x \in \{0, 1, 2\}$ (et 0 ailleurs)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Exemple 6}
   \begin{columns}[T]
     \column{0.55\textwidth}
       Soit $X$ = le nombre d'otites durant les deux premières années de vie
@@ -628,7 +1116,7 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}[t]{Exemple 4 : représentation graphique}
+\begin{frame}[t]{Exemple 6 : représentation graphique}
   \centering
   \begin{tikzpicture}
     \begin{axis}[base, width=0.8\textwidth, height=0.72\textheight,
@@ -673,7 +1161,7 @@
   }
 \end{frame}
 
-\begin{frame}[t]{Exemple 4 (suite)}
+\begin{frame}[t]{Exemple 6 (suite)}
   En moyenne, combien d'otites un bébé fait-il durant ses deux premières
   années de vie?
 \end{frame}
@@ -765,9 +1253,58 @@
   }
 \end{frame}
 
-\begin{frame}[t]{Exemple 4 (suite)}
+\begin{frame}[t]{Une formule de calcul pratique}
+  Plus généralement, pour une fonction $g$, l'espérance de $g(X)$ est
+  \[ E\big[g(X)\big] = \sum_x g(x) \cdot p(x). \]
+  Par exemple, $E(X^2) = \sum_x x^2 \cdot p(x)$.
+
+  \medskip
+  \uncover<2->{
+  \begin{prp}
+    \[ \sigma^2 = \operatorname{Var}(X) = E(X^2) - \mu^2. \]
+  \end{prp}
+  Cette formule est souvent plus rapide que la définition : on calcule
+  $\sum_x x\,p(x)$ et $\sum_x x^2\,p(x)$ dans le même tableau.
+  }
+\end{frame}
+
+\begin{frame}[t]{Exemple 6 (suite)}
   Calculez la variance et l'écart type du nombre d'otites durant les deux
   premières années de vie.
+
+  \medskip
+  \centering
+  \renewcommand{\arraystretch}{1.15}
+  \begin{tabular}{c|c|c|c}
+    \toprule
+    $x$ & $p(x)$ & $x \cdot p(x)$ & $x^2 \cdot p(x)$ \\
+    \midrule
+    0 & 0.13 & & \\
+    1 & 0.26 & & \\
+    2 & 0.27 & & \\
+    3 & 0.19 & & \\
+    4 & 0.10 & & \\
+    5 & 0.05 & & \\
+    \midrule
+    Total & 1 & $\mu = $ \phantom{2.02} & $E(X^2) = $ \phantom{5.90} \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Retour à l'exemple 2. On choisit un site au hasard dans le lac et on pose
+  $X = 1$ si l'hydrocharis y est présente, $X = 0$ sinon.
+  Ainsi, $P(X = 1) = 0.15$ et $P(X = 0) = 0.85$.
+  \begin{itemize}\itemsep 1.3cm
+    \item Que vaut $E(X)$?
+    \item Que vaut $\operatorname{Var}(X)$?
+    \item<2-> Et en général, si $P(X = 1) = p$ et $P(X = 0) = 1 - p$?
+      {\small\color{gray} (On retrouvera cette variable, dite de
+      \emph{Bernoulli}, dans la 2\textsuperscript{e} partie du chapitre.)}
+  \end{itemize}
 \end{frame}
 
 %-------------------------------------------------------------------------------
@@ -816,7 +1353,7 @@
   }
 \end{frame}
 
-\begin{frame}[t]{Exemple 5}
+\begin{frame}[t]{Exemple 7}
   Supposons que le poids de 1000 grains de blé (PMG) est une variable $X$
   mesurée en grammes, de fonction de densité suivante pour une certaine
   variété :
@@ -845,6 +1382,19 @@
     \item<2-> Quelle est la probabilité que le PMG soit inférieur à 50\,g?
     \item<3-> Quelle est la probabilité que le PMG soit entre 50\,g et 56\,g?
   \end{enumerate}
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Vrai ou faux?
+  \begin{itemize}\itemsep 1.0cm
+    \item Une fonction de densité peut prendre des valeurs supérieures à 1.
+    \item Pour le PMG de l'exemple 7, $P(X = 50) = 0$.
+    \item Pour le PMG de l'exemple 7, $P(X < 50) = P(X \le 50)$.
+    \item<2-> Pour le nombre d'otites de l'exemple 6, $P(X < 2) = P(X \le 2)$.
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[t]{Fonction de répartition}
@@ -888,7 +1438,7 @@
   $\mu$ et $\sigma^2$ s'interprètent de la même façon que dans le cas discret.
 \end{frame}
 
-\begin{frame}[t]{Exemple 5 (suite)}
+\begin{frame}[t]{Exemple 7 (suite)}
   Quel est le PMG moyen de cette variété?
 \end{frame}
 
@@ -916,7 +1466,7 @@
   }
 \end{frame}
 
-\begin{frame}[t]{Exemple 6}
+\begin{frame}[t]{Exemple 8}
   La température corporelle des rats de laboratoire est une variable aléatoire
   ayant une espérance de \SI{37.6}{\celsius} et une variance de
   $1.44\,(\si{\celsius})^2$.
@@ -928,7 +1478,7 @@
   \end{enumerate}
 \end{frame}
 
-\begin{frame}[t]{Exemple 7}
+\begin{frame}[t]{Exemple 9}
   Supposons que la masse d'une orange est une variable aléatoire dont
   l'espérance est de 204\,g et la variance est de 256\,g$^2$. On crée des sacs
   de 7 oranges, dont les masses sont indépendantes.
@@ -951,6 +1501,62 @@
 \end{frame}
 
 %-------------------------------------------------------------------------------
+\begin{frame}[t]{Réponses aux exemples}
+  \scriptsize
+  \begin{enumerate}\itemsep 1.2mm
+    \item $\Omega_1$ et $\Omega_2$ sont discrets, $\Omega_3$ est continu.
+      $P(\text{au moins une femelle}) = 1 - P(MMM) = 1 - 1/8 = 7/8 = 0.875$.\\
+      Quiz (mutuellement exclusifs) : non dans les deux cas
+      ($A \cap C = C \neq \varnothing$; $A \cap B = (150, 175) \neq \varnothing$).
+    \item a) $1 - 0.35 = 0.65$; \ b) $P(A \cap B) = 0.15 + 0.25 - 0.35 = 0.05$.
+      \ $P(A \mid B) = 0.20$, $P(B \mid A) \approx 0.33$.\\
+      Quiz : non indépendants ($P(A)P(B) = 0.0375 \neq 0.05$, ou
+      $P(A \mid B) = 0.20 \neq 0.15$); non mutuellement exclusifs
+      ($P(A \cap B) > 0$); jamais : $P(A \cap B) = 0 \neq P(A)P(B) > 0$.
+    \item a) 15\,504; \ b) $\approx 0.282$; \
+      c) $\binom{4}{1}\binom{16}{4} / \binom{20}{5} = 7\,280 / 15\,504 \approx 0.470$;
+      \ tirages successifs : $\approx 0.0316$.\\
+      Quiz (dénombrement) : combinaison $\binom{9}{4} = 126$; permutation
+      $6! = 720$; permutation $P_{7,2} = 42$;
+      $\binom{10}{2} / 2^{10} = 45/1024 \approx 0.044$.\\
+      Quiz ($P(A \mid B)$) : 1; \ $P(A)/P(B)$; \ 0.
+    \item $P(T^+) = 0.117$; \ VPP $= 0.019/0.117 \approx 0.162$.\\
+      Quiz : VPN $= 0.882 / 0.883 \approx 0.999$; \ prévalence de 30\,\% :
+      VPP $= 0.285 / (0.285 + 0.070) = 0.285/0.355 \approx 0.803$.
+    \item $p(0) = 1/8$, $p(1) = 3/8$, $p(2) = 3/8$, $p(3) = 1/8$.\\
+      Quiz (discrète ou continue) : continue, continue, continue, discrète,
+      discrète.
+      \ Quiz (fonctions de masse) : oui; non ($p(0) < 0$); non (somme $= 0.9$).
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[t]{Réponses aux exemples (suite)}
+  \scriptsize
+  \begin{enumerate}\itemsep 1.2mm
+    \setcounter{enumi}{5}
+    \item a) $P(X > 3) = 0.10 + 0.05 = 0.15$; \ b) $P(X \ge 1) = 1 - 0.13 = 0.87$.
+      \ $\mu = E(X) = 2.02$ otites.\\
+      $E(X^2) = 5.90$, \ $\sigma^2 = 5.90 - 2.02^2 = 1.8196 \approx 1.82$,
+      \ $\sigma \approx 1.35$ otite.\\
+      Quiz (Bernoulli) : $E(X) = 0.15$, \ $\operatorname{Var}(X) = 0.15 \times 0.85 = 0.1275$;
+      \ en général $E(X) = p$ et $\operatorname{Var}(X) = p(1-p)$.
+    \item a) $P(X < 50) = F(50) = 25/150 = 1/6 \approx 0.167$; \
+      b) $F(56) - F(50) = 59/75 - 1/6 = 0.62$. \ PMG moyen :
+      $E(X) = 160/3 \approx 53.3$\,g.\\
+      Quiz (vrai ou faux) : vrai (ex. : $f(x) = 2$ sur $[0, 0.5]$); vrai;
+      vrai; faux ($P(X < 2) = 0.39$ mais $P(X \le 2) = 0.66$).
+    \item a) $1.8 \times 37.6 + 32 = 99.68$\,\si{\degree F}; \
+      b) $1.8^2 \times 1.44 = 4.6656$\,(\si{\degree F})$^2$.
+    \item a) $7 \times 204 = 1428$\,g; \
+      b) $\operatorname{Var} = 7 \times 256 = 1792$\,g$^2$, donc
+      $\sigma = \sqrt{1792} \approx 42.3$\,g.\\
+      Quiz : $\operatorname{Var}(7X) = 49 \times 256 = 12\,544$\,g$^2$
+      ($\sigma = 112$\,g). $7X$ suppose que les 7 oranges ont \emph{la même}
+      masse; avec 7 oranges indépendantes, les écarts à la moyenne se
+      compensent en partie, d'où une variance plus petite.
+  \end{enumerate}
+\end{frame}
+
 \begin{frame}[t]{Références}
   Ce document est rédigé avec Beamer ainsi qu'une classe \texttt{.cls} fournie
   par Jérôme Soucy.

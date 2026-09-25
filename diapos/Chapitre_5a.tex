@@ -6,6 +6,7 @@
 % Couleurs des groupes (A, B) pour les graphiques
 \definecolor{grA}{HTML}{F8766D}
 \definecolor{grB}{HTML}{00BFC4}
+\definecolor{grC}{HTML}{7CAE00}
 
 % Style commun des petits diagrammes en points
 \pgfplotsset{
@@ -60,6 +61,191 @@
 \end{itemize}
 
 \end{frame}
+
+%-------------------------------------------------------------------------------
+\section{Principes d'expérimentation}
+%-------------------------------------------------------------------------------
+
+\begin{frame}[t]{Pourquoi planifier une expérience?}
+
+Pour qu'une expérience mène à une conclusion fiable,
+\begin{enumerate}
+  \item elle doit être \alert{bien planifiée};
+  \item ses résultats doivent être \alert{adéquatement analysés} (c'est l'ANOVA).
+\end{enumerate}
+On planifie pour se protéger contre les \alert{biais} et pour \alert{contrôler la
+variabilité} due à d'autres facteurs que celui qui nous intéresse.
+
+\begin{Boite}{Exemple 1: régimes alimentaires chez la souris}
+\small
+Une chercheuse veut savoir si trois régimes (standard, riche en gras, riche en
+fibres) mènent au même \alert{gain de poids} moyen chez la souris après 8 semaines.
+Elle dispose de 24 souris, chacune logée dans sa propre cage.
+\end{Boite}
+
+\uncover<2->{\small Or, le gain de poids varie aussi selon le poids initial, l'âge,
+le sexe, la portée d'origine, l'emplacement de la cage (température, lumière), la
+personne qui manipule les souris\ldots\ \alert{Comment isoler l'effet du régime?}}
+
+\end{frame}
+
+\begin{frame}[t]{Trois principes essentiels}
+
+\begin{Boite}{Principes d'expérimentation}
+\small
+\begin{enumerate}
+  \item \alert{Contrôle}: identifier les sources de variabilité, puis les garder
+  constantes ou les équilibrer entre les groupes;
+  \item \alert{Répétition}: appliquer chaque traitement à plusieurs unités, pour
+  pouvoir estimer la variabilité naturelle ($\sigma^2$);
+  \item \alert{Randomisation}: attribuer les traitements au hasard, pour éliminer
+  les biais systématiques.
+\end{enumerate}
+\end{Boite}
+
+\uncover<2->{
+\scriptsize
+\underline{Dans l'exemple 1:}
+\begin{enumerate}
+  \item souris de même sexe, même âge et même lignée; mêmes conditions d'élevage;
+  \item 8 souris par régime (et non une seule): on pourra mesurer à quel point deux
+  souris d'un même régime diffèrent;
+  \item on tire au hasard les souris qui reçoivent chaque régime. Si on donnait le
+  régime gras aux plus grosses souris, on ne pourrait plus séparer l'effet du régime
+  de celui du poids initial!
+\end{enumerate}}
+
+\end{frame}
+
+\begin{frame}[t]{Expérience ou étude observationnelle?}
+
+\small
+\begin{itemize}\itemsep2mm
+  \item \alert{Expérience}: le chercheur \alert{impose} les traitements aux unités,
+  idéalement au hasard. Ex.: les régimes sont attribués aux souris (exemple 1).
+  \item \alert{Étude observationnelle}: on compare des groupes \alert{déjà formés},
+  sans intervenir. Ex.: comparer la pression artérielle moyenne de non-fumeurs,
+  d'ex-fumeurs et de fumeurs.
+\end{itemize}
+
+\medskip
+\uncover<2->{
+\begin{Boite}{Attention !}
+Les calculs de l'ANOVA sont les mêmes dans les deux cas, mais seule une
+\alert{expérience randomisée} permet de conclure à un lien de \alert{cause à effet}.
+Dans une étude observationnelle, une différence entre les groupes peut être due à
+une \alert{variable confondante} (âge, alimentation, activité physique\ldots).
+\end{Boite}}
+
+\end{frame}
+
+\begin{frame}[t]{Vocabulaire}
+
+\begin{Boite}{Vocabulaire de l'expérimentation}
+\small
+\begin{itemize}
+  \item \alert{Variable réponse} ($Y$): la variable dont on compare les moyennes;
+  \item \alert{Facteur}: la caractéristique (qualitative) qui distingue les groupes;
+  \item \alert{Niveaux} (ou modalités): les valeurs possibles du facteur.
+  Dans une expérience, chaque niveau est un \alert{traitement};
+  \item \alert{Unité expérimentale}: l'individu ou l'objet auquel on applique
+  \alert{un} traitement, et sur lequel on mesure $Y$.
+\end{itemize}
+\end{Boite}
+
+\scriptsize
+\uncover<2->{\underline{Exemple 1:} variable réponse = gain de poids (g); facteur =
+régime, à 3 niveaux (standard, gras, fibres); unité expérimentale = une souris.
+
+\smallskip
+En ANOVA à un facteur, les échantillons sont \alert{indépendants}: une seule mesure
+de $Y$ par unité expérimentale.}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Devis complètement aléatoire}
+
+\begin{Boite}{Devis complètement aléatoire}
+Les $N$ unités expérimentales sont attribuées aux $I$ traitements
+\alert{entièrement au hasard} ($n_i$ unités reçoivent le traitement $i$).
+\end{Boite}
+
+\vspace{-2mm}
+\begin{center}
+\begin{tikzpicture}[x=4.6mm]
+  \foreach \k/\r in {1/grA,2/grA,3/grA,4/grA,5/grA,6/grB,7/grC,8/grA,9/grC,10/grC,
+    11/grB,12/grC,13/grC,14/grC,15/grC,16/grA,17/grB,18/grB,19/grA,20/grB,
+    21/grB,22/grB,23/grC,24/grB}{
+    \draw[black!60, fill=\r] (\k,0) circle (1.8mm);
+    \node[font=\tiny, below] at (\k,-0.18) {\k};
+  }
+  \node[font=\scriptsize, anchor=east] at (0.4,0) {Souris};
+  \foreach \x/\c/\t in {5/grA/standard, 11/grB/gras, 17/grC/fibres}{
+    \draw[fill=\c] (\x,0.75) circle (1.3mm);
+    \node[font=\scriptsize, anchor=west] at (\x+0.3,0.75) {\t};
+  }
+\end{tikzpicture}
+\end{center}
+
+\vspace{-2mm}
+{\small Tirage au hasard en R (8 souris par régime):}
+\begin{Verbatim}[fontsize=\tiny]
+> set.seed(1920)
+> sample(rep(c("standard", "gras", "fibres"), each = 8))
+ [1] "standard" "standard" "standard" "standard" "standard" "gras"
+ [7] "fibres"   "standard" "fibres"   "fibres"   "gras"     "fibres"
+[13] "fibres"   "fibres"   "fibres"   "standard" "gras"     "gras"
+[19] "standard" "gras"     "gras"     "gras"     "fibres"   "gras"
+\end{Verbatim}
+
+\vspace{-2mm}
+{\scriptsize Dans une étude observationnelle, on obtient plutôt $I$ échantillons
+indépendants en tirant au hasard $n_i$ unités dans chacune des $I$ populations.}
+
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Une agronome compare 4 engrais (A, B, C, D) sur la croissance de plants de
+  tomate. Elle dispose de 24 plants, chacun dans son pot. Elle tire au hasard
+  6 pots pour chaque engrais et mesure la hauteur des plants (cm) après 6 semaines.
+
+  \medskip
+  Identifiez:
+  \begin{itemize}\itemsep 0.9cm
+    \item la variable réponse;
+    \item le facteur et ses niveaux;
+    \item l'unité expérimentale;
+    \item s'agit-il d'une expérience ou d'une étude observationnelle?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  \begin{enumerate}\itemsep 1.4cm
+    \item Un biologiste compare la croissance de truites élevées à 3 températures
+    de l'eau. Il dispose de 6 bassins (2 par température, tirés au hasard) contenant
+    chacun 15 truites. Il mesure la croissance de chaque truite.
+    \begin{itemize}
+      \item Quelle est l'unité expérimentale?
+      \item Combien de répétitions y a-t-il par traitement?
+    \end{itemize}
+    \item Une écologiste compare la masse moyenne de souris sylvestres capturées
+    dans 3 habitats (forêt, champ, milieu périurbain).
+    \begin{itemize}
+      \item Expérience ou étude observationnelle?
+      \item Peut-elle conclure que l'habitat \alert{cause} les différences de masse?
+    \end{itemize}
+  \end{enumerate}
+\end{frame}
+
+%-------------------------------------------------------------------------------
+\section{L'idée de l'ANOVA}
+%-------------------------------------------------------------------------------
 
 \begin{frame}[t]{ANOVA: décomposition de la variance}
 
@@ -260,6 +446,35 @@ dans $I$ populations.
 
 \end{frame}
 
+\begin{frame}[t]{Notation pour les sommes et les moyennes}
+
+\small
+$y_{ij}$ = $j$\textsuperscript{e} observation du groupe (traitement) $i$.
+Le symbole $\bullet$ remplace un indice sur lequel on a \alert{sommé};
+la barre indique une \alert{moyenne}.
+
+\begin{Boite}{Notation}
+\vspace{-2mm}
+\begin{align*}
+y_{i\bullet} &= \sum_{j=1}^{n_i} y_{ij} \ \text{(somme du groupe $i$)},
+&
+\overline{y}_{i\bullet} &= \frac{y_{i\bullet}}{n_i} \ \text{(moyenne du groupe $i$)},\\
+y_{\bullet\bullet} &= \sum_{i=1}^{I}\sum_{j=1}^{n_i} y_{ij} \ \text{(somme totale)},
+&
+\overline{y}_{\bullet\bullet} &= \frac{y_{\bullet\bullet}}{N} \ \text{(moyenne globale)}.
+\end{align*}
+\end{Boite}
+
+\uncover<2->{
+\small
+\underline{Scénario 1} (A = groupe 1, B = groupe 2; $n_1=n_2=4$, $N=8$):\\[1mm]
+$y_{1\bullet}=14{,}72+13{,}52+14{,}54+18{,}49=61{,}27$ et
+$\overline{y}_{1\bullet}=61{,}27/4=15{,}32$;\\
+$y_{2\bullet}=38{,}42$ et $\overline{y}_{2\bullet}=9{,}61$;\quad
+$y_{\bullet\bullet}=99{,}69$ et $\overline{y}_{\bullet\bullet}=99{,}69/8=12{,}46$.}
+
+\end{frame}
+
 \begin{frame}[t]{Hypothèses à confronter}
 
 \vspace{1cm}
@@ -294,6 +509,48 @@ Y_{ij} = \mu_i + \varepsilon_{ij}, \qquad Y_{ij}\sim N(\mu_i,\sigma^2),
   \item $\mu$ estimé par
   \item $\sigma^2$ estimé par
 \end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Loi de $Y_{ij}$ sous $H_0$ et sous $H_1$}
+
+\small
+On peut écrire $\mu_i=\mu+\tau_i$, où $\mu$ est la moyenne globale et
+$\tau_i=\mu_i-\mu$ est l'\alert{effet} du traitement $i$.
+Alors $H_0: \mu_1=\cdots=\mu_I \iff H_0: \tau_1=\cdots=\tau_I=0$.
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=6.4cm, height=4.4cm, axis lines=left, xmin=0, xmax=13,
+  ymin=0, ymax=0.55, ytick=\empty, xtick={6.5}, xticklabels={$\mu$},
+  tick label style={font=\scriptsize}, title={$H_0$ vraie}, title style={font=\small},
+  domain=0:13, samples=100]
+  \addplot[grA, very thick] {exp(-((x-6.5)^2)/2)/sqrt(2*pi)};
+  \addplot[grB, thick, dashed] {exp(-((x-6.5)^2)/2)/sqrt(2*pi)};
+  \addplot[grC, thick, dotted] {exp(-((x-6.5)^2)/2)/sqrt(2*pi)};
+  \node[font=\scriptsize, align=center, anchor=north east] at (axis cs:13,0.55)
+    {$Y_{ij}\sim N(\mu,\sigma^2)$\\pour tout $i$};
+\end{axis}
+\end{tikzpicture}
+\hspace{2mm}
+\uncover<2->{%
+\begin{tikzpicture}
+\begin{axis}[width=6.4cm, height=4.4cm, axis lines=left, xmin=0, xmax=13,
+  ymin=0, ymax=0.55, ytick=\empty, xtick={3.5,6,10}, xticklabels={$\mu_1$,$\mu_2$,$\mu_3$},
+  tick label style={font=\scriptsize}, title={$H_1$ vraie}, title style={font=\small},
+  domain=0:13, samples=100]
+  \addplot[grA, very thick] {exp(-((x-3.5)^2)/2)/sqrt(2*pi)};
+  \addplot[grB, very thick] {exp(-((x-6)^2)/2)/sqrt(2*pi)};
+  \addplot[grC, very thick] {exp(-((x-10)^2)/2)/sqrt(2*pi)};
+  \node[font=\scriptsize, align=center] at (axis cs:6.5,0.5)
+    {$Y_{ij}\sim N(\mu+\tau_i,\sigma^2)$};
+\end{axis}
+\end{tikzpicture}}
+\end{center}
+
+\uncover<2->{Sous $H_0$, les $I$ groupes proviennent de la \alert{même} loi normale.
+Sous $H_1$, les lois ont la \alert{même forme} (même $\sigma^2$), mais au moins deux
+sont \alert{décalées}.}
 
 \end{frame}
 
@@ -342,6 +599,41 @@ SST &= SST_R + SSE\\
 
 \end{frame}
 
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Deux expériences ont obtenu les mêmes \alert{variances} échantillonnales
+  (même dispersion dans chaque groupe):
+
+  \begin{center}
+  \begin{tikzpicture}
+  \begin{axis}[pointsANOVA, width=5cm, height=4.2cm, xmin=0.4, xmax=3.6,
+    xtick={1,2,3}, xticklabels={G1, G2, G3}, title={Expérience 1}]
+    \addplot[only marks, mark=*, mark size=1.5pt, grA] coordinates {(1,8) (1,9.5) (1,11) (1,11.5)};
+    \addplot[only marks, mark=*, mark size=1.5pt, grB] coordinates {(2,10.5) (2,11) (2,12.5) (2,14)};
+    \addplot[only marks, mark=*, mark size=1.5pt, grC] coordinates {(3,11.5) (3,14) (3,15) (3,15.5)};
+    \addplot[only marks, mark=x, mark size=3.5pt, thick, black] coordinates {(1,10) (2,12) (3,14)};
+  \end{axis}
+  \end{tikzpicture}
+  \hspace{6mm}
+  \begin{tikzpicture}
+  \begin{axis}[pointsANOVA, width=5cm, height=4.2cm, xmin=0.4, xmax=3.6,
+    xtick={1,2,3}, xticklabels={G1, G2, G3}, title={Expérience 2}]
+    \addplot[only marks, mark=*, mark size=1.5pt, grA] coordinates {(1,4) (1,5.5) (1,7) (1,7.5)};
+    \addplot[only marks, mark=*, mark size=1.5pt, grB] coordinates {(2,10.5) (2,11) (2,12.5) (2,14)};
+    \addplot[only marks, mark=*, mark size=1.5pt, grC] coordinates {(3,15.5) (3,18) (3,19) (3,19.5)};
+    \addplot[only marks, mark=x, mark size=3.5pt, thick, black] coordinates {(1,6) (2,12) (3,18)};
+  \end{axis}
+  \end{tikzpicture}
+  \end{center}
+
+  \begin{itemize}\itemsep 0.6cm
+    \item Quelle expérience a le plus grand $SST_R$? le plus grand $SSE$? le plus grand $SST$?
+    \item Et pour les scénarios 1 et 2 vus plus tôt (mêmes \alert{moyennes})?
+  \end{itemize}
+\end{frame}
+
 \begin{frame}[t]{Table d'ANOVA}
 
 \vspace{5mm}
@@ -375,6 +667,30 @@ Total                  & $SST$   & $N-1$ &                          & \\
 \bigskip
 \uncover<3->{\alert{Question:} à partir de quand considère-t-on que $MST_R$ est
 vraiment plus grand que $MSE$?}
+
+\end{frame}
+
+\begin{frame}[t]{Pourquoi $F\approx 1$ sous $H_0$? Espérance des carrés moyens}
+
+\begin{Boite}{Espérance des carrés moyens}
+On peut montrer que
+\[
+E(MSE)=\sigma^2
+\qquad\text{et}\qquad
+E(MST_R)=\sigma^2+\frac{\sum_{i=1}^{I} n_i\tau_i^2}{I-1},
+\qquad\text{où } \tau_i=\mu_i-\mu.
+\]
+\end{Boite}
+
+\small
+\begin{itemize}\itemsep1mm
+  \item $MSE$ estime toujours $\sigma^2$, que $H_0$ soit vraie ou non.
+  \item<2-> Sous $H_0$: tous les $\tau_i=0$ $\Rightarrow$ $E(MST_R)=\sigma^2$
+  $\Rightarrow$ $F=MST_R/MSE$ devrait être \alert{proche de 1}.
+  \item<2-> Sous $H_1$: au moins un $\tau_i\neq0$ $\Rightarrow$ $E(MST_R)>\sigma^2$
+  $\Rightarrow$ $F$ tend à être \alert{plus grand que 1}.
+  \item<3-> On rejette donc $H_0$ seulement pour les \alert{grandes} valeurs de $F$.
+\end{itemize}
 
 \end{frame}
 
@@ -460,6 +776,33 @@ et $SSE = 3(2{,}18^2)+3(3{,}54^2)\approx 51{,}9$.}
 
 \end{frame}
 
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Retour aux 4 engrais appliqués à 24 plants de tomate (6 par engrais).
+  On obtient $SST_R=84{,}0$ et $SST=224{,}0$. Complétez la table d'ANOVA.
+
+  \begin{center}
+  \renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{lcccc}
+  \toprule
+  Source & Somme de carrés & d.l. & Carré moyen & $F_{obs}$\\
+  \midrule
+  Engrais & $84{,}0$ & \hspace{1cm} & \hspace{1.5cm} & \hspace{1cm}\\
+  Erreur  & & & & \\
+  \midrule
+  Total   & $224{,}0$ & & & \\
+  \bottomrule
+  \end{tabular}
+  \end{center}
+
+  \begin{itemize}\itemsep 0.9cm
+    \item Sachant que $F_{3,\,20;\,0{,}05}=3{,}10$, que concluez-vous au seuil de 5\,\%?
+    \item Combien vaut l'estimation de $\sigma^2$? Et celle de $\sigma$?
+  \end{itemize}
+\end{frame}
+
 \begin{frame}[fragile,t]{Aurait-on pu faire un test de Student?}
 
 \underline{ANOVA:}
@@ -528,6 +871,40 @@ mean in group A mean in group B
 
 \end{frame}
 
+\begin{frame}[t]{Premier réflexe: regarder les données}
+
+\small
+Avant toute analyse, on \alert{visualise} les données de chaque groupe
+(diagrammes en boîte ou diagrammes en points).
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=10cm, height=5.2cm, boxplot/draw direction=y,
+  ylabel={TBARS}, xtick={1,2,3},
+  xticklabels={$\alpha$137--141, Contrôle, EDUF},
+  ymin=0.3, ymax=0.85, tick label style={font=\scriptsize},
+  label style={font=\small}, ymajorgrids, grid style={black!10}]
+  \addplot+[boxplot prepared={lower whisker=0.33, lower quartile=0.378,
+    median=0.474, upper quartile=0.585, upper whisker=0.657},
+    black, fill=black!15] coordinates {};
+  \addplot+[boxplot prepared={lower whisker=0.555, lower quartile=0.671,
+    median=0.697, upper quartile=0.760, upper whisker=0.820},
+    black, fill=black!15] coordinates {};
+  \addplot+[boxplot prepared={lower whisker=0.47, lower quartile=0.513,
+    median=0.574, upper quartile=0.645, upper whisker=0.709},
+    black, fill=black!15] coordinates {};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\vspace{-2mm}
+\begin{itemize}\itemsep0mm
+  \item<2-> Les TBARS moyens semblent-ils différer d'un traitement à l'autre?
+  \item<2-> La dispersion est-elle semblable dans les trois groupes? Y a-t-il des valeurs extrêmes?
+\end{itemize}
+
+\end{frame}
+
 \begin{frame}[t]{Test ANOVA}
 
 \textbf{1. Hypothèses}
@@ -548,35 +925,14 @@ Choisissons arbitrairement $\alpha = 0{,}05$.}
 
 \end{frame}
 
-\begin{frame}[t]{Test ANOVA}
+\begin{frame}[t]{Table d'ANOVA à compléter}
 
 \textbf{3. On fait le test avec un logiciel}
 
-\begin{center}
-\begin{tikzpicture}
-\begin{axis}[width=10cm, height=6cm, boxplot/draw direction=y,
-  ylabel={TBARS}, xtick={1,2,3},
-  xticklabels={$\alpha$137--141, Contrôle, EDUF},
-  ymin=0.3, ymax=0.85, tick label style={font=\scriptsize},
-  label style={font=\small}, ymajorgrids, grid style={black!10}]
-  \addplot+[boxplot prepared={lower whisker=0.33, lower quartile=0.378,
-    median=0.474, upper quartile=0.585, upper whisker=0.657},
-    black, fill=black!15] coordinates {};
-  \addplot+[boxplot prepared={lower whisker=0.555, lower quartile=0.671,
-    median=0.697, upper quartile=0.760, upper whisker=0.820},
-    black, fill=black!15] coordinates {};
-  \addplot+[boxplot prepared={lower whisker=0.47, lower quartile=0.513,
-    median=0.574, upper quartile=0.645, upper whisker=0.709},
-    black, fill=black!15] coordinates {};
-\end{axis}
-\end{tikzpicture}
-\end{center}
+\medskip
+On obtient (en partie) la table suivante. Complétez-la.
 
-\end{frame}
-
-\begin{frame}[t]{Table d'ANOVA à compléter}
-
-\vspace{5mm}
+\vspace{3mm}
 \begin{center}
 \renewcommand{\arraystretch}{1.8}
 \begin{tabular}{lcccc}
@@ -612,6 +968,22 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 \end{frame}
 
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Lorsque $H_0$ est rejetée dans une ANOVA à un facteur, lesquelles des conclusions
+  suivantes sont correctes?
+  \begin{itemize}\itemsep 0.45cm
+    \item Toutes les moyennes sont égales.
+    \item Toutes les moyennes sont différentes.
+    \item Au moins deux moyennes sont différentes.
+    \item La variable réponse a un effet sur le facteur.
+    \item Le facteur a un effet sur la variable réponse.
+    \item Le contrôle a un TBARS moyen plus élevé que l'EDUF.
+  \end{itemize}
+\end{frame}
+
 \begin{frame}[t]{Contrastes}
 
 \begin{itemize}\itemsep8mm
@@ -620,6 +992,41 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
   \item Peut-on simplement faire plusieurs tests de Student 2 à 2?
   \vspace{1.5cm}
 \end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Le problème des comparaisons multiples}
+
+\small
+Chaque test de Student au seuil $\alpha=5\,\%$ a 5\,\% de chances de conclure à
+tort à une différence. Plus on fait de tests, plus le risque qu'\alert{au moins un}
+d'entre eux donne une fausse alerte augmente (comme acheter plusieurs billets de
+loterie!).
+
+\begin{center}
+\scriptsize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{ccc}
+\toprule
+Groupes ($I$) & Comparaisons 2 à 2 ($m$) & $P(\text{au moins une fausse alerte})\approx 1-0{,}95^{m}$\\
+\midrule
+3  & 3  & 0,14\\
+4  & 6  & 0,26\\
+5  & 10 & 0,40\\
+10 & 45 & 0,90\\
+\bottomrule
+\end{tabular}
+
+{\tiny (Approximation qui suppose les tests indépendants.)}
+\end{center}
+
+\vspace{-4mm}
+\uncover<2->{
+\begin{Boite}{Méthode de Tukey}
+Compare toutes les paires de moyennes en ajustant les valeurs-p (et les
+intervalles de confiance) pour que le \alert{taux d'erreur global} (probabilité
+d'au moins une fausse alerte) soit égal à $\alpha$.
+\end{Boite}}
 
 \end{frame}
 
@@ -754,25 +1161,62 @@ W = 0.97151, p-value = 0.8255
 
 \end{frame}
 
-\begin{frame}[t]{Réponses}
+\begin{frame}[t]{Réponses aux exemples}
 
 \scriptsize
 \begin{itemize}\itemsep1mm
-  \item Modèle: $\mu_i$ est la moyenne de la population $i$; $\varepsilon_{ij}=Y_{ij}-\mu_i$
-  est l'erreur aléatoire, $\varepsilon_{ij}\sim N(0,\sigma^2)$. On estime $\mu_i$ par
-  $\overline{y}_{i\bullet}$, $\mu$ par $\overline{y}_{\bullet\bullet}$ et $\sigma^2$ par $MSE$.
-  \item Student vs ANOVA: avec deux groupes, $F_{obs}=t_{obs}^2$ ($2{,}7464^2\approx7{,}543$)
-  et $F_{1,\nu}=t_\nu^2$: les deux tests sont équivalents. L'ANOVA permet de comparer
-  plus de deux groupes en un seul test.
-  \item Table à compléter: $SST_R=0{,}1412$, $SSE=0{,}1559$, d.l.\ $2$, $15$, $17$;
-  $MST_R=0{,}0706$; $F_{obs}=6{,}79$.
-  \item Décision: valeur-p $=0{,}008<0{,}05$, on rejette $H_0$. Conclusion: au moins un
-  traitement a un TBARS moyen différent.
-  \item Plusieurs tests 2 à 2: le risque global d'erreur de type I augmente; d'où
-  les comparaisons multiples (Tukey).
-  \item Bartlett: valeur-p $=0{,}69$, on ne rejette pas l'égalité des variances.
-  On rejette si $B>\chi^2_{I-1;\alpha}$.
-  \item Shapiro-Wilk: valeur-p $=0{,}83$, pas d'évidence contre la normalité.
+  \item \textbf{Quiz (tomates):} variable réponse = hauteur des plants (cm) après
+  6 semaines; facteur = engrais, à 4 niveaux (A, B, C, D); unité expérimentale = un
+  plant (pot); c'est une \alert{expérience} (engrais attribués au hasard): devis
+  complètement aléatoire avec $n_i=6$.
+  \item \textbf{Quiz (truites):} le traitement (température) est appliqué au
+  \alert{bassin}: l'unité expérimentale est le bassin, et il n'y a que \alert{2
+  répétitions} par température (et non 30). Les truites d'un même bassin ne sont pas
+  indépendantes.
+  \item \textbf{Quiz (souris sylvestres):} étude observationnelle; on ne peut pas
+  conclure à un lien de cause à effet (l'habitat est confondu avec la nourriture
+  disponible, les prédateurs, la densité de population\ldots).
+  \item \textbf{Modèle:} $\mu_i$ est la moyenne de la population $i$;
+  $\varepsilon_{ij}=Y_{ij}-\mu_i$ est l'erreur aléatoire, $\varepsilon_{ij}\sim N(0,\sigma^2)$.
+  On estime $\mu_i$ par $\overline{y}_{i\bullet}$, $\mu$ par $\overline{y}_{\bullet\bullet}$
+  et $\sigma^2$ par $MSE$.
+  \item \textbf{Quiz (même variance):} l'expérience 2 a le plus grand $SST_R$
+  ($288$ contre $32$) et le plus grand $SST$ ($312{,}5$ contre $56{,}5$); les $SSE$ sont
+  égales ($24{,}5$). Scénarios 1 et 2: $SST_R$ presque égales ($65{,}27$ et $65{,}15$),
+  mais $SSE$ ($51{,}91$ contre $263{,}45$) et $SST$ ($117{,}18$ contre $328{,}60$) plus
+  grandes dans le scénario 2.
+  \item \textbf{Quiz (table des engrais):} $SSE=224-84=140$; d.l.\ $3$, $20$ et $23$;
+  $MST_R=28$, $MSE=7$; $F_{obs}=4{,}00>3{,}10$: on rejette $H_0$ (valeur-p $=0{,}022$);
+  au moins deux engrais mènent à des hauteurs moyennes différentes.
+  $\hat\sigma^2=MSE=7$, $\hat\sigma=\sqrt{7}=2{,}65$\,cm.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Réponses aux exemples (suite)}
+
+\scriptsize
+\begin{itemize}\itemsep1mm
+  \item \textbf{Student vs ANOVA:} avec deux groupes, $F_{obs}=t_{obs}^2$
+  ($2{,}7464^2\approx7{,}543$) et $F_{1,\nu}=t_\nu^2$: les deux tests sont équivalents.
+  L'ANOVA permet de comparer plus de deux groupes en un seul test.
+  \item \textbf{Regarder les données (TBARS):} le contrôle semble avoir un TBARS plus
+  élevé que les deux autres traitements; les dispersions sont semblables et on ne voit
+  pas de valeur extrême.
+  \item \textbf{Table à compléter:} $SST_R=0{,}1412$, $SSE=0{,}1559$, d.l.\ $2$, $15$,
+  $17$; $MST_R=0{,}0706$; $F_{obs}=6{,}79$.
+  \item \textbf{Décision:} valeur-p $=0{,}008<0{,}05$, on rejette $H_0$.
+  \textbf{Conclusion:} au seuil de 5\,\%, au moins un traitement a un TBARS moyen
+  différent des autres.
+  \item \textbf{Quiz ($H_0$ rejetée):} seules « Au moins deux moyennes sont
+  différentes » et « Le facteur a un effet sur la variable réponse » sont correctes.
+  Le test $F$ ne dit pas \alert{quelles} moyennes diffèrent (d'ailleurs, Tukey ne
+  détecte pas de différence significative entre le contrôle et l'EDUF, $p=0{,}14$).
+  \item \textbf{Plusieurs tests 2 à 2:} le risque global d'erreur de type I augmente
+  avec le nombre de comparaisons; d'où les comparaisons multiples (Tukey).
+  \item \textbf{Bartlett:} valeur-p $=0{,}69$, on ne rejette pas l'égalité des
+  variances. On rejette si $B>\chi^2_{I-1;\,\alpha}$.
+  \item \textbf{Shapiro-Wilk:} valeur-p $=0{,}83$, pas d'évidence contre la normalité.
 \end{itemize}
 
 \end{frame}

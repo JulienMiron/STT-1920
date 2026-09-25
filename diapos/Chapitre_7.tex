@@ -91,11 +91,10 @@ Que penser de l'hypothèse mendélienne lorsqu'on la confronte aux observations?
 \begin{frame}[t]{Exemple 1: hypothèses}
 
 On veut donc tester les hypothèses suivantes:
-\[
-H_0: p_1=\tfrac{9}{16},\ p_2=\tfrac{3}{16},\ p_3=\tfrac{3}{16},\ p_4=\tfrac{1}{16}
-\qquad
-H_1: \text{au moins une des égalités n'est pas vérifiée.}
-\]
+\begin{align*}
+H_0&: p_1=\tfrac{9}{16},\ p_2=\tfrac{3}{16},\ p_3=\tfrac{3}{16},\ p_4=\tfrac{1}{16}\\
+H_1&: \text{au moins une des égalités n'est pas vérifiée.}
+\end{align*}
 
 Il faudra récolter des données dans une population (i.e.\ effectuer plusieurs
 croisements et noter le phénotype), et comparer les fréquences observées et
@@ -200,6 +199,38 @@ et on acceptera $H_1$.
 
 \end{frame}
 
+\begin{frame}[t]{Rappel : la loi du khi-deux}
+
+\begin{columns}[T]
+\begin{column}{0.52\textwidth}
+\begin{tikzpicture}
+\begin{axis}[width=6.8cm, height=5.3cm, domain=0.001:20, samples=150,
+  xmin=0, xmax=20, ymin=0, ymax=0.26, axis lines=left,
+  xlabel={$x$}, ylabel={Densité}, tick label style={font=\scriptsize},
+  label style={font=\small}, yticklabel style={/pgf/number format/fixed},
+  legend style={font=\scriptsize, draw=none, fill=none}, legend cell align=left]
+  \addplot[very thick, black] {0.398942*sqrt(x)*exp(-x/2)};
+  \addplot[very thick, burntorange] {x^2*exp(-x/2)/16};
+  \addplot[very thick, blue] {x^4*exp(-x/2)/768};
+  \legend{$k=3$, $k=6$, $k=10$}
+\end{axis}
+\end{tikzpicture}
+\end{column}
+\begin{column}{0.46\textwidth}
+\small
+Déjà rencontrée au chapitre 4 (comparaison de variances), la loi $\chi^2_k$ à $k$
+\alert{degrés de liberté}:
+\begin{itemize}\itemsep2mm
+  \item ne prend que des valeurs \alert{positives};
+  \item est \alert{asymétrique} (longue queue à droite);
+  \item a pour moyenne $k$: plus $k$ est grand, plus la courbe se déplace
+  vers la droite.
+\end{itemize}
+\end{column}
+\end{columns}
+
+\end{frame}
+
 \begin{frame}[t]{Règle de décision}
 
 \begin{itemize}\itemsep3cm
@@ -207,6 +238,96 @@ et on acceptera $H_1$.
   \item On rejettera donc $H_0$ si\ldots
 \end{itemize}
 
+\end{frame}
+
+\begin{frame}[t]{Région de rejet: toujours à droite}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=10cm, height=4.4cm, domain=0.001:16, samples=150,
+  xmin=0, xmax=16, ymin=0, ymax=0.27, axis lines=left,
+  xtick={0,5,10,15}, ytick=\empty, xlabel={$d$},
+  tick label style={font=\scriptsize}, label style={font=\small}]
+  \addplot[very thick, black] {0.398942*sqrt(x)*exp(-x/2)};
+  \addplot[draw=none, fill=burntorange!60, domain=7.8147:16] {0.398942*sqrt(x)*exp(-x/2)} \closedcycle;
+  \draw[thick, dashed] (axis cs:7.8147,0) -- (axis cs:7.8147,0.2);
+  \node[font=\small, anchor=south] at (axis cs:7.8147,0.2) {$\chi^2_{J-1;\,\alpha}$};
+  \node[font=\small, burntorange] (a) at (axis cs:10.5,0.06) {$\alpha$};
+  \draw[->, burntorange] (a) -- (axis cs:8.8,0.006);
+  \node[font=\small, align=center] at (axis cs:3.2,0.04) {$1-\alpha$};
+  \node[font=\scriptsize, align=center] at (axis cs:12.3,0.17) {On rejette $H_0$\\ si $D$ tombe ici};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\small
+\begin{itemize}\itemsep1mm
+  \item Un écart entre $O_j$ et $E_j$, \alert{dans un sens ou dans l'autre}, fait
+  \alert{augmenter} $D$ (les écarts sont mis au carré).
+  \item Le test est donc \alert{unilatéral à droite}, même si $H_1$ est
+  «~bilatérale~».
+  \item Valeur-p $=P(\chi^2_{J-1}>d_{\text{obs}})$: l'aire à droite de la
+  distance observée.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Table de la loi du khi-deux}
+
+\begin{columns}[T]
+\begin{column}{0.56\textwidth}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{c|ccccc}
+ & \multicolumn{5}{c}{$\gamma$ (aire à droite)}\\
+$k$ & 0{,}10 & 0{,}05 & 0{,}025 & 0{,}01 & 0{,}005\\
+\hline
+1 & 2{,}71 & 3{,}84 & 5{,}02 & 6{,}63 & 7{,}88\\
+2 & 4{,}61 & 5{,}99 & 7{,}38 & 9{,}21 & 10{,}60\\
+3 & 6{,}25 & \colorbox{burntorange!30}{7{,}81} & 9{,}35 & 11{,}34 & 12{,}84\\
+4 & 7{,}78 & 9{,}49 & 11{,}14 & 13{,}28 & 14{,}86\\
+5 & 9{,}24 & 11{,}07 & 12{,}83 & 15{,}09 & 16{,}75\\
+6 & 10{,}64 & 12{,}59 & 14{,}45 & 16{,}81 & 18{,}55\\
+7 & 12{,}02 & 14{,}07 & 16{,}01 & 18{,}48 & 20{,}28\\
+8 & 13{,}36 & 15{,}51 & 17{,}53 & 20{,}09 & 21{,}95\\
+9 & 14{,}68 & 16{,}92 & 19{,}02 & 21{,}67 & 23{,}59\\
+10 & 15{,}99 & 18{,}31 & 20{,}48 & 23{,}21 & 25{,}19\\
+\end{tabular}
+
+\smallskip
+{\scriptsize Extrait de la table complète (jusqu'à $k=100$) fournie avec le cours.}
+\end{column}
+\begin{column}{0.42\textwidth}
+\small
+La table donne la valeur $\chi^2_{k;\,\gamma}$ ayant une aire $\gamma$
+\alert{à sa droite} sous la loi $\chi^2_k$.
+
+\bigskip
+\textbf{Exemple:} avec $k=3$ degrés de liberté et $\gamma=0{,}05$:
+\[
+\chi^2_{3;\,0{,}05}=7{,}81.
+\]
+
+\medskip
+En R:\\ \texttt{qchisq(0.95, df = 3)}\\ donne $7{,}81$.
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  On calcule $D=\sum_j (O_j-E_j)^2/E_j$ pour tester un modèle génétique.
+  \begin{itemize}\itemsep 1.2cm
+    \item Que signifie une \alert{grande} valeur de $D$?
+    \item<2-> Que signifie $D=0$? Est-ce une bonne nouvelle pour $H_0$?
+    \item<3-> $D$ peut-il être négatif?
+    \item<4-> Si on double la taille de l'échantillon et que les proportions
+    observées restent les mêmes, que devient $D$?
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[t]{Exemple 1}
@@ -234,16 +355,79 @@ Distance & & & & & \\
 
 \end{frame}
 
-\begin{frame}[t]{Remarques}
+\begin{frame}[t]{Exemple 1: la décision en image}
 
-\begin{itemize}\itemsep4mm
-  \item Ce test est valide si les \alert{fréquences espérées} sont toutes
-  supérieures à 5.
-  \item Si le modèle théorique est une loi paramétrique (normale, Poisson, etc.)
-  dont les paramètres sont estimés à partir des données, la loi du $\chi^2$ perd
-  un \alert{degré de liberté supplémentaire} pour chaque paramètre estimé.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=10cm, height=5cm, domain=0.001:16, samples=150,
+  xmin=0, xmax=16, ymin=0, ymax=0.29, axis lines=left,
+  xtick={0,5,10,15}, ytick=\empty, xlabel={$d$ \quad (loi $\chi^2_3$)},
+  tick label style={font=\scriptsize}, label style={font=\small}]
+  \addplot[draw=none, fill=Dominante!50, domain=1.4687:16] {0.398942*sqrt(x)*exp(-x/2)} \closedcycle;
+  \addplot[draw=none, fill=burntorange!70, domain=7.8147:16] {0.398942*sqrt(x)*exp(-x/2)} \closedcycle;
+  \addplot[very thick, black] {0.398942*sqrt(x)*exp(-x/2)};
+  \draw[very thick, blue] (axis cs:1.4687,0) -- (axis cs:1.4687,0.25);
+  \node[font=\small, blue, anchor=west] at (axis cs:1.6,0.25) {$d_{\text{obs}}=1{,}47$};
+  \draw[thick, dashed] (axis cs:7.8147,0) -- (axis cs:7.8147,0.18);
+  \node[font=\small, anchor=south] at (axis cs:7.8147,0.18) {$\chi^2_{3;\,0{,}05}=7{,}81$};
+  \node[font=\small, anchor=west, align=left] (vp) at (axis cs:9.2,0.12) {valeur-p $=0{,}69$\\(aire bleue $+$ orange)};
+  \draw[->] (vp.west) -- (axis cs:4,0.045);
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\small
+La distance observée est bien en deçà de la valeur critique: les écarts entre
+observations et proportions mendéliennes sont du même ordre que les fluctuations
+d'échantillonnage attendues.
+
+\end{frame}
+
+\begin{frame}[t]{Conditions d'application et remarques}
+
+\begin{itemize}\itemsep2mm
+  \item La loi $\chi^2$ n'est qu'une \alert{approximation} de la loi de $D$,
+  valable si les \alert{fréquences espérées} sont assez grandes:
+  \alert{$E_j\ge5$ pour tout $j$}. \\
+  {\small (C'est une condition sur les $E_j$, pas sur les $O_j$!)}
+  \item<2-> Si certaines $E_j<5$, on \alert{regroupe des classes voisines}
+  (p.\,ex.\ «~4 et plus~») jusqu'à ce que la condition soit satisfaite, puis on
+  refait le test avec le nouveau nombre de classes $J$.
+  \item<3-> Pour un tableau $2\times2$ à petits effectifs, on utilise plutôt le
+  \alert{test exact de Fisher} (voir la section sur les tableaux $2\times2$).
+  \item<4-> Si le modèle théorique est une loi paramétrique (normale, Poisson, etc.)
+  dont les $m$ paramètres sont estimés à partir des données, la loi du $\chi^2$ perd
+  un \alert{degré de liberté supplémentaire} pour chaque paramètre estimé:
+  $D\approx\chi^2_{J-1-m}$.
 \end{itemize}
 
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  On compte les pucerons sur 200 feuilles de soya et on veut vérifier si le nombre
+  de pucerons par feuille suit une loi de \alert{Poisson}. On estime
+  $\hat\lambda=\bar x=1{,}2$, ce qui donne les fréquences espérées suivantes:
+
+  \smallskip
+  \begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{l|cccccc|c}
+  Pucerons & 0 & 1 & 2 & 3 & 4 & 5 et + & Total\\
+  \hline
+  $E_j$ & 60{,}24 & 72{,}29 & 43{,}37 & 17{,}35 & 5{,}20 & 1{,}55 & 200\\
+  \end{tabular}
+  \end{center}
+
+  \begin{itemize}\itemsep 1.2cm
+    \item Les conditions d'application sont-elles respectées? Sinon, que faire?
+    \item<2-> Combien de degrés de liberté aura la loi du $\chi^2$ utilisée?
+    \item<3-> Et si la valeur $\lambda=1{,}2$ avait été fixée à l'avance
+    (sans utiliser les données)?
+  \end{itemize}
 \end{frame}
 
 %-------------------------------------------------------------------------------
@@ -359,6 +543,51 @@ nous souhaitons comparer?
 
 \end{frame}
 
+\begin{frame}[t]{Exemple 2: le diagramme en mosaïque}
+
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\centering
+\begin{tikzpicture}[font=\footnotesize, scale=0.8]
+  \filldraw[fill=burntorange!75, draw=white, thick] (0.000,4.200) rectangle (3.920,3.150);
+  \node[anchor=east] at (-0.1,3.675) {$<5$};
+  \node[font=\scriptsize] at (1.960,3.675) {25\,\%};
+  \filldraw[fill=Dominante, draw=white, thick] (0.000,3.150) rectangle (3.920,1.386);
+  \node[anchor=east] at (-0.1,2.268) {5--10};
+  \node[font=\scriptsize] at (1.960,2.268) {42\,\%};
+  \filldraw[fill=Dominante!35, draw=white, thick] (0.000,1.386) rectangle (3.920,0.000);
+  \node[anchor=east] at (-0.1,0.693) {$>10$};
+  \node[font=\scriptsize] at (1.960,0.693) {33\,\%};
+  \node[anchor=south, align=center] at (1.960,4.250) {Hommes\\($n=100$)};
+  \filldraw[fill=burntorange!75, draw=white, thick] (4.040,4.200) rectangle (6.000,2.604);
+  \node[font=\scriptsize] at (5.020,3.402) {38\,\%};
+  \filldraw[fill=Dominante, draw=white, thick] (4.040,2.604) rectangle (6.000,0.924);
+  \node[font=\scriptsize] at (5.020,1.764) {40\,\%};
+  \filldraw[fill=Dominante!35, draw=white, thick] (4.040,0.924) rectangle (6.000,0.000);
+  \node[font=\scriptsize] at (5.020,0.462) {22\,\%};
+  \node[anchor=south, align=center] at (5.020,4.250) {Femmes\\($n=50$)};
+  \node at (3.000,-0.35) {\small Sexe};
+  \node[rotate=90] at (-1.75,2.100) {\small Années vécues};
+\end{tikzpicture}
+\end{column}
+\begin{column}{0.43\textwidth}
+\small
+\begin{itemize}\itemsep3mm
+  \item La \alert{largeur} de chaque colonne est proportionnelle à la taille de
+  l'échantillon ($n_1=100$, $n_2=50$).
+  \item La \alert{hauteur} de chaque rectangle donne la proportion
+  \emph{à l'intérieur} de la population.
+  \item Sous $H_0$ (homogénéité), les lignes horizontales seraient
+  \alert{à la même hauteur} dans chaque colonne.
+\end{itemize}
+\end{column}
+\end{columns}
+
+\smallskip
+{\scriptsize En R: \texttt{mosaicplot(table)}.}
+
+\end{frame}
+
 \begin{frame}[t]{Si $H_0$ était vraie\ldots}
 
 Si $H_0$ est vraie, toutes les distributions théoriques sont homogènes, i.e.\
@@ -401,6 +630,34 @@ D=\sum_{i=1}^{I}\sum_{j=1}^{J}\frac{(O_{ij}-E_{ij})^2}{E_{ij}}\ \sim
 On rejettera donc $H_0$ si la «~distance~» entre le modèle d'homogénéité et les
 observations est trop grande, i.e.\ si\ldots
 
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Dans l'exemple 2, on connaît les totaux des lignes et des colonnes. Combien de
+  cases peut-on remplir «~librement~» avant que toutes les autres soient
+  déterminées?
+
+  \smallskip
+  \begin{center}
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{l|ccc|c}
+  Population & $<5$ ans & 5 à 10 ans & $>10$ ans & Total\\
+  \hline
+  Hommes & ? & ? & ? & 100\\
+  Femmes & ? & ? & ? & 50\\
+  \hline
+  Total & 44 & 62 & 44 & 150\\
+  \end{tabular}
+  \end{center}
+
+  \begin{itemize}\itemsep 1.2cm
+    \item<2-> Quel lien avec les degrés de liberté $(I-1)(J-1)$?
+    \item<3-> Combien de degrés de liberté aurait un tableau comparant
+    4 populations sur 5 catégories?
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[t]{Exemple 2}
@@ -521,6 +778,49 @@ problème d'alcool? Si les variables étaient indépendantes:
 
 \end{frame}
 
+\begin{frame}[t]{Exemple 3: le diagramme en mosaïque}
+
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\centering
+\begin{tikzpicture}[font=\footnotesize, scale=0.8]
+  \filldraw[fill=Dominante, draw=white, thick] (0.000,4.200) rectangle (2.512,1.327);
+  \node[anchor=east] at (-0.1,2.763) {0};
+  \node[font=\scriptsize] at (1.256,2.763) {68\,\%};
+  \filldraw[fill=burntorange!75, draw=white, thick] (0.000,1.327) rectangle (2.512,0.248);
+  \node[anchor=east] at (-0.1,0.787) {1};
+  \node[font=\scriptsize] at (1.256,0.787) {26\,\%};
+  \filldraw[fill=gray!60, draw=white, thick] (0.000,0.248) rectangle (2.512,-0.000);
+  \node[anchor=east] at (-0.1,0.124) {2};
+  \node[anchor=south, align=center] at (1.256,4.250) {Fraternelles\\($n=440$)};
+  \filldraw[fill=Dominante, draw=white, thick] (2.632,4.200) rectangle (6.000,1.046);
+  \node[font=\scriptsize] at (4.316,2.623) {75\,\%};
+  \filldraw[fill=burntorange!75, draw=white, thick] (2.632,1.046) rectangle (6.000,0.320);
+  \node[font=\scriptsize] at (4.316,0.683) {17\,\%};
+  \filldraw[fill=gray!60, draw=white, thick] (2.632,0.320) rectangle (6.000,-0.000);
+  \node[font=\scriptsize] at (4.316,0.160) {8\,\%};
+  \node[anchor=south, align=center] at (4.316,4.250) {Identiques\\($n=590$)};
+  \node at (3.000,-0.35) {\small Type de jumelles};
+  \node[rotate=90] at (-1.75,2.100) {\small Nb avec problème d'alcool};
+\end{tikzpicture}
+\end{column}
+\begin{column}{0.43\textwidth}
+\small
+\begin{itemize}\itemsep2mm
+  \item Colonnes: type de jumelles (largeurs $\propto$ 440 et 590 paires).
+  \item Rectangles: nombre de jumelles ayant un problème d'alcool (0, 1 ou 2).
+  \item Si les variables étaient \alert{indépendantes}, les découpages
+  horizontaux seraient les mêmes dans les deux colonnes.
+\end{itemize}
+
+\smallskip
+\uncover<2->{Ici, la bande «~1~» (paires \alert{discordantes}) semble plus
+épaisse chez les fraternelles.}
+\end{column}
+\end{columns}
+
+\end{frame}
+
 \begin{frame}[t]{Tableau de fréquences}
 
 \begin{center}
@@ -607,6 +907,38 @@ Total & 744 & 215 & 71 & 1030\\
 
 \end{frame}
 
+\begin{frame}[t]{Interpréter un rejet: où sont les écarts?}
+
+\small
+Rejeter $H_0$ dit \emph{qu'il y a} un écart au modèle, pas \emph{où}. On examine
+alors chaque case:
+
+\begin{Boite}{Contributions et résidus}
+\alert{Contribution} de la case $(i,j)$ à $D$: $\dfrac{(O_{ij}-E_{ij})^2}{E_{ij}}$
+\qquad \alert{Résidu}: $r_{ij}=\dfrac{O_{ij}-E_{ij}}{\sqrt{E_{ij}}}$
+\end{Boite}
+
+Le \alert{signe} du résidu indique s'il y a plus ($+$) ou moins ($-$) de cas
+qu'attendu sous $H_0$; un $|r_{ij}|$ supérieur à 2 environ est notable.
+
+\vspace{-1mm}
+\begin{center}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{l|ccc}
+Résidus $r_{ij}$ (ex.\ 3) & 0 & 1 & 2\\
+\hline
+Identiques & $+0{,}82$ & \textcolor{blue}{$\mathbf{-1{,}91}$} & $+0{,}68$\\
+Fraternelles & $-0{,}94$ & \textcolor{burntorange}{$\mathbf{+2{,}21}$} & $-0{,}79$\\
+\end{tabular}
+\end{center}
+
+\vspace{-1mm}
+\uncover<2->{La colonne «~1~» fournit $3{,}63+4{,}87=8{,}50$ des $11{,}14$ unités de
+$D$ (76\,\%): les jumelles fraternelles sont plus souvent
+\alert{discordantes} (une seule a un problème) que prévu, les identiques moins.}
+
+\end{frame}
+
 \begin{frame}[t]{Question}
 
 Si le but de l'étude est d'étudier l'existence d'un lien entre la
@@ -632,7 +964,30 @@ Total & 815 & 215 & 1030\\
 \end{tabular}
 \end{center}
 
-\vspace{3cm}
+\begin{columns}[T]
+\begin{column}{0.58\textwidth}
+\small
+Au seuil de 5\,\%, la proportion de paires concordantes est-elle la même chez
+les jumelles identiques et fraternelles?
+\end{column}
+\begin{column}{0.38\textwidth}
+\centering
+\begin{tikzpicture}[font=\scriptsize, scale=0.7]
+  \filldraw[fill=Dominante, draw=white, thick] (0.000,3.200) rectangle (1.743,0.822);
+  \node[anchor=east] at (-0.1,2.011) {0 ou 2};
+  \node[font=\scriptsize] at (0.871,2.011) {74\,\%};
+  \filldraw[fill=burntorange!75, draw=white, thick] (0.000,0.822) rectangle (1.743,-0.000);
+  \node[anchor=east] at (-0.1,0.411) {1};
+  \node[font=\scriptsize] at (0.871,0.411) {26\,\%};
+  \node[anchor=south, align=center] at (0.871,3.250) {Fraternelles\\($n=440$)};
+  \filldraw[fill=Dominante, draw=white, thick] (1.863,3.200) rectangle (4.200,0.553);
+  \node[font=\scriptsize] at (3.031,1.877) {83\,\%};
+  \filldraw[fill=burntorange!75, draw=white, thick] (1.863,0.553) rectangle (4.200,0.000);
+  \node[font=\scriptsize] at (3.031,0.277) {17\,\%};
+  \node[anchor=south, align=center] at (3.031,3.250) {Identiques\\($n=590$)};
+\end{tikzpicture}
+\end{column}
+\end{columns}
 
 \end{frame}
 
@@ -651,6 +1006,7 @@ Test d'homogénéité ou d'indépendance (exemple 3):
 > test
 X-squared = 11.141, df = 2, p-value = 0.003808
 > test$expected     # fréquences espérées
+> test$residuals    # résidus (O - E)/sqrt(E)
 \end{Verbatim}
 
 \small
@@ -659,7 +1015,189 @@ contingence} $\rightarrow$ \textsf{Saisir et analyser un tableau à double entr�
 
 \end{frame}
 
-\begin{frame}[t]{Réponses}
+%-------------------------------------------------------------------------------
+\section{Tableaux $2\times2$ et comparaison de deux proportions}
+%-------------------------------------------------------------------------------
+
+\begin{frame}[t]{Rappel: au chapitre 4\ldots}
+
+Un tableau d'homogénéité avec $I=2$ populations et $J=2$ catégories
+(«~succès~» / «~échec~») revient à tester $H_0: p_1=p_2$,
+ce qu'on a déjà fait au chapitre 4 avec le test $Z$ de comparaison de deux
+proportions.
+
+\begin{Boite}{Tableau $2\times2$: khi-deux et test $Z$}
+Pour un tableau $2\times2$, la distance du khi-deux est exactement le carré de
+la statistique $Z$ du chapitre 4:
+\[
+D=Z^2 \qquad\text{et}\qquad \chi^2_{1;\,\alpha}=z_{\alpha/2}^2
+\quad(\text{p.\,ex.\ } 3{,}84=1{,}96^2).
+\]
+Les deux tests bilatéraux donnent donc \alert{la même valeur-p}.
+\end{Boite}
+
+\small
+Le test $Z$ permet en plus un test \alert{unilatéral} et un IC pour $p_1-p_2$; le
+khi-deux se généralise à plus de 2 groupes ou de 2 catégories.
+
+\end{frame}
+
+\begin{frame}[t]{Exemple 4: tabagisme de la mère et poids à la naissance}
+
+On suit 400 grossesses: 150 mères ayant fumé pendant la grossesse et 250
+non-fumeuses. On note si le bébé présente un \alert{faible poids} à la naissance
+($<2500$\,g).
+
+\medskip
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{l|cc|c}
+ & Faible poids & Poids normal & Total\\
+\hline
+Fumeuses & 30 & 120 & 150\\
+Non-fumeuses & 25 & 225 & 250\\
+\hline
+Total & 55 & 345 & 400\\
+\end{tabular}
+\end{center}
+
+Au seuil de 5\,\%, la proportion de bébés de faible poids diffère-t-elle selon
+le tabagisme de la mère? Répondez
+\begin{enumerate}[(a)]
+  \item avec le test $Z$ du chapitre 4;
+  \item avec le test du khi-deux.
+\end{enumerate}
+
+\smallskip
+{\scriptsize Données fictives, mais d'un ordre de grandeur réaliste.}
+
+\end{frame}
+
+\begin{frame}[t]{Exemple 4: les deux approches}
+
+\small
+\textbf{(a) Test $Z$.} $\hat p_1=30/150=0{,}20$,\ \ $\hat p_2=25/250=0{,}10$,\ \
+$\hat P=55/400=0{,}1375$.
+\[
+z_{\text{obs}}=\frac{0{,}20-0{,}10}{\sqrt{0{,}1375\times0{,}8625\,
+\left(\frac{1}{150}+\frac{1}{250}\right)}}=\frac{0{,}10}{0{,}0356}=2{,}81>z_{0{,}025}=1{,}96.
+\]
+
+\uncover<2->{
+\textbf{(b) Khi-deux.} Fréquences espérées $E_{ij}=O_{i\bullet}O_{\bullet j}/n$
+(toutes $\ge5$):
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l|cc}
+ & Faible poids & Poids normal\\
+\hline
+Fumeuses & $30$ \ \textcolor{burntorange}{($20{,}625$)} & $120$ \ \textcolor{burntorange}{($129{,}375$)}\\
+Non-fumeuses & $25$ \ \textcolor{burntorange}{($34{,}375$)} & $225$ \ \textcolor{burntorange}{($215{,}625$)}\\
+\end{tabular}
+\end{center}
+\[
+d_{\text{obs}}=4{,}26+0{,}68+2{,}56+0{,}41=7{,}91>\chi^2_{1;\,0{,}05}=3{,}84.
+\]}
+
+\uncover<3->{
+\alert{Même conclusion, même valeur-p} ($0{,}005$): $d_{\text{obs}}=7{,}91=2{,}81^2=z_{\text{obs}}^2$.
+On rejette $H_0$: la proportion de faible poids est plus élevée chez les
+fumeuses (20\,\% contre 10\,\%).}
+
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Dans l'exemple 4:
+  \begin{itemize}\itemsep 1.2cm
+    \item Peut-on conclure que le tabagisme de la mère \alert{cause} le faible
+    poids à la naissance?
+    \item<2-> On voulait en fait montrer que la proportion est \alert{plus élevée}
+    chez les fumeuses. Quel test utiliser? Conclusion?
+    \item<3-> Si on avait plutôt choisi 400 naissances au hasard (sans fixer
+    le nombre de fumeuses), quel test ferait-on? La valeur de $D$
+    changerait-elle?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,t]{Petits effectifs: le test exact de Fisher}
+
+\footnotesize
+\begin{itemize}\itemsep1mm
+  \item Si une fréquence espérée est $<5$ dans un tableau $2\times2$ (maladie
+  rare, petit nombre d'animaux\ldots), l'approximation $\chi^2$ n'est plus fiable.
+  \item Le \alert{test exact de Fisher} calcule la valeur-p exactement, à partir de
+  toutes les tables ayant les mêmes totaux (calcul fait par le logiciel).
+  \item Par défaut, \texttt{chisq.test()} applique aux tableaux $2\times2$ une
+  \alert{correction de continuité} (Yates) qui diminue un peu $D$; pour retrouver
+  $D=Z^2$, on ajoute \texttt{correct = FALSE}.
+\end{itemize}
+
+\begin{Verbatim}[fontsize=\scriptsize]
+> bebe <- matrix(c(30, 120, 25, 225), nrow = 2, byrow = TRUE)
+> chisq.test(bebe, correct = FALSE)
+X-squared = 7.9051, df = 1, p-value = 0.004929
+> prop.test(c(30, 25), c(150, 250), correct = FALSE)   # chapitre 4
+X-squared = 7.9051, df = 1, p-value = 0.004929
+> chisq.test(bebe)         # avec correction de Yates
+X-squared = 7.0844, df = 1, p-value = 0.007776
+> fisher.test(bebe)        # test exact
+p-value = 0.006662
+\end{Verbatim}
+
+\end{frame}
+
+%-------------------------------------------------------------------------------
+\section{Synthèse: quel test choisir?}
+%-------------------------------------------------------------------------------
+
+\begin{frame}[t]{Trois tests, une même distance}
+
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2cm}|*{3}{>{\raggedright\arraybackslash}p{3cm}}}
+ & \textbf{Adéquation} & \textbf{Homogénéité} & \textbf{Indépendance}\\
+\hline
+Variables & 1 & 1 & 2\\
+Échantillons & 1 (taille $n$) & $I$ (tailles $n_i$ fixées) & 1 (seul $n$ fixé)\\
+$H_0$ & $p_j=p_j^*$ & mêmes distributions dans les $I$ populations & variables indépendantes\\
+$E$ & $E_j=np_j^*$ & $E_{ij}=n_iO_{\bullet j}/n$ & $E_{ij}=O_{i\bullet}O_{\bullet j}/n$\\
+Degrés de liberté & $J-1$ \ ($-m$ si $m$ paramètres estimés) & $(I-1)(J-1)$ & $(I-1)(J-1)$\\
+\end{tabular}
+
+\raggedright
+\medskip
+\small
+\begin{itemize}\itemsep1mm
+  \item Dans tous les cas: $D=\sum(O-E)^2/E$, rejet si $D>\chi^2_{\text{dl};\,\alpha}$,
+  condition $E\ge5$ partout.
+  \item Homogénéité et indépendance: \alert{mêmes calculs}; seuls le plan
+  d'échantillonnage et la formulation de la conclusion changent.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Quel test du khi-deux utiliser? Combien de degrés de liberté?
+  \begin{itemize}\itemsep 0.8cm
+    \item On capture 60 truites dans chacun de 3 lacs et on note si elles sont
+    infectées par un parasite (oui/non).
+    \item<2-> On croise des plants de pois hétérozygotes et on obtient 705 fleurs
+    pourpres et 224 blanches. Le rapport mendélien 3:1 est-il respecté?
+    \item<3-> On choisit 500 patients au hasard dans une clinique et on note leur
+    groupe sanguin (O, A, B, AB) et la présence d'un ulcère gastrique (oui/non).
+    \item<4-> Dans un essai clinique, 120 patients reçoivent un vaccin et 120 un
+    placebo; on note s'ils contractent la grippe durant l'hiver.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Réponses aux exemples (1)}
 
 \scriptsize
 \begin{itemize}\itemsep1mm
@@ -669,19 +1207,56 @@ contingence} $\rightarrow$ \textsf{Saisir et analyser un tableau à double entr�
   \item \textbf{Exemple 1:} contributions $0{,}43;\ 0{,}65;\ 0{,}27;\ 0{,}11$, donc
   $D=1{,}47<\chi^2_{3;\,0{,}05}=7{,}81$ (valeur-p $=0{,}69$): on ne rejette pas
   l'hypothèse de Mendel.
+  \item \textbf{Quiz (distance):} un grand $D$ signifie que les observations
+  s'éloignent plus du modèle que ne l'expliquent les fluctuations d'échantillonnage
+  (preuve contre $H_0$). $D=0$: $O_j=E_j$ partout, accord parfait; on ne rejette pas
+  $H_0$ (mais un accord «~trop parfait~», répété d'une expérience à l'autre, est
+  suspect: Fisher a jugé en 1936 les données de Mendel trop proches de la théorie).
+  $D\ge0$ toujours (somme de carrés divisés par des $E_j>0$). Si $n$ double avec les
+  mêmes proportions, $D$ double: un même écart relatif devient plus significatif.
+  \item \textbf{Quiz (pucerons):} non, $E_6=1{,}55<5$. On regroupe «~4 et plus~»
+  ($E=6{,}75$), d'où $J=5$ classes et $5-1-1=3$ degrés de liberté ($\lambda$ estimé).
+  Si $\lambda$ était fixé à l'avance: $5-1=4$ degrés de liberté.
   \item \textbf{Exemple 2:} le graphique des \emph{proportions} (les tailles
   d'échantillon diffèrent). $\hat p_j=O_{\bullet j}/n$ et
   $E_{ij}=n_iO_{\bullet j}/n$. Sous $H_0$, $D\approx\chi^2_{(I-1)(J-1)}$.
   $E$: hommes $29{,}33;\ 41{,}33;\ 29{,}33$; femmes $14{,}67;\ 20{,}67;\ 14{,}67$.
   $D=3{,}33<\chi^2_{2;\,0{,}01}=9{,}21$ (valeur-p $=0{,}19$): on ne rejette pas
   l'homogénéité.
+  \item \textbf{Quiz (degrés de liberté):} 2 cases (p.\,ex.\ deux cases de la ligne
+  «~Hommes~»); toutes les autres se déduisent des totaux. C'est exactement
+  $(I-1)(J-1)=(2-1)(3-1)=2$. Avec 4 populations et 5 catégories: $3\times4=12$.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Réponses aux exemples (2)}
+
+\scriptsize
+\begin{itemize}\itemsep1mm
   \item \textbf{Exemple 3:} $E_{ij}=O_{i\bullet}O_{\bullet j}/n$; $E_{13}=40{,}67$,
   $E_{23}=30{,}33$ (contributions $0{,}46$ et $0{,}62$). $D=11{,}14>\chi^2_{2;\,0{,}05}=5{,}99$
   (valeur-p $=0{,}004$): relation significative.
   \item \textbf{Question:} pas directement; le lien génétique se manifeste par la
   \emph{concordance} des jumelles (0 ou 2) plus fréquente chez les identiques.
   \item \textbf{Revisité:} $D=10{,}75>\chi^2_{1;\,0{,}05}=3{,}84$ (valeur-p $=0{,}001$):
-  les jumelles identiques sont plus souvent concordantes.
+  les jumelles identiques sont plus souvent concordantes (83\,\% contre 74\,\%).
+  (Avec la correction de Yates, \texttt{chisq.test()} donne $10{,}25$.)
+  \item \textbf{Exemple 4:} $z_{\text{obs}}=2{,}81$, $d_{\text{obs}}=7{,}91=z_{\text{obs}}^2$,
+  valeur-p $=0{,}005$: on rejette $H_0$. Test exact de Fisher: valeur-p $=0{,}007$.
+  \item \textbf{Quiz (exemple 4):} non: il s'agit d'une étude
+  \emph{observationnelle}; les fumeuses peuvent différer des non-fumeuses (âge,
+  alimentation, revenu, suivi prénatal\ldots). Le test montre une
+  \alert{association}, pas une causalité. Test unilatéral ($H_1: p_1>p_2$): test
+  $Z$ du chapitre 4, $z_{\text{obs}}=2{,}81>z_{0{,}05}=1{,}645$, valeur-p $=0{,}0025$.
+  Avec 400 naissances au hasard: test d'indépendance; les calculs, donc $D$,
+  sont identiques, seule la formulation de la conclusion change.
+  \item \textbf{Quiz (quel test?):} truites: homogénéité ($3$ lacs $\times$ 2
+  catégories), $(3-1)(2-1)=2$ dl. Pois: adéquation, $2-1=1$ dl
+  ($E=696{,}75$ et $232{,}25$, $D=0{,}39$, valeur-p $=0{,}53$: rapport 3:1 compatible
+  avec les données). Groupe sanguin et ulcère: indépendance, $(4-1)(2-1)=3$ dl.
+  Vaccin: homogénéité $2\times2$, c'est-à-dire une comparaison de deux proportions
+  (chapitre 4), 1 dl.
 \end{itemize}
 
 \end{frame}

@@ -91,19 +91,41 @@ Température & 0,01 & 0,02 & 0,03\\
 
 \end{frame}
 
-\begin{frame}[plain,t]
+\begin{frame}[t]{Pourquoi une expérience factorielle?}
 
-\centerline{\LARGE\bf\alert{QUIZ !}}
-
-\vspace{3mm}
-Dans l'exemple 1,
-\begin{itemize}\itemsep4mm
-  \item Quels sont les facteurs?
-  \item Quelle est la variable réponse?
-  \item Que valent $a$, $b$ et $n$?
+\small
+\underline{Approche « un facteur à la fois »:} une expérience pour A (B fixé), puis
+une autre pour B (A fixé).
+\begin{itemize}
+  \item Si l'effet de A dépend du niveau de B, on ne le verra \alert{jamais};
+  \item il faut plus d'unités expérimentales pour la même précision.
 \end{itemize}
-\vspace{3cm}
 
+\medskip
+\uncover<2->{
+\begin{Boite}{Expérience factorielle (toutes les combinaisons de niveaux)}
+\begin{itemize}
+  \item permet de détecter et d'estimer l'\alert{interaction} entre A et B;
+  \item chaque observation sert à estimer \alert{à la fois} l'effet de A et celui de B.
+\end{itemize}
+\end{Boite}}
+
+\uncover<3->{Les principes d'expérimentation du chapitre 5a s'appliquent toujours:
+\alert{contrôle}, \alert{répétition} (au moins $n=2$ par combinaison, sinon on ne peut
+pas séparer l'interaction de l'erreur) et \alert{randomisation}.}
+
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Dans l'exemple 1,
+  \begin{itemize}\itemsep 1.2cm
+    \item Quels sont les facteurs?
+    \item Quelle est la variable réponse?
+    \item Que valent $a$, $b$ et $n$? Combien y a-t-il d'observations en tout?
+  \end{itemize}
 \end{frame}
 
 %-------------------------------------------------------------------------------
@@ -274,12 +296,47 @@ les courbes ne sont pas parallèles.
 
 \end{frame}
 
-\begin{frame}[t]{Exemple 2: durée de vie des batteries}
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
 
-On s'intéresse à l'effet du \alert{type de matériau} et de la \alert{température}
-de confection (en \textdegree F) sur la \alert{durée de vie} de batteries (en heures).
-On teste $n=4$ batteries à chacune des 9 combinaisons possibles de matériaux
-et de températures ($a=b=3$).
+  \medskip
+  Rendement moyen (t/ha) de deux variétés de blé selon la dose d'azote:
+
+  \begin{columns}[T]
+  \begin{column}{0.5\textwidth}
+  \begin{tikzpicture}
+  \begin{axis}[width=6.2cm, height=4.6cm, xmin=0.7, xmax=3.3, ymin=2, ymax=6.2,
+    xtick={1,2,3}, xticklabels={0, 60, 120}, ytick={2,3,4,5,6},
+    xlabel={Dose d'azote (kg/ha)}, ylabel={Rendement moyen (t/ha)},
+    tick label style={font=\tiny}, label style={font=\scriptsize},
+    legend style={font=\tiny, at={(0.03,0.97)}, anchor=north west},
+    legend cell align=left, ymajorgrids, grid style={black!10}]
+    \addplot[lB1] coordinates {(1,3.2) (2,4.3) (3,4.9)};
+    \addplot[lB2, dashed] coordinates {(1,2.5) (2,4.2) (3,5.7)};
+    \legend{Variété 1, Variété 2}
+  \end{axis}
+  \end{tikzpicture}
+  \end{column}
+  \begin{column}{0.48\textwidth}
+  \small
+  Moyennes des variétés (sur les 3 doses):\\ $4{,}13$ et $4{,}13$\,t/ha.
+  \end{column}
+  \end{columns}
+
+  \begin{itemize}\itemsep 0.5cm
+    \item Les courbes sont-elles parallèles? Y a-t-il interaction?
+    \item Peut-on conclure que la variété n'a pas d'effet sur le rendement?
+    \item Quelle variété recommander sans azote? Avec 120\,kg/ha?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Exemple 2: résistance au jeûne chez la drosophile}
+
+\small
+On étudie l'effet de la \alert{lignée} génétique (A) et de la \alert{température}
+d'élevage (B) sur la \alert{durée de survie} (en heures) de drosophiles privées de
+nourriture. On place $n=4$ mouches (chacune dans sa fiole, attribuée au hasard) à
+chacune des 9 combinaisons lignée $\times$ température ($a=b=3$).
 
 \begin{center}
 \small
@@ -287,8 +344,8 @@ et de températures ($a=b=3$).
 \begin{tabular}{c|cc|cc|cc}
 \toprule
  & \multicolumn{6}{c}{Température}\\
-Matériau & \multicolumn{2}{c|}{15\,\textdegree F} & \multicolumn{2}{c|}{70\,\textdegree F}
- & \multicolumn{2}{c}{125\,\textdegree F}\\
+Lignée & \multicolumn{2}{c|}{15\,\textdegree C} & \multicolumn{2}{c|}{20\,\textdegree C}
+ & \multicolumn{2}{c}{25\,\textdegree C}\\
 \midrule
 \multirow{2}{*}{1} & 130 & 155 & 34 & 40 & 20 & 70\\
                    & 74  & 180 & 80 & 75 & 82 & 58\\
@@ -302,26 +359,72 @@ Matériau & \multicolumn{2}{c|}{15\,\textdegree F} & \multicolumn{2}{c|}{70\,\te
 \end{tabular}
 \end{center}
 
+\vspace{-2mm}
+{\tiny Données fictives, adaptées d'un exemple classique de D.\,C.\ Montgomery,
+\emph{Design and Analysis of Experiments}.}
+
 \end{frame}
 
-\begin{frame}[t]{Graphique des moyennes}
+\begin{frame}[t]{Exemple 2: graphique des moyennes}
 
 \begin{center}
 \begin{tikzpicture}
 \begin{axis}[width=10cm, height=6cm, xmin=0.7, xmax=3.3, ymin=40, ymax=165,
-  xtick={1,2,3}, xticklabels={15, 70, 125},
-  xlabel={Température (\textdegree F)}, ylabel={Durée de vie moyenne (h)},
+  xtick={1,2,3}, xticklabels={15, 20, 25},
+  xlabel={Température (\textdegree C)}, ylabel={Durée de survie moyenne (h)},
   tick label style={font=\scriptsize}, label style={font=\small},
   legend style={font=\scriptsize, at={(1.02,1)}, anchor=north west},
   legend cell align=left, ymajorgrids, grid style={black!10}]
   \addplot[niv1, thick, mark=o, mark size=2.5pt] coordinates {(1,134.75) (2,57.25) (3,57.5)};
   \addplot[niv2, thick, dashed, mark=triangle, mark size=3pt] coordinates {(1,155.75) (2,117.25) (3,49.5)};
   \addplot[niv3, thick, dotted, mark=+, mark size=3pt] coordinates {(1,144) (2,145.75) (3,85.5)};
-  \legend{Matériau 1, Matériau 2, Matériau 3}
+  \legend{Lignée 1, Lignée 2, Lignée 3}
 \end{axis}
 \end{tikzpicture}
 \end{center}
 
+\end{frame}
+
+\begin{frame}[t]{Exemple 2: moyennes des cellules et moyennes marginales}
+
+\small
+Notation: $\overline{y}_{ij\bullet}$ = moyenne de la combinaison $(i,j)$;
+$\overline{y}_{i\bullet\bullet}$ = moyenne du niveau $i$ de A;
+$\overline{y}_{\bullet j\bullet}$ = moyenne du niveau $j$ de B;
+$\overline{y}_{\bullet\bullet\bullet}$ = moyenne globale.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{c|ccc|c}
+\toprule
+ & \multicolumn{3}{c|}{Température} & \\
+Lignée & 15\,\textdegree C & 20\,\textdegree C & 25\,\textdegree C & $\overline{y}_{i\bullet\bullet}$\\
+\midrule
+1 & 134,75 & 57,25  & 57,50 & 83,17\\
+2 & 155,75 & 117,25 & 49,50 & 107,50\\
+3 & 144,00 & 145,75 & 85,50 & 125,08\\
+\midrule
+$\overline{y}_{\bullet j\bullet}$ & 144,83 & 106,75 & 64,17
+  & $\overline{y}_{\bullet\bullet\bullet}=105{,}25$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Le graphique des moyennes trace les $\overline{y}_{ij\bullet}$ (le centre du tableau).
+
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  À l'aide du tableau des moyennes de l'exemple 2, estimez:
+  \begin{itemize}\itemsep 1.2cm
+    \item l'effet de la lignée 3, $\tau_3$;
+    \item l'effet de la température de 15\,\textdegree C, $\beta_1$;
+    \item l'interaction $(\tau\beta)_{11}$ (lignée 1 à 15\,\textdegree C). Comment
+    l'interpréter?
+  \end{itemize}
 \end{frame}
 
 %-------------------------------------------------------------------------------
@@ -370,19 +473,54 @@ Totale & $SS_T$ & $abn-1$ & & & \\
 
 \end{frame}
 
-\begin{frame}[fragile,t]{Exemple 2: ANOVA sur la durée de vie des batteries}
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Une agronome compare le rendement de 4 variétés de blé (A) sous 3 régimes
+  d'engrais (B), avec 5 parcelles par combinaison, attribuées au hasard.
+  \begin{itemize}\itemsep 1.2cm
+    \item Combien de parcelles lui faut-il en tout?
+    \item Donnez les degrés de liberté de chaque source de variation (A, B,
+    interaction, erreur, totale).
+    \item S'il n'y a pas d'interaction, quelle loi suit la statistique $F_0^{AB}$?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Stratégie d'analyse: l'interaction d'abord!}
+
+\begin{Boite}{Ordre d'interprétation}
+\small
+\begin{enumerate}
+  \item On teste d'abord l'\alert{interaction}:
+  $H_0: (\tau\beta)_{ij}=0$ pour tous $i,j$.
+  \item Si l'interaction est \alert{significative}: l'effet de A dépend du niveau
+  de B. On \alert{n'interprète pas} A et B séparément; on compare les moyennes des
+  combinaisons $\overline{y}_{ij\bullet}$ (graphique des moyennes).
+  \item Sinon: on interprète les \alert{effets principaux} de A et de B (tests $F$,
+  moyennes marginales).
+\end{enumerate}
+\end{Boite}
+
+\uncover<2->{\small \alert{Attention !} En présence d'interaction, un effet principal
+non significatif ne veut pas dire que le facteur n'a pas d'effet (souvenez-vous du
+quiz sur les variétés de blé).}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Exemple 2: ANOVA sur la durée de survie}
 
 \begin{Verbatim}[fontsize=\scriptsize]
-> AnovaModel.1 <- lm(Duree_vie ~ Materiau*Temperature, data=batteries)
+> AnovaModel.1 <- lm(Survie ~ Lignee*Temperature, data=drosophiles)
 > Anova(AnovaModel.1)
 Anova Table (Type II tests)
 
-Response: Duree_vie
-                     Sum Sq Df F value       Pr(>F)
-Materiau              10633  2  7.9834     0.001888 **
-Temperature           39083  2 29.3438 0.0000001694 ***
-Materiau:Temperature   9438  4  3.5429     0.018973 *
-Residuals             17981 27
+Response: Survie
+                   Sum Sq Df F value       Pr(>F)
+Lignee              10633  2  7.9834     0.001888 **
+Temperature         39083  2 29.3438 0.0000001694 ***
+Lignee:Temperature   9438  4  3.5429     0.018973 *
+Residuals           17981 27
 \end{Verbatim}
 
 \medskip
@@ -390,6 +528,44 @@ Residuals             17981 27
   \item Quelles conclusions pouvez-vous tirer \alert{au seuil de 1\,\%}?
   \item<2-> Quelles conclusions pouvez-vous tirer \alert{au seuil de 5\,\%}?
 \end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Exemple 2: interpréter l'interaction (seuil de 5\,\%)}
+
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\begin{tikzpicture}
+\begin{axis}[width=6.3cm, height=5cm, xmin=0.7, xmax=3.3, ymin=0, ymax=165,
+  xtick={1,2,3}, xticklabels={15, 20, 25},
+  xlabel={Température (\textdegree C)}, ylabel={Survie moyenne (h)},
+  tick label style={font=\tiny}, label style={font=\scriptsize},
+  legend style={font=\tiny, at={(0.03,0.03)}, anchor=south west},
+  legend cell align=left, ymajorgrids, grid style={black!10}]
+  \addplot[niv1, thick, mark=o, mark size=2pt] coordinates {(1,134.75) (2,57.25) (3,57.5)};
+  \addplot[niv2, thick, dashed, mark=triangle, mark size=2.5pt] coordinates {(1,155.75) (2,117.25) (3,49.5)};
+  \addplot[niv3, thick, dotted, mark=+, mark size=2.5pt] coordinates {(1,144) (2,145.75) (3,85.5)};
+  \legend{Lignée 1, Lignée 2, Lignée 3}
+\end{axis}
+\end{tikzpicture}
+\end{column}
+\begin{column}{0.48\textwidth}
+\small
+L'interaction est significative ($p=0{,}019$): l'effet de la température
+\alert{dépend de la lignée}.
+\begin{itemize}\itemsep1mm
+  \item<2-> À 15\,\textdegree C, les trois lignées survivent de 135 à 156\,h en moyenne.
+  \item<2-> À 20\,\textdegree C, la survie de la lignée 1 chute (57\,h), alors que
+  la lignée 3 se maintient (146\,h).
+  \item<2-> À 25\,\textdegree C, toutes les lignées survivent moins longtemps
+  (50 à 86\,h).
+\end{itemize}
+\end{column}
+\end{columns}
+
+\medskip
+\uncover<3->{\small Dire simplement « la lignée 3 survit en moyenne 125\,h » masquerait
+ces différences: on interprète les combinaisons, pas les effets principaux seuls.}
 
 \end{frame}
 
@@ -432,9 +608,9 @@ $\hat\varepsilon_{ijk}=y_{ijk}-\overline{y}_{ij\bullet}$.
 \medskip
 Directement en R:
 \begin{Verbatim}[fontsize=\small]
-modele <- lm(Duree_vie ~ Materiau*Temperature, data=batteries)
-batteries$residus  <- residuals(modele)
-batteries$ajustees <- fitted(modele)
+modele <- lm(Survie ~ Lignee*Temperature, data=drosophiles)
+drosophiles$residus  <- residuals(modele)
+drosophiles$ajustees <- fitted(modele)
 \end{Verbatim}
 
 \end{frame}
@@ -498,8 +674,8 @@ W = 0.9777, p-value = 0.6672
 \hspace{1mm}
 \begin{tikzpicture}
 \begin{axis}[width=7.8cm, height=4.8cm, boxplot/draw direction=y,
-  xtick={1,...,9}, xticklabels={15.1,70.1,125.1,15.2,70.2,125.2,15.3,70.3,125.3},
-  xlabel={Température.Matériau}, ylabel={Durée de vie},
+  xtick={1,...,9}, xticklabels={15.1,20.1,25.1,15.2,20.2,25.2,15.3,20.3,25.3},
+  xlabel={Température.Lignée}, ylabel={Durée de survie (h)},
   x tick label style={font=\tiny, rotate=45}, y tick label style={font=\tiny},
   label style={font=\scriptsize}, ymajorgrids, grid style={black!10}]
   \addplot+[boxplot prepared={lower whisker=74, lower quartile=102, median=142.5, upper quartile=167.5, upper whisker=180}, black, fill=black!15] coordinates {};
@@ -517,29 +693,50 @@ W = 0.9777, p-value = 0.6672
 
 \begin{Verbatim}[fontsize=\scriptsize]
         Bartlett test of homogeneity of variances
-data:  residuals.AnovaModel.1 by interaction(Materiau, Temperature)
+data:  residuals.AnovaModel.1 by interaction(Lignee, Temperature)
 Bartlett's K-squared = 6.8636, df = 8, p-value = 0.5514
 \end{Verbatim}
 
 \end{frame}
 
-\begin{frame}[t]{Réponses}
+\begin{frame}[t]{Réponses aux exemples}
 
 \scriptsize
-\begin{itemize}\itemsep2mm
+\begin{itemize}\itemsep1.5mm
   \item \textbf{Exemple 1:} facteurs = température (A) et concentration (B);
-  réponse = rendement; $a=2$, $b=3$, $n=5$.
+  réponse = rendement; $a=2$, $b=3$, $n=5$, donc $abn=30$ observations.
   \item \textbf{Exercice:} (1) pas d'interaction, peu d'effet de A et de B;
   (2) pas d'interaction, effet de A, peu d'effet de B;
   (3) pas d'interaction, peu d'effet de A, effet de B;
   (4) interaction (les effets de A et B ne s'interprètent pas séparément).
-  \item \textbf{Seuil de 1\,\%:} l'interaction n'est pas significative
-  ($0{,}019>0{,}01$); le matériau ($p=0{,}002$) et la température ($p<0{,}001$) ont
-  chacun un effet significatif sur la durée de vie moyenne.
-  \item \textbf{Seuil de 5\,\%:} l'interaction est significative ($0{,}019<0{,}05$):
-  l'effet de la température dépend du matériau. On interprète à l'aide du graphique
-  des moyennes (p.\ ex., à 70\,\textdegree F, le matériau 3 dure beaucoup plus
-  longtemps que le matériau 1).
+  \item \textbf{Quiz (blé):} les courbes se croisent: il y a interaction. En moyenne,
+  les deux variétés donnent le même rendement ($4{,}13$\,t/ha), mais on ne peut pas
+  conclure que la variété n'a pas d'effet: sans azote, la variété 1 est meilleure
+  ($3{,}2$ contre $2{,}5$\,t/ha); à 120\,kg/ha, c'est la variété 2 ($5{,}7$ contre $4{,}9$).
+  \item \textbf{Quiz (estimation des effets):}
+  $\hat\tau_3=125{,}08-105{,}25=19{,}83$\,h;
+  $\hat\beta_1=144{,}83-105{,}25=39{,}58$\,h;
+  $\widehat{(\tau\beta)}_{11}=134{,}75-83{,}17-144{,}83+105{,}25=12{,}00$\,h: à 15\,\textdegree C,
+  la lignée 1 survit 12\,h de plus que ce que prédiraient les seuls effets de la lignée
+  et de la température.
+  \item \textbf{Quiz (d.l.):} $4\times3\times5=60$ parcelles; d.l.\ A: $3$, B: $2$,
+  interaction: $6$, erreur: $4\cdot3\cdot4=48$, totale: $59$. Sous $H_0$ (pas
+  d'interaction), $F_0^{AB}\sim F_{6,\,48}$.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Réponses aux exemples (suite)}
+
+\scriptsize
+\begin{itemize}\itemsep2mm
+  \item \textbf{Exemple 2, seuil de 1\,\%:} l'interaction n'est pas significative
+  ($0{,}019>0{,}01$); la lignée ($p=0{,}002$) et la température ($p<0{,}001$) ont
+  chacune un effet significatif sur la durée de survie moyenne.
+  \item \textbf{Exemple 2, seuil de 5\,\%:} l'interaction est significative
+  ($0{,}019<0{,}05$): l'effet de la température dépend de la lignée. On interprète à
+  l'aide du graphique des moyennes (p.\ ex., à 20\,\textdegree C, la lignée 3 survit
+  beaucoup plus longtemps que la lignée 1: 146\,h contre 57\,h).
   \item \textbf{Postulats:} Shapiro-Wilk ($p=0{,}67$) et Bartlett ($p=0{,}55$):
   pas d'évidence contre la normalité ni contre l'égalité des variances.
 \end{itemize}

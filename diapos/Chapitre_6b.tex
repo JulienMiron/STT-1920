@@ -194,6 +194,71 @@ z1 z2
 -1.072 -0.749
 }\normales
 
+% Hirondelles (38 oiseaux disponibles, voir chapitre 6a)
+\pgfplotstableread{
+x y
+52.29 14.10
+39.05 8.94
+40.23 8.79
+43.69 9.59
+50.23 10.60
+57.44 13.12
+42.18 10.51
+43.54 11.13
+41.59 8.62
+52.38 12.81
+45.35 11.18
+52.30 12.32
+45.91 9.38
+47.19 10.86
+45.94 10.99
+47.85 10.75
+48.82 11.36
+44.37 8.80
+46.28 10.47
+48.93 12.05
+48.17 11.13
+55.53 13.79
+50.85 13.26
+42.88 9.51
+48.86 11.32
+52.65 14.47
+45.43 10.26
+43.40 9.52
+50.95 12.82
+42.24 10.29
+48.30 12.33
+56.42 14.69
+49.97 11.15
+41.64 8.35
+52.83 11.80
+41.77 8.98
+53.47 13.70
+45.37 10.83
+}\hirondelles
+
+% Exemple 3 : concentration (mg/L) d'un médicament t heures après l'injection
+% (données simulées : C = 20 exp(-0,25 t) x erreur lognormale, set.seed(16))
+\pgfplotstableread{
+t C
+1 16.34
+1 15.38
+2 13.54
+2 10.50
+3 10.60
+3 9.02
+4 6.65
+4 7.40
+6 4.94
+6 4.73
+8 3.26
+8 2.74
+10 1.52
+10 1.94
+12 1.07
+12 0.84
+}\medicament
+
 % Droite estimée et quantités utiles (exemple des tomates)
 \def\bzero{1.37242}
 \def\bun{0.43126}
@@ -210,6 +275,17 @@ z1 z2
   nuage/.style={
     width=4.2cm, height=4.2cm, ticks=none, title style={font=\scriptsize},
     xmin=-3.3, xmax=3.3, ymin=-3.3, ymax=3.3,
+  },
+  oiseaux/.style={
+    width=6.4cm, height=3.9cm, xmin=37, xmax=73, ymin=7, ymax=17.5,
+    xlabel={Poids (g)}, ylabel={Étendue (cm)}, title style={font=\scriptsize},
+    tick label style={font=\tiny}, label style={font=\scriptsize},
+    grid=major, grid style={black!10},
+  },
+  medic/.style={
+    width=6.2cm, height=4.6cm, xmin=0, xmax=13,
+    tick label style={font=\tiny}, label style={font=\scriptsize},
+    grid=major, grid style={black!10},
   }
 }
 
@@ -370,6 +446,72 @@ prédiction.}
 
 \end{frame}
 
+\begin{frame}[fragile,t]{En R: \texttt{predict()}}
+
+\begin{Verbatim}[fontsize=\small]
+> nouveau <- data.frame(hrs_soleil=6.5)
+> predict(RegModel.1, newdata=nouveau, interval="confidence")
+      fit      lwr      upr
+1 4.17559 4.005455 4.345725
+> predict(RegModel.1, newdata=nouveau, interval="prediction")
+      fit      lwr      upr
+1 4.17559 3.025689 5.325492
+\end{Verbatim}
+
+\begin{itemize}\itemsep2mm
+  \item Même estimation ponctuelle (\texttt{fit}) dans les deux cas: 4,18\,kg.
+  \item L'intervalle de prédiction est environ \alert{7 fois plus large}: la
+  variabilité d'un plant individuel ($\sigma^2$) domine.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{IC ou intervalle de prédiction?}
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}p{4.4cm}@{}}
+\toprule
+& \textbf{IC pour la moyenne} & \textbf{Intervalle de prédiction}\\
+\midrule
+Cible & $E(Y)=\beta_0+\beta_1x^*$ (une constante) & une \alert{nouvelle} observation $Y$
+(aléatoire)\\
+Question type & «\,En moyenne, les plants à 6,5\,h\ldots\,» & «\,Ce plant-ci, à
+6,5\,h\ldots\,»\\
+Sous la racine & $\dfrac1n+\dfrac{(x^*-\overline{x})^2}{S_{XX}}$ &
+$1+\dfrac1n+\dfrac{(x^*-\overline{x})^2}{S_{XX}}$\\
+Si $n\to\infty$ & largeur $\to0$ & largeur $\to2\times1{,}96\,\sigma$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{itemize}\itemsep2mm
+  \item<2-> Les deux sont plus étroits en $x^*=\overline{x}$ et s'élargissent en
+  s'éloignant de $\overline{x}$.
+  \item<3-> \alert{Extrapolation dangereuse} (chapitre 6a): ne pas prédire hors du
+  domaine observé (ici, de 3 à 8\,h).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  IC pour la moyenne ou intervalle de prédiction?
+  \begin{itemize}\itemsep 1cm
+    \item Un agronome veut estimer la production moyenne de \alert{l'ensemble} des
+    plants de cette variété cultivés avec 7\,h de soleil par jour.
+    \item<2-> Une jardinière vient d'acheter \alert{un} plant qu'elle placera 7\,h par
+    jour au soleil; elle veut savoir combien il produira.
+    \item<3-> Vrai ou faux: avec un très grand nombre de plants ($n\to\infty$), la
+    largeur de l'intervalle de prédiction tend vers 0.
+    \item<4-> Vrai ou faux: à 7\,h de soleil, l'IC pour la moyenne est plus étroit
+    qu'à 6,5\,h.
+  \end{itemize}
+\end{frame}
+
 %-------------------------------------------------------------------------------
 \section{Qualité de l'ajustement}
 %-------------------------------------------------------------------------------
@@ -472,6 +614,21 @@ production  0.7967679  1.0000000
 
 \end{frame}
 
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  \begin{itemize}\itemsep 1cm
+    \item Pour les hirondelles (chapitre 6a), on obtient $R^2=0{,}792$ et une pente
+    positive. Que vaut $r$? Interprétez $R^2$.
+    \item<2-> Vrai ou faux: $r=-0{,}9$ indique un lien linéaire plus faible que
+    $r=0{,}5$.
+    \item<3-> Vrai ou faux: si $r=0$, il n'y a aucune relation entre $X$ et $Y$.
+    \item<4-> Vrai ou faux: un $R^2$ élevé garantit que les postulats du modèle
+    sont respectés.
+  \end{itemize}
+\end{frame}
+
 \begin{frame}[t]{Pourquoi «~régression~»?}
 
 \begin{itemize}\itemsep3mm
@@ -522,21 +679,30 @@ Pearson (1903): corrélation d'environ 0,5.}
 
 \begin{frame}[t]{Les postulats}
 
-La construction de la statistique de Fisher et des intervalles de
-confiance/prédiction s'est basée sur les postulats suivants:
-
-\medskip
-\begin{itemize}\itemsep3mm
-  \item l'\alert{indépendance} des observations $Y_i$;
-  \item la relation présumée entre $X$ et $Y$ est \alert{linéaire};
-  \item la \alert{normalité} des observations autour de la droite;
-  \item la \alert{constance de la variance} autour de la droite pour toutes les
-  valeurs de $X$.
+Tests et intervalles reposent sur les postulats suivants, \alert{en ordre
+d'importance}:
+\begin{itemize}\itemsep0.5mm
+  \item[(P1)] \alert{Linéarité}: la moyenne de $Y$ est une fonction linéaire de $X$;
+  \item[(P2)] \alert{Homoscédasticité}: la variance autour de la droite est la
+  même pour toutes les valeurs de $X$;
+  \item[(P3)] \alert{Indépendance} des observations;
+  \item[(P4)] \alert{Normalité} des observations autour de la droite.
 \end{itemize}
+
+\uncover<2->{
+\begin{Boite}{Outils de vérification}
+\small
+\begin{tabular}{@{}ll@{}}
+(P1) & nuage $(x_i,y_i)$; résidus en fonction des valeurs prédites $\hat y_i$\\
+(P2) & résidus en fonction des valeurs prédites $\hat y_i$\\
+(P3) & mode de collecte des données; résidus selon l'ordre de collecte\\
+(P4) & histogramme, diagramme quantile-quantile, test de Shapiro-Wilk\\
+\end{tabular}
+\end{Boite}}
 
 \end{frame}
 
-\begin{frame}[t]{Normalité des observations: analyse des résidus}
+\begin{frame}[t]{Analyse des résidus}
 
 Rappel du modèle: $Y_i=\beta_0+\beta_1X_i+\varepsilon_i$.
 
@@ -577,7 +743,119 @@ Résidu $\hat\varepsilon_i$ & 0,25 & $-0{,}18$ & $-0{,}32$ & \\
 
 \end{frame}
 
-\begin{frame}[t]{Normalité des erreurs}
+\begin{frame}[t]{(P1) Linéarité}
+
+Le nuage $(x_i,y_i)$ doit être réparti symétriquement autour d'une droite, et le
+graphique des résidus $e_i$ en fonction de $\hat y_i$, autour de 0,
+\alert{sans tendance}.
+
+\medskip
+\centering
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{cc@{\hspace{6mm}}cc}
+\multicolumn{2}{c}{\small\alert{Linéarité raisonnable}} &
+\multicolumn{2}{c}{\small\alert{Linéarité déraisonnable}}\\[1mm]
+\includegraphics[height=2.2cm]{images/yixiOK2.jpg} &
+\includegraphics[height=2.2cm]{images/eiyiOK2.jpg} &
+\includegraphics[height=2.2cm]{images/yixiNOTOK2.jpg} &
+\includegraphics[height=2.2cm]{images/eiyiNOTOK2.jpg}\\
+{\scriptsize $y_i$ selon $x_i$} & {\scriptsize $e_i$ selon $\hat y_i$} &
+{\scriptsize $y_i$ selon $x_i$} & {\scriptsize $e_i$ selon $\hat y_i$}\\
+\end{tabular}
+
+\raggedright
+\medskip
+\uncover<2->{\small À droite: la tendance est courbe; les résidus forment un
+«\,arc\,» (négatifs aux extrémités, positifs au centre).}
+
+\end{frame}
+
+\begin{frame}[t]{(P2) Homoscédasticité}
+
+Dans le graphique des résidus $e_i$ en fonction des valeurs prédites $\hat y_i$,
+la \alert{dispersion verticale} doit rester à peu près \alert{constante}.
+
+\medskip
+\centering
+\begin{tabular}{ccc}
+{\small\alert{Raisonnable}} & {\small\alert{Déraisonnable}} &
+{\small\alert{Déraisonnable}}\\[1mm]
+\includegraphics[height=2.6cm]{images/eiyiOK.jpg} &
+\includegraphics[height=2.6cm]{images/hetero1-2.jpg} &
+\includegraphics[height=2.6cm]{images/hetero2-2.jpg}\\
+{\scriptsize bande horizontale} & {\scriptsize «\,entonnoir\,»: la variance}
+& {\scriptsize variance plus grande}\\[-1mm]
+& {\scriptsize augmente avec $\hat y$} & {\scriptsize au centre}\\
+\end{tabular}
+
+\raggedright
+\medskip
+\uncover<2->{\small En biologie, l'entonnoir est fréquent: les grandes valeurs
+(concentrations, biomasses, dénombrements) varient souvent davantage.}
+
+\end{frame}
+
+\begin{frame}[t]{Exemple 1: résidus en fonction des valeurs prédites}
+
+Diagramme de dispersion des résidus en fonction des valeurs prédites:
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=9.5cm, height=5.6cm, xlabel={Valeurs prédites}, ylabel={Résidus},
+  tick label style={font=\scriptsize}, label style={font=\small},
+  grid=major, grid style={black!10}, ymin=-1.3, ymax=1.3]
+  \addplot[black!50, dashed, domain=2.5:5] {0};
+  \addplot[only marks, mark=o, mark size=1.5pt]
+    table[x expr={\bzero+\bun*\thisrow{x}},
+          y expr={\thisrow{y}-(\bzero+\bun*\thisrow{x})}] {\tomates};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\uncover<2->{Les postulats (P1) et (P2) semblent-ils respectés?}
+
+\end{frame}
+
+\begin{frame}[t]{(P3) Indépendance: difficile à vérifier!}
+
+C'est surtout la \alert{collecte des données} qui en est garante: aucune autre
+variable que $X$ ne doit lier certaines observations entre elles.
+
+\medskip
+Exemples de collectes problématiques:
+\begin{itemize}\itemsep2mm
+  \item<2-> plusieurs mesures prises sur le \alert{même individu} (même souris,
+  même plant) comptées comme des observations distinctes;
+  \item<3-> des plants cultivés dans le même pot ou sur la même table de la serre,
+  qui partagent lumière, arrosage et température;
+  \item<4-> les mesures 1 à 30 prises par une technicienne qui a tendance à
+  surestimer $Y$, les mesures 31 à 60 par un technicien qui le sous-estime;
+  \item<5-> des \alert{données chronologiques} ou spatiales: mesures quotidiennes
+  de la concentration d'un polluant dans une rivière, parcelles voisines d'un
+  champ\ldots{} les observations rapprochées se ressemblent.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{(P3) Données chronologiques}
+
+Si les indices $i=1,\ldots,n$ correspondent à l'\alert{ordre de collecte}, le
+graphique des résidus $e_i$ en fonction de $i$ peut révéler une corrélation entre
+résidus rapprochés («\,effet de grappe\,»).
+
+\bigskip
+\centering
+\begin{tabular}{cc}
+{\small\alert{Pas d'effet chronologique}} & {\small\alert{Effet de grappe}}\\[1mm]
+\includegraphics[height=3cm]{images/eiiOK2.jpg} &
+\includegraphics[height=3cm]{images/eiiNOTOK2.jpg}\\
+{\scriptsize signes $+$ et $-$ bien mélangés} &
+{\scriptsize résidus de même signe regroupés}\\
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}[t]{(P4) Normalité: histogramme et diagramme quantile-quantile}
 
 \begin{center}
 \begin{tikzpicture}
@@ -612,26 +890,193 @@ Résidu $\hat\varepsilon_i$ & 0,25 & $-0{,}18$ & $-0{,}32$ & \\
 
 \end{frame}
 
-\begin{frame}[t]{Homogénéité de la variance}
+\begin{frame}[fragile,t]{(P4) Test de normalité sur les résidus}
 
-Diagramme de dispersion des résidus en fonction des valeurs prédites:
+Rappel (chapitre 5a): le test de Shapiro-Wilk teste $H_0$: les erreurs suivent
+une loi normale, contre $H_1$: elles ne suivent pas une loi normale.
 
-\begin{center}
-\begin{tikzpicture}
-\begin{axis}[width=9.5cm, height=5.6cm, xlabel={Valeurs prédites}, ylabel={Résidus},
-  tick label style={font=\scriptsize}, label style={font=\small},
-  grid=major, grid style={black!10}, ymin=-1.3, ymax=1.3]
-  \addplot[black!50, dashed, domain=2.5:5] {0};
-  \addplot[only marks, mark=o, mark size=1.5pt]
-    table[x expr={\bzero+\bun*\thisrow{x}},
-          y expr={\thisrow{y}-(\bzero+\bun*\thisrow{x})}] {\tomates};
-\end{axis}
-\end{tikzpicture}
-\end{center}
+\begin{Verbatim}[fontsize=\small]
+> shapiro.test(residuals(RegModel.1))
+
+        Shapiro-Wilk normality test
+
+data:  residuals(RegModel.1)
+W = 0.96941, p-value = 0.1365
+\end{Verbatim}
+
+\uncover<2->{Conclusion?}
+
+\uncover<3->{\small Rappel: avec un grand $n$, de petits écarts à la normalité
+deviennent significatifs; avec un petit $n$, le test a peu de puissance. Les
+graphiques restent essentiels.}
 
 \end{frame}
 
-\begin{frame}[t]{Réponses}
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Pour chaque graphique de résidus, quel postulat semble violé (s'il y en a un)?
+
+  \medskip
+  \centering
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{cccc}
+  \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D}\\
+  \includegraphics[height=2.2cm]{images/hetero1-2.jpg} &
+  \includegraphics[height=2.2cm]{images/eiyiNOTOK2.jpg} &
+  \includegraphics[height=2.2cm]{images/eiiNOTOK.jpg} &
+  \includegraphics[height=2.2cm]{images/eiiOK.jpg}\\
+  {\scriptsize $e_i$ selon $\hat y_i$} & {\scriptsize $e_i$ selon $\hat y_i$} &
+  {\scriptsize $e_i$ selon l'ordre $i$} & {\scriptsize $e_i$ selon l'ordre $i$}\\
+  \end{tabular}
+
+  \raggedright
+  \begin{itemize}\itemsep 5mm
+    \item<2-> Pour C et D, les données ont été recueillies une par jour, dans l'ordre
+    $i$. Pourquoi l'ordre de collecte importe-t-il?
+    \item<3-> Vrai ou faux: si le nuage $(x_i,y_i)$ est bien linéaire, il est
+    inutile de regarder les résidus.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Valeurs aberrantes et influentes}
+
+\footnotesize
+Un oiseau fictif (en orange) ajouté aux hirondelles du chapitre 6a. Tirets: droite
+sans cet oiseau; trait plein: droite avec cet oiseau.
+
+\centering
+\begin{tikzpicture}
+\begin{axis}[oiseaux, title={Valeur \alert{aberrante}: $(48;\ 16{,}5)$}]
+  \addplot[only marks, mark=o, mark size=1pt, black!60] table {\hirondelles};
+  \addplot[only marks, mark=*, mark size=2pt, burntorange] coordinates {(48,16.5)};
+  \addplot[black, dashed, domain=38:72] {-4.4297+0.32824*x};
+  \addplot[burntorange, thick, domain=38:72] {-4.4321+0.3311*x};
+\end{axis}
+\end{tikzpicture}\hspace{3mm}
+\begin{tikzpicture}
+\begin{axis}[oiseaux, title={Valeur \alert{influente}: $(70;\ 9)$}]
+  \addplot[only marks, mark=o, mark size=1pt, black!60] table {\hirondelles};
+  \addplot[only marks, mark=*, mark size=2pt, burntorange] coordinates {(70,9)};
+  \addplot[black, dashed, domain=38:72] {-4.4297+0.32824*x};
+  \addplot[burntorange, thick, domain=38:72] {2.9485+0.1698*x};
+\end{axis}
+\end{tikzpicture}
+
+\raggedright
+\begin{itemize}\itemsep0mm
+  \item<2-> \alert{Aberrante}: très grand résidu; la pente change peu
+  ($0{,}328\to0{,}331$), mais $R^2$ chute ($0{,}79\to0{,}65$).
+  \item<3-> \alert{Influente}: $x$ loin des autres; elle «\,tire\,» la droite
+  vers elle (pente $0{,}328\to0{,}170$; $R^2$: $0{,}79\to0{,}33$).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Valeurs aberrantes et influentes: que faire?}
+
+\begin{itemize}\itemsep3mm
+  \item Toujours \alert{regarder les graphiques}: un seul point peut changer toute
+  la conclusion.
+  \item<2-> Vérifier la donnée: erreur de saisie (virgule mal placée, g au lieu de
+  kg)? erreur de mesure? individu d'une autre population (autre espèce, animal
+  malade)?
+  \item<3-> Si c'est une erreur, on la corrige (ou on retire la donnée) en le
+  mentionnant.
+  \item<4-> Sinon, on \alert{ne retire pas} une donnée simplement parce qu'elle
+  dérange! On peut présenter l'analyse \alert{avec et sans} la donnée et discuter
+  de la différence.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Que faire si les postulats ne sont pas respectés?}
+
+\small
+On tente souvent de \alert{transformer} $Y$ et/ou $X$, puis on refait la
+régression (et la vérification des postulats!) sur les données transformées.
+
+\begin{itemize}\itemsep2mm
+  \item<2-> \textbf{Non-linéarité (P1)}: s'inspirer de la forme du nuage, par
+  exemple
+  \[
+  \ln(Y_i)=\beta_0+\beta_1X_i+\varepsilon_i,\qquad
+  Y_i=\beta_0+\beta_1\ln(X_i)+\varepsilon_i,\qquad
+  Y_i=\beta_0+\beta_1X_i^2+\varepsilon_i.
+  \]
+  \item<3-> \textbf{Hétéroscédasticité (P2) ou non-normalité (P4)}: une
+  transformation de $Y$ ($\ln Y$, $\sqrt{Y}$) stabilise souvent la variance,
+  surtout quand la dispersion augmente avec la moyenne (entonnoir).
+  \item<4-> \textbf{Dépendance (P3)}: aucune transformation ne règle le problème;
+  il faut revoir la collecte ou utiliser des modèles qui tiennent compte de la
+  dépendance (hors du cours).
+  \item<5-> Autres pistes (hors du cours): régression polynomiale, régression
+  multiple, modèles non linéaires, méthodes non paramétriques.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Exemple 3: concentration d'un médicament}
+
+On mesure la concentration $C$ (mg/L) d'un médicament dans le sang de 16 patients
+(un seul prélèvement chacun), $t=1$ à 12\,h après l'injection (données simulées).
+
+\centering
+\begin{tikzpicture}
+\begin{axis}[medic, xlabel={Temps $t$ (h)}, ylabel={$C$ (mg/L)}, ymin=-2, ymax=18]
+  \addplot[only marks, mark=o, mark size=1.5pt] table[x=t, y=C] {\medicament};
+  \addplot[burntorange, thick, domain=0:13] {14.172-1.2639*x};
+  \addplot[black!40, dashed, domain=0:13] {0};
+\end{axis}
+\end{tikzpicture}\hspace{3mm}
+\begin{tikzpicture}
+\begin{axis}[medic, xlabel={Valeurs prédites}, ylabel={Résidus}, xmin=-2, xmax=14,
+  ymin=-4, ymax=4]
+  \addplot[only marks, mark=o, mark size=1.5pt]
+    table[x expr={14.172-1.2639*\thisrow{t}},
+          y expr={\thisrow{C}-(14.172-1.2639*\thisrow{t})}] {\medicament};
+  \addplot[black!40, dashed, domain=-2:14] {0};
+\end{axis}
+\end{tikzpicture}
+
+\raggedright
+\small
+\uncover<2->{Droite: $\hat C=14{,}17-1{,}264\,t$, $R^2=0{,}875$. Les postulats
+sont-ils respectés? Que prédit ce modèle à $t=12$\,h?}
+
+\end{frame}
+
+\begin{frame}[t]{Exemple 3 (suite): transformation logarithmique}
+
+\centering
+\begin{tikzpicture}
+\begin{axis}[medic, width=6.4cm, xlabel={Temps $t$ (h)}, ylabel={$\ln C$}]
+  \addplot[only marks, mark=o, mark size=1.5pt] table[x=t, y expr={ln(\thisrow{C})}] {\medicament};
+  \addplot[burntorange, thick, domain=0:13] {3.0109-0.24911*x};
+\end{axis}
+\end{tikzpicture}\hspace{2mm}
+\begin{minipage}[b]{0.46\textwidth}
+\small
+\begin{itemize}\itemsep1.5mm
+  \item<2-> Droite estimée: $\widehat{\ln C}=3{,}011-0{,}249\,t$, $R^2=0{,}988$;
+  résidus sans tendance.
+  \item<3-> Chaque heure, $\ln C$ diminue de 0,249: $C$ est
+  \alert{multipliée} par $e^{-0{,}249}=0{,}78$, i.e.\ elle \alert{diminue
+  d'environ 22\,\% par heure}.
+  \item<4-> Prédiction à 12\,h: $e^{3{,}011-0{,}249\times12}\approx1{,}0$\,mg/L
+  (toujours positive).
+\end{itemize}
+\vspace{4mm}
+\end{minipage}
+
+\raggedright
+\uncover<5->{\footnotesize Les tests et IC portent alors sur le modèle
+transformé ($\ln C$); on revient à l'échelle d'origine avec $e^x$.}
+
+\end{frame}
+
+\begin{frame}[t]{Réponses aux exemples (1)}
 
 \scriptsize
 \begin{itemize}\itemsep1mm
@@ -642,14 +1087,45 @@ Diagramme de dispersion des résidus en fonction des valeurs prédites:
   \item \textbf{Prédiction:} même estimation ponctuelle (4,18 kg), mais erreur-type plus
   grande; IP à 95\,\%: $4{,}18\pm2{,}00\sqrt{0{,}3228\,(1+1/60+1/175)}=4{,}18\pm1{,}15$,
   soit $[3{,}03;\ 5{,}33]$ kg.
+  \item \textbf{Quiz (IC ou IP):} (1) IC pour la moyenne. (2) Intervalle de
+  prédiction. (3) Faux: l'IP tend vers $\pm1{,}96\,\sigma$ (largeur
+  $\approx2\times1{,}96\times0{,}568=2{,}2$\,kg); c'est l'IC qui tend vers 0.
+  (4) Faux: 7\,h est plus loin de $\overline{x}=5{,}5$\,h que 6,5\,h, donc l'IC est
+  plus large.
   \item \textbf{$R^2$}$\,=SSR/SST=32{,}547/51{,}268=0{,}635$: 63,5\,\% de la variabilité
   de la production est expliquée par l'ensoleillement. $R^2=0$ si $b_1=0$ ($SSR=0$);
   $R^2=1$ si tous les points sont sur la droite ($SSE=0$).
   \item \textbf{$r$:} $r>0$ si $b_1>0$, $r<0$ si $b_1<0$. Exemple:
   $r=+\sqrt{0{,}635}=0{,}797$.
+  \item \textbf{Quiz ($R^2$ et $r$):} (1) $r=+\sqrt{0{,}792}=0{,}89$; 79\,\% de la
+  variabilité de l'étendue des ailes est expliquée par le poids. (2) Faux:
+  $|-0{,}9|>0{,}5$, le lien est plus fort (mais négatif). (3) Faux: $r$ ne mesure que
+  le lien \emph{linéaire}; une relation en U peut donner $r\approx0$. (4) Faux: il
+  faut examiner les résidus (voir l'exemple 3: $R^2=0{,}875$, mais relation courbe).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Réponses aux exemples (2)}
+
+\scriptsize
+\begin{itemize}\itemsep1mm
   \item \textbf{Résidus:} donnée 51: $\hat y=4{,}82$, $\hat\varepsilon=-0{,}74$.
-  \item \textbf{Postulats:} histogramme et QQ-plot compatibles avec la normalité;
-  dispersion des résidus à peu près constante selon les valeurs prédites.
+  \item \textbf{Exemple 1, résidus selon $\hat y_i$:} bande horizontale autour de 0,
+  sans tendance ni entonnoir: (P1) et (P2) semblent respectés.
+  \item \textbf{Normalité:} histogramme et QQ-plot compatibles avec la normalité;
+  Shapiro-Wilk: valeur-p $=0{,}137>0{,}05$, on ne rejette pas la normalité des
+  erreurs.
+  \item \textbf{Quiz (résidus):} A: (P2), la dispersion augmente avec $\hat y$
+  (entonnoir). B: (P1), les résidus forment un arc (relation courbe). C: (P3),
+  les résidus de même signe sont regroupés (effet de grappe). D: aucun problème
+  apparent. L'ordre importe car des mesures prises à des jours rapprochés peuvent
+  se ressembler (dépendance). Faux: les résidus révèlent mieux une légère courbure,
+  l'hétéroscédasticité ou la non-normalité.
+  \item \textbf{Exemple 3:} (P1) n'est pas respecté: résidus en U (positifs aux
+  extrémités, négatifs au centre); (P2) douteux (dispersion plus grande pour les
+  fortes concentrations). À 12\,h, $\hat C=14{,}172-1{,}2639\times12=-1{,}0$\,mg/L:
+  une concentration négative, impossible!
 \end{itemize}
 
 \end{frame}

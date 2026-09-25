@@ -264,6 +264,21 @@
 \end{console}
 \end{frame}
 
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Deux parents sont porteurs sains (génotype $Aa$) de l'allèle récessif
+  responsable de la fibrose kystique. Chacun de leurs enfants a une
+  probabilité $1/4$ d'être atteint (génotype $aa$), indépendamment des autres.
+  Le couple a 4 enfants; soit $X$ le nombre d'enfants atteints.
+  \begin{itemize}\itemsep 1.2cm
+    \item Quelle est la loi de $X$? Vérifiez les conditions.
+    \item Combien d'enfants atteints ce type de famille a-t-il en moyenne?
+    \item Quelle est la probabilité qu'aucun des 4 enfants ne soit atteint?
+  \end{itemize}
+\end{frame}
+
 %===============================================================================
 \section[Loi de Poisson]{2.6.4 La loi de Poisson}
 %===============================================================================
@@ -427,6 +442,38 @@
   \end{tikzpicture}
 \end{frame}
 
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Une mutation donnée survient avec une probabilité de $10^{-5}$ à chaque
+  division cellulaire, indépendamment d'une division à l'autre. Une culture
+  bactérienne compte $300\,000$ divisions. Soit $X$ le nombre de mutants
+  obtenus.
+  \begin{itemize}\itemsep 1.2cm
+    \item Quelle est la loi exacte de $X$?
+    \item Par quelle loi plus simple peut-on l'approximer? Avec quel paramètre?
+    \item Quelle est la probabilité d'obtenir au moins un mutant?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Pour chaque variable, quelle loi utiliser : \alert{binomiale},
+  \alert{Poisson}, ou \alert{ni l'une ni l'autre}?
+  \begin{enumerate}[a)]\itemsep 4mm
+    \item Le nombre de graines qui germent parmi 20 graines d'un même lot.
+    \item Le nombre de colonies bactériennes sur une boîte de Petri.
+    \item Le nombre de mutations dans un gène de 1\,500 paires de bases, si
+      chaque base mute avec probabilité $10^{-4}$, indépendamment des autres.
+    \item La masse (en g) d'un nouveau-né.
+    \item Le nombre de porcelets malades dans une portée de 10 lors d'une
+      épidémie de grippe porcine (maladie contagieuse).
+  \end{enumerate}
+\end{frame}
+
 %===============================================================================
 \section[Loi normale]{2.6.6 La loi normale}
 %===============================================================================
@@ -463,7 +510,7 @@
 
 \begin{frame}[t]{Allure de la densité}
   \centering
-  \pgfplotsset{dens/.style={petit, width=0.5\textwidth, height=0.62\textheight,
+  \pgfplotsset{dens/.style={petit, width=0.5\textwidth, height=0.56\textheight,
       xlabel={$x$}, ylabel={$f(x)$}, samples=120,
       legend style={font=\tiny, draw=none, fill=none, at={(0.98,0.98)}, anchor=north east},
       legend cell align=left}}
@@ -483,6 +530,11 @@
       \legend{$\sigma^2=1$, $\sigma^2=4$, $\sigma^2=9$}
     \end{axis}
   \end{tikzpicture}
+
+  \raggedright\small
+  $\mu$ est un paramètre de \alert{position} : il déplace la cloche sans la
+  déformer. $\sigma$ est un paramètre d'\alert{échelle} : plus il est grand,
+  plus la cloche est large et basse (l'aire totale reste égale à 1).
 \end{frame}
 
 \begin{frame}[plain]
@@ -522,6 +574,22 @@
   $F(x) = \int_{-\infty}^{x} \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{t-\mu}{\sigma}\right)^2} dt$
   \alert{n'a pas de forme explicite} : on utilise un logiciel (R) ou une table.
   }
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Le poids à la naissance $X$ (en g) des bébés nés à terme suit
+  approximativement une loi normale de paramètres $\mu = 3400$\,g et
+  $\sigma^2 = 500^2$\,g$^2$. Sans faire de calcul, répondez :
+  \begin{enumerate}\itemsep 1cm
+    \item Laquelle est la plus grande : $P(X < 2400)$ ou $P(X > 4400)$?
+    \item Laquelle est la plus grande : $P(2400 < X < 2500)$ ou
+      $P(3400 < X < 3500)$?
+    \item Si l'écart type était plutôt de 400\,g (même moyenne),
+      $P(X < 2400)$ augmenterait-elle ou diminuerait-elle?
+  \end{enumerate}
 \end{frame}
 
 \begin{frame}[t]{Loi normale standard}
@@ -674,6 +742,83 @@
   }
 \end{frame}
 
+\begin{frame}[t]{Standardisation : centrer, puis réduire}
+  \begin{columns}[T]
+    \column{0.56\textwidth}
+      \begin{enumerate}\itemsep 2mm
+        \item \alert{Centrer} : $X - \mu \sim N(0, \sigma^2)$.\\
+          {\small On déplace la cloche pour qu'elle soit centrée en 0.}
+        \item \alert{Réduire} : $\dfrac{X - \mu}{\sigma} \sim N(0, 1)$.\\
+          {\small On change d'unité : la nouvelle unité est l'écart type.}
+      \end{enumerate}
+    \column{0.42\textwidth}
+      \begin{tikzpicture}
+        \begin{axis}[base, width=\linewidth, height=0.38\textheight,
+            axis lines=left, ytick=\empty, ymin=0, ymax=0.45, xmin=-7, xmax=11,
+            xtick={0,4}, samples=100,
+            legend style={font=\tiny, draw=none, fill=none, at={(0.5,1.03)}, anchor=south},
+            legend columns=3, legend cell align=left]
+          \addplot[thick, black, dotted, domain=-2:10] {exp(-(x-4)^2/8)/(2*sqrt(2*pi))};
+          \addplot[thick, Dominante!80!black, dashed, domain=-6:6] {exp(-x^2/8)/(2*sqrt(2*pi))};
+          \addplot[thick, Accent, domain=-4:4] {exp(-x^2/2)/sqrt(2*pi)};
+          \legend{{$N(4, 2^2)$}, {$N(0, 2^2)$}, {$N(0, 1)$}}
+        \end{axis}
+      \end{tikzpicture}
+  \end{columns}
+
+  \smallskip
+  \textbf{Justification.} $Z = \frac{1}{\sigma} X - \frac{\mu}{\sigma}$ est de
+  la forme $aX + b$. Par les propriétés de la 1\textsuperscript{re} partie,
+  $E(Z) = \frac{E(X) - \mu}{\sigma} = 0$ et
+  $\operatorname{Var}(Z) = \frac{\operatorname{Var}(X)}{\sigma^2} = 1$; de
+  plus, une transformation linéaire d'une v.a.\ normale est encore normale.
+
+  \smallskip
+  \textbf{Interprétation.} $z = (x - \mu)/\sigma$ est le \alert{nombre
+  d'écarts types} qui séparent $x$ de la moyenne. Ex. : un bébé de 2\,650\,g a
+  $z = (2650 - 3400)/500 = -1.5$.
+\end{frame}
+
+\begin{frame}[t]{Règle empirique : 68 -- 95 -- 99.7}
+  \begin{columns}[c]
+    \column{0.5\textwidth}
+      \begin{Boite}{Règle empirique}
+        Si $X \sim N(\mu, \sigma^2)$, environ
+        \begin{itemize}
+          \item \alert{68\,\%} des valeurs sont dans $\mu \pm \sigma$;
+          \item \alert{95\,\%} sont dans $\mu \pm 2\sigma$;
+          \item \alert{99.7\,\%} sont dans $\mu \pm 3\sigma$.
+        \end{itemize}
+      \end{Boite}
+    \column{0.48\textwidth}
+      \begin{tikzpicture}
+        \begin{axis}[base, width=\linewidth, height=0.44\textheight,
+            axis lines=left, ytick=\empty, ymin=0, ymax=0.45, xmin=-3.6, xmax=3.6,
+            xtick={-3,-2,-1,0,1,2,3}, samples=60,
+            xticklabels={$-3\sigma$, $-2\sigma$, $-\sigma$, $\mu$, $\sigma$, $2\sigma$, $3\sigma$},
+            xticklabel style={font=\tiny}]
+          \addplot[fill=Dominante!15, draw=none, domain=-3:3] {exp(-x^2/2)/sqrt(2*pi)} \closedcycle;
+          \addplot[fill=Dominante!35, draw=none, domain=-2:2] {exp(-x^2/2)/sqrt(2*pi)} \closedcycle;
+          \addplot[fill=Dominante!65, draw=none, domain=-1:1] {exp(-x^2/2)/sqrt(2*pi)} \closedcycle;
+          \addplot[thick, black, domain=-3.6:3.6] {exp(-x^2/2)/sqrt(2*pi)};
+          \node[font=\tiny] at (axis cs:0,0.15) {68\,\%};
+          \node[font=\tiny] at (axis cs:-1.5,0.03) {95\,\%};
+          \node[font=\tiny] at (axis cs:2.6,0.05) {99.7\,\%};
+        \end{axis}
+      \end{tikzpicture}
+  \end{columns}
+
+  {\scriptsize\color{gray} Valeurs exactes : $\Phi(1) - \Phi(-1) = 0.6827$,
+  $\Phi(2) - \Phi(-2) = 0.9545$, $\Phi(3) - \Phi(-3) = 0.9973$. Pour
+  exactement 95\,\%, il faut $\pm 1.96\,\sigma$.}
+
+  \smallskip
+  \textbf{Poids à la naissance} ($\mu = 3400$\,g, $\sigma = 500$\,g) : environ
+  68\,\% des bébés pèsent entre 2\,900 et 3\,900\,g, 95\,\% entre 2\,400 et
+  4\,400\,g, et presque tous (99.7\,\%) entre 1\,900 et 4\,900\,g. Une valeur à
+  plus de 3 écarts types de la moyenne est donc \alert{très inhabituelle}.
+\end{frame}
+
 \begin{frame}[t]{Exemple 4}
   La taille d'une fille de 12 mois ($X$) suit une distribution normale de
   moyenne 74\,cm et de variance 9\,cm$^2$ : $X \sim N(74, 9)$.
@@ -729,21 +874,47 @@
   {\small\color{gray} Attention : dans R, on donne l'écart type \texttt{sd}, pas la variance!}
 \end{frame}
 
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Chez les adultes en santé, la glycémie à jeun $X$ (en mmol/L) suit
+  approximativement une loi $N(5.0,\; 0.5^2)$.
+  \begin{itemize}\itemsep 1.1cm
+    \item Un patient a une glycémie de 6.1\,mmol/L. À combien d'écarts types
+      de la moyenne se situe-t-il?
+    \item Quelle proportion des adultes en santé ont une glycémie
+      supérieure à la sienne?
+    \item Sous quelle valeur se trouve la glycémie de 95\,\% des adultes
+      en santé?
+  \end{itemize}
+\end{frame}
+
 \begin{frame}[t]{Combinaisons linéaires de v.a.\ normales}
   \begin{prp}
-    \begin{enumerate}\itemsep 3mm
+    \begin{enumerate}\itemsep 2mm
       \item Si $X \sim N(\mu, \sigma^2)$ et $Y = aX + b$, alors
         $Y \sim N(a\mu + b,\; a^2\sigma^2)$.
-      \item Si $X \sim N(\mu_X, \sigma_X^2)$ et $Y \sim N(\mu_Y, \sigma_Y^2)$
-        sont \alert{indépendantes}, alors
-        $X + Y \sim N(\mu_X + \mu_Y,\; \sigma_X^2 + \sigma_Y^2)$.
+      \item Si $X_1, \ldots, X_n$ sont \alert{indépendantes} avec
+        $X_i \sim N(\mu_i, \sigma_i^2)$, alors
+        \[
+          a_1 X_1 + \cdots + a_n X_n \sim
+          N\big(a_1\mu_1 + \cdots + a_n\mu_n,\;\; a_1^2\sigma_1^2 + \cdots + a_n^2\sigma_n^2\big).
+        \]
     \end{enumerate}
   \end{prp}
 
   \uncover<2->{
-  Plus généralement, une somme de v.a.\ normales indépendantes est encore
-  normale : l'espérance et la variance se calculent avec les propriétés vues
-  en 1\textsuperscript{re} partie.
+  Cas particuliers importants ($X$ et $Y$ normales \alert{indépendantes}) :
+  \[
+    X + Y \sim N(\mu_X + \mu_Y,\; \sigma_X^2 + \sigma_Y^2), \qquad
+    X - Y \sim N(\mu_X - \mu_Y,\; \sigma_X^2 + \sigma_Y^2).
+  \]
+  {\small \alert{Attention !} La variance d'une \emph{différence} est une
+  \emph{somme} : $\operatorname{Var}(X - Y) = 1^2\sigma_X^2 + (-1)^2\sigma_Y^2$.
+  Soustraire deux quantités aléatoires ajoute de l'incertitude, ça ne
+  l'enlève pas. \color{gray}(Utile au chapitre 4 pour comparer deux
+  moyennes.)}
   }
 \end{frame}
 
@@ -756,6 +927,52 @@
   \medskip
   Quelle est la probabilité que la masse d'un sac choisi au hasard soit
   inférieure à 1400\,g?
+
+  \vspace{2.5cm}
+  {\small\color{gray} Rappel : on a calculé l'espérance et la variance d'un sac
+  de 7 oranges à la fin de la 1\textsuperscript{re} partie. Ce qui est
+  nouveau : on connaît maintenant la \emph{loi} de la masse du sac.}
+\end{frame}
+
+\begin{frame}[t]{Exemple 6}
+  Dans une animalerie, la masse (en g) des souris adultes d'une lignée suit une
+  loi $N(30,\; 9)$ chez les mâles et une loi $N(26,\; 7)$ chez les femelles.
+  On choisit au hasard un mâle et une femelle, dont les masses $M$ et $F$ sont
+  indépendantes.
+
+  \medskip
+  \alert{Quelle est la probabilité que la femelle soit plus lourde que le mâle?}
+
+  \vspace{2.5cm}
+  {\small\color{gray} Piste : $P(F > M) = P(F - M > 0)$. Quelle est la loi de $D = F - M$?}
+\end{frame}
+
+\begin{frame}[t]{Et si les v.a.\ ne sont pas indépendantes?}
+  Les formules de variance précédentes supposent l'\alert{indépendance}. Sinon,
+  il faut tenir compte de la \alert{covariance} :
+  \[
+    \operatorname{Var}(X \pm Y) = \operatorname{Var}(X) + \operatorname{Var}(Y)
+    \pm 2\operatorname{Cov}(X, Y),
+    \qquad \operatorname{Cov}(X, Y) = E\big[(X - \mu_X)(Y - \mu_Y)\big].
+  \]
+  \vspace{-2mm}
+  \begin{itemize}\itemsep 1.5mm\small
+    \item $\operatorname{Cov}(X, Y) > 0$ : $X$ et $Y$ ont tendance à être
+      grandes (ou petites) \emph{en même temps} (ex. : longueur et masse d'un
+      poisson).
+    \item $\operatorname{Cov}(X, Y) < 0$ : quand l'une est grande, l'autre a
+      tendance à être petite.
+    \item La \alert{corrélation}
+      $\rho = \operatorname{Cov}(X, Y) / (\sigma_X \sigma_Y)$ est sans unité et
+      toujours entre $-1$ et $1$.
+    \item Si $X$ et $Y$ sont indépendantes, alors $\operatorname{Cov}(X, Y) = 0$
+      (mais la réciproque est fausse).
+  \end{itemize}
+
+  \medskip
+  {\small\color{gray} Dans ce cours, on supposera presque toujours
+  l'indépendance. On retrouvera ces idées avec les données appariées
+  (chapitre 4) et la corrélation échantillonnale (chapitre 6).}
 \end{frame}
 
 %===============================================================================
@@ -887,7 +1104,104 @@
   on considère souvent que $n \ge 30$ suffit.}
 \end{frame}
 
-\begin{frame}[t]{Exemple 6}
+\begin{frame}[t]{Le TLC en action : simulation}
+  \small Temps d'attente $X$ (en min) entre deux visites de pollinisateurs
+  sur une fleur : loi exponentielle, très asymétrique, avec $\mu = 2$ et
+  $\sigma = 2$. On simule $10\,000$ échantillons de taille $n$ et on trace
+  l'histogramme des $10\,000$ moyennes $\overline{X}$.
+  \normalsize
+
+  \smallskip
+  \begin{columns}[T]
+    \column{0.64\textwidth}
+  \pgfplotsset{tlc/.style={base, width=0.56\linewidth, height=0.33\textheight,
+      xmin=0, xmax=6, ymin=0, ymax=1.2, xtick={0,1,...,6}, ytick={0,0.5,1},
+      tick label style={font=\tiny}, title style={font=\scriptsize\bfseries, yshift=-5pt},
+      axis lines=left}}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[tlc, title={$n = 1$ \ (écart type 2)}]
+      \addplot[ybar interval, fill=Dominante!45, draw=white, very thin] coordinates {(0,0.479) (0.2,0.426) (0.4,0.388) (0.6,0.342) (0.8,0.317) (1,0.272) (1.2,0.264) (1.4,0.249) (1.6,0.210) (1.8,0.194) (2,0.172) (2.2,0.164) (2.4,0.141) (2.6,0.138) (2.8,0.117) (3,0.102) (3.2,0.114) (3.4,0.088) (3.6,0.073) (3.8,0.065) (4,0.060) (4.2,0.058) (4.4,0.053) (4.6,0.051) (4.8,0.042) (5,0.040) (5.2,0.035) (5.4,0.032) (5.6,0.026) (5.8,0.030) (6,0)};
+      \addplot[thick, Accent, domain=0:6] {0.5*exp(-x/2)};
+    \end{axis}
+  \end{tikzpicture}\hfill
+  \begin{tikzpicture}
+    \begin{axis}[tlc, title={$n = 5$ \ (écart type 0.89)}]
+      \addplot[ybar interval, fill=Dominante!45, draw=white, very thin] coordinates {(0,0.001) (0.2,0.021) (0.4,0.076) (0.6,0.175) (0.8,0.284) (1,0.358) (1.2,0.453) (1.4,0.504) (1.6,0.462) (1.8,0.456) (2,0.427) (2.2,0.356) (2.4,0.315) (2.6,0.246) (2.8,0.201) (3,0.171) (3.2,0.116) (3.4,0.116) (3.6,0.075) (3.8,0.051) (4,0.045) (4.2,0.026) (4.4,0.021) (4.6,0.018) (4.8,0.007) (5,0.006) (5.2,0.004) (5.4,0.004) (5.6,0.001) (5.8,0.002) (6,0)};
+      \addplot[thick, Accent, domain=0:6] {exp(-(x-2)^2/(2*0.8))/sqrt(2*pi*0.8)};
+    \end{axis}
+  \end{tikzpicture}
+
+  \vspace{-1mm}
+  \begin{tikzpicture}
+    \begin{axis}[tlc, title={$n = 10$ \ (écart type 0.63)}]
+      \addplot[ybar interval, fill=Dominante!45, draw=white, very thin] coordinates {(0,0.000) (0.2,0.000) (0.4,0.003) (0.6,0.033) (0.8,0.101) (1,0.258) (1.2,0.404) (1.4,0.598) (1.6,0.658) (1.8,0.652) (2,0.606) (2.2,0.477) (2.4,0.384) (2.6,0.268) (2.8,0.194) (3,0.127) (3.2,0.093) (3.4,0.057) (3.6,0.035) (3.8,0.024) (4,0.010) (4.2,0.007) (4.4,0.004) (4.6,0.003) (4.8,0.003) (5,0.001) (5.2,0.001) (5.4,0.001) (5.6,0.001) (5.8,0.000) (6,0)};
+      \addplot[thick, Accent, domain=0:6] {exp(-(x-2)^2/(2*0.4))/sqrt(2*pi*0.4)};
+    \end{axis}
+  \end{tikzpicture}\hfill
+  \begin{tikzpicture}
+    \begin{axis}[tlc, title={$n = 30$ \ (écart type 0.37)}]
+      \addplot[ybar interval, fill=Dominante!45, draw=white, very thin] coordinates {(0,0.000) (0.2,0.000) (0.4,0.000) (0.6,0.001) (0.8,0.002) (1,0.024) (1.2,0.148) (1.4,0.447) (1.6,0.855) (1.8,1.131) (2,0.981) (2.2,0.714) (2.4,0.401) (2.6,0.194) (2.8,0.070) (3,0.025) (3.2,0.007) (3.4,0.001) (3.6,0.001) (3.8,0.001) (4,0.000) (4.2,0.000) (4.4,0.000) (4.6,0.000) (4.8,0.000) (5,0.000) (5.2,0.000) (5.4,0.000) (5.6,0.000) (5.8,0.000) (6,0)};
+      \addplot[thick, Accent, domain=0:6] {exp(-(x-2)^2/(2*0.133333))/sqrt(2*pi*0.133333)};
+    \end{axis}
+  \end{tikzpicture}
+    \column{0.34\textwidth}
+      \small
+      Quand $n$ augmente :
+      \begin{itemize}\itemsep 2mm
+        \item le \alert{centre} reste à $\mu = 2$;
+        \item l'\alert{étalement} diminue comme $\sigma/\sqrt{n}$;
+        \item la \alert{forme} devient celle d'une cloche.
+      \end{itemize}
+
+      \smallskip
+      {\scriptsize\color{gray} Courbe : densité de départ ($n = 1$),
+      puis $N(\mu, \sigma^2/n)$ prédite par le TLC.}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[t]{Conditions d'application du TLC}
+  \begin{itemize}\itemsep 1mm
+    \item Les observations $X_1, \ldots, X_n$ sont \alert{indépendantes}
+      (échantillon aléatoire) et de \alert{même loi}.
+    \item $n$ est \alert{assez grand}. Règle du pouce : $n \ge 30$. Mais cela
+      dépend de la loi de départ :
+      \begin{itemize}\small
+        \item à peu près symétrique : $n$ plus petit suffit (somme de 2 dés!);
+        \item très asymétrique : il faut un $n$ plus grand.
+      \end{itemize}
+    \item Si les $X_i$ sont déjà \alert{normales}, $\overline{X}$ est
+      \emph{exactement} normale pour tout $n$ (combinaison linéaire de normales
+      indépendantes) : pas besoin du TLC.
+  \end{itemize}
+
+  \vspace{-2mm}
+  \begin{Boite}{Attention : ce que le TLC ne dit pas}
+    \small Le TLC porte sur la loi de la \alert{moyenne} (ou de la somme), pas sur
+    celle des observations : peser 1\,000 bébés au lieu de 30 ne rend pas
+    les poids individuels « plus normaux ».
+  \end{Boite}
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Dans chaque cas, peut-on considérer que $\overline{X}$ suit
+  (approximativement) une loi normale? Pourquoi?
+  \begin{enumerate}[a)]\itemsep 5mm
+    \item $\overline{X}$ = nombre moyen de colonies bactériennes sur 50 boîtes
+      de Petri indépendantes (nombre par boîte $\sim$ Poisson(12)).
+    \item $\overline{X}$ = glycémie moyenne de 4 patients choisis au hasard,
+      la glycémie étant de loi normale.
+    \item $\overline{X}$ = temps de survie moyen de 6 souris, le temps de
+      survie ayant une loi très asymétrique.
+    \item Vrai ou faux : avec $n = 500$ bébés, l'histogramme des 500 poids à
+      la naissance ressemblera à une cloche grâce au TLC.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[t]{Exemple 7}
   On sait que la concentration d'atrazine (un herbicide) dans les étangs d'une
   région a une moyenne de 4\,mg/l et un écart type de 1,5\,mg/l. On prend un
   échantillon d'eau d'un litre dans 40 de ces étangs.
@@ -907,6 +1221,12 @@
   Une v.a.\ binomiale est une somme de v.a.\ Bernoulli($p$) indépendantes :
   $X = Y_1 + \cdots + Y_n$. Par le TLC, si $n$ est grand,
   \[ \text{Binomiale}(n, p) \approx N\big(np,\; np(1-p)\big). \]
+  \vspace{-4mm}
+  {\small Règle pratique : l'approximation est bonne si $np \ge 5$ et
+  $n(1-p) \ge 5$.}
+
+  \bigskip
+
 
   \centering
   \begin{tikzpicture}
@@ -952,28 +1272,122 @@
   {\scriptsize $P(5 \le X \le 7)$ : on intègre la densité normale de 4.5 à 7.5.}
 \end{frame}
 
-\begin{frame}[t]{Exemple 7}
+\begin{frame}[t]{Exemple 8}
   Environ 40\,\% des étudiants de la FSG ont déjà suivi un cours de
   statistique avant d'entrer à l'université. Sur la cohorte de 400 étudiants
   admis l'an dernier, quelle est la probabilité qu'entre 150 et 160 étudiants
   (inclusivement) aient déjà fait un cours de statistique?
 \end{frame}
 
-\begin{frame}[fragile,t]{Exemple 7 : vérification dans R}
+\begin{frame}[fragile,t]{Exemple 8 : vérification dans R}
   Valeur exacte (binomiale) :
 \begin{console}
 > sum(dbinom(150:160, size = 400, prob = 0.4))
-[1] 0.3462829
-\end{console}
-
-  Approximation normale avec correction pour la continuité
-  ($np = 160$, $np(1-p) = 96$) :
-\begin{console}
-> pnorm(160.5, 160, sqrt(96)) - pnorm(149.5, 160, sqrt(96))
 [1] 0.3798861
 \end{console}
-  {\small\color{gray} L'approximation est raisonnable, sans être parfaite :
-  l'erreur est ici d'environ 0.03.}
+
+  Approximation normale ($np = 160$, $np(1-p) = 96$), avec correction pour
+  la continuité :
+\begin{console}
+> pnorm(160.5, 160, sqrt(96)) - pnorm(149.5, 160, sqrt(96))
+[1] 0.3784114
+\end{console}
+
+  \ldots\ et sans correction pour la continuité :
+\begin{console}
+> pnorm(160, 160, sqrt(96)) - pnorm(150, 160, sqrt(96))
+[1] 0.3462829
+\end{console}
+  {\small\color{gray} Avec la correction, l'erreur est d'environ 0.0015;
+  sans elle, d'environ 0.034. La correction vaut la peine!}
+\end{frame}
+
+%-------------------------------------------------------------------------------
+\begin{frame}[t]{Réponses aux exemples}
+  \scriptsize
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+      \textbf{Loi de Bernoulli :} $E(Y) = p$, $\operatorname{Var}(Y) = p(1-p)$.
+
+      \smallskip
+      \textbf{Coefficient binomial :} $\binom{5}{2} = 10$;
+      $\binom{49}{6} = 13\,983\,816$.
+
+      \smallskip
+      \textbf{Exemple 1 :} $X \sim \text{Bin}(5, 0.85)$;
+      $P(X = 4) = 5 \times 0.85^4 \times 0.15 = 0.3915$.
+
+      \smallskip
+      \textbf{Quiz (fibrose kystique) :} $X \sim \text{Bin}(4, 0.25)$;
+      $E(X) = 1$; $P(X = 0) = 0.75^4 = 0.3164$.
+
+      \smallskip
+      \textbf{Exemple 2 :} a) $P(X > 5) = 0.9556$; b) $np = 6.65$;
+      c) $\sqrt{7(0.95)(0.05)} = 0.577$.
+
+      \smallskip
+      \textbf{Exemple 3 :} a) $P(X \le 2) = 0.1247$ ($\lambda = 5$);
+      b) $P(X = 45) = 0.0458$ ($\lambda = 50$).
+
+      \smallskip
+      \textbf{Quiz (mutations) :} $\text{Bin}(300\,000,\ 10^{-5}) \approx
+      \text{Poisson}(3)$; $P(X \ge 1) = 1 - e^{-3} = 0.9502$.
+
+      \smallskip
+      \textbf{Quiz (binomiale ou Poisson?) :} a) binomiale$(20, p)$;
+      b) Poisson; c) binomiale$(1500,\ 10^{-4}) \approx$ Poisson$(0.15)$;
+      d) ni l'une ni l'autre (v.a.\ continue, plutôt normale); e) ni l'une ni
+      l'autre (contagion : les porcelets ne sont pas indépendants).
+    \column{0.48\textwidth}
+      \textbf{Quiz (poids à la naissance) :} 1.~égales par symétrie (0.0228
+      chacune); 2.~$P(3400 < X < 3500) = 0.0793$ est plus grande que
+      $P(2400 < X < 2500) = 0.0132$ (plus près de $\mu$); 3.~elle diminuerait
+      (0.0228 $\to$ 0.0062).
+
+      \smallskip
+      \textbf{Quiz (table) :} a) 0.8749; b) 0.1251; c) 0.3276; d) 0.0808;
+      e) 0.9544; f) $c \approx 0.77$; g) $c = 1.96$.
+
+      \smallskip
+      \textbf{Exemple 4 :} a) $\Phi(-1) = 0.1587$;
+      b) $\Phi(0.33) - \Phi(-1.33) = 0.5375$ avec la table (0.5393 avec R);
+      c) $74 - 2.326 \times 3 = 67.02$\,cm.
+
+      \smallskip
+      \textbf{Quiz (glycémie) :} $z = 2.2$; $P(X > 6.1) = 0.0139$;
+      $5.0 + 1.645 \times 0.5 = 5.82$\,mmol/L.
+
+      \smallskip
+      \textbf{Exemple 5 :} masse du sac $\sim N(1478,\ 1802)$;
+      $P(\text{sac} < 1400) = \Phi(-1.84) = 0.0329$ (0.0331 avec R).
+
+      \smallskip
+      \textbf{Exemple 6 :} $D = F - M \sim N(-4,\ 16)$;
+      $P(D > 0) = P(Z > 1) = 0.1587$.
+  \end{columns}
+\end{frame}
+
+\begin{frame}[t]{Réponses aux exemples (suite)}
+  \scriptsize
+  \textbf{Quiz (urne) :} 1) vrai; 2) faux : la somme vaut 2, 3, 4, 5, 6 avec
+  probabilités $1/9$, $2/9$, $3/9$, $2/9$, $1/9$ (déjà une forme en
+  « triangle »).
+
+  \smallskip
+  \textbf{Quiz (conditions du TLC) :} a) oui, par le TLC ($n = 50$
+  observations indépendantes); b) oui, et même exactement (moyenne de v.a.\
+  normales indépendantes); c) non : $n = 6$ est trop petit pour une loi très
+  asymétrique; d) faux : le TLC porte sur la loi de la \emph{moyenne}, pas sur
+  celle des observations individuelles.
+
+  \smallskip
+  \textbf{Exemple 7 :} $\overline{X} \approx N(4,\ 1.5^2/40)$;
+  $P(\overline{X} > 4.2) = P(Z > 0.84) = 0.2005$ avec la table (0.1995 avec
+  R).
+
+  \smallskip
+  \textbf{Exemple 8 :} valeur exacte 0.3799; approximation normale avec
+  correction pour la continuité 0.3784 (sans correction : 0.3463).
 \end{frame}
 
 %-------------------------------------------------------------------------------

@@ -274,6 +274,11 @@
 \setbeamercolor{itemize subitem}{fg=itemizecolor}
 \setbeamercolor{itemize subsubitem}{fg=itemizecolor}
 
+% Table des matières (\tableofcontents) : sinon héritée de « structure » (blanc)
+\setbeamercolor{section in toc}{fg=TexteBoite}
+\setbeamercolor{subsection in toc}{fg=TexteBoite}
+\setbeamercolor{section number projected}{bg=Dominante, fg=white}
+
 % ============================================================================
 % STYLES DES LISTES
 % ============================================================================

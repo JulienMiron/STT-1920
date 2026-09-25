@@ -58,24 +58,28 @@
   }
 
   \medskip
-  \uncover<3->{
+  \uncover<2->{
     $\Rightarrow$ C'est l'objet de l'\alert{inférence statistique} : tirer des conclusions sur une \textbf{population} à partir d'un \textbf{échantillon}.
   }
 \end{frame}
 
 \begin{frame}[t]{Démarche générale}
-  \begin{enumerate}\itemsep 6mm
-    \item<1-> On recueille un \alert{échantillon aléatoire} de taille $n$ dans la population d'intérêt.
-    \item<2-> On postule (selon la théorie ou l'analyse descriptive) un \alert{modèle probabiliste} adapté au phénomène (loi normale, binomiale, Poisson\ldots).
-    \item<3-> Ce modèle comporte des \alert{paramètres inconnus} ($\mu$, $\sigma^2$, $p$\ldots) : on doit les \textbf{estimer} à partir des données observées.
+  \centering
+  \includegraphics[width=0.7\textwidth]{images/estimation.PNG}
+
+  \raggedright\small
+  \begin{enumerate}
+    \item On postule un \alert{modèle probabiliste} adapté au phénomène (loi normale, binomiale, Poisson\ldots).
+    \item Ce modèle comporte des \alert{paramètres inconnus} ($\mu$, $\sigma^2$, $p$\ldots).
+    \item On recueille un \alert{échantillon aléatoire} de taille $n$ pour \textbf{estimer} ces paramètres.
   \end{enumerate}
 
-  \bigskip
-  \uncover<4->{
+  \smallskip
+  \uncover<2->{
   \begin{Boite}{Deux grandes familles d'inférence}
     \begin{itemize}
-      \item \textbf{L'estimation} (ponctuelle et par intervalle de confiance)
-      \item \textbf{Les tests d'hypothèses} (prise de décision face à une affirmation)
+      \item \textbf{L'estimation} : ponctuelle (partie 1) et par intervalle de confiance (partie 2).
+      \item \textbf{Les tests d'hypothèses} : décider face à une affirmation (partie 3).
     \end{itemize}
   \end{Boite}
   }
@@ -105,79 +109,134 @@
   \begin{columns}[T]
     \column{0.48\textwidth}
       \begin{Boite}{Population (inaccessible)}
+        \small
         \begin{itemize}
           \item Ensemble complet de toutes les unités d'intérêt.
-          \item Caractérisée par des \alert{paramètres} fixes mais inconnus.
-          \item Notations : $\mu$, $\sigma^2$, $\sigma$, $p$.
+          \item Caractérisée par des \alert{paramètres} fixes mais inconnus : $\mu$, $\sigma^2$, $\sigma$, $p$.
         \end{itemize}
       \end{Boite}
 
     \column{0.48\textwidth}
       \begin{Boite}{Échantillon (observé)}
+        \small
         \begin{itemize}
           \item Sous-ensemble de $n$ unités tirées au hasard.
-          \item Fournit des \alert{statistiques} calculées sur les données.
-          \item Notations : $\overline{x}$, $s^2$, $s$, $\hat{p}$.
+          \item Fournit des \alert{statistiques} calculées sur les données : $\overline{x}$, $s^2$, $s$, $\hat{p}$.
         \end{itemize}
       \end{Boite}
   \end{columns}
 
   \medskip
   \begin{center}
-  \begin{tikzpicture}[scale=0.8]
-    \node[draw=Dominante, fill=Dominante!15, rounded corners, inner sep=5pt, text width=4.3cm, align=center] (pop) at (0,0)
+  \begin{tikzpicture}
+    \node[draw=Dominante, fill=Dominante!15, rounded corners, inner sep=3pt, text width=3.6cm, align=center, font=\footnotesize] (pop) at (0,0)
       {\textbf{Population}\\Paramètres : $\mu, \sigma^2, p$ (\emph{inconnus})};
-    \node[draw=Accent, fill=Accent!15, rounded corners, inner sep=5pt, text width=4.3cm, align=center] (ech) at (6.2,0)
+    \node[draw=Accent, fill=Accent!15, rounded corners, inner sep=3pt, text width=3.6cm, align=center, font=\footnotesize] (ech) at (8,0)
       {\textbf{Échantillon ($n$)}\\Statistiques : $\bar{x}, s^2, \hat{p}$ (\emph{calculées})};
-
-    \draw[->, thick, Dominante] (pop.north) to[bend left=25] node[above, font=\scriptsize\bfseries, color=Dominante] {Échantillonnage aléatoire} (ech.north);
-    \draw[->, thick, Accent] (ech.south) to[bend left=25] node[below, font=\scriptsize\bfseries, color=Accent] {Inférence statistique} (pop.south);
+    \draw[->, thick, Dominante] ([yshift=4pt]pop.east) -- node[above, font=\scriptsize\bfseries, color=Dominante!80!black] {Échantillonnage aléatoire} ([yshift=4pt]ech.west);
+    \draw[<-, thick, Accent] ([yshift=-4pt]pop.east) -- node[below, font=\scriptsize\bfseries, color=Accent] {Inférence statistique} ([yshift=-4pt]ech.west);
   \end{tikzpicture}
   \end{center}
 \end{frame}
 
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  La masse des souris adultes d'une lignée suit une loi $\mathcal{N}(\mu = 25\text{ g},\, \sigma^2 = 4\text{ g}^2)$. Deux équipes de recherche pèsent chacune 16 souris choisies au hasard et calculent la moyenne de leur échantillon : $\bar{x}_A$ et $\bar{x}_B$.
+
+  \medskip
+  Que peut-on dire des valeurs $\bar{x}_A$ et $\bar{x}_B$?
+  \begin{enumerate}[(a)]\itemsep 3mm
+    \item Elles sont toutes deux égales à 25\,g.
+    \item Elles sont égales entre elles, mais pas nécessairement égales à 25\,g.
+    \item Elles sont différentes l'une de l'autre, mais probablement « pas trop loin » de 25\,g.
+  \end{enumerate}
+
+  \medskip
+  \uncover<2->{
+    \alert{Réponse (c).} La moyenne d'un échantillon \textbf{change d'un échantillon à l'autre} : c'est une \alert{variable aléatoire}. Reste à préciser ce que veut dire « pas trop loin »\ldots
+  }
+\end{frame}
+
+\begin{frame}[t]{Statistique et loi échantillonnale}
+  \begin{Boite}{Statistique}
+    Quantité calculée \textbf{uniquement à partir de l'échantillon} (elle ne dépend d'aucun paramètre inconnu).
+    \emph{Ex. :} $\overline{X}$, $S^2$, $\widehat{P}$, la médiane, le maximum\ldots
+  \end{Boite}
+
+  \smallskip
+  \begin{Boite}{Loi échantillonnale}
+    Une statistique dépend de l'échantillon tiré au hasard : c'est une \alert{variable aléatoire}. Sa loi de probabilité s'appelle sa \alert{loi échantillonnale}.
+  \end{Boite}
+
+  \smallskip
+  \uncover<2->{
+    \faExclamationTriangle\ $(\overline{X} - \mu)/(\sigma/\sqrt{n})$ n'est \emph{pas} une statistique si $\mu$ et $\sigma$ sont inconnus : on ne peut pas la calculer !
+  }
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  On capture au hasard 50 truites dans un lac et on mesure leur longueur. Chacune des quantités suivantes est-elle un \textbf{paramètre} ou une \textbf{statistique}?
+  \begin{itemize}\itemsep 5mm
+    \item La longueur moyenne des 50 truites capturées ($32{,}4$\,cm).\\
+      \uncover<2->{\alert{$\to$ Statistique} ($\bar{x}$) : elle est calculée sur l'échantillon.}
+    \item La longueur moyenne de \emph{toutes} les truites du lac.\\
+      \uncover<2->{\alert{$\to$ Paramètre} ($\mu$) : fixe, mais inconnu.}
+    \item La proportion des 50 truites porteuses d'un parasite.\\
+      \uncover<2->{\alert{$\to$ Statistique} ($\hat{p}$).}
+    \item L'écart-type des longueurs de toutes les truites du lac.\\
+      \uncover<2->{\alert{$\to$ Paramètre} ($\sigma$).}
+  \end{itemize}
+\end{frame}
+
 \begin{frame}[t]{Variables aléatoires vs Observations}
+  \small
   \begin{Boite}{Distinction entre majuscules et minuscules}
-    \begin{itemize}\itemsep 2mm
+    \begin{itemize}
       \item \textbf{Avant l'expérience :} les mesures $X_1, X_2, \ldots, X_n$ sont des \alert{variables aléatoires}.
       \item \textbf{Après l'expérience :} les valeurs obtenues $x_1, x_2, \ldots, x_n$ sont des \alert{nombres réels} fixés.
     \end{itemize}
   \end{Boite}
 
-  \medskip
+  \smallskip
   \uncover<2->{
   \begin{Boite}{Estimateur vs Estimation ponctuelle}
-    \begin{itemize}\itemsep 2mm
+    \begin{itemize}
       \item \textbf{Estimateur} $T = g(X_1, \ldots, X_n)$ : \alert{variable aléatoire} (formule générale).
       \item \textbf{Estimation} $t = g(x_1, \ldots, x_n)$ : \alert{valeur numérique} sur l'échantillon observé.
     \end{itemize}
   \end{Boite}
   }
 
-  \medskip
-  \uncover<3->{
-    $\Rightarrow$ Un estimateur a donc une \textbf{loi de probabilité}, une \textbf{espérance} et une \textbf{variance} !
+  \smallskip
+  \uncover<2->{
+    $\Rightarrow$ Un estimateur a donc une \textbf{loi échantillonnale}, une \textbf{espérance} et une \textbf{variance} !
   }
 \end{frame}
 
 \begin{frame}[t]{Tableau synthèse des notations}
   \centering
-  \renewcommand{\arraystretch}{1.3}
+  \small
+  \renewcommand{\arraystretch}{1.15}
   \begin{tabular}{lcccc}\toprule
     \textbf{Paramètre} & \textbf{Estimateur} & \textbf{Estimation} & \textbf{Espérance} & \textbf{Erreur-type} \\
     (population) & (v.a.) & (valeur) & $E[T]$ & $\sigma_T = \sqrt{\text{Var}(T)}$ \\ \midrule
-    Moyenne $\mu$ & $\overline{X} = \frac{1}{n}\sum X_i$ & $\bar{x} = \frac{1}{n}\sum x_i$ & $\mu$ & $\frac{\sigma}{\sqrt{n}}$ \\[3mm]
-    Variance $\sigma^2$ & $S^2 = \frac{1}{n-1}\sum (X_i - \overline{X})^2$ & $s^2$ & $\sigma^2$ & $\sqrt{\frac{2\sigma^4}{n-1}}$\footnotemark \\[3mm]
+    Moyenne $\mu$ & $\overline{X} = \frac{1}{n}\sum X_i$ & $\bar{x} = \frac{1}{n}\sum x_i$ & $\mu$ & $\frac{\sigma}{\sqrt{n}}$ \\[2mm]
+    Variance $\sigma^2$ & $S^2 = \frac{1}{n-1}\sum (X_i - \overline{X})^2$ & $s^2$ & $\sigma^2$ & $\sqrt{\frac{2\sigma^4}{n-1}}$\;$(*)$ \\[2mm]
     Proportion $p$ & $\widehat{P} = \frac{Y}{n}$ & $\hat{p} = \frac{y}{n}$ & $p$ & $\sqrt{\frac{p(1-p)}{n}}$ \\ \bottomrule
   \end{tabular}
-  \footnotetext{Sous l'hypothèse de normalité de la population.}
 
-  \bigskip
-  \uncover<2->{
+  \raggedright
+  {\scriptsize $(*)$ Sous l'hypothèse de normalité de la population.}
+
+  \smallskip
   \begin{Boite}{Erreur-type}
-    L'\alert{erreur-type} d'un estimateur est l'écart-type de sa distribution d'échantillonnage : $\text{ET}(T) = \sqrt{\text{Var}(T)}$. Elle mesure la \textbf{précision} de l'estimateur.
+    L'\alert{erreur-type} d'un estimateur est l'écart-type de sa loi échantillonnale : $\text{ET}(T) = \sqrt{\text{Var}(T)}$. Elle mesure la \textbf{précision} de l'estimateur.
   \end{Boite}
-  }
 \end{frame}
 
 %===============================================================================
@@ -185,32 +244,35 @@
 %===============================================================================
 
 \begin{frame}[t]{Qualités d'un bon estimateur}
-  On souhaite qu'un estimateur possède deux qualités fondamentales :
+  On souhaite qu'un estimateur $T$ d'un paramètre $\theta$ possède deux qualités :
   \begin{columns}[T]
     \column{0.48\textwidth}
       \begin{Boite}{1. Être sans biais (juste)}
         \small
-        En moyenne, il vise dans le mille :
-        $$E[T] = \theta \quad (\text{Biais} = 0)$$
+        En moyenne, il vise dans le mille :\\
+        \centerline{$E[T] = \theta \quad (\text{Biais} = 0)$}
       \end{Boite}
 
     \column{0.48\textwidth}
       \begin{Boite}{2. Être précis (faible variance)}
         \small
-        Les estimations varient très peu :
-        $$\text{Var}(T) \quad \text{est minimale}$$
+        Les estimations varient très peu :\\
+        \centerline{$\text{Var}(T)$ est petite}
       \end{Boite}
   \end{columns}
 
-  \smallskip
+  \medskip
   \uncover<2->{
   \centering
-  \begin{tabular}{cc}
+  \begin{tabular}{cccc}
     \cibleTikz{Sans biais et précis}{0}{0}{0.9}{} &
-    \cibleTikz{Biaisé mais précis}{0.9}{0.7}{0.9}{} \\
+    \cibleTikz{Biaisé mais précis}{0.9}{0.7}{0.9}{} &
     \cibleTikz{Sans biais mais imprécis}{0}{0}{2.4}{} &
     \cibleTikz{Biaisé et imprécis}{0.9}{0.7}{2.4}{}
   \end{tabular}
+
+  \smallskip
+  {\small Chaque point = l'estimation obtenue avec un échantillon différent; le centre = la vraie valeur $\theta$.}
   }
 \end{frame}
 
@@ -227,8 +289,23 @@
       \begin{itemize}
         \item $\text{Biais}(T) = E[T] - \theta$.
         \item C'est une propriété de la formule mathématique elle-même.
-        \item \emph{Exemple :} $\frac{1}{n}\sum (X_i - \overline{X})^2$ est biaisé (sous-estime $\sigma^2$ en moyenne). On corrige ce biais en divisant par $n-1$.
+        \item \emph{Exemple :} $\frac{1}{n}\sum (X_i - \overline{X})^2$ est biaisé (sous-estime $\sigma^2$ en moyenne). On corrige ce biais en divisant par $n-1$ (on y reviendra).
       \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  Pour chaque situation : l'estimation est-elle biaisée? imprécise? De quel type de biais s'agit-il?
+  \begin{itemize}\itemsep 4mm
+    \item Une balance mal étalonnée ajoute toujours environ 2\,g à la masse des souris pesées, mais ses lectures sont très répétables.\\
+      \uncover<2->{\alert{$\to$ Biaisée mais précise} (erreur systématique de mesure).}
+    \item On estime la pression artérielle moyenne $\mu$ d'une population par $\bar{x}$ calculée sur $n = 3$ patients plutôt que $n = 300$.\\
+      \uncover<2->{\alert{$\to$ Sans biais mais imprécise} ($\overline{X}$ est sans biais, mais $\sigma/\sqrt{3}$ est grand).}
+    \item Pour estimer la prévalence du diabète au Québec, on ne recrute que des patients d'une clinique d'endocrinologie.\\
+      \uncover<2->{\alert{$\to$ Biais de sélection} : aucun calcul ne pourra le corriger !}
   \end{itemize}
 \end{frame}
 
@@ -250,6 +327,23 @@
   \end{enumerate}
 \end{frame}
 
+\begin{frame}[t]{Biais ou précision? L'erreur quadratique moyenne}
+  Que faire si un estimateur est \textbf{légèrement biaisé} mais \textbf{beaucoup plus précis} qu'un autre?
+
+  \medskip
+  \begin{Boite}{Erreur quadratique moyenne (EQM)}
+    $$\text{EQM}(T) = E\big[(T - \theta)^2\big] = \text{Var}(T) + \big[\text{Biais}(T)\big]^2$$
+  \end{Boite}
+
+  \medskip
+  \begin{itemize}\itemsep 2mm
+    \item<2-> L'EQM mesure l'écart moyen (au carré) entre l'estimateur et la cible : elle \alert{combine les deux qualités}.
+    \item<2-> Pour un estimateur sans biais : $\text{EQM}(T) = \text{Var}(T)$.
+    \item<2-> Entre deux estimateurs, on préfère celui qui a la \alert{plus petite EQM}.
+    \item<2-> Un exemple surprenant suivra avec l'estimation de $\sigma^2$.
+  \end{itemize}
+\end{frame}
+
 %===============================================================================
 \section{Estimation de la moyenne \texorpdfstring{$\mu$}{mu}}
 %===============================================================================
@@ -263,14 +357,14 @@
     \textbf{141 \quad 130 \quad 135 \quad 138 \quad 137 \quad 122 \quad 135}
   \end{center}
 
-  \bigskip
+  \medskip
   \uncover<2->{
   \begin{Boite}{Estimation ponctuelle de la moyenne}
     $$\bar{x} = \frac{1}{n}\sum_{i=1}^n x_i = \frac{141 + 130 + 135 + 138 + 137 + 122 + 135}{7} = \frac{938}{7} = \mathbf{134\text{ mm\,Hg}}$$
   \end{Boite}
   }
 
-  \bigskip
+  \medskip
   \uncover<3->{
     \textbf{Question :} Si on avait choisi 7 autres individus, aurait-on obtenu exactement 134?
     \alert{Non !} La moyenne observée varie d'un échantillon à l'autre.
@@ -278,7 +372,7 @@
 \end{frame}
 
 \begin{frame}[t]{Variabilité d'échantillonnage : une simulation}
-  Supposons que la vraie population suit $\mathcal{N}(\mu = 133,\, \sigma^2 = 62)$. Si on tirait 10 échantillons indépendants de taille $n=7$ :
+  Supposons que la vraie population suit $\mathcal{N}(\mu = 133,\, \sigma^2 = 62)$. Si on tirait 7 échantillons indépendants de taille $n=7$ :
 
   \medskip
   \centering
@@ -294,9 +388,33 @@
     7 & 135 & 143 & 134 & 133 & 138 & 123 & 134 & \textbf{134{,}3} \\ \bottomrule
   \end{tabular}
 
-  \bigskip
+  \medskip
+  \raggedright
   \uncover<2->{
-    $\Rightarrow$ Les moyennes s'éparpillent autour de la vraie moyenne ($\mu = 133$).
+    $\Rightarrow$ Les moyennes s'éparpillent autour de la vraie moyenne ($\mu = 133$), mais beaucoup moins que les observations individuelles.
+  }
+\end{frame}
+
+\begin{frame}[t]{Simulation : 1000 échantillons de taille 25}
+  \small
+  Population de moyenne $\mu = 15$ et de variance $\sigma^2 = 16$ ($\sigma = 4$).
+
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+      \centering
+      \includegraphics[height=0.56\textheight]{images/echant25.png}
+
+      {\scriptsize Un échantillon ($n = 25$) : $\bar{x}$ (bleu) $\neq \mu$ (rouge).}
+    \column{0.48\textwidth}
+      \centering
+      \includegraphics[height=0.56\textheight]{images/moy1000.png}
+
+      {\scriptsize Les $\bar{x}$ de 1000 échantillons de taille 25.}
+  \end{columns}
+
+  \smallskip
+  \uncover<2->{
+    Les 1000 moyennes sont \alert{centrées sur $\mu = 15$} et beaucoup moins dispersées que les données : leur écart-type est d'environ $\sigma/\sqrt{25} = 0{,}8$.
   }
 \end{frame}
 
@@ -329,23 +447,60 @@
   \alert{Constat majeur :} $\overline{X}$ a la même moyenne $\mu$, mais une variance $n$ fois plus petite !
 \end{frame}
 
+\begin{frame}[t]{Effet de la taille d'échantillon $n$}
+  \begin{columns}[T]
+    \column{0.64\textwidth}
+      \centering
+      \includegraphics[height=0.74\textheight]{images/moyennes.png}
+    \column{0.34\textwidth}
+      \small
+      Même population ($\mu = 15$, $\sigma = 4$) : 1000 échantillons pour chaque $n$.
+
+      \medskip
+      \renewcommand{\arraystretch}{1.1}
+      \begin{tabular}{cc}\toprule
+        $n$ & $\sigma/\sqrt{n}$ \\ \midrule
+        10 & 1{,}26 \\
+        25 & 0{,}80 \\
+        50 & 0{,}57 \\
+        100 & 0{,}40 \\ \bottomrule
+      \end{tabular}
+
+      \medskip
+      \uncover<2->{Plus $n$ est grand, plus les $\bar{x}$ se \alert{concentrent} autour de $\mu$.}
+  \end{columns}
+\end{frame}
+
 \begin{frame}[t]{Propriétés théoriques de $\overline{X}$}
   Soit un échantillon aléatoire $X_1, \ldots, X_n$ i.i.d. d'espérance $\mu$ et de variance $\sigma^2$.
 
-  \bigskip
-  \uncover<1->{
+  \medskip
   \begin{Boite}{1. Espérance (sans biais)}
     $$E[\overline{X}] = E\left[\frac{1}{n}\sum_{i=1}^n X_i\right] = \frac{1}{n}\sum_{i=1}^n E[X_i] = \frac{1}{n}(n\mu) = \alert{\mu}$$
   \end{Boite}
-  }
 
-  \bigskip
+  \medskip
   \uncover<2->{
-  \begin{Boite}{2. Variance et erreur-type}
-    $$\text{Var}(\overline{X}) = \text{Var}\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n^2}\sum_{i=1}^n \text{Var}(X_i) = \frac{n\sigma^2}{n^2} = \alert{\frac{\sigma^2}{n}}$$
-    $$\text{ET}(\overline{X}) = \alert{\frac{\sigma}{\sqrt{n}}}$$
+  \begin{Boite}{2. Variance et erreur-type (grâce à l'indépendance)}
+    $$\text{Var}(\overline{X}) = \frac{1}{n^2}\sum_{i=1}^n \text{Var}(X_i) = \frac{n\sigma^2}{n^2} = \alert{\frac{\sigma^2}{n}}
+      \qquad\Longrightarrow\qquad \text{ET}(\overline{X}) = \alert{\frac{\sigma}{\sqrt{n}}}$$
   \end{Boite}
   }
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  La glycémie à jeun d'adultes en santé a un écart-type $\sigma = 0{,}8$\,mmol/L.
+  \begin{itemize}\itemsep 6mm
+    \item Avec un échantillon de $n = 16$ patients, que vaut l'erreur-type de $\overline{X}$?\\
+      \uncover<2->{\alert{$\to$} $\text{ET}(\overline{X}) = 0{,}8/\sqrt{16} = 0{,}2$\,mmol/L.}
+    \item Si on passe de $n = 16$ à $n = 64$ patients, l'erreur-type est : (a) divisée par 4; (b) divisée par 2; (c) inchangée.\\
+      \uncover<2->{\alert{$\to$ (b)} : $0{,}8/\sqrt{64} = 0{,}1$. Quatre fois plus de patients pour deux fois plus de précision.}
+    \item Vrai ou faux : augmenter $n$ réduit aussi la variabilité des glycémies \emph{individuelles}.\\
+      \uncover<2->{\alert{$\to$ Faux !} $\sigma$ est une caractéristique de la population; seul l'écart-type de la \emph{moyenne} diminue.}
+  \end{itemize}
 \end{frame}
 
 %===============================================================================
@@ -358,14 +513,13 @@
     $$S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \overline{X})^2$$
   \end{Boite}
 
-  \bigskip
+  \medskip
   \uncover<2->{
   \textbf{Pourquoi diviser par $n-1$ plutôt que par $n$?}
-  \begin{itemize}\itemsep 3mm
+  \begin{itemize}\itemsep 1mm
     \item Les écarts se mesurent par rapport à $\overline{X}$ (estimé) et non par rapport au vrai $\mu$.
     \item Puisque $\sum (X_i - \overline{X}) = 0$, dès qu'on connaît $n-1$ écarts, le dernier est imposé : il y a \alert{$n-1$ degrés de liberté}.
-    \item En divisant par $n-1$, l'estimateur devient \alert{sans biais} :
-      $$E[S^2] = \sigma^2$$
+    \item En divisant par $n-1$, l'estimateur devient \alert{sans biais} : $E[S^2] = \sigma^2$.
   \end{itemize}
   }
 \end{frame}
@@ -388,23 +542,312 @@
   }
 \end{frame}
 
+\begin{frame}[t]{Simulation : distribution de $S^2$}
+  \begin{columns}[T]
+    \column{0.64\textwidth}
+      \centering
+      \includegraphics[height=0.74\textheight]{images/variances.png}
+    \column{0.34\textwidth}
+      \small
+      Même population ($\sigma^2 = 16$) : 1000 valeurs de $s^2$ pour chaque $n$.
+
+      \medskip
+      \begin{itemize}
+        \item Centrées sur $\sigma^2$ : \alert{sans biais}.
+        \item Dispersion qui diminue avec $n$.
+        \item<2-> \alert{Asymétrique} (queue à droite), surtout si $n$ est petit : \textbf{pas normale} !
+      \end{itemize}
+
+      \uncover<2->{$\Rightarrow$ Il faut une nouvelle loi : le \alert{khi-deux}.}
+  \end{columns}
+\end{frame}
+
 \begin{frame}[t]{Retour sur l'exemple 1 : Calculs complets}
-  Échantillon de pression systolique ($n=7$) :
-  \begin{center}
-    141 \quad 130 \quad 135 \quad 138 \quad 137 \quad 122 \quad 135
-  \end{center}
+  Échantillon de pression systolique ($n=7$) : \quad 141, 130, 135, 138, 137, 122, 135
 
   \medskip
-  \begin{enumerate}\itemsep 3mm
+  \begin{enumerate}\itemsep 2mm
     \item<1-> \textbf{Moyenne échantillonnale :}
-      $$\bar{x} = \frac{938}{7} = \mathbf{134\text{ mm\,Hg}}$$
-    \item<2-> \textbf{Variance échantillonnale :}
+      $\bar{x} = \dfrac{938}{7} = \mathbf{134\text{ mm\,Hg}}$
+    \item<1-> \textbf{Variance échantillonnale :}
       $$s^2 = \frac{1}{7-1} \left[(141-134)^2 + \ldots + (135-134)^2\right] = \frac{236}{6} = \mathbf{39{,}33\text{ (mm\,Hg)}^2}$$
-    \item<3-> \textbf{Écart-type échantillonnal :}
-      $$s = \sqrt{39{,}33} = \mathbf{6{,}27\text{ mm\,Hg}}$$
-    \item<4-> \textbf{Erreur-type estimée de la moyenne :}
-      $$\widehat{\text{ET}}(\overline{X}) = \frac{s}{\sqrt{n}} = \frac{6{,}27}{\sqrt{7}} = \mathbf{2{,}37\text{ mm\,Hg}}$$
+    \item<2-> \textbf{Écart-type échantillonnal :}
+      $s = \sqrt{39{,}33} = \mathbf{6{,}27\text{ mm\,Hg}}$
+    \item<2-> \textbf{Erreur-type estimée de la moyenne :}
+      $\widehat{\text{ET}}(\overline{X}) = \dfrac{s}{\sqrt{n}} = \dfrac{6{,}27}{\sqrt{7}} = \mathbf{2{,}37\text{ mm\,Hg}}$
   \end{enumerate}
+
+  \medskip
+  \uncover<2->{
+    {\small Dans R : \texttt{x <- c(141, 130, 135, 138, 137, 122, 135)}, puis \texttt{mean(x)}, \texttt{var(x)}, \texttt{sd(x)} et \texttt{sd(x)/sqrt(7)}.}
+  }
+\end{frame}
+
+\begin{frame}[t]{Diviser par $n$ ou par $n-1$? Comparaison par l'EQM}
+  Certaines formules (et calculatrices) utilisent $\hat{\sigma}^2 = \frac{1}{n}\sum (X_i - \overline{X})^2 = \frac{n-1}{n}\,S^2$.
+
+  \smallskip
+  Comparons-les pour la population de pressions $\mathcal{N}(133,\, 62)$ avec $n = 7$ :
+
+  \smallskip
+  \centering
+  \small
+  \renewcommand{\arraystretch}{1.15}
+  \begin{tabular}{lcc}\toprule
+    & $S^2$ & $\hat{\sigma}^2 = \frac{6}{7}\,S^2$ \\ \midrule
+    Espérance & $62$ & $\frac{6}{7} \times 62 = 53{,}1$ \\
+    Biais & $0$ & $-8{,}9$ \\
+    Variance & $\frac{2 \times 62^2}{6} = 1281{,}3$ & $\left(\frac{6}{7}\right)^2 \times 1281{,}3 = 941{,}4$ \\
+    \alert{EQM} = Var + Biais$^2$ & $\mathbf{1281{,}3}$ & $941{,}4 + 8{,}9^2 = \mathbf{1019{,}8}$ \\ \bottomrule
+  \end{tabular}
+
+  \raggedright
+  \medskip
+  \uncover<2->{
+    \alert{Surprise :} $\hat{\sigma}^2$ est biaisé, mais son EQM est \textbf{plus petite} ! (C'est vrai pour tout $n$.)
+  }
+
+  \uncover<3->{
+    \textbf{Pourquoi garder $S^2$?} Il est sans biais, la différence devient négligeable quand $n$ est grand, et c'est $S^2$ qui mène aux lois du khi-deux et de Student (IC et tests). C'est aussi ce que calcule \texttt{var()} dans R.
+  }
+\end{frame}
+
+%===============================================================================
+\section{Lois échantillonnales}
+%===============================================================================
+
+\begin{frame}[t]{Pourquoi connaître la loi d'un estimateur?}
+  $E[T]$ et $\text{ET}(T)$ ne suffisent pas pour répondre à des questions comme :
+  \begin{itemize}
+    \item Quelle est la probabilité que $\overline{X}$ soit à moins de 5\,mm\,Hg de $\mu$?
+    \item Quelles valeurs de $S^2$ sont plausibles si $\sigma^2 = 62$?
+  \end{itemize}
+  $\Rightarrow$ Il faut la \alert{loi échantillonnale} complète : c'est la base des intervalles de confiance (3b) et des tests (3c).
+
+  \smallskip
+  \uncover<2->{
+  \centering
+  \small
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{llc}\toprule
+    \textbf{Quantité} (population normale) & \textbf{Loi} & \textbf{Où?} \\ \midrule
+    $(\overline{X} - \mu)/(\sigma/\sqrt{n})$ & Normale $\mathcal{N}(0, 1)$ & ici \\
+    $(n-1)S^2/\sigma^2$ & Khi-deux $\chi^2_{n-1}$ & ici \\
+    $(\overline{X} - \mu)/(S/\sqrt{n})$ & Student $t_{n-1}$ & chapitre 3b \\
+    $S_1^2 / S_2^2$ (deux échantillons) & Fisher & chapitre 4 \\ \bottomrule
+  \end{tabular}
+  }
+\end{frame}
+
+\begin{frame}[t]{Loi de $\overline{X}$ : cas d'une population normale}
+  \begin{thm}
+    Si $X_1, \ldots, X_n \overset{iid}{\sim} \mathcal{N}(\mu, \sigma^2)$, alors, \alert{pour tout $n$},
+    $$\overline{X} \sim \mathcal{N}\!\left(\mu,\, \frac{\sigma^2}{n}\right)
+      \qquad\text{et donc}\qquad
+      Z = \frac{\overline{X} - \mu}{\sigma/\sqrt{n}} \sim \mathcal{N}(0, 1).$$
+  \end{thm}
+
+  \medskip
+  \begin{itemize}\itemsep 2mm
+    \item<2-> Une somme (ou une moyenne) de v.a.\ normales indépendantes est encore normale (chapitre 2).
+    \item<2-> On connaissait déjà $E[\overline{X}] = \mu$ et $\text{Var}(\overline{X}) = \sigma^2/n$; la nouveauté, c'est la \textbf{forme} de la loi.
+    \item<2-> On peut donc calculer des probabilités sur $\overline{X}$ avec la table de la loi normale, en \alert{standardisant avec $\sigma/\sqrt{n}$} (et non $\sigma$).
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Exemple 3 : Pression artérielle (suite)}
+  Supposons que la pression systolique suit $\mathcal{N}(\mu = 133,\, \sigma^2 = 62)$.
+
+  \medskip
+  \begin{enumerate}[(a)]\itemsep 3mm
+    \item Quelle est la probabilité qu'\textbf{un} adulte ait une pression supérieure à 138\,mm\,Hg?\\
+      \uncover<2->{$P(X > 138) = P\left(Z > \dfrac{138 - 133}{\sqrt{62}}\right) = P(Z > 0{,}64) = \mathbf{0{,}2611}$}
+    \item Quelle est la probabilité que la \textbf{moyenne de 7} adultes dépasse 138\,mm\,Hg?\\
+      \uncover<3->{$P(\overline{X} > 138) = P\left(Z > \dfrac{138 - 133}{\sqrt{62/7}}\right) = P\left(Z > \dfrac{5}{2{,}976}\right) = P(Z > 1{,}68) = \mathbf{0{,}0465}$}
+    \item \emph{À vous :} quelle est la probabilité que $\overline{X}$ soit à moins de 5\,mm\,Hg de $\mu$?
+  \end{enumerate}
+
+  \medskip
+  \uncover<3->{
+    $\Rightarrow$ Une pression individuelle dépasse 138 dans 26\,\% des cas, mais une moyenne de 7 pressions, dans moins de 5\,\% des cas.
+  }
+\end{frame}
+
+\begin{frame}[t]{Et si la population n'est pas normale?}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+      \small
+      \begin{Boite}{Rappel : théorème limite central}
+        $X_1, \ldots, X_n$ i.i.d.\ de moyenne $\mu$ et de variance $\sigma^2$ (loi quelconque). Si $n$ est assez grand :
+        $$\overline{X} \approx \mathcal{N}\!\left(\mu,\, \frac{\sigma^2}{n}\right)$$
+      \end{Boite}
+
+      \begin{itemize}
+        \item En pratique, $n \ge 30$ suffit souvent (chapitre 2).
+        \item Population très asymétrique : il faut un $n$ plus grand.
+      \end{itemize}
+    \column{0.48\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \begin{axis}[
+          base, width=\linewidth, height=5cm,
+          xmin=0, xmax=12, ymin=0, ymax=0.6,
+          xlabel={Concentration (mg/L)}, ylabel={Densité},
+          legend style={font=\tiny, at={(0.98,0.98)}, anchor=north east},
+          no markers, samples=120
+        ]
+          \addplot[thick, Dominante, domain=0:12] {0.25*exp(-x/4)};
+          \addlegendentry{Population ($\mu = 4$)}
+          \addplot[thick, gray, dashed, domain=0.05:12] {exp(5*ln(1.25) + 4*ln(x) - 1.25*x - 3.178054)};
+          \addlegendentry{$\overline{X}$, $n = 5$}
+          \addplot[thick, Accent, domain=0.5:12] {exp(30*ln(7.5) + 29*ln(x) - 7.5*x - 71.257039)};
+          \addlegendentry{$\overline{X}$, $n = 30$}
+        \end{axis}
+      \end{tikzpicture}
+
+      {\scriptsize Concentration d'un polluant : population très asymétrique (loi exponentielle).}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[t]{La loi du khi-deux $\chi^2_k$}
+  \begin{Boite}{Définition (intuitive)}
+    Si $Z_1, \ldots, Z_k$ sont des v.a.\ $\mathcal{N}(0,1)$ indépendantes, alors
+    $K = Z_1^2 + Z_2^2 + \cdots + Z_k^2$ suit une \alert{loi du khi-deux à $k$ degrés de liberté}, notée $\chi^2_k$.
+  \end{Boite}
+
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+      \small
+      \begin{itemize}\itemsep 2mm
+        \item Somme de carrés : valeurs \alert{toujours positives}.
+        \item Loi \alert{asymétrique} (queue à droite).
+        \item<2-> $E[K] = k$ \quad et \quad $\text{Var}(K) = 2k$.
+        \item<2-> Plus $k$ est grand, plus elle ressemble à une loi normale.
+      \end{itemize}
+    \column{0.48\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \begin{axis}[
+          base, width=\linewidth, height=4.2cm,
+          xmin=0, xmax=24, ymin=0, ymax=0.26,
+          xlabel={$x$}, ylabel={Densité},
+          legend style={font=\scriptsize, at={(0.98,0.98)}, anchor=north east},
+          no markers, samples=150
+        ]
+          \addplot[thick, rougelaval, domain=0:24] {0.398942*sqrt(x)*exp(-x/2)};
+          \addlegendentry{$k = 3$}
+          \addplot[thick, Dominante, domain=0:24] {x^2*exp(-x/2)/16};
+          \addlegendentry{$k = 6$}
+          \addplot[thick, Accent, domain=0:24] {x^5*exp(-x/2)/7680};
+          \addlegendentry{$k = 12$}
+        \end{axis}
+      \end{tikzpicture}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[t]{Loi échantillonnale de $S^2$}
+  \begin{thm}
+    Si $X_1, \ldots, X_n \overset{iid}{\sim} \mathcal{N}(\mu, \sigma^2)$, alors
+    $$\frac{(n-1)\,S^2}{\sigma^2} \sim \chi^2_{n-1}.$$
+  \end{thm}
+
+  \begin{itemize}\itemsep 2mm
+    \item<2-> \textbf{Intuition :} $\sum \left(\frac{X_i - \mu}{\sigma}\right)^2$ est une somme de $n$ carrés de $\mathcal{N}(0,1)$, donc une $\chi^2_n$. En remplaçant $\mu$ par $\overline{X}$, on \alert{perd un degré de liberté} (le même $n - 1$ que dans $S^2$).
+    \item<2-> \textbf{Cohérence} avec $E[K] = k$ et $\text{Var}(K) = 2k$ :
+      \begin{itemize}
+        \item $E\big[(n-1)S^2/\sigma^2\big] = n - 1 \;\Rightarrow\; E[S^2] = \sigma^2$;
+        \item $\text{Var}\big[(n-1)S^2/\sigma^2\big] = 2(n-1) \;\Rightarrow\; \text{Var}(S^2) = 2\sigma^4/(n-1)$.
+      \end{itemize}
+    \item<2-> \faExclamationTriangle\ Ce résultat exige une population \alert{normale} : contrairement à $\overline{X}$, le TLC ne vient pas à la rescousse.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Table de la loi du khi-deux}
+  On note $\chi^2_{k;\,\gamma}$ la valeur telle que $P(K > \chi^2_{k;\,\gamma}) = \gamma$ lorsque $K \sim \chi^2_k$ (\alert{aire à droite}).
+
+  \smallskip
+  \begin{columns}[T]
+    \column{0.74\textwidth}
+      \centering
+      \footnotesize
+      \setlength{\tabcolsep}{3pt}
+      \renewcommand{\arraystretch}{0.92}
+      \begin{tabular}{r|ccccccccc}
+        \multicolumn{1}{c}{} & \multicolumn{9}{c}{$\gamma$} \\
+        $k$ & 0,995 & 0,975 & 0,950 & 0,900 & 0,500 & 0,100 & 0,050 & 0,025 & 0,005 \\ \hline
+1 & 0{,}00 & 0{,}00 & 0{,}00 & 0{,}02 & 0{,}45 & 2{,}71 & 3{,}84 & 5{,}02 & 7{,}88 \\
+2 & 0{,}01 & 0{,}05 & 0{,}10 & 0{,}21 & 1{,}39 & 4{,}61 & 5{,}99 & 7{,}38 & 10{,}60 \\
+3 & 0{,}07 & 0{,}22 & 0{,}35 & 0{,}58 & 2{,}37 & 6{,}25 & 7{,}81 & 9{,}35 & 12{,}84 \\
+4 & 0{,}21 & 0{,}48 & 0{,}71 & 1{,}06 & 3{,}36 & 7{,}78 & 9{,}49 & 11{,}14 & 14{,}86 \\
+5 & 0{,}41 & 0{,}83 & 1{,}15 & 1{,}61 & 4{,}35 & 9{,}24 & 11{,}07 & 12{,}83 & 16{,}75 \\
+\rowcolor{Dominante!30} 6 & 0{,}68 & 1{,}24 & 1{,}64 & 2{,}20 & 5{,}35 & 10{,}64 & 12{,}59 & 14{,}45 & 18{,}55 \\
+7 & 0{,}99 & 1{,}69 & 2{,}17 & 2{,}83 & 6{,}35 & 12{,}02 & 14{,}07 & 16{,}01 & 20{,}28 \\
+8 & 1{,}34 & 2{,}18 & 2{,}73 & 3{,}49 & 7{,}34 & 13{,}36 & 15{,}51 & 17{,}53 & 21{,}95 \\
+9 & 1{,}73 & 2{,}70 & 3{,}33 & 4{,}17 & 8{,}34 & 14{,}68 & 16{,}92 & 19{,}02 & 23{,}59 \\
+10 & 2{,}16 & 3{,}25 & 3{,}94 & 4{,}87 & 9{,}34 & 15{,}99 & 18{,}31 & 20{,}48 & 25{,}19 \\
+15 & 4{,}60 & 6{,}26 & 7{,}26 & 8{,}55 & 14{,}34 & 22{,}31 & 25{,}00 & 27{,}49 & 32{,}80 \\
+20 & 7{,}43 & 9{,}59 & 10{,}85 & 12{,}44 & 19{,}34 & 28{,}41 & 31{,}41 & 34{,}17 & 40{,}00 \\
+30 & 13{,}79 & 16{,}79 & 18{,}49 & 20{,}60 & 29{,}34 & 40{,}26 & 43{,}77 & 46{,}98 & 53{,}67 \\
+      \end{tabular}
+    \column{0.24\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \begin{axis}[
+          width=1.3\linewidth, height=3.2cm,
+          xmin=0, xmax=20, ymin=0, ymax=0.15,
+          axis lines=left, ytick=\empty, xtick={12.59}, xticklabels={$12{,}59$},
+          tick label style={font=\tiny}, no markers, samples=120
+        ]
+          \addplot[thick, Dominante, domain=0:20] {x^2*exp(-x/2)/16};
+          \addplot[fill=Accent!60, draw=none, domain=12.59:20] {x^2*exp(-x/2)/16} \closedcycle;
+          \node[font=\tiny, Accent!80!black] at (axis cs:16,0.035) {$0{,}05$};
+        \end{axis}
+      \end{tikzpicture}
+
+      {\scriptsize $\chi^2_{6;\,0{,}05} = 12{,}59$}
+
+      \medskip
+      {\scriptsize Dans R :\\[1mm]
+      \texttt{\tiny qchisq(0.05, 6,}\\ \texttt{\tiny\ \ lower.tail = FALSE)}}
+
+      \medskip
+      {\tiny Extrait; la table complète du cours va jusqu'à $k = 100$.}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[t]{Exemple 4 : Variabilité de $S^2$ (pression artérielle)}
+  Toujours $X \sim \mathcal{N}(133,\, 62)$ et $n = 7$, donc $\frac{6\,S^2}{62} \sim \chi^2_6$.
+
+  \smallskip
+  \begin{enumerate}[(a)]\itemsep 2mm
+    \item Quelle est la probabilité que la variance échantillonnale dépasse 110?\\
+      \uncover<2->{$P(S^2 > 110) = P\left(\chi^2_6 > \dfrac{6 \times 110}{62}\right) = P(\chi^2_6 > 10{,}65) \approx \mathbf{0{,}10}$ \quad (table).}
+    \item Entre quelles valeurs $S^2$ se trouvera-t-elle avec probabilité 0,90?\\
+      \uncover<2->{$P(1{,}64 < \chi^2_6 < 12{,}59) = 0{,}90 \Rightarrow \dfrac{62 \times 1{,}64}{6} < S^2 < \dfrac{62 \times 12{,}59}{6}$, soit $\mathbf{16{,}9 < S^2 < 130{,}1}$.}
+    \item \emph{À vous :} encadrez $P(S^2 > 100)$ à l'aide de la table.
+  \end{enumerate}
+
+  \smallskip
+  \uncover<3->{
+    $\Rightarrow$ Avec $n = 7$, $S^2$ varie énormément (de $\approx \sigma^2/4$ à $\approx 2\sigma^2$) ! Notre $s^2 = 39{,}3$ est plausible. Pour estimer $\sigma^2$, un \alert{intervalle de confiance} (3b) sera bien utile.
+  }
+\end{frame}
+
+\begin{frame}[plain,t]
+  \centerline{\LARGE\bfseries\alert{QUIZ !}}
+
+  \medskip
+  $X_1, \ldots, X_n$ est un échantillon d'une population $\mathcal{N}(\mu, \sigma^2)$. Quelle est la loi de\ldots
+  \begin{itemize}\itemsep 5mm
+    \item \ldots $\overline{X}$?
+      \uncover<2->{\quad \alert{$\to$} $\mathcal{N}(\mu,\, \sigma^2/n)$, exactement, pour tout $n$.}
+    \item \ldots $(n-1)S^2/\sigma^2$?
+      \uncover<2->{\quad \alert{$\to$} $\chi^2_{n-1}$.}
+    \item Vrai ou faux : la loi de $S^2$ est symétrique autour de $\sigma^2$.\\
+      \uncover<2->{\alert{$\to$ Faux} : $S^2$ est un multiple d'une khi-deux, asymétrique à droite.}
+    \item \ldots $\dfrac{\overline{X} - \mu}{S/\sqrt{n}}$ (on a remplacé $\sigma$ par $S$)?\\
+      \uncover<2->{\alert{$\to$} Plus tout à fait $\mathcal{N}(0, 1)$ : c'est la \alert{loi de Student} $t_{n-1}$, au chapitre 3b !}
+  \end{itemize}
 \end{frame}
 
 %===============================================================================
@@ -427,26 +870,23 @@
   }
 
   \bigskip
-  \uncover<3->{
+  \uncover<2->{
     Comment estimer $p$ et quelle est la précision de notre résultat?
   }
 \end{frame}
 
 \begin{frame}[t]{Propriétés de l'estimateur de proportion}
   \begin{Boite}{Estimateur de la proportion}
-    $$\widehat{P} = \frac{Y}{n}$$
+    $$\widehat{P} = \frac{Y}{n} \qquad \text{où } Y \sim \text{Binomiale}(n, p), \quad E[Y] = np, \quad \text{Var}(Y) = np(1-p).$$
   \end{Boite}
 
-  \bigskip
-  Puisque $Y \sim \text{Binomiale}(n, p)$, on sait que $E[Y] = np$ et $\text{Var}(Y) = np(1-p)$.
-
-  \bigskip
+  \medskip
   \uncover<2->{
-  \begin{itemize}\itemsep 4mm
+  \begin{itemize}\itemsep 3mm
     \item \textbf{Espérance (sans biais) :}
-      $$E[\widehat{P}] = E\left[\frac{Y}{n}\right] = \frac{1}{n} E[Y] = \frac{np}{n} = \alert{p}$$
+      $E[\widehat{P}] = \frac{1}{n} E[Y] = \frac{np}{n} = \alert{p}$
     \item \textbf{Variance :}
-      $$\text{Var}(\widehat{P}) = \text{Var}\left(\frac{Y}{n}\right) = \frac{1}{n^2}\text{Var}(Y) = \frac{np(1-p)}{n^2} = \alert{\frac{p(1-p)}{n}}$$
+      $\text{Var}(\widehat{P}) = \frac{1}{n^2}\text{Var}(Y) = \frac{np(1-p)}{n^2} = \alert{\frac{p(1-p)}{n}}$
     \item \textbf{Erreur-type :} $\text{ET}(\widehat{P}) = \alert{\sqrt{\frac{p(1-p)}{n}}}$
   \end{itemize}
   }
@@ -455,38 +895,79 @@
 \begin{frame}[t]{Retour sur l'exemple 2 : Application}
   Données du sondage : $n = 1028$, $y = 216$.
 
-  \bigskip
-  \begin{itemize}\itemsep 5mm
+  \medskip
+  \begin{itemize}\itemsep 3mm
     \item<1-> \textbf{Estimation ponctuelle de la proportion :}
-      $$\hat{p} = \frac{216}{1028} \approx \mathbf{0{,}2101 \quad (21{,}0\%)}$$
+      $\hat{p} = \dfrac{216}{1028} \approx \mathbf{0{,}2101 \quad (21{,}0\,\%)}$
 
     \item<2-> \textbf{Erreur-type estimée :}
       Puisque $p$ est inconnu, on remplace $p$ par $\hat{p}$ dans la formule :
-      $$\widehat{\text{ET}}(\widehat{P}) = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} = \sqrt{\frac{0{,}2101 \times 0{,}7899}{1028}} \approx \mathbf{0{,}0127 \quad (1{,}27\%)}$$
+      $$\widehat{\text{ET}}(\widehat{P}) = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} = \sqrt{\frac{0{,}2101 \times 0{,}7899}{1028}} \approx \mathbf{0{,}0127 \quad (1{,}27\,\%)}$$
 
-    \item<3-> \textbf{Conclusion :} L'estimation est de $21{,}0\%$ avec une incertitude d'échantillonnage d'environ $1{,}3\%$.
+    \item<2-> \textbf{Conclusion :} L'estimation est de $21{,}0\,\%$ avec une incertitude d'échantillonnage d'environ $1{,}3\,\%$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Loi échantillonnale de $\widehat{P}$}
+  \begin{Boite}{Loi approximative de $\widehat{P}$}
+    $\widehat{P}$ est la moyenne de $n$ variables valant 0 ou 1 (Bernoulli). Par le \alert{TLC} (approximation normale de la binomiale, chapitre 2), si $n$ est grand :
+    $$\widehat{P} \approx \mathcal{N}\!\left(p,\, \frac{p(1-p)}{n}\right)$$
+  \end{Boite}
+
+  \medskip
+  \begin{itemize}\itemsep 3mm
+    \item Ce résultat servira à construire l'intervalle de confiance et le test pour une proportion.
+    \item \emph{À vous (exemple 2) :} si la vraie proportion était $p = 0{,}20$, quelle serait la probabilité qu'un sondage de 1028 personnes donne $\hat{p} \ge 0{,}21$?
   \end{itemize}
 \end{frame}
 
 \begin{frame}[t]{Conclusion de la partie 1}
   \begin{Boite}{Ce que nous savons faire à ce stade}
-    \begin{itemize}\itemsep 3mm
-      \item Calculer une \alert{estimation ponctuelle} pour une moyenne ($\bar{x}$), une variance ($s^2$) ou une proportion ($\hat{p}$).
-      \item Évaluer sa précision grâce à son \alert{erreur-type}.
+    \begin{itemize}
+      \item Calculer une \alert{estimation ponctuelle} ($\bar{x}$, $s^2$, $\hat{p}$) et son \alert{erreur-type}.
+      \item Juger un estimateur : \alert{biais}, \alert{variance}, \alert{EQM}.
+      \item Utiliser les \alert{lois échantillonnales} : $\overline{X}$ normale (exactement ou par le TLC); $(n-1)S^2/\sigma^2 \sim \chi^2_{n-1}$.
     \end{itemize}
   \end{Boite}
 
-  \bigskip
+  \medskip
   \uncover<2->{
   \begin{Boite}{Limite de l'estimation ponctuelle}
-    Donner une valeur unique (ex. : $\bar{x} = 134$) n'indique pas à quel point nous sommes confiants que la vraie valeur $\mu$ se trouve à proximité.
+    Une valeur unique (ex. : $\bar{x} = 134$) n'indique pas à quel point la vraie valeur $\mu$ est proche.
   \end{Boite}
   }
+\end{frame}
 
-  \bigskip
-  \uncover<3->{
-    $\Rightarrow$ \textbf{Prochaine étape (partie 2) :} construire des \alert{intervalles de confiance} pour quantifier formellement cette certitude.
-  }
+\begin{frame}[t]{La suite du chapitre 3}
+  \begin{itemize}\itemsep 5mm
+    \item \textbf{Partie 2 (chapitre 3b) :} \alert{intervalles de confiance}.
+      \begin{itemize}
+        \item Encadrer $\mu$ avec un niveau de confiance contrôlé, grâce à une nouvelle loi : la \alert{loi de Student}.
+        \item La loi du khi-deux permettra d'encadrer $\sigma^2$; la loi approximative de $\widehat{P}$, la proportion $p$.
+      \end{itemize}
+    \item \textbf{Partie 3 (chapitre 3c) :} \alert{tests d'hypothèses}.
+      \begin{itemize}
+        \item Décider, par exemple, si la pression moyenne de la population dépasse 130\,mm\,Hg.
+      \end{itemize}
+    \item \textbf{Chapitre 4 :} comparaison de \alert{deux échantillons}; la \alert{loi de Fisher} servira à comparer deux variances.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Réponses aux exemples}
+  \footnotesize
+  \begin{itemize}\itemsep 1.5mm
+    \item \textbf{Quiz des souris :} (c). Avec $\overline{X} \sim \mathcal{N}(25,\, 4/16)$ : $P(24 < \overline{X} < 26) = P(-2 < Z < 2) = 0{,}9544$.
+    \item \textbf{Exemple 1 :} $\bar{x} = 134$\,mm\,Hg; $s^2 = 39{,}33$\,(mm\,Hg)$^2$; $s = 6{,}27$\,mm\,Hg; $\widehat{\text{ET}}(\overline{X}) = 2{,}37$\,mm\,Hg.
+    \item \textbf{EQM ($n = 7$, $\sigma^2 = 62$) :} $\text{EQM}(S^2) = 2\sigma^4/(n-1) = 1281{,}3$; \; $\text{EQM}(\hat{\sigma}^2) = (2n-1)\sigma^4/n^2 = 1019{,}8$.
+    \item \textbf{Exemple 3 :} (a) $P(X > 138) = P(Z > 0{,}64) = 0{,}2611$.\\
+      (b) $P(\overline{X} > 138) = P(Z > 1{,}68) = 0{,}0465$.\\
+      (c) $P(128 < \overline{X} < 138) = P(-1{,}68 < Z < 1{,}68) = 0{,}9070$.
+    \item \textbf{Exemple 4 :} (a) $P(\chi^2_6 > 10{,}65) \approx 0{,}10$ (R : $0{,}0999$). \; (b) $16{,}9 < S^2 < 130{,}1$.\\
+      (c) $5{,}35 < 6 \times 100/62 = 9{,}68 < 10{,}64$, donc $0{,}10 < P(S^2 > 100) < 0{,}50$ (R : $0{,}139$).
+    \item \textbf{Exemple 2 :} $\hat{p} = 0{,}2101$; $\widehat{\text{ET}}(\widehat{P}) = 0{,}0127$.
+      Si $p = 0{,}20$ : $\text{ET}(\widehat{P}) = \sqrt{0{,}2 \times 0{,}8/1028} = 0{,}0125$ et\\
+      $P(\widehat{P} \ge 0{,}21) \approx P(Z \ge 0{,}80) = 0{,}2119$ (valeur exacte avec la binomiale : $0{,}219$).
+  \end{itemize}
 \end{frame}
 
 \end{document}
