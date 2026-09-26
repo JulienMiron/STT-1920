@@ -9,6 +9,7 @@ project:
 book:
   title: "Méthodes statistiques -- STT-1920"
   author: "Julien Miron"
+  output-file: STT-1920
 
   site-url: https://JulienMiron.github.io/STT-1920/
   repo-url: https://github.com/JulienMiron/STT-1920
@@ -63,6 +64,11 @@ knitr:
 
 
 format:
+  pdf:
+    documentclass: scrbook
+    toc: true
+    number-sections: true
+
   html:
     favicon: images/favicon.png
     grid:

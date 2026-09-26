@@ -11,7 +11,7 @@ mises à jour.
 Le cours STT-1920 s'adresse principalement aux étudiantes et étudiants des
 programmes de baccalauréat en agronomie, en biochimie, en sciences
 biomédicales et en sciences et technologie des aliments, pour qui il est
-obligatoire. Les sections marquées d'une étoile (⋆) peuvent être omises ou
+obligatoire. Les sections marquées d'une étoile (*) peuvent être omises ou
 laissées en lecture sans compromettre la continuité du cours.
 
 Une série d'exercices apparaît à la fin de chaque chapitre. Certains
@@ -21,16 +21,17 @@ séances de travaux pratiques.
 
 ## Notes de cours à jour
 
-Version PDF des notes de cours actuelles :
+Version PDF des notes de cours actuelles, générée automatiquement à partir
+de ce site :
 
-[{{< fa file-pdf >}} Télécharger les notes originales (PDF)](ressources/STT-1920-Belisle-2020.pdf){.btn .btn-outline-primary target="_blank"}
+[Télécharger les notes à jour (PDF)](STT-1920.pdf){.btn .btn-outline-primary target="_blank"}
 
 
 ## Notes originales
 
 La version originale des notes de Claude Bélisle est disponible en PDF :
 
-[{{< fa file-pdf >}} Télécharger les notes originales (PDF)](ressources/STT-1920-Belisle-2020.pdf){.btn .btn-outline-primary target="_blank"}
+[Télécharger les notes originales (PDF)](ressources/STT-1920-Belisle-2020.pdf){.btn .btn-outline-primary target="_blank"}
 
 
 ## À propos de cette version web {.unnumbered}
