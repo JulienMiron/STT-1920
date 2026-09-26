@@ -1,6 +1,6 @@
 # Avant-propos {.unnumbered}
 
-Ces notes sont adaptées de l'ouvrage *STT-1920 Méthodes statistiques* de
+Les notes de cours de ce site sont adaptées de l'ouvrage *STT-1920 Méthodes statistiques* de
 Claude Bélisle (Département de mathématiques et de statistique, Université
 Laval, édition de l'hiver 2020), utilisé depuis plusieurs années comme manuel
 de référence pour le cours. Le contenu, l'ordre des chapitres et les exercices
@@ -18,6 +18,13 @@ Une série d'exercices apparaît à la fin de chaque chapitre. Certains
 nécessitent un logiciel d'analyse statistique ; le logiciel recommandé est
 [R](https://www.r-project.org/), auquel les étudiants s'initient lors des
 séances de travaux pratiques.
+
+## Notes de cours à jour
+
+Version PDF des notes de cours actuelles :
+
+[{{< fa file-pdf >}} Télécharger les notes originales (PDF)](ressources/STT-1920-Belisle-2020.pdf){.btn .btn-outline-primary target="_blank"}
+
 
 ## Notes originales
 
