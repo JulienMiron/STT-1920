@@ -1,16 +1,17 @@
 project:
   type: book
   output-dir: _book
+  pre-render: R/logo.R    # régénère images/logo.png dans la couleur --accent de styles.css
   resources:
     - ressources/STT-1920-Belisle-2020.pdf
     - "diapos/Chapitre_*.pdf"      # PDF compilés par diapos/compiler.sh (voir le workflow)
 
 book:
   title: "Méthodes statistiques -- STT-1920"
-  author: "Claude Bélisle"
+  author: "Julien Miron"
 
-  site-url: https://JulienMiron.github.io/stt1920/
-  repo-url: https://github.com/JulienMiron/stt1920
+  site-url: https://JulienMiron.github.io/STT-1920/
+  repo-url: https://github.com/JulienMiron/STT-1920
   repo-actions: [edit, issue]
   search: true
 

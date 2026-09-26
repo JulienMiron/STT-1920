@@ -65,7 +65,16 @@ quarto preview                     # aperçu du site avec les PDF
 ```
 
 Prérequis : une distribution TeX complète (TeX Live ou MiKTeX) avec
-`latexmk`, Quarto et R (paquets `knitr`, `rmarkdown`).
+`latexmk`, Quarto et R (paquets `knitr`, `rmarkdown`, `png`).
+
+## Logo généré automatiquement
+
+`images/logo.png` (utilisé par `sidebar: logo:`) est régénéré à chaque rendu
+à partir de `images/logo-source.png` (la silhouette) et de la couleur
+`--accent` définie dans `styles.css` — voir `R/logo.R`, lancé automatiquement
+par `project: pre-render:` dans `_quarto.yml`. Pour changer la couleur du
+logo, il suffit donc de changer `--accent` dans `styles.css` ; ne pas modifier
+`images/logo.png` directement (il sera écrasé au prochain rendu).
 
 ## À faire
 
