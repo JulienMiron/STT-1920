@@ -67,6 +67,24 @@ quarto preview                     # aperçu du site avec les PDF
 Prérequis : une distribution TeX complète (TeX Live ou MiKTeX) avec
 `latexmk`, Quarto et R (paquets `knitr`, `rmarkdown`, `png`).
 
+## Synchronisation automatique vers Global
+
+Ce dépôt est une copie de travail des diapos ; `Global/STT-1920/Diapos`
+(archive maîtresse, aussi synchronisée avec Overleaf) reste la référence à
+long terme. Un hook Git reporte automatiquement toute correction de
+`diapos/*.tex` vers `Global` à chaque commit (copie + commit + push).
+
+**Après un clone frais, l'activer une seule fois** (la config des hooks
+n'est pas clonée par Git) :
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Détails et mode d'emploi manuel : voir l'en-tête de
+`scripts/sync-to-global.sh` (`--dry-run` pour simuler, `--all` pour tout
+resynchroniser).
+
 ## Logo généré automatiquement
 
 `images/logo.png` (utilisé par `sidebar: logo:`) est régénéré à chaque rendu
