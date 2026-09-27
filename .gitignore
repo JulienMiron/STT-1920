@@ -24,6 +24,10 @@
 /diapos/*.toc
 /diapos/*.vrb
 
+# Document de travail interne (relecture/suggestions) : jamais versionné,
+# n'apparaît pas sur le site (voir _quarto.yml resources et diapos.qmd).
+/diapos/suggestions-ameliorations.*
+
 # Diapos annotées : PDF H22 (sources personnelles, volumineux) et compilation
 /diapos/Annotées/H22/
 /diapos/Annotées/sources/.build/
