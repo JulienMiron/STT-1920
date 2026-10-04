@@ -33,7 +33,6 @@ website:
     tools:
       - toggle-appearance: true
 
-  back-to-top-navigation: true
   reader-mode: true
 
 lang: fr
