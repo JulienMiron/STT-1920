@@ -17,6 +17,7 @@ website:
 
   page-footer:
     left: "Site de cours STT-1920"
+    center: "[Julien Miron](https://julienmiron.github.io/SitePerso/)"
     right: "Généré avec Quarto"
 
   navbar:
@@ -29,6 +30,11 @@ website:
         text: Diapositives
       - href: notes/index.html
         text: Notes de cours
+    tools:
+      - toggle-appearance: true
+
+  back-to-top-navigation: true
+  reader-mode: true
 
 lang: fr
 language:
@@ -40,7 +46,9 @@ date-format: "D MMMM YYYY"
 format:
   html:
     favicon: notes/images/favicon.png
-    theme: lumen
+    theme:
+      light: lumen
+      dark: darkly
     css: styles.css
     toc: false
 
