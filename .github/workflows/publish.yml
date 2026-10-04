@@ -46,12 +46,18 @@ jobs:
           Rscript -e 'library(knitr); library(rmarkdown); library(png); cat(R.version.string, "\n")'
 
       - name: Générer le site
-        uses: quarto-dev/quarto-actions/render@v2
+        run: quarto render --to html
+
+      # Rendu en second : notes/_quarto.yml écrit directement dans
+      # ../_site/notes, donc son rendu doit être la dernière écriture dans
+      # _site/ au cas où le rendu du site nettoierait son propre output-dir.
+      - name: Générer les notes de cours (notes/)
+        run: quarto render notes --to html
 
       - name: Préparer le site pour GitHub Pages
         uses: actions/upload-pages-artifact@v4
         with:
-          path: _book
+          path: _site
 
   publier:
     needs: construire

@@ -1,0 +1,57 @@
+# Avant-propos {.unnumbered}
+
+Les notes de cours de ce site sont adaptées de l'ouvrage *STT-1920 Méthodes statistiques* de
+Claude Bélisle (Département de mathématiques et de statistique, Université
+Laval, édition de l'hiver 2020), utilisé depuis plusieurs années comme manuel
+de référence pour le cours. Le contenu, l'ordre des chapitres et les exercices
+en sont largement repris ; la mise en forme a été refaite en Quarto afin
+d'offrir une version web, d'intégrer du code R exécutable et de faciliter les
+mises à jour.
+
+Le cours STT-1920 s'adresse principalement aux étudiantes et étudiants des
+programmes de baccalauréat en agronomie, en biochimie, en sciences
+biomédicales et en sciences et technologie des aliments, pour qui il est
+obligatoire. Les sections marquées d'une étoile (*) peuvent être omises ou
+laissées en lecture sans compromettre la continuité du cours.
+
+Une série d'exercices apparaît à la fin de chaque chapitre. Certains
+nécessitent un logiciel d'analyse statistique ; le logiciel recommandé est
+[R](https://www.r-project.org/), auquel les étudiants s'initient lors des
+séances de travaux pratiques.
+
+## Notes de cours à jour
+
+Version PDF des notes de cours actuelles, générée automatiquement à partir
+de ce site :
+
+[Télécharger les notes à jour (PDF)](STT-1920.pdf){.btn .btn-outline-primary target="_blank"}
+
+
+## Notes originales
+
+La version originale des notes de Claude Bélisle est disponible en PDF :
+
+[Télécharger les notes originales (PDF)](ressources/STT-1920-Belisle-2020.pdf){.btn .btn-outline-primary target="_blank"}
+
+
+## À propos de cette version web {.unnumbered}
+
+Cette version HTML des notes de Claude Bélisle a été produite avec
+[Quarto](https://quarto.org){target="_blank"} à partir de l'édition 2020. Les
+figures sont régénérées directement à partir des données à l'aide de R ;
+dépliez les blocs « Code R » pour voir comment chacune est obtenue.
+
+Si vous constatez des coquilles ou des erreurs, merci de m'envoyer
+[un courriel](mailto:julien.miron@mat.ulaval.ca).
+
+## Diapositives {.unnumbered}
+
+Les diapositives du cours, en version présentation et en version imprimable,
+sont disponibles à la page [Diapositives](../diapos.qmd).
+
+## Utilisation de l'IA {.unnumbered}
+
+La conversion des notes vers Quarto (reconstitution des formules, des tableaux
+et des figures en R) ainsi que la refonte des diapositives en Beamer ont
+bénéficié de l'assistance de Claude, un modèle de langage développé par
+Anthropic.

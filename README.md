@@ -2,23 +2,32 @@
 
 Ce dépôt contient :
 
-- les **notes de cours** (Quarto), d'après les notes de Claude Bélisle ;
+- un **site** Quarto (racine) : page d'accueil et page *Diapositives* ;
+- les **notes de cours** (Quarto), d'après les notes de Claude Bélisle, dans
+  `notes/` — un sous-projet Quarto indépendant (type `book`), publié dans
+  l'onglet *Notes de cours* ;
 - les **diapositives** (LaTeX/Beamer, classe `BeamerTemplate.cls`) dans `diapos/`.
 
 À chaque `push` sur `main`, GitHub Actions compile les diapos, régénère le
-site et le publie sur GitHub Pages. Les PDF ne sont **pas** versionnés : ils
-sont produits par la compilation.
+site (racine puis `notes/`) et le publie sur GitHub Pages. Les PDF ne sont
+**pas** versionnés : ils sont produits par la compilation.
 
 ## Structure
 
+Le dépôt est composé de deux projets Quarto indépendants, à la manière de
+STT-4300 : la racine (`type: website`) et `notes/` (`type: book`), rendu
+directement dans `_site/notes` par la racine.
+
 | Chemin | Contenu |
 |---|---|
-| `index.qmd`, `0X-*.qmd`, `A-tables.qmd` | Chapitres des notes |
-| `diapos.qmd` | Page du site qui liste automatiquement les PDF des diapos |
+| `index.qmd` | Page d'accueil du site (racine) |
+| `diapos.qmd`, `R/diapos.R` | Page *Diapositives* du site : liste automatiquement les PDF des diapos et les chapitres de `notes/` correspondants |
 | `diapos/Chapitre_*.tex` | Sources des diapos (une par chapitre) |
 | `diapos/compiler.sh` | Compile les diapos (version présentation + version imprimable) |
 | `diapos/latexmkrc` | Configuration de `latexmk` |
-| `donnees/`, `R/` | Données et fonctions R utilisées par les notes |
+| `notes/index.qmd`, `notes/0X-*.qmd`, `notes/A-tables.qmd` | Chapitres des notes (sous-projet `book`) |
+| `notes/donnees/`, `notes/R/` | Données et fonctions R utilisées par les notes |
+| `notes/images/`, `notes/R/logo.R` | Logo de la sidebar, régénéré automatiquement (voir plus bas) |
 | `.github/workflows/publish.yml` | Compilation et publication automatiques |
 
 ## Mise en place (une seule fois)
@@ -61,8 +70,14 @@ ajouté à la page *Diapositives* automatiquement (le titre vient de
 ```bash
 sh diapos/compiler.sh              # tous les chapitres
 sh diapos/compiler.sh Chapitre_2a  # un seul chapitre
-quarto preview                     # aperçu du site avec les PDF
+quarto render                      # rend le site racine (index.qmd, diapos.qmd)
+quarto render notes                # rend les notes de cours (sous-projet book)
+quarto preview                     # aperçu du site racine avec les PDF
 ```
+
+Le site racine et `notes/` sont deux projets Quarto indépendants (comme pour
+STT-4300) : il faut rendre les deux pour obtenir un site complet dans
+`_site/`. `quarto preview` ne prévisualise que le projet racine.
 
 Prérequis : une distribution TeX complète (TeX Live ou MiKTeX) avec
 `latexmk`, Quarto et R (paquets `knitr`, `rmarkdown`, `png`).
@@ -87,12 +102,15 @@ resynchroniser).
 
 ## Logo généré automatiquement
 
-`images/logo.png` (utilisé par `sidebar: logo:`) est régénéré à chaque rendu
-à partir de `images/logo-source.png` (la silhouette) et de la couleur
-`--accent` définie dans `styles.css` — voir `R/logo.R`, lancé automatiquement
-par `project: pre-render:` dans `_quarto.yml`. Pour changer la couleur du
-logo, il suffit donc de changer `--accent` dans `styles.css` ; ne pas modifier
-`images/logo.png` directement (il sera écrasé au prochain rendu).
+`notes/images/logo.png` (utilisé par `sidebar: logo:` et repris sur la page
+d'accueil du site) est régénéré à chaque rendu à partir de
+`notes/images/logo-source.png` (la silhouette) et de la couleur `--purple`
+définie dans `notes/styles.css` — voir `notes/R/logo.R`, lancé automatiquement
+par `project: pre-render:` dans `notes/_quarto.yml`. Cette couleur est la même
+que celle de STT-4300, SitePerso, STT-1900 et STT-1000 ; pour changer la
+couleur du logo, il suffit donc de changer `--purple` dans `notes/styles.css` ;
+ne pas modifier `notes/images/logo.png` directement (il sera écrasé au
+prochain rendu).
 
 ## À faire
 

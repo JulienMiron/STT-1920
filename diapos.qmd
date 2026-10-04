@@ -1,9 +1,12 @@
-# Diapositives {.unnumbered}
+<div class="portal-hero">
 
-Les diapositives du cours sont compilées automatiquement à partir des
-fichiers LaTeX du dossier `diapos/` à chaque mise à jour du dépôt. La
-version *présentation* contient les dévoilements progressifs utilisés en
-classe ; la version *imprimable* présente une page par diapositive.
+<p class="eyebrow">STT-1920 — Méthodes statistiques</p>
+
+# Diapositives
+
+<p class="hero-lead">Les diapositives du cours sont compilées automatiquement à partir des fichiers LaTeX du dossier `diapos/` à chaque mise à jour du dépôt. La version *présentation* contient les dévoilements progressifs utilisés en classe ; la version *imprimable* présente une page par diapositive.</p>
+
+</div>
 
 Les diapositives sont regroupées par chapitre ; chaque chapitre des notes
 renvoie aussi à ses diapositives.

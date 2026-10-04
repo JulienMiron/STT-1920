@@ -1,4 +1,5 @@
-# Liens vers les diapositives LaTeX (dossier diapos/).
+# Page « Diapositives » (diapos.qmd, à la racine du site) : un tableau par
+# chapitre, avec un lien vers le chapitre de notes correspondant (notes/).
 #
 # Les PDF sont produits par diapos/compiler.sh (voir le workflow GitHub) :
 #   diapos/Chapitre_Xx.pdf             (présentation)
@@ -44,12 +45,16 @@ diapos_lien <- function(base, suffixe = "", texte = "PDF", dossier = "diapos") {
   if (file.exists(pdf)) sprintf("[%s](%s)", texte, pdf) else "—"
 }
 
-# Titre (sans numéro) du chapitre des notes correspondant, et son fichier
+# Titre (sans numéro) du chapitre de notes/ correspondant, et son fichier.
+# notes/ est un sous-projet Quarto indépendant : Quarto ne réécrit pas
+# automatiquement les liens .qmd -> .html d'un projet vers l'autre, donc on
+# pointe directement vers le .html rendu plutôt que vers le .qmd source.
 diapos_notes <- function(n) {
-  qmd <- list.files(".", pattern = sprintf("^%02d-.*\\.qmd$", n))[1]
+  qmd <- list.files("notes", pattern = sprintf("^%02d-.*\\.qmd$", n))[1]
   if (is.na(qmd)) return(NULL)
-  titre <- grep("^# ", readLines(qmd, warn = FALSE, encoding = "UTF-8"), value = TRUE)[1]
-  list(fichier = qmd, titre = trimws(sub("\\{.*\\}", "", sub("^# ", "", titre))))
+  html <- file.path("notes", sub("\\.qmd$", ".html", qmd))
+  titre <- grep("^# ", readLines(file.path("notes", qmd), warn = FALSE, encoding = "UTF-8"), value = TRUE)[1]
+  list(fichier = html, titre = trimws(sub("\\{.*\\}", "", sub("^# ", "", titre))))
 }
 
 # Page « Diapositives » : un tableau par chapitre
@@ -74,24 +79,5 @@ diapos_page <- function() {
                   diapos_lien(sous$base[i]), diapos_lien(sous$base[i], "-imprimable")))
     }
   }
-  invisible()
-}
-
-# Encadré à placer au début d'un chapitre des notes
-diapos_chapitre <- function(n) {
-  infos <- diapos_infos()
-  if (is.null(infos)) return(invisible())
-  sous <- infos[infos$chapitre == n, ]
-  if (nrow(sous) == 0) return(invisible())
-  cat("::: {.callout-tip collapse=\"false\"}\n## Diapositives de ce chapitre\n\n")
-  for (i in seq_len(nrow(sous))) {
-    partie <- if (sous$partie[i] == "") sprintf("Chapitre %d", n) else
-      sprintf("Partie %d%s", n, sous$partie[i])
-    cat(sprintf("- **%s** : %s · %s  \n  *%s*\n", partie,
-                diapos_lien(sous$base[i], "", "présentation"),
-                diapos_lien(sous$base[i], "-imprimable", "imprimable"),
-                sous$contenu[i]))
-  }
-  cat("\nVoir aussi la page [Diapositives](diapos.qmd).\n:::\n")
   invisible()
 }
