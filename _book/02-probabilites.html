@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; La théorie des probabilités – Méthodes statistiques -- STT-1920</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03-un-echantillon.html" rel="next">
+<link href="./01-statistique-descriptive.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-5876300e3b422b9fe1fffaa7b75e9b96.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-probabilites.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">La théorie des probabilités</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./images/logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./images/logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Méthodes statistiques – STT-1920</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/JulienMiron/stt1920" title="Code source" class="quarto-navigation-tool px-1" aria-label="Code source"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Recherche"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Avant-propos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diapos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Diapositives</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-statistique-descriptive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">La statistique descriptive</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-probabilites.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">La théorie des probabilités</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-un-echantillon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Estimation et tests d’hypothèses : problèmes à un échantillon</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-deux-echantillons.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Estimation et tests d’hypothèses : problèmes à deux échantillons</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction à l’analyse de la variance</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction à la régression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-khi-deux.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Tableaux de fréquences et tests du khi-deux</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Annexes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Tables de distributions</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">2.1</span> Introduction</a>
+  <ul class="collapse">
+  <li><a href="#les-principaux-concepts" id="toc-les-principaux-concepts" class="nav-link" data-scroll-target="#les-principaux-concepts">Les principaux concepts</a></li>
+  <li><a href="#interprétation-de-la-probabilité-dun-événement" id="toc-interprétation-de-la-probabilité-dun-événement" class="nav-link" data-scroll-target="#interprétation-de-la-probabilité-dun-événement">Interprétation de la probabilité d’un événement</a></li>
+  <li><a href="#le-langage-ensembliste-et-les-diagrammes-de-venn" id="toc-le-langage-ensembliste-et-les-diagrammes-de-venn" class="nav-link" data-scroll-target="#le-langage-ensembliste-et-les-diagrammes-de-venn">Le langage ensembliste et les diagrammes de Venn</a></li>
+  </ul></li>
+  <li><a href="#sec-proprietes" id="toc-sec-proprietes" class="nav-link" data-scroll-target="#sec-proprietes"><span class="header-section-number">2.2</span> Les principales propriétés des probabilités</a>
+  <ul class="collapse">
+  <li><a href="#analogie-avec-la-notion-de-poids" id="toc-analogie-avec-la-notion-de-poids" class="nav-link" data-scroll-target="#analogie-avec-la-notion-de-poids">Analogie avec la notion de poids</a></li>
+  </ul></li>
+  <li><a href="#sec-combinatoire" id="toc-sec-combinatoire" class="nav-link" data-scroll-target="#sec-combinatoire"><span class="header-section-number">2.3</span> Notions d’analyse combinatoire</a>
+  <ul class="collapse">
+  <li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1"><span class="header-section-number">2.3.1</span> Introduction</a></li>
+  <li><a href="#le-principe-fondamental-du-dénombrement" id="toc-le-principe-fondamental-du-dénombrement" class="nav-link" data-scroll-target="#le-principe-fondamental-du-dénombrement"><span class="header-section-number">2.3.2</span> Le principe fondamental du dénombrement</a></li>
+  <li><a href="#permutations" id="toc-permutations" class="nav-link" data-scroll-target="#permutations"><span class="header-section-number">2.3.3</span> Permutations</a></li>
+  <li><a href="#combinaisons" id="toc-combinaisons" class="nav-link" data-scroll-target="#combinaisons"><span class="header-section-number">2.3.4</span> Combinaisons</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/JulienMiron/stt1920/edit/main/02-probabilites.qmd" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/JulienMiron/stt1920/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-probabilites" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">La théorie des probabilités</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    <div>
+    <div class="quarto-title-meta-heading">Dernière modification</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">23 septembre 2026</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">2.1</span> Introduction</h2>
+<p>Le présent chapitre se veut un bref survol des principales notions de la théorie des probabilités. Voici deux exemples élémentaires qui vont nous aider à comprendre les concepts d’expérience aléatoire, d’ensemble des résultats possibles, d’événement et de probabilité d’un événement.</p>
+<p><strong>Exemple 1.</strong> On lance une paire de dés. Quelle est la probabilité d’obtenir un total de 8 ? Quelle est la probabilité d’obtenir au moins une fois la valeur 6 ?</p>
+<p><em>Solution.</em> Identifions les deux dés : le dé A et le dé B. Voici l’ensemble de tous les résultats possibles pour cette expérience aléatoire :</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">(1, 1)</td>
+<td style="text-align: center;">(1, 2)</td>
+<td style="text-align: center;">(1, 3)</td>
+<td style="text-align: center;">(1, 4)</td>
+<td style="text-align: center;">(1, 5)</td>
+<td style="text-align: center;">(1, 6)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(2, 1)</td>
+<td style="text-align: center;">(2, 2)</td>
+<td style="text-align: center;">(2, 3)</td>
+<td style="text-align: center;">(2, 4)</td>
+<td style="text-align: center;">(2, 5)</td>
+<td style="text-align: center;">(2, 6)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(3, 1)</td>
+<td style="text-align: center;">(3, 2)</td>
+<td style="text-align: center;">(3, 3)</td>
+<td style="text-align: center;">(3, 4)</td>
+<td style="text-align: center;">(3, 5)</td>
+<td style="text-align: center;">(3, 6)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(4, 1)</td>
+<td style="text-align: center;">(4, 2)</td>
+<td style="text-align: center;">(4, 3)</td>
+<td style="text-align: center;">(4, 4)</td>
+<td style="text-align: center;">(4, 5)</td>
+<td style="text-align: center;">(4, 6)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(5, 1)</td>
+<td style="text-align: center;">(5, 2)</td>
+<td style="text-align: center;">(5, 3)</td>
+<td style="text-align: center;">(5, 4)</td>
+<td style="text-align: center;">(5, 5)</td>
+<td style="text-align: center;">(5, 6)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(6, 1)</td>
+<td style="text-align: center;">(6, 2)</td>
+<td style="text-align: center;">(6, 3)</td>
+<td style="text-align: center;">(6, 4)</td>
+<td style="text-align: center;">(6, 5)</td>
+<td style="text-align: center;">(6, 6)</td>
+</tr>
+</tbody>
+</table>
+<p>Dans ce tableau, le couple <span class="math inline">\((k, \ell)\)</span> représente le résultat « obtenir la face <span class="math inline">\(k\)</span> avec le dé A et la face <span class="math inline">\(\ell\)</span> avec le dé B ». Dire qu’on obtient le résultat <span class="math inline">\((5, 3)\)</span> c’est dire qu’on obtient la face 5 avec le dé A et la face 3 avec le dé B. En supposant que les dés sont parfaitement symétriques, les 36 résultats énumérés ci-dessus ont tous la même chance de survenir. La probabilité d’obtenir le résultat <span class="math inline">\((5, 3)\)</span> est donc <span class="math inline">\(1/36\)</span>. Parmi les 36 résultats possibles, il y en a 5 pour lesquels la somme des deux faces obtenues est égale à 8. Il s’agit des résultats <span class="math inline">\((6, 2)\)</span>, <span class="math inline">\((5, 3)\)</span>, <span class="math inline">\((4, 4)\)</span>, <span class="math inline">\((3, 5)\)</span> et <span class="math inline">\((2, 6)\)</span>. La probabilité d’obtenir un total égal à 8 est donc <span class="math inline">\(5/36\)</span>. De même, parmi les 36 résultats possibles, il y en a 11 pour lesquels la face 6 apparaît au moins une fois. La probabilité d’obtenir au moins une fois la valeur 6 est donc <span class="math inline">\(11/36\)</span>.</p>
+<p><strong>Exemple 2.</strong> On lance une pièce de monnaie quatre fois. Quelle est la probabilité d’obtenir exactement deux faces et deux piles ?</p>
+<p><em>Solution.</em> Voici l’ensemble de tous les résultats possibles pour l’expérience aléatoire qui consiste à lancer une pièce de monnaie 4 fois :</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">F F F F</td>
+<td style="text-align: center;">F F F P</td>
+<td style="text-align: center;">F F P F</td>
+<td style="text-align: center;">F F P P</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">F P F F</td>
+<td style="text-align: center;">F P F P</td>
+<td style="text-align: center;">F P P F</td>
+<td style="text-align: center;">F P P P</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">P F F F</td>
+<td style="text-align: center;">P F F P</td>
+<td style="text-align: center;">P F P F</td>
+<td style="text-align: center;">P F P P</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">P P F F</td>
+<td style="text-align: center;">P P F P</td>
+<td style="text-align: center;">P P P F</td>
+<td style="text-align: center;">P P P P</td>
+</tr>
+</tbody>
+</table>
+<p>On utilise une convention semblable à celle utilisée à l’exemple 1. La notation F P P F signifie « face au premier lancer, pile au deuxième lancer, pile au troisième lancer et face au quatrième lancer ». Si la pièce de monnaie est bien équilibrée, il est raisonnable de conclure que ces 16 résultats possibles ont tous la même probabilité de survenir. La probabilité d’obtenir le résultat F P P F est donc <span class="math inline">\(1/16\)</span>. Parmi les 16 résultats possibles, il y en a 6 qui donnent lieu à deux piles et deux faces. La probabilité d’obtenir deux piles et deux faces est donc égale à <span class="math inline">\(6/16\)</span>, c’est-à-dire <span class="math inline">\(3/8\)</span>.</p>
+<section id="les-principaux-concepts" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="les-principaux-concepts">Les principaux concepts</h3>
+<p>Le point de départ de la théorie des probabilités est le concept d’<em>expérience aléatoire</em>. Une expérience aléatoire est une expérience ayant plusieurs résultats possibles. On ne peut pas prédire quel résultat surviendra mais on peut dresser la liste de tous les résultats possibles. On écrit <span class="math inline">\(\mathcal{E}\)</span> pour dénoter l’expérience aléatoire et on écrit <span class="math inline">\(\Omega\)</span> pour dénoter l’ensemble de tous les résultats possibles. Cet ensemble <span class="math inline">\(\Omega\)</span> est parfois appelé l’<em>ensemble fondamental</em> de l’expérience <span class="math inline">\(\mathcal{E}\)</span>. Dans l’exemple 1 on a <span class="math display">\[
+\begin{aligned}
+\mathcal{E} &amp;= \text{« On lance une paire de dés »}, \\
+\Omega &amp;= \{(1, 1), (1, 2), (1, 3), \ldots, (6, 5), (6, 6)\}.
+\end{aligned}
+\]</span> Dans l’exemple 2 on a <span class="math display">\[
+\begin{aligned}
+\mathcal{E} &amp;= \text{« On lance une pièce de monnaie quatre fois »}, \\
+\Omega &amp;= \{FFFF, FFFP, FFPF, \ldots, PPPF, PPPP\}.
+\end{aligned}
+\]</span> Un <em>événement</em> est un sous-ensemble de l’ensemble de tous les résultats possibles. On utilise les lettres majuscules du début de l’alphabet pour dénoter des événements. Voici deux exemples d’événements relatifs à l’exemple 1 : <span class="math display">\[
+\begin{aligned}
+A &amp;= \text{« Obtenir au moins un 6 »} \\
+  &amp;= \{(6,1), (6,2), (6,3), (6,4), (6,5), (6,6), (5,6), (4,6), (3,6), (2,6), (1,6)\}, \\
+B &amp;= \text{« Le total des deux dés est 8 »} \\
+  &amp;= \{(6,2), (5,3), (4,4), (3,5), (2,6)\}.
+\end{aligned}
+\]</span> Voici trois exemples d’événements relatifs à l’exemple 2 : <span class="math display">\[
+\begin{aligned}
+C &amp;= \text{« Obtenir une pile et trois faces »} = \{FFFP, FFPF, FPFF, PFFF\}, \\
+D &amp;= \text{« Obtenir deux piles et deux faces »} = \{FFPP, FPFP, FPPF, PFFP, PFPF, PPFF\}, \\
+E &amp;= \text{« Obtenir quatre résultats identiques »} = \{FFFF, PPPP\}.
+\end{aligned}
+\]</span> À chaque événement on associe sa <em>probabilité</em>. La probabilité d’un événement <span class="math inline">\(A\)</span>, dénotée <span class="math inline">\(P[A]\)</span>, est un nombre entre 0 et 1 qui représente la fréquence relative à long terme avec laquelle l’événement <span class="math inline">\(A\)</span> se réaliserait si on répétait l’expérience un très grand nombre de fois. Dans l’exemple 1, si on suppose que les dés sont bien équilibrés, alors les 36 résultats possibles ont tous la même probabilité. Il n’y a pas de raison pour que le résultat <span class="math inline">\((3, 5)\)</span> soit plus probable ou moins probable que le résultat <span class="math inline">\((2, 1)\)</span>. Chacun des résultats possibles a donc une probabilité égale à <span class="math inline">\(1/36\)</span>. Pour les événements <span class="math inline">\(A\)</span> et <span class="math inline">\(B\)</span> décrits ci-dessus, on obtient <span class="math inline">\(P[A] = 11/36\)</span> et <span class="math inline">\(P[B] = 5/36\)</span>. Dans l’exemple 2, si on suppose que la pièce de monnaie est bien équilibrée, alors les 16 résultats possibles ont tous la même probabilité. Chacun des résultats possibles a donc une probabilité égale à <span class="math inline">\(1/16\)</span>. Pour les événements <span class="math inline">\(C\)</span>, <span class="math inline">\(D\)</span> et <span class="math inline">\(E\)</span> décrits ci-dessus, on obtient <span class="math inline">\(P[C] = 4/16 = 1/4\)</span>, <span class="math inline">\(P[D] = 6/16 = 3/8\)</span> et <span class="math inline">\(P[E] = 2/16 = 1/8\)</span>.</p>
+</section>
+<section id="interprétation-de-la-probabilité-dun-événement" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="interprétation-de-la-probabilité-dun-événement">Interprétation de la probabilité d’un événement</h3>
+<p>Dans le présent document, on s’intéresse seulement à l’aspect pratique de la théorie des probabilités. Il n’est pas question de s’attarder ici au sens philosophique de la notion de probabilité. Pour nous, la probabilité <span class="math inline">\(P[B] = 5/36\)</span> obtenue dans l’exemple 1 est interprétée de la façon suivante : si on répète un très grand nombre de fois l’expérience aléatoire qui consiste à lancer une paire de dés bien équilibrés, alors on s’attend à ce que la somme des deux dés soit égale à 8 en moyenne 5 fois sur 36. Pour nous, la probabilité d’un événement est donc la fréquence relative avec laquelle cet événement se réaliserait si on répétait notre expérience aléatoire un très grand nombre de fois.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Astuce</span>Dans R : la fréquence relative à long terme
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>On peut simuler un grand nombre de lancers d’une paire de dés et comparer la fréquence relative de l’événement « total égal à 8 » à <span class="math inline">\(5/36 \approx 0.1389\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>total <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, n, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(total <span class="sc">==</span> <span class="dv">8</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 0.13989</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="le-langage-ensembliste-et-les-diagrammes-de-venn" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="le-langage-ensembliste-et-les-diagrammes-de-venn">Le langage ensembliste et les diagrammes de Venn</h3>
+<p>En théorie des probabilités on utilise souvent les <em>diagrammes de Venn</em> pour illustrer diverses notions. Dans un tel diagramme, l’ensemble <span class="math inline">\(\Omega\)</span> de tous les résultats possibles est représenté par une boîte rectangulaire. Un événement est alors une partie de cette boîte rectangulaire, c’est-à-dire une région à l’intérieur de cette boîte rectangulaire. Le diagramme de Venn de la <a href="#fig-venn-omega" class="quarto-xref">figure&nbsp;<span>2.1</span></a> représente l’ensemble <span class="math inline">\(\Omega\)</span> ainsi qu’un événement dénoté <span class="math inline">\(A\)</span>. On imagine que <span class="math inline">\(\Omega\)</span> est l’ensemble de tous les résultats possibles d’une certaine expérience aléatoire <span class="math inline">\(\mathcal{E}\)</span>. Lorsqu’on réalise cette expérience, un résultat survient, disons le résultat <span class="math inline">\(\omega\)</span>. Si ce <span class="math inline">\(\omega\)</span> appartient à l’ensemble <span class="math inline">\(A\)</span>, on dit que l’événement <span class="math inline">\(A\)</span> s’est réalisé. Si ce <span class="math inline">\(\omega\)</span> n’appartient pas à l’ensemble <span class="math inline">\(A\)</span>, on dit que l’événement <span class="math inline">\(A\)</span> ne s’est pas réalisé. La <a href="#fig-venn-omega" class="quarto-xref">figure&nbsp;<span>2.1</span></a> illustre le cas où l’événement <span class="math inline">\(A\)</span> s’est réalisé. La notation <span class="math inline">\(A^c\)</span> est utilisée pour dénoter le complément de l’ensemble <span class="math inline">\(A\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">venn2</span>(<span class="st">"A"</span>, <span class="at">un_seul =</span> <span class="cn">TRUE</span>, <span class="at">omega =</span> <span class="fu">c</span>(<span class="fl">2.2</span>, <span class="fl">1.8</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-venn-omega" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-venn-omega-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="02-probabilites_files/figure-html/fig-venn-omega-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-venn-omega-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: L’expérience a donné lieu au résultat <span class="math inline">\(\omega\)</span>. Puisque <span class="math inline">\(\omega \in A\)</span>, on dit que l’événement <span class="math inline">\(A\)</span> s’est réalisé.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Si <span class="math inline">\(A\)</span> et <span class="math inline">\(B\)</span> sont des événements, on écrit <span class="math inline">\(A \cup B\)</span> pour dénoter l’<em>union</em> des ensembles <span class="math inline">\(A\)</span> et <span class="math inline">\(B\)</span>. Dire que l’événement <span class="math inline">\(A \cup B\)</span> s’est réalisé c’est dire qu’au moins un des événements <span class="math inline">\(A\)</span> et <span class="math inline">\(B\)</span> s’est réalisé. Le diagramme de Venn de la <a href="#fig-venn-union" class="quarto-xref">figure&nbsp;<span>2.2</span></a> illustre l’événement <span class="math inline">\(A \cup B\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">venn2</span>(<span class="st">"union"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-venn-union" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-venn-union-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="02-probabilites_files/figure-html/fig-venn-union-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-venn-union-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.2: L’événement <span class="math inline">\(A \cup B\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Si <span class="math inline">\(A\)</span> et <span class="math inline">\(B\)</span> sont des événements, on écrit <span class="math inline">\(A \cap B\)</span> pour dénoter l’<em>intersection</em> des ensembles <span class="math inline">\(A\)</span> et <span class="math inline">\(B\)</span>. Dire que l’événement <span class="math inline">\(A \cap B\)</span> s’est réalisé c’est dire que les événements <span class="math inline">\(A\)</span> et <span class="math inline">\(B\)</span> se sont tous les deux réalisés. Le diagramme de Venn de la <a href="#fig-venn-inter" class="quarto-xref">figure&nbsp;<span>2.3</span></a> illustre l’événement <span class="math inline">\(A \cap B\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">venn2</span>(<span class="st">"inter"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-venn-inter" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-venn-inter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="02-probabilites_files/figure-html/fig-venn-inter-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-venn-inter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.3: L’événement <span class="math inline">\(A \cap B\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Dans le cas particulier où <span class="math inline">\(A \cap B\)</span> est l’ensemble vide, on dit que les événements <span class="math inline">\(A\)</span> et <span class="math inline">\(B\)</span> sont <em>mutuellement exclusifs</em>. Ils s’excluent l’un et l’autre. Si <span class="math inline">\(A\)</span> se réalise alors <span class="math inline">\(B\)</span> ne peut pas se réaliser. Si <span class="math inline">\(B\)</span> se réalise, alors <span class="math inline">\(A\)</span> ne peut pas se réaliser. Dans l’exemple 2, les événements <span class="math inline">\(A\)</span> = « obtenir trois piles » et <span class="math inline">\(B\)</span> = « obtenir au moins deux faces » sont des événements mutuellement exclusifs. Si l’un d’entre eux se réalise, alors l’autre ne peut pas se réaliser. Par ailleurs, les événements <span class="math inline">\(C\)</span> = « obtenir pile au premier lancer » et <span class="math inline">\(D\)</span> = « obtenir au moins deux faces » ne sont pas des événements mutuellement exclusifs car il est possible que ces deux événements se réalisent simultanément.</p>
+</section>
+</section>
+<section id="sec-proprietes" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="sec-proprietes"><span class="header-section-number">2.2</span> Les principales propriétés des probabilités</h2>
+<p>Dans cette section, nous présentons les six principales propriétés des probabilités. Les trois premières propriétés sont en fait les trois axiomes sur lesquels toute la théorie mathématique des probabilités repose. On les appelle les <em>axiomes de Kolmogorov</em>. Les trois autres propriétés sont des conséquences de ces trois axiomes.</p>
+<div class="env-propriete">
+<p><span class="env-titre">Propriété 1 : le premier axiome de Kolmogorov</span></p>
+<p>Pour tout événement <span class="math inline">\(A\)</span>, on a <span class="math inline">\(0 \le P[A] \le 1\)</span>.</p>
+</div>
+<div class="env-propriete">
+<p><span class="env-titre">Propriété 2 : le deuxième axiome de Kolmogorov</span></p>
+<p><span class="math inline">\(P[\varnothing] = 0\)</span> et <span class="math inline">\(P[\Omega] = 1\)</span>.</p>
+</div>
+<p>Rappelons ici que le symbole <span class="math inline">\(\varnothing\)</span> est utilisé pour dénoter l’ensemble vide.</p>
+<div class="env-propriete">
+<p><span class="env-titre">Propriété 3 : le troisième axiome de Kolmogorov</span></p>
+<p>Si <span class="math inline">\(A_1, A_2, \ldots, A_n\)</span> sont des événements mutuellement exclusifs, alors <span class="math display">\[
+P\Big[\bigcup_{i=1}^{n} A_i\Big] = \sum_{i=1}^{n} P[A_i],
+\quad\text{c'est-à-dire}\quad
+P[A_1 \cup A_2 \cup \cdots \cup A_n] = P[A_1] + P[A_2] + \cdots + P[A_n].
+\]</span> Si <span class="math inline">\(A_1, A_2, A_3, \ldots\)</span> sont des événements mutuellement exclusifs, alors <span class="math display">\[
+P\Big[\bigcup_{i=1}^{\infty} A_i\Big] = \sum_{i=1}^{\infty} P[A_i],
+\quad\text{c'est-à-dire}\quad
+P[A_1 \cup A_2 \cup A_3 \cup \cdots] = P[A_1] + P[A_2] + P[A_3] + \cdots
+\]</span></p>
+</div>
+<p>Les axiomes de Kolmogorov peuvent être vus comme étant une description mathématique de l’interprétation « fréquence relative à long terme » présentée à la section 2.1.</p>
+<section id="analogie-avec-la-notion-de-poids" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="analogie-avec-la-notion-de-poids">Analogie avec la notion de poids</h3>
+<p>Il y a une analogie intéressante entre la notion de probabilité et la notion de poids. On imagine que <span class="math inline">\(\Omega\)</span> représente un objet physique de poids unitaire et on imagine que si <span class="math inline">\(A\)</span> est une partie de cet objet <span class="math inline">\(\Omega\)</span>, alors <span class="math inline">\(P[A]\)</span> représente le poids de cette partie <span class="math inline">\(A\)</span>. Avec cette analogie, les axiomes de Kolmogorov nous apparaissent très naturels.</p>
+<div class="env-propriete">
+<p><span class="env-titre">Propriété 4 : le cas équiprobable</span></p>
+<p>Si <span class="math inline">\(\Omega\)</span> est un ensemble fini et si les résultats possibles ont tous la même probabilité, alors pour tout événement <span class="math inline">\(A\)</span> on a <span class="math display">\[
+P[A] = \frac{\text{cardinal de } A}{\text{cardinal de } \Omega}.
+\]</span></p>
+</div>
+<p>Rappelons que le cardinal d’un ensemble fini est simplement le nombre d’éléments que contient cet ensemble. On a équiprobabilité dans chacun des deux exemples élémentaires présentés à la section 2.1. Voici deux exemples un peu moins élémentaires.</p>
+<p><strong>Exemple 3.</strong> On tire une main de poker, c’est-à-dire cinq cartes, au hasard à partir d’un jeu ordinaire de 52 cartes. Calculez la probabilité d’obtenir une <em>main pleine</em>, c’est-à-dire une main de poker comprenant une paire et un triple. Ici, <span class="math inline">\(\Omega\)</span> est l’ensemble de toutes les mains de poker possibles. Chaque main de poker a la même probabilité d’être obtenue. La probabilité désirée est donc, d’après la propriété 4, <span class="math display">\[
+\frac{\text{nombre total de mains pleines possibles}}{\text{nombre total de mains de poker possibles}}
+= \frac{3\,744}{2\,598\,960} \approx 0.00144.
+\]</span></p>
+<p><strong>Exemple 4.</strong> La 6/49 est sans doute la loterie la plus populaire au Canada. Pour 3 $, le joueur achète un billet de 6/49, c’est-à-dire une combinaison de six nombres différents choisis parmi les nombres 1 à 49. Lors du tirage, une combinaison est obtenue au hasard. Toutes les combinaisons ont la même chance d’être obtenues. Le montant d’argent que le joueur gagne dépend de plusieurs facteurs. Dans le cas particulier où la combinaison du joueur compte exactement trois des six nombres de la combinaison gagnante, le joueur gagne 10 $. Quelle est la probabilité que le joueur gagne 10 $ ? Nous sommes ici dans le cas équiprobable et la probabilité désirée est donc <span class="math display">\[
+\frac{\text{cardinal de } A}{\text{cardinal de } \Omega} = \frac{246\,820}{13\,983\,816} \approx 0.0177.
+\]</span> Ici <span class="math inline">\(\Omega\)</span> dénote l’ensemble de toutes les combinaisons possibles de 6 nombres choisis parmi les nombres 1 à 49 et <span class="math inline">\(A\)</span> dénote l’ensemble de toutes les combinaisons qui ont exactement trois nombres en commun avec la combinaison gagnante.</p>
+<p>Dans la prochaine section, nous étudierons certaines techniques de dénombrement qui nous permettront d’arriver, avec beaucoup de facilité, aux réponses numériques des deux exemples précédents.</p>
+<div class="env-propriete">
+<p><span class="env-titre">Propriété 5 : la complémentation</span></p>
+<p>Pour tout événement <span class="math inline">\(A\)</span> on a <span class="math inline">\(P[A] = 1 - P[A^c]\)</span>.</p>
+</div>
+<p>Rappelons à nouveau que si <span class="math inline">\(A\)</span> est un sous-ensemble de <span class="math inline">\(\Omega\)</span>, alors le <em>complément</em> de <span class="math inline">\(A\)</span>, dénoté <span class="math inline">\(A^c\)</span>, est défini comme étant l’ensemble de tous les éléments de <span class="math inline">\(\Omega\)</span> qui n’appartiennent pas à <span class="math inline">\(A\)</span>. Dans l’exemple 1, nous avons vu que si on lance une paire de dés, alors la probabilité d’obtenir au moins une fois la valeur six est <span class="math inline">\(11/36\)</span>. Nous aurions pu arriver à ce résultat en utilisant la propriété de complémentation. Le complément de l’événement <span class="math inline">\(A\)</span> = « obtenir au moins un six » est l’événement <span class="math inline">\(A^c\)</span> = « n’obtenir aucun six ». On a donc <span class="math display">\[
+P[\text{« obtenir au moins un six »}] = 1 - P[\text{« n'obtenir aucun six »}] = 1 - \frac{25}{36} = \frac{11}{36}.
+\]</span> Dans cet exemple, on n’avait pas besoin de passer par la complémentation ; on examine le schéma présenté au début du présent chapitre et on note sans difficulté que le cardinal de <span class="math inline">\(A\)</span> est 11. Pour apprécier l’utilité de la propriété de complémentation, il suffit de considérer un exemple où l’ensemble <span class="math inline">\(\Omega\)</span> est plus difficile à visualiser.</p>
+<p><strong>Exemple 5.</strong> On lance un dé 8 fois. Quelle est la probabilité d’obtenir au moins une fois la valeur 6 ? Écrivons <span class="math inline">\(\Omega\)</span> pour dénoter l’ensemble de tous les résultats possibles pour cette expérience aléatoire et écrivons <span class="math inline">\(A\)</span> pour dénoter l’événement « obtenir au moins une fois la valeur 6 ». Ici l’ensemble <span class="math inline">\(\Omega\)</span> est simplement l’ensemble de tous les vecteurs de la forme <span class="math inline">\((x_1, x_2, x_3, x_4, x_5, x_6, x_7, x_8)\)</span> avec <span class="math inline">\(x_i \in \{1, 2, 3, 4, 5, 6\}\)</span> pour chaque <span class="math inline">\(i\)</span>. Le cardinal de <span class="math inline">\(\Omega\)</span> est donc <span class="math inline">\(6^8 = 6 \times 6 \times 6 \times 6 \times 6 \times 6 \times 6 \times 6 = 1\,679\,616\)</span>. L’événement <span class="math inline">\(A^c\)</span> comprend tous les vecteurs de la forme <span class="math inline">\((x_1, x_2, x_3, x_4, x_5, x_6, x_7, x_8)\)</span> avec <span class="math inline">\(x_i \in \{1, 2, 3, 4, 5\}\)</span> pour chaque <span class="math inline">\(i\)</span>. Le cardinal de <span class="math inline">\(A^c\)</span> est donc <span class="math inline">\(5^8 = 5 \times 5 \times 5 \times 5 \times 5 \times 5 \times 5 \times 5 = 390\,625\)</span>. On obtient donc <span class="math display">\[
+P[A] = 1 - P[A^c] = 1 - \frac{\text{cardinal de } A^c}{\text{cardinal de } \Omega}
+= 1 - \frac{390\,625}{1\,679\,616} \approx 0.7674.
+\]</span></p>
+<div class="env-propriete">
+<p><span class="env-titre">Propriété 6 : la formule de Poincaré</span></p>
+<p>Pour tout choix de <span class="math inline">\(A\)</span> et <span class="math inline">\(B\)</span> on a <span class="math display">\[
+P[A \cup B] = P[A] + P[B] - P[A \cap B].
+\]</span> Pour tout choix de <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> et <span class="math inline">\(C\)</span> on a <span class="math display">\[
+\begin{aligned}
+P[A \cup B \cup C] = {} &amp; P[A] + P[B] + P[C] \\
+&amp; - P[A \cap B] - P[A \cap C] - P[B \cap C] \\
+&amp; + P[A \cap B \cap C].
+\end{aligned}
+\]</span></p>
+</div>
+<p>La <a href="#fig-poincare" class="quarto-xref">figure&nbsp;<span>2.4</span></a> nous aide à comprendre la formule de Poincaré dans le cas d’une union de deux événements. L’étudiant devrait essayer de faire un schéma analogue pour le cas d’une union de trois événements.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>, <span class="at">nrow =</span> <span class="dv">1</span>), <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">4</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>signe <span class="ot">&lt;-</span> <span class="cf">function</span>(s) {</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">4</span>)); <span class="fu">plot.new</span>(); <span class="fu">text</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, s, <span class="at">cex =</span> <span class="dv">3</span>); <span class="fu">par</span>(op)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">venn2</span>(<span class="st">"union"</span>); <span class="fu">signe</span>(<span class="st">"="</span>); <span class="fu">venn2</span>(<span class="st">"A"</span>); <span class="fu">signe</span>(<span class="st">"+"</span>); <span class="fu">venn2</span>(<span class="st">"B"</span>); <span class="fu">signe</span>(<span class="st">"-"</span>); <span class="fu">venn2</span>(<span class="st">"inter"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-poincare" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-poincare-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="02-probabilites_files/figure-html/fig-poincare-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-poincare-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.4: Illustration de l’équation <span class="math inline">\(P[A \cup B] = P[A] + P[B] - P[A \cap B]\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>L’étudiant peut deviner la formule analogue pour la probabilité d’une union de quatre événements, de cinq événements, etc. La formule de Poincaré est parfois appelée la <em>formule d’inclusion-exclusion</em>. On comprend pourquoi en examinant la <a href="#fig-poincare" class="quarto-xref">figure&nbsp;<span>2.4</span></a> et son analogue pour le cas à trois événements. Voici un exemple élémentaire pour illustrer la formule de Poincaré.</p>
+<p><strong>Exemple 6.</strong> On lance un dé 3 fois. À l’aide de la formule de Poincaré, calculez la probabilité d’obtenir au moins une fois la valeur 6. La probabilité désirée est <span class="math inline">\(P[A \cup B \cup C]\)</span>, avec <span class="math display">\[
+\begin{aligned}
+A &amp;= \text{l'événement « obtenir un 6 au premier lancer »}, \\
+B &amp;= \text{l'événement « obtenir un 6 au deuxième lancer »}, \\
+C &amp;= \text{l'événement « obtenir un 6 au troisième lancer »}.
+\end{aligned}
+\]</span> On obtient <span class="math display">\[
+\begin{aligned}
+P[A] = P[B] = P[C] &amp;= 1/6, \\
+P[A \cap B] = P[B \cap C] = P[A \cap C] &amp;= 1/36, \\
+P[A \cap B \cap C] &amp;= 1/216
+\end{aligned}
+\]</span> et la formule de Poincaré nous donne <span class="math display">\[
+P[A \cup B \cup C] = \frac{1}{6} + \frac{1}{6} + \frac{1}{6} - \frac{1}{36} - \frac{1}{36} - \frac{1}{36} + \frac{1}{216} = \frac{91}{216}.
+\]</span> On aurait pu obtenir le même résultat en utilisant la propriété de complémentation, comme à l’exemple 5 : <span class="math display">\[
+P[\text{« au moins un 6 »}] = 1 - P[\text{« aucun 6 »}] = 1 - \frac{5^3}{6^3} = 1 - \frac{125}{216} = \frac{91}{216}.
+\]</span></p>
+</section>
+</section>
+<section id="sec-combinatoire" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="sec-combinatoire"><span class="header-section-number">2.3</span> Notions d’analyse combinatoire</h2>
+<section id="introduction-1" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="introduction-1"><span class="header-section-number">2.3.1</span> Introduction</h3>
+<p>Si l’ensemble <span class="math inline">\(\Omega\)</span> de tous les résultats possibles d’une expérience aléatoire <span class="math inline">\(\mathcal{E}\)</span> est un ensemble fini et si ces résultats possibles ont tous la même probabilité, alors on dit qu’on est dans le <em>cas équiprobable</em>. Nous avons vu à la section précédente que dans le cas équiprobable la probabilité d’un événement <span class="math inline">\(A\)</span> est donnée par l’équation <span class="math display">\[
+P[A] = \frac{\text{cardinal de } A}{\text{cardinal de } \Omega}.
+\]</span> Considérons par exemple l’expérience aléatoire qui consiste à choisir une main de poker au hasard, c’est-à-dire l’expérience aléatoire qui consiste à choisir 5 cartes au hasard à partir d’un jeu ordinaire de 52 cartes. Supposons qu’on veuille calculer la probabilité d’obtenir un <em>brelan</em>, c’est-à-dire une main de poker comprenant un triple (3 cartes de la même valeur) et 2 cartes de valeurs distinctes entre elles et distinctes de la valeur commune des 3 cartes du triple. Exemple de brelan : la main de poker qui comprend le 5 de pique, le 5 de cœur, le 5 de carreau, le valet de cœur et le 7 de carreau. Ici, <span class="math inline">\(\Omega\)</span> est l’ensemble de toutes les mains de poker possibles et l’événement <span class="math inline">\(A\)</span> qui nous intéresse est l’ensemble de tous les brelans. Nous sommes dans le cas équiprobable et la probabilité désirée est donc <span class="math display">\[
+P[A] = \frac{\text{cardinal de } A}{\text{cardinal de } \Omega}
+= \frac{\text{nombre total de brelans possibles}}{\text{nombre total de mains de poker possibles}}.
+\]</span> Pour calculer cette probabilité, il faut être capable de dénombrer l’ensemble de toutes les mains de poker possibles ainsi que l’ensemble de toutes les mains de poker qui sont des brelans. L’ensemble des techniques de dénombrement permettant de faire ce genre de calcul s’appelle l’<em>analyse combinatoire</em>. Dans la présente section, nous faisons un survol des principales notions d’analyse combinatoire.</p>
+</section>
+<section id="le-principe-fondamental-du-dénombrement" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="le-principe-fondamental-du-dénombrement"><span class="header-section-number">2.3.2</span> Le principe fondamental du dénombrement</h3>
+<p>Imaginez une procédure comprenant <span class="math inline">\(k\)</span> étapes. Ces <span class="math inline">\(k\)</span> étapes doivent être réalisées dans un certain ordre chronologique. Supposons que les conditions suivantes sont satisfaites :</p>
+<ul>
+<li>Il y a <span class="math inline">\(n_1\)</span> façons différentes de réaliser la première étape.</li>
+<li>Peu importe la façon choisie pour réaliser la première étape, il y a <span class="math inline">\(n_2\)</span> façons différentes de réaliser la deuxième étape.</li>
+<li>Peu importe les façons choisies pour réaliser les deux premières étapes, il y a <span class="math inline">\(n_3\)</span> façons différentes de réaliser la troisième étape.</li>
+<li><span class="math inline">\(\vdots\)</span></li>
+<li>Peu importe les façons choisies pour réaliser les <span class="math inline">\(k - 1\)</span> premières étapes, il y a <span class="math inline">\(n_k\)</span> façons différentes de réaliser la <span class="math inline">\(k\)</span><sup>e</sup> étape.</li>
+</ul>
+<p>Alors il y a en tout <span class="math inline">\(n_1 \times n_2 \times \cdots \times n_k\)</span> façons différentes de réaliser cette procédure.</p>
+<p>Ce résultat élémentaire s’appelle le <em>principe fondamental du dénombrement</em>. Nous avons utilisé ce principe de dénombrement à l’exemple 5. Voici quelques exemples additionnels.</p>
+<p><strong>Exemple 7.</strong> Autrefois les codes régionaux utilisés pour la téléphonie en Amérique du Nord étaient tous de la forme <span class="math inline">\((a, b, c)\)</span> avec <span class="math inline">\(a \in \{2, 3, 4, 5, 6, 7, 8, 9\}\)</span>, <span class="math inline">\(b \in \{0, 1\}\)</span> et <span class="math inline">\(c \in \{1, 2, 3, 4, 5, 6, 7, 8, 9\}\)</span>. Combien de codes régionaux étaient alors possibles ?</p>
+<p><em>Solution :</em> <span class="math inline">\(8 \times 2 \times 9 = 144\)</span>.</p>
+<p><strong>Exemple 8.</strong> Sur les plaques d’immatriculation des véhicules automobiles du Michigan, il y a 3 lettres suivies de 3 chiffres. Il y a en tout combien de numéros de plaque possibles au Michigan ? Il y a en tout combien de numéros de plaque comprenant 3 lettres différentes et 3 chiffres différents ? Si on choisit un numéro de plaque au hasard, quelle est la probabilité d’obtenir un numéro de plaque comprenant 3 lettres différentes et 3 chiffres différents ?</p>
+<p><em>Solution :</em> D’après le principe fondamental du dénombrement, il y a en tout <span class="math inline">\(26 \times 26 \times 26 \times 10 \times 10 \times 10 = 17\,576\,000\)</span> numéros de plaque différents. Parmi ces numéros de plaque, il y en a <span class="math inline">\(26 \times 25 \times 24 \times 10 \times 9 \times 8 = 11\,232\,000\)</span> qui comprennent 3 lettres différentes et 3 chiffres différents. En supposant l’équiprobabilité, la probabilité d’obtenir un numéro de plaque à 3 lettres différentes et 3 chiffres différents est <span class="math display">\[
+\frac{11\,232\,000}{17\,576\,000} \approx 0.6391.
+\]</span></p>
+<p><strong>Exemple 9.</strong> Combien de mots à <span class="math inline">\(n\)</span> lettres peut-on former avec un alphabet de <span class="math inline">\(\ell\)</span> lettres ?</p>
+<p><em>Solution :</em> Lorsqu’on écrit un tel mot, on a <span class="math inline">\(\ell\)</span> choix possibles pour la première lettre, <span class="math inline">\(\ell\)</span> choix possibles pour la deuxième lettre, etc. Il y a donc en tout <span class="math inline">\(\ell^n\)</span> mots possibles.</p>
+</section>
+<section id="permutations" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="permutations"><span class="header-section-number">2.3.3</span> Permutations</h3>
+<p>Une <em>permutation</em> de <span class="math inline">\(n\)</span> objets est un arrangement ordonné de ces <span class="math inline">\(n\)</span> objets. L’exemple suivant clarifie cette définition.</p>
+<p><strong>Exemple 10.</strong> Considérons les lettres A, B, C et D. Voici la liste de toutes les permutations possibles de ces quatre lettres :</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">ABCD</td>
+<td style="text-align: center;">ABDC</td>
+<td style="text-align: center;">ACBD</td>
+<td style="text-align: center;">ACDB</td>
+<td style="text-align: center;">ADBC</td>
+<td style="text-align: center;">ADCB</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">BACD</td>
+<td style="text-align: center;">BADC</td>
+<td style="text-align: center;">BCAD</td>
+<td style="text-align: center;">BCDA</td>
+<td style="text-align: center;">BDAC</td>
+<td style="text-align: center;">BDCA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">CABD</td>
+<td style="text-align: center;">CADB</td>
+<td style="text-align: center;">CBAD</td>
+<td style="text-align: center;">CBDA</td>
+<td style="text-align: center;">CDAB</td>
+<td style="text-align: center;">CDBA</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">DABC</td>
+<td style="text-align: center;">DACB</td>
+<td style="text-align: center;">DBAC</td>
+<td style="text-align: center;">DBCA</td>
+<td style="text-align: center;">DCAB</td>
+<td style="text-align: center;">DCBA</td>
+</tr>
+</tbody>
+</table>
+<p>On note qu’il y a en tout 24 permutations possibles des lettres A, B, C et D. Nous aurions pu déterminer ce nombre en observant que lorsqu’on écrit une permutation des lettres A, B, C et D, on a 4 choix possibles pour la première lettre, puis 3 choix possibles pour la deuxième lettre, ensuite 2 choix possibles pour la troisième lettre et enfin un seul choix possible pour la dernière lettre. On a donc en tout <span class="math inline">\(4 \times 3 \times 2 \times 1 = 24\)</span> permutations possibles. Plus généralement, le principe fondamental du dénombrement nous dit qu’il y a en tout <span class="math display">\[
+n \times (n-1) \times (n-2) \times \cdots \times 3 \times 2 \times 1
+\]</span> permutations possibles de <span class="math inline">\(n\)</span> objets.</p>
+<p><strong>La notation factorielle :</strong> Le produit <span class="math inline">\(n \times (n-1) \times (n-2) \times \cdots \times 3 \times 2 \times 1\)</span> est dénoté <span class="math inline">\(n!\)</span> et est appelé « <span class="math inline">\(n\)</span> factoriel ». On a donc <span class="math display">\[
+n \text{ factoriel} = n! = n \times (n-1) \times (n-2) \times \cdots \times 3 \times 2 \times 1.
+\]</span> Par convention, on pose <span class="math inline">\(0! = 1\)</span>. Nous verrons pourquoi un peu plus loin.</p>
+<p><strong>Exemple 11.</strong> Sur le bureau de Michel, il y a 12 livres : 4 livres de mathématiques, 3 livres de chimie, 3 livres de physique et 2 livres de biologie. Il faut ranger ces livres sur une tablette.</p>
+<ol type="a">
+<li>De combien de façons différentes peut-on ranger ces 12 livres sur la tablette ?</li>
+<li>Si les livres sont rangés au hasard, quelle est la probabilité que les livres se retrouvent groupés par matière ?</li>
+</ol>
+<p><em>Solution :</em> Il y a <span class="math inline">\(12! = 479\,001\,600\)</span> façons de ranger les livres. Si les livres sont rangés au hasard, la probabilité qu’ils se retrouvent groupés par matière est <span class="math display">\[
+\frac{4!\,4!\,3!\,3!\,2!}{12!} = \frac{41\,472}{479\,001\,600} = 0.0000866.
+\]</span> Le premier facteur au numérateur représente le nombre de permutations des 4 matières alors que les facteurs suivants représentent, pour chaque matière, le nombre de permutations des livres de cette matière.</p>
+<p>Il arrive qu’on s’intéresse aux arrangements ordonnés de <span class="math inline">\(k\)</span> objets choisis parmi un groupe de <span class="math inline">\(n\)</span> objets. Ces arrangements s’appellent des <em>permutations de <span class="math inline">\(k\)</span> objets choisis parmi un groupe de <span class="math inline">\(n\)</span> objets</em>. On dit aussi <em>permutations de <span class="math inline">\(n\)</span> objets pris <span class="math inline">\(k\)</span> à la fois</em>.</p>
+<p><strong>Exemple 12.</strong> Considérons les lettres A, B, C et D. Voici la liste de toutes les permutations possibles de deux lettres choisies parmi ces quatre lettres :</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">AB</td>
+<td style="text-align: center;">AC</td>
+<td style="text-align: center;">AD</td>
+<td style="text-align: center;">BC</td>
+<td style="text-align: center;">BD</td>
+<td style="text-align: center;">CD</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">BA</td>
+<td style="text-align: center;">CA</td>
+<td style="text-align: center;">DA</td>
+<td style="text-align: center;">CB</td>
+<td style="text-align: center;">DB</td>
+<td style="text-align: center;">DC</td>
+</tr>
+</tbody>
+</table>
+<p>Il y a donc 12 permutations possibles de 2 lettres choisies parmi les lettres A, B, C et D. Il fallait s’y attendre : lorsqu’on écrit une permutation de 2 lettres choisies parmi les lettres A, B, C et D, on a 4 choix pour la première lettre, puis 3 choix pour la deuxième lettre, donc en tout <span class="math inline">\(4 \times 3 = 12\)</span> permutations possibles. Notez que l’ordre compte : AB et BA sont des permutations différentes. Plus généralement, le nombre total de permutations de <span class="math inline">\(k\)</span> objets choisis parmi un groupe de <span class="math inline">\(n\)</span> objets est donné par <span class="math display">\[
+n \times (n-1) \times (n-2) \times \cdots \times (n - (k-1)).
+\]</span> La notation factorielle nous permet de simplifier cette expression : <span class="math display">\[
+\begin{aligned}
+n \times (n-1) \times \cdots \times (n-(k-1))
+&amp;= n \times (n-1) \times \cdots \times (n-(k-1)) \times \frac{(n-k)!}{(n-k)!} \\
+&amp;= \frac{n \times (n-1) \times \cdots \times (n-(k-1)) \times (n-k) \times \cdots \times 3 \times 2 \times 1}{(n-k)!} \\
+&amp;= \frac{n!}{(n-k)!}.
+\end{aligned}
+\]</span></p>
+<p><strong>Notation :</strong> Le nombre de permutations de <span class="math inline">\(k\)</span> objets choisis parmi un groupe de <span class="math inline">\(n\)</span> objets est parfois dénoté <span class="math inline">\(P_{n,k}\)</span>. On a donc <span id="eq-permutations"><span class="math display">\[
+P_{n,k} = \frac{n!}{(n-k)!}.
+\tag{2.1}\]</span></span> Le lecteur peut maintenant apprécier le choix de la définition <span class="math inline">\(0! = 1\)</span>. En effet, <span class="math inline">\(P_{n,n}\)</span> étant le nombre de permutations de <span class="math inline">\(n\)</span> objets pris <span class="math inline">\(n\)</span> à la fois, il faut avoir <span class="math inline">\(P_{n,n} = n!\)</span>. Donc, pour que l’équation (<a href="#eq-permutations" class="quarto-xref"><span>2.1</span></a>) soit valide avec <span class="math inline">\(k = n\)</span>, il faut que <span class="math inline">\(0!\)</span> soit défini comme étant égal à 1.</p>
+<p><strong>Exemple 13.</strong> À la finale du 100 mètres, il y a 8 coureurs qui s’affrontent pour les médailles d’or, d’argent et de bronze. De combien de façons différentes ces médailles peuvent-elles être attribuées ?</p>
+<p><em>Réponse :</em> <span class="math inline">\(P_{8,3} = 8!/(8-3)! = 8!/5! = 336\)</span>.</p>
+</section>
+<section id="combinaisons" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="combinaisons"><span class="header-section-number">2.3.4</span> Combinaisons</h3>
+<p>Considérons, comme à la section précédente, un groupe de <span class="math inline">\(n\)</span> objets. Un ensemble de <span class="math inline">\(k\)</span> objets choisis parmi ces <span class="math inline">\(n\)</span> objets s’appelle une <em>combinaison de <span class="math inline">\(k\)</span> parmi <span class="math inline">\(n\)</span></em>. Contrairement au cas des permutations, ici on ne tient pas compte de l’ordre. En langage ensembliste, une combinaison de <span class="math inline">\(k\)</span> parmi <span class="math inline">\(n\)</span> est simplement un sous-ensemble de cardinal <span class="math inline">\(k\)</span> obtenu à partir d’un ensemble de cardinal <span class="math inline">\(n\)</span>.</p>
+<p><strong>Exemple 14.</strong> Considérons les lettres A, B, C et D. Voici la liste de toutes les combinaisons possibles de 2 lettres choisies parmi ces 4 lettres : <span class="math display">\[
+\{A, B\} \quad \{A, C\} \quad \{A, D\} \quad \{B, C\} \quad \{B, D\} \quad \{C, D\}
+\]</span> L’ordre ne compte pas. Ainsi, <span class="math inline">\(\{A, B\}\)</span> et <span class="math inline">\(\{B, A\}\)</span> dénotent la même combinaison.</p>
+<p><strong>Notation :</strong> Le nombre de combinaisons possibles de <span class="math inline">\(k\)</span> objets choisis parmi un groupe de <span class="math inline">\(n\)</span> objets est parfois dénoté <span class="math inline">\(C_{n,k}\)</span>.</p>
+<p>L’exemple 12 nous montre que <span class="math inline">\(P_{4,2} = 12\)</span> et l’exemple 14 nous montre que <span class="math inline">\(C_{4,2} = 6\)</span>. On a donc <span class="math inline">\(P_{4,2} = 2 \times C_{4,2}\)</span>. On aurait pu obtenir ce résultat en notant qu’à chaque combinaison de 2 parmi 4 correspondent 2 permutations de 2 parmi 4. Par exemple, à la combinaison <span class="math inline">\(\{B, C\}\)</span> correspondent les permutations BC et CB. Il y a donc, dans cet exemple, deux fois plus de permutations que de combinaisons. Plus généralement, si on considère les combinaisons de <span class="math inline">\(k\)</span> objets parmi <span class="math inline">\(n\)</span>, on note qu’à chaque combinaison correspondent <span class="math inline">\(k!\)</span> permutations. Le nombre de permutations de <span class="math inline">\(k\)</span> parmi <span class="math inline">\(n\)</span> est donc <span class="math inline">\(k!\)</span> fois plus grand que le nombre de combinaisons de <span class="math inline">\(k\)</span> parmi <span class="math inline">\(n\)</span>. On a donc <span class="math display">\[
+P_{n,k} = k!\, C_{n,k}.
+\]</span> Puisque <span class="math inline">\(P_{n,k} = n!/(n-k)!\)</span>, on conclut que <span id="eq-combinaisons"><span class="math display">\[
+C_{n,k} = \frac{n!}{k!\,(n-k)!}.
+\tag{2.2}\]</span></span> Avec <span class="math inline">\(k = 0\)</span>, l’équation (<a href="#eq-combinaisons" class="quarto-xref"><span>2.2</span></a>) nous donne <span class="math inline">\(C_{n,0} = 1\)</span>. Ceci correspond au fait qu’il y a une seule façon de choisir zéro objet parmi un groupe de <span class="math inline">\(n\)</span> objets : on n’en prend aucun ! Avec <span class="math inline">\(k = 1\)</span>, l’équation (<a href="#eq-combinaisons" class="quarto-xref"><span>2.2</span></a>) nous donne <span class="math inline">\(C_{n,1} = n\)</span>. Ceci correspond au fait qu’il y a <span class="math inline">\(n\)</span> façons différentes de choisir un objet parmi un groupe de <span class="math inline">\(n\)</span> objets : on peut prendre l’objet numéro 1, ou bien l’objet numéro 2, ou bien l’objet numéro 3, etc.</p>
+<p><strong>Exemple 15.</strong> Le nombre total de combinaisons possibles à la 6/49 est <span class="math display">\[
+C_{49,6} = \frac{49!}{6!\,(49-6)!} = \frac{49!}{6!\,43!} = 13\,983\,816.
+\]</span> Donc, lorsqu’on achète un billet de 6/49, la probabilité de gagner le gros lot est <span class="math inline">\(1/13\,983\,816\)</span>. Le nombre 13 983 816 correspond à peu près au nombre de pièces de dix sous qu’il faut pour couvrir un terrain de football.</p>
+<p><strong>Exemple 16.</strong> Combien de mots à huit lettres peut-on écrire si on doit utiliser trois fois la lettre A et cinq fois la lettre B ? Il y en a autant qu’il y a de façons de choisir, parmi les huit positions des lettres, les trois positions où on va placer la lettre A. Il y a donc <span class="math display">\[
+C_{8,3} = \frac{8!}{3!\,5!} = 56
+\]</span> mots à huit lettres comprenant trois fois la lettre A et cinq fois la lettre B.</p>
+<p><strong>Coefficients binomiaux :</strong> Le nombre de combinaisons <span class="math inline">\(C_{n,k}\)</span> est aussi appelé le <span class="math inline">\(k\)</span><sup>e</sup> <em>coefficient binomial d’ordre <span class="math inline">\(n\)</span></em> et est souvent dénoté <span class="math inline">\(\binom{n}{k}\)</span>. On a donc <span class="math display">\[
+\binom{n}{k} = C_{n,k} = \frac{n!}{k!\,(n-k)!}.
+\]</span></p>
+<p><strong>Retour à l’exemple 3.</strong> Le nombre total de mains de poker différentes est simplement le nombre de façons différentes de choisir 5 cartes parmi 52 cartes : <span class="math display">\[
+\binom{52}{5} = \frac{52!}{5! \times (52-5)!} = \frac{52!}{5! \times 47!} = 2\,598\,960.
+\]</span> Pour construire une main pleine, on peut procéder de la façon suivante :</p>
+<ol type="1">
+<li>On choisit la valeur qu’on utilise pour le triple. Il y a <span class="math inline">\(\binom{13}{1} = 13\)</span> façons.</li>
+<li>On choisit les trois couleurs qu’on utilise pour le triple. Il y a <span class="math inline">\(\binom{4}{3} = 4\)</span> façons.</li>
+<li>On choisit la valeur qu’on utilise pour le double. Il y a <span class="math inline">\(\binom{12}{1} = 12\)</span> façons.</li>
+<li>On choisit les deux couleurs qu’on utilise pour le double. Il y a <span class="math inline">\(\binom{4}{2} = 6\)</span> façons.</li>
+</ol>
+<p>Le nombre de mains pleines est donc <span class="math display">\[
+\binom{13}{1} \times \binom{4}{3} \times \binom{12}{1} \times \binom{4}{2} = 13 \times 4 \times 12 \times 6 = 3744.
+\]</span> La probabilité désirée est donc <span class="math display">\[
+\frac{\text{nombre total de mains pleines possibles}}{\text{nombre total de mains de poker possibles}}
+= \frac{3\,744}{2\,598\,960} \approx 0.00144.
+\]</span></p>
+<p><strong>Retour à l’exemple 4.</strong> Le nombre total de combinaisons à la 6/49 est <span class="math display">\[
+\binom{49}{6} = \frac{49!}{6! \times (49-6)!} = \frac{49!}{6! \times 43!} = 13\,983\,816.
+\]</span> Pour construire une combinaison ayant exactement trois nombres en commun avec la combinaison gagnante, il suffit de choisir trois nombres parmi les six nombres de la combinaison gagnante et trois nombres parmi les 43 nombres n’appartenant pas à la combinaison gagnante. Le nombre de combinaisons ayant exactement trois nombres en commun avec la combinaison gagnante est donc <span class="math display">\[
+\binom{6}{3} \times \binom{43}{3} = 20 \times 12\,341 = 246\,820.
+\]</span> La probabilité désirée est donc <span class="math display">\[
+\frac{\text{nombre de combinaisons avec trois bons nombres}}{\text{nombre total de combinaisons}}
+= \frac{246\,820}{13\,983\,816} \approx 0.0177.
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Astuce</span>Dans R
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Les fonctions <code>factorial()</code> et <code>choose()</code> font ces calculs directement.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factorial</span>(<span class="dv">8</span>) <span class="sc">/</span> <span class="fu">factorial</span>(<span class="dv">5</span>)                   <span class="co"># P(8,3), exemple 13</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 336</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(<span class="dv">52</span>, <span class="dv">5</span>)                                 <span class="co"># nombre de mains de poker</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 2598960</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(<span class="dv">13</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">4</span>, <span class="dv">3</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">12</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">4</span>, <span class="dv">2</span>) <span class="sc">/</span> <span class="fu">choose</span>(<span class="dv">52</span>, <span class="dv">5</span>)  <span class="co"># main pleine</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 0.001440576</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(<span class="dv">6</span>, <span class="dv">3</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">43</span>, <span class="dv">3</span>) <span class="sc">/</span> <span class="fu">choose</span>(<span class="dv">49</span>, <span class="dv">6</span>)  <span class="co"># 6/49 : exactement trois bons nombres</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 0.0176504</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Avertissement</span>Suite du chapitre en cours de conversion
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sections 2.4 (probabilité conditionnelle et indépendance) à 2.8 (exercices).</p>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/JulienMiron\.github\.io\/stt1920\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01-statistique-descriptive.html" class="pagination-link" aria-label="La statistique descriptive">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">La statistique descriptive</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03-un-echantillon.html" class="pagination-link" aria-label="Estimation et tests d'hypothèses : problèmes à un échantillon">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Estimation et tests d’hypothèses : problèmes à un échantillon</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Notes de cours STT-1920</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/JulienMiron/stt1920/edit/main/02-probabilites.qmd" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/JulienMiron/stt1920/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>Généré avec Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

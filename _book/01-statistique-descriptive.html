@@ -1,0 +1,2293 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>1&nbsp; La statistique descriptive – Méthodes statistiques -- STT-1920</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./02-probabilites.html" rel="next">
+<link href="./diapos.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-5876300e3b422b9fe1fffaa7b75e9b96.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-statistique-descriptive.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">La statistique descriptive</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./images/logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./images/logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Méthodes statistiques – STT-1920</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/JulienMiron/stt1920" title="Code source" class="quarto-navigation-tool px-1" aria-label="Code source"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Recherche"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Avant-propos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diapos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Diapositives</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-statistique-descriptive.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">La statistique descriptive</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-probabilites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">La théorie des probabilités</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-un-echantillon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Estimation et tests d’hypothèses : problèmes à un échantillon</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-deux-echantillons.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Estimation et tests d’hypothèses : problèmes à deux échantillons</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction à l’analyse de la variance</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction à la régression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-khi-deux.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Tableaux de fréquences et tests du khi-deux</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Annexes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Tables de distributions</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1.1</span> Introduction</a></li>
+  <li><a href="#population-échantillon-et-variable-statistique" id="toc-population-échantillon-et-variable-statistique" class="nav-link" data-scroll-target="#population-échantillon-et-variable-statistique"><span class="header-section-number">1.2</span> Population, échantillon et variable statistique</a>
+  <ul class="collapse">
+  <li><a href="#les-différents-types-de-variables-statistiques" id="toc-les-différents-types-de-variables-statistiques" class="nav-link" data-scroll-target="#les-différents-types-de-variables-statistiques">Les différents types de variables statistiques</a></li>
+  </ul></li>
+  <li><a href="#sec-histogramme" id="toc-sec-histogramme" class="nav-link" data-scroll-target="#sec-histogramme"><span class="header-section-number">1.3</span> L’histogramme</a>
+  <ul class="collapse">
+  <li><a href="#histogramme-avec-classes-inégales" id="toc-histogramme-avec-classes-inégales" class="nav-link" data-scroll-target="#histogramme-avec-classes-inégales">Histogramme avec classes inégales</a></li>
+  <li><a href="#histogramme-des-fréquences-absolues-dessiné-à-la-main" id="toc-histogramme-des-fréquences-absolues-dessiné-à-la-main" class="nav-link" data-scroll-target="#histogramme-des-fréquences-absolues-dessiné-à-la-main">Histogramme des fréquences absolues dessiné à la main</a></li>
+  <li><a href="#histogramme-de-type-densité-dessiné-à-la-main" id="toc-histogramme-de-type-densité-dessiné-à-la-main" class="nav-link" data-scroll-target="#histogramme-de-type-densité-dessiné-à-la-main">Histogramme de type densité dessiné à la main</a></li>
+  </ul></li>
+  <li><a href="#sec-moyenne" id="toc-sec-moyenne" class="nav-link" data-scroll-target="#sec-moyenne"><span class="header-section-number">1.4</span> La moyenne et l’écart-type</a>
+  <ul class="collapse">
+  <li><a href="#le-coefficient-de-variation" id="toc-le-coefficient-de-variation" class="nav-link" data-scroll-target="#le-coefficient-de-variation">Le coefficient de variation</a></li>
+  <li><a href="#calcul-de-overlinex-et-s-à-partir-des-données-groupées" id="toc-calcul-de-overlinex-et-s-à-partir-des-données-groupées" class="nav-link" data-scroll-target="#calcul-de-overlinex-et-s-à-partir-des-données-groupées">Calcul de <span class="math inline">\(\overline{x}\)</span> et <span class="math inline">\(s\)</span> à partir des données groupées</a></li>
+  </ul></li>
+  <li><a href="#sec-quantiles" id="toc-sec-quantiles" class="nav-link" data-scroll-target="#sec-quantiles"><span class="header-section-number">1.5</span> Les quantiles</a>
+  <ul class="collapse">
+  <li><a href="#centiles-quartiles-et-médiane" id="toc-centiles-quartiles-et-médiane" class="nav-link" data-scroll-target="#centiles-quartiles-et-médiane">Centiles, quartiles et médiane</a></li>
+  <li><a href="#les-rangs-centiles" id="toc-les-rangs-centiles" class="nav-link" data-scroll-target="#les-rangs-centiles">Les rangs centiles</a></li>
+  <li><a href="#le-minimum-et-le-maximum" id="toc-le-minimum-et-le-maximum" class="nav-link" data-scroll-target="#le-minimum-et-le-maximum">Le minimum et le maximum</a></li>
+  <li><a href="#le-résumé-à-cinq-nombres" id="toc-le-résumé-à-cinq-nombres" class="nav-link" data-scroll-target="#le-résumé-à-cinq-nombres">Le résumé à cinq nombres</a></li>
+  <li><a href="#lécart-interquartile" id="toc-lécart-interquartile" class="nav-link" data-scroll-target="#lécart-interquartile">L’écart interquartile</a></li>
+  <li><a href="#les-données-aberrantes" id="toc-les-données-aberrantes" class="nav-link" data-scroll-target="#les-données-aberrantes">Les données aberrantes</a></li>
+  </ul></li>
+  <li><a href="#sec-boite" id="toc-sec-boite" class="nav-link" data-scroll-target="#sec-boite"><span class="header-section-number">1.6</span> Le diagramme en boîte</a></li>
+  <li><a href="#sec-tarte" id="toc-sec-tarte" class="nav-link" data-scroll-target="#sec-tarte"><span class="header-section-number">1.7</span> Diagramme en pointes de tarte et diagramme en bâtons</a></li>
+  <li><a href="#sec-bivariees" id="toc-sec-bivariees" class="nav-link" data-scroll-target="#sec-bivariees"><span class="header-section-number">1.8</span> Les données bivariées</a></li>
+  <li><a href="#sec-exercices-1" id="toc-sec-exercices-1" class="nav-link" data-scroll-target="#sec-exercices-1"><span class="header-section-number">1.9</span> Exercices</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/JulienMiron/stt1920/edit/main/01-statistique-descriptive.qmd" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/JulienMiron/stt1920/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-descriptive" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">La statistique descriptive</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    <div>
+    <div class="quarto-title-meta-heading">Dernière modification</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">23 septembre 2026</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1.1</span> Introduction</h2>
+<p>Deux types de méthodes statistiques seront étudiées dans ce cours : les méthodes de la statistique descriptive et les méthodes de la statistique inférentielle.</p>
+<p><strong>La statistique descriptive.</strong> La statistique descriptive, c’est l’art de résumer un ensemble de données de façon à mettre en évidence l’information qu’elles contiennent. Le but du présent chapitre est de présenter les principaux concepts et les principales méthodes de la statistique descriptive.</p>
+<p><strong>La statistique inférentielle.</strong> La statistique inférentielle, c’est l’art de tirer des conclusions au sujet d’une population à partir d’un échantillon provenant de cette population. La statistique inférentielle fait appel à la théorie des probabilités. Un bref survol de la théorie des probabilités sera présenté au chapitre 2. Les chapitres 3 à 7 porteront sur les principales méthodes de la statistique inférentielle.</p>
+</section>
+<section id="population-échantillon-et-variable-statistique" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="population-échantillon-et-variable-statistique"><span class="header-section-number">1.2</span> Population, échantillon et variable statistique</h2>
+<p>Voici un exemple élémentaire pour illustrer les concepts de population, d’échantillon et de variable statistique.</p>
+<p><strong>Exemple 1.</strong> Un chercheur étudie une certaine espèce de serpents. Il s’intéresse en particulier au poids des serpents à la naissance. Il obtient les poids de 147 serpents nouveau-nés. Ces poids sont mesurés en grammes. Le <a href="#tbl-serpents" class="quarto-xref">tableau&nbsp;<span>1.1</span></a> donne la liste de ces 147 poids.</p>
+<p>Dans cet exemple, la <em>population</em> qui nous intéresse est l’ensemble de tous les serpents de l’espèce sous considération. L’<em>échantillon</em> est l’ensemble des 147 serpents obtenus par le chercheur. La <em>variable statistique</em> qui nous intéresse est la variable « poids à la naissance ». Parfois on s’intéressera à plusieurs variables. Dans le présent exemple on pourrait considérer la variable « longueur à la naissance » mesurée, par exemple, en centimètres. On pourrait aussi considérer plusieurs populations. Par exemple, un chercheur pourrait vouloir comparer différentes espèces de serpents.</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-serpents" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-serpents-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;1.1: Les poids (en grammes) de 147 serpents nouveau-nés.
+</figcaption>
+<div aria-describedby="tbl-serpents-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">33.90</td>
+<td style="text-align: center;">34.87</td>
+<td style="text-align: center;">34.49</td>
+<td style="text-align: center;">34.16</td>
+<td style="text-align: center;">35.14</td>
+<td style="text-align: center;">34.10</td>
+<td style="text-align: center;">34.41</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">33.10</td>
+<td style="text-align: center;">35.59</td>
+<td style="text-align: center;">35.20</td>
+<td style="text-align: center;">34.35</td>
+<td style="text-align: center;">33.87</td>
+<td style="text-align: center;">35.18</td>
+<td style="text-align: center;">34.54</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">35.71</td>
+<td style="text-align: center;">34.74</td>
+<td style="text-align: center;">36.42</td>
+<td style="text-align: center;">34.68</td>
+<td style="text-align: center;">34.05</td>
+<td style="text-align: center;">34.76</td>
+<td style="text-align: center;">35.49</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">35.44</td>
+<td style="text-align: center;">36.03</td>
+<td style="text-align: center;">34.19</td>
+<td style="text-align: center;">35.49</td>
+<td style="text-align: center;">35.30</td>
+<td style="text-align: center;">34.26</td>
+<td style="text-align: center;">35.36</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">35.83</td>
+<td style="text-align: center;">33.64</td>
+<td style="text-align: center;">34.83</td>
+<td style="text-align: center;">36.11</td>
+<td style="text-align: center;">35.32</td>
+<td style="text-align: center;">37.37</td>
+<td style="text-align: center;">34.78</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">36.66</td>
+<td style="text-align: center;">33.91</td>
+<td style="text-align: center;">33.55</td>
+<td style="text-align: center;">34.91</td>
+<td style="text-align: center;">34.17</td>
+<td style="text-align: center;">34.96</td>
+<td style="text-align: center;">34.71</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">34.31</td>
+<td style="text-align: center;">35.78</td>
+<td style="text-align: center;">34.86</td>
+<td style="text-align: center;">34.19</td>
+<td style="text-align: center;">35.50</td>
+<td style="text-align: center;">32.62</td>
+<td style="text-align: center;">33.20</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">35.52</td>
+<td style="text-align: center;">34.59</td>
+<td style="text-align: center;">35.32</td>
+<td style="text-align: center;">36.21</td>
+<td style="text-align: center;">35.61</td>
+<td style="text-align: center;">36.14</td>
+<td style="text-align: center;">34.31</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">34.55</td>
+<td style="text-align: center;">37.61</td>
+<td style="text-align: center;">35.86</td>
+<td style="text-align: center;">33.75</td>
+<td style="text-align: center;">34.77</td>
+<td style="text-align: center;">34.37</td>
+<td style="text-align: center;">33.68</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">35.70</td>
+<td style="text-align: center;">35.65</td>
+<td style="text-align: center;">35.67</td>
+<td style="text-align: center;">34.20</td>
+<td style="text-align: center;">34.11</td>
+<td style="text-align: center;">35.18</td>
+<td style="text-align: center;">35.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">35.74</td>
+<td style="text-align: center;">36.11</td>
+<td style="text-align: center;">34.99</td>
+<td style="text-align: center;">35.05</td>
+<td style="text-align: center;">34.36</td>
+<td style="text-align: center;">36.00</td>
+<td style="text-align: center;">34.27</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">35.05</td>
+<td style="text-align: center;">35.97</td>
+<td style="text-align: center;">33.07</td>
+<td style="text-align: center;">34.76</td>
+<td style="text-align: center;">34.23</td>
+<td style="text-align: center;">35.13</td>
+<td style="text-align: center;">34.56</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">35.54</td>
+<td style="text-align: center;">36.52</td>
+<td style="text-align: center;">35.04</td>
+<td style="text-align: center;">35.50</td>
+<td style="text-align: center;">33.68</td>
+<td style="text-align: center;">34.17</td>
+<td style="text-align: center;">32.99</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">33.68</td>
+<td style="text-align: center;">35.78</td>
+<td style="text-align: center;">33.40</td>
+<td style="text-align: center;">34.31</td>
+<td style="text-align: center;">34.81</td>
+<td style="text-align: center;">35.53</td>
+<td style="text-align: center;">33.99</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">34.77</td>
+<td style="text-align: center;">36.37</td>
+<td style="text-align: center;">35.79</td>
+<td style="text-align: center;">33.65</td>
+<td style="text-align: center;">35.10</td>
+<td style="text-align: center;">33.97</td>
+<td style="text-align: center;">36.08</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">35.03</td>
+<td style="text-align: center;">35.65</td>
+<td style="text-align: center;">35.30</td>
+<td style="text-align: center;">36.27</td>
+<td style="text-align: center;">35.97</td>
+<td style="text-align: center;">33.53</td>
+<td style="text-align: center;">36.68</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">36.11</td>
+<td style="text-align: center;">34.67</td>
+<td style="text-align: center;">34.04</td>
+<td style="text-align: center;">34.51</td>
+<td style="text-align: center;">35.39</td>
+<td style="text-align: center;">35.25</td>
+<td style="text-align: center;">35.45</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">34.22</td>
+<td style="text-align: center;">35.07</td>
+<td style="text-align: center;">34.49</td>
+<td style="text-align: center;">34.11</td>
+<td style="text-align: center;">34.69</td>
+<td style="text-align: center;">34.80</td>
+<td style="text-align: center;">33.95</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">33.31</td>
+<td style="text-align: center;">34.19</td>
+<td style="text-align: center;">36.03</td>
+<td style="text-align: center;">35.44</td>
+<td style="text-align: center;">36.73</td>
+<td style="text-align: center;">35.14</td>
+<td style="text-align: center;">34.03</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">34.16</td>
+<td style="text-align: center;">33.94</td>
+<td style="text-align: center;">32.83</td>
+<td style="text-align: center;">33.56</td>
+<td style="text-align: center;">36.84</td>
+<td style="text-align: center;">32.96</td>
+<td style="text-align: center;">35.34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">35.44</td>
+<td style="text-align: center;">35.57</td>
+<td style="text-align: center;">34.26</td>
+<td style="text-align: center;">34.89</td>
+<td style="text-align: center;">34.34</td>
+<td style="text-align: center;">34.02</td>
+<td style="text-align: center;">35.56</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Dans les sections qui vont suivre, nous allons examiner les données du <a href="#tbl-serpents" class="quarto-xref">tableau&nbsp;<span>1.1</span></a> et nous allons essayer de mettre en évidence l’information qu’elles contiennent.</p>
+<section id="les-différents-types-de-variables-statistiques" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="les-différents-types-de-variables-statistiques">Les différents types de variables statistiques</h3>
+<p>La plupart des variables statistiques qu’on rencontre dans la pratique appartiennent à l’une ou l’autre des quatre catégories suivantes. Nous aurons l’occasion de travailler avec ces différents types de variables tout au long de ce cours.</p>
+<ul>
+<li><strong>Variable quantitative continue.</strong> Il s’agit d’une variable à valeurs numériques. La variable peut prendre n’importe quelle valeur à l’intérieur d’un intervalle. Voici quelques exemples typiques de variables quantitatives continues : le poids d’un individu, le temps de germination d’une graine de semence, la durée de vie d’un animal, le volume d’une pomme, la hauteur d’un plant.</li>
+<li><strong>Variable quantitative discrète.</strong> Il s’agit d’une variable à valeurs numériques avec seulement quelques valeurs possibles. Dans la plupart des exemples qu’on rencontre en pratique, ces valeurs possibles sont des nombres entiers. Voici quelques exemples de variables quantitatives discrètes : le nombre de louveteaux dans la portée d’une louve, le nombre de fruits sur un plant, le nombre d’ordinateurs dans une maison unifamiliale.</li>
+<li><strong>Variable qualitative ordinale.</strong> Il s’agit d’une variable possédant un nombre fini de valeurs possibles. Ces valeurs possibles ne sont pas numériques mais elles sont tout de même ordonnées de façon naturelle. Exemple 1 : le niveau de satisfaction par rapport à un certain produit pourrait être une variable avec valeurs possibles « pas du tout satisfait », « moyennement satisfait », « très satisfait ». Exemple 2 : dans une population d’individus, on pourrait s’intéresser à la variable dont les valeurs possibles seraient « enfant », « adolescent », « adulte » et « personne âgée ».</li>
+<li><strong>Variable qualitative nominale.</strong> Il s’agit d’une variable possédant un nombre fini de valeurs possibles. Ces valeurs possibles ne sont pas numériques et elles ne sont pas ordonnées de façon naturelle. Voici quelques exemples typiques de variables qualitatives nominales : la nationalité d’un individu, le programme d’étude d’un étudiant de l’Université Laval, le sexe d’une personne.</li>
+</ul>
+</section>
+</section>
+<section id="sec-histogramme" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="sec-histogramme"><span class="header-section-number">1.3</span> L’histogramme</h2>
+<p>L’histogramme est une représentation graphique qui nous permet de voir la forme de la distribution des données. On l’utilise surtout lorsqu’on est en présence d’une variable quantitative continue. Pour construire l’histogramme, on groupe d’abord les données en classes convenablement choisies. Voici un choix raisonnable de classes, ainsi que les fréquences correspondantes, pour l’exemple des serpents.</p>
+<div id="tbl-groupees" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-groupees-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;1.2: Les poids des 147 serpents.
+</figcaption>
+<div aria-describedby="tbl-groupees-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Poids en grammes</th>
+<th style="text-align: center;">Fréquence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">(32.5, 33.0]</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(33.0, 33.5]</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(33.5, 34.0]</td>
+<td style="text-align: center;">16</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(34.0, 34.5]</td>
+<td style="text-align: center;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(34.5, 35.0]</td>
+<td style="text-align: center;">24</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(35.0, 35.5]</td>
+<td style="text-align: center;">29</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(35.5, 36.0]</td>
+<td style="text-align: center;">21</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(36.0, 36.5]</td>
+<td style="text-align: center;">11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(36.5, 37.0]</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(37.0, 37.5]</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(37.5, 38.0]</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Les données présentées dans le <a href="#tbl-serpents" class="quarto-xref">tableau&nbsp;<span>1.1</span></a> sont parfois appelées les <em>données brutes</em>. Le <a href="#tbl-groupees" class="quarto-xref">tableau&nbsp;<span>1.2</span></a> contient quant à lui les <em>données groupées</em>. À partir des données groupées, on obtient l’histogramme de la <a href="#fig-hist-serpents" class="quarto-xref">figure&nbsp;<span>1.1</span></a>.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(poids, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fl">32.5</span>, <span class="dv">38</span>, <span class="at">by =</span> <span class="fl">0.5</span>), <span class="at">main =</span> <span class="st">""</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Poids en grammes"</span>, <span class="at">ylab =</span> <span class="st">"Fréquence"</span>, <span class="at">col =</span> <span class="st">"lightblue"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-hist-serpents" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hist-serpents-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-statistique-descriptive_files/figure-html/fig-hist-serpents-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hist-serpents-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1: Histogramme des poids des 147 serpents (11 classes).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Il est important de noter que le choix des classes est un peu arbitraire. Avec un trop grand nombre de classes on risque d’obtenir un histogramme trop chaotique. Avec un trop petit nombre de classes on risque de ne pas bien voir la forme de la distribution. Avec l’exemple des serpents, on aurait pu grouper les données de la façon suivante :</p>
+<div id="tbl-groupees-6" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-groupees-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;1.3: Les poids des 147 serpents ; seulement 6 classes.
+</figcaption>
+<div aria-describedby="tbl-groupees-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Poids en grammes</th>
+<th style="text-align: center;">Fréquence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">(32.0, 33.0]</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(33.0, 34.0]</td>
+<td style="text-align: center;">21</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(34.0, 35.0]</td>
+<td style="text-align: center;">54</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(35.0, 36.0]</td>
+<td style="text-align: center;">50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(36.0, 37.0]</td>
+<td style="text-align: center;">16</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(37.0, 38.0]</td>
+<td style="text-align: center;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>On obtient alors l’histogramme suivant :</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(poids, <span class="at">breaks =</span> <span class="dv">32</span><span class="sc">:</span><span class="dv">38</span>, <span class="at">main =</span> <span class="st">""</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Poids en grammes"</span>, <span class="at">ylab =</span> <span class="st">"Fréquence"</span>, <span class="at">col =</span> <span class="st">"lightblue"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-hist-serpents-6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hist-serpents-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-statistique-descriptive_files/figure-html/fig-hist-serpents-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hist-serpents-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.2: Histogramme des poids des 147 serpents (6 classes).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="histogramme-avec-classes-inégales" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="histogramme-avec-classes-inégales">Histogramme avec classes inégales</h3>
+<p>Dans l’exemple des serpents, les classes que nous avons utilisées étaient toutes de la même largeur. Il peut arriver que les observations nous soient présentées sous forme d’un tableau de données groupées dont les classes ne sont pas toutes de la même largeur. Lorsqu’on construit notre histogramme, il faut alors s’assurer que ce sont les <em>surfaces</em> des boîtes (et non leurs hauteurs) qui sont proportionnelles aux fréquences observées. Voici un exemple illustratif.</p>
+<p><strong>Exemple 2.</strong> Chez Anti-Rouille Métropolitain, on a mesuré les diamètres de 155 gouttelettes d’huile émises par un appareil utilisé pour l’application d’une protection anti-rouille pour véhicules motorisés. Le tableau suivant résume nos observations :</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Diamètre des gouttes</th>
+<th style="text-align: center;">Fréquence observée</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">(10, 20]</td>
+<td style="text-align: center;">25</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(20, 30]</td>
+<td style="text-align: center;">45</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(30, 40]</td>
+<td style="text-align: center;">35</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(40, 60]</td>
+<td style="text-align: center;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(60, 100]</td>
+<td style="text-align: center;">20</td>
+</tr>
+</tbody>
+</table>
+<p>Ces diamètres sont mesurés en microns. L’histogramme obtenu avec le logiciel R est reproduit à la <a href="#fig-hist-gouttes" class="quarto-xref">figure&nbsp;<span>1.3</span></a>. L’axe vertical de cet histogramme est différent de celui de l’histogramme des poids des serpents. Avec les serpents, les classes étaient toutes de la même largeur. Le logiciel R produisait alors un histogramme de fréquences absolues : sur l’axe vertical gradué on lisait les fréquences absolues des classes. Dans la <a href="#fig-hist-serpents" class="quarto-xref">figure&nbsp;<span>1.1</span></a>, la hauteur de la boîte correspondant à la classe (33.5, 34.0] est donc égale à 16 et c’est ce qu’on peut lire sur l’axe vertical gradué. Dans l’exemple des gouttelettes d’huile, les classes ne sont pas toutes de la même largeur. Le logiciel R produit alors un histogramme de type densité : les surfaces des boîtes sont égales aux fréquences relatives des différentes classes. Prenons par exemple la classe (40, 60]. Cette classe contient 30 observations. La fréquence relative de cette classe est donc <span class="math inline">\(30/155 = 0.19355\)</span>. Dans l’histogramme, la surface de la boîte correspondant à la classe (40, 60] est donc 0.19355. Comme la base de cette boîte rectangulaire mesure <span class="math inline">\(60 - 40 = 20\)</span>, sa hauteur est <span class="math inline">\(0.19355/20 = 0.0097\)</span> et c’est ce qu’on peut lire sur l’axe vertical gradué.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>bornes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">60</span>, <span class="dv">100</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>freq   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">45</span>, <span class="dv">35</span>, <span class="dv">30</span>, <span class="dv">20</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># On reconstitue un jeu de données compatible avec le tableau</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># (chaque observation placée au milieu de sa classe) :</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>gouttes <span class="ot">&lt;-</span> <span class="fu">rep</span>((<span class="fu">head</span>(bornes, <span class="sc">-</span><span class="dv">1</span>) <span class="sc">+</span> <span class="fu">tail</span>(bornes, <span class="sc">-</span><span class="dv">1</span>)) <span class="sc">/</span> <span class="dv">2</span>, freq)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(gouttes, <span class="at">breaks =</span> bornes, <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"Diamètre"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Densité"</span>, <span class="at">col =</span> <span class="st">"lightblue"</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-hist-gouttes" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hist-gouttes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-statistique-descriptive_files/figure-html/fig-hist-gouttes-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hist-gouttes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.3: Histogramme de type densité des diamètres de 155 gouttelettes d’huile.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="histogramme-des-fréquences-absolues-dessiné-à-la-main" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="histogramme-des-fréquences-absolues-dessiné-à-la-main">Histogramme des fréquences absolues dessiné à la main</h3>
+<p>Voici comment on dessine à la main un histogramme de fréquences absolues. Notre tableau des données groupées a l’allure suivante :</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Classe</th>
+<th style="text-align: center;">Fréquence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((c_0, c_1]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f_1\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((c_1, c_2]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f_2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\vdots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\vdots\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((c_{\ell-1}, c_\ell]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f_\ell\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>On suppose ici que les <span class="math inline">\(\ell\)</span> classes sont toutes de même largeur. Autrement dit on a <span class="math display">\[
+c_1 - c_0 = c_2 - c_1 = c_3 - c_2 = \cdots = c_\ell - c_{\ell-1}.
+\]</span> On dessine l’histogramme de la façon suivante :</p>
+<ol type="1">
+<li>On trace un axe horizontal gradué.</li>
+<li>Sur cet axe, on indique les valeurs <span class="math inline">\(c_0, c_1, c_2, \ldots, c_\ell\)</span>.</li>
+<li>Pour chaque <span class="math inline">\(j \in \{1, 2, \ldots, \ell\}\)</span>, on dessine une boîte rectangulaire dont la base coïncide avec l’intervalle <span class="math inline">\((c_{j-1}, c_j]\)</span> sur notre axe gradué et dont la hauteur est égale à la fréquence absolue <span class="math inline">\(f_j\)</span>.</li>
+</ol>
+</section>
+<section id="histogramme-de-type-densité-dessiné-à-la-main" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="histogramme-de-type-densité-dessiné-à-la-main">Histogramme de type densité dessiné à la main</h3>
+<p>Pour ce type d’histogramme, il n’est pas nécessaire que les classes soient toutes de la même largeur. On construit d’abord le tableau suivant :</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 22%">
+<col style="width: 23%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Classe</th>
+<th style="text-align: center;">Fréquence absolue</th>
+<th style="text-align: center;">Fréquence relative</th>
+<th style="text-align: center;">Hauteur de la boîte</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((c_0, c_1]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f_1/n\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(h_1 = \dfrac{f_1/n}{c_1 - c_0}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((c_1, c_2]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f_2/n\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(h_2 = \dfrac{f_2/n}{c_2 - c_1}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((c_2, c_3]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f_3\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f_3/n\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(h_3 = \dfrac{f_3/n}{c_3 - c_2}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\vdots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\vdots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\vdots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\vdots\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((c_{j-1}, c_j]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f_j\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f_j/n\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(h_j = \dfrac{f_j/n}{c_j - c_{j-1}}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\vdots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\vdots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\vdots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\vdots\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((c_{\ell-1}, c_\ell]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f_\ell\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f_\ell/n\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(h_\ell = \dfrac{f_\ell/n}{c_\ell - c_{\ell-1}}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>On dessine ensuite l’histogramme de la façon suivante :</p>
+<ol type="1">
+<li>On trace un axe horizontal gradué.</li>
+<li>Sur cet axe, on indique les valeurs <span class="math inline">\(c_0, c_1, c_2, \ldots, c_\ell\)</span>.</li>
+<li>Pour chaque <span class="math inline">\(j \in \{1, 2, \ldots, \ell\}\)</span>, on dessine une boîte rectangulaire dont la base coïncide avec l’intervalle <span class="math inline">\((c_{j-1}, c_j]\)</span> sur notre axe gradué et dont la <em>surface</em> est égale à la fréquence relative <span class="math inline">\(f_j/n\)</span>. Autrement dit, on dessine une boîte rectangulaire dont la base coïncide avec l’intervalle <span class="math inline">\((c_{j-1}, c_j]\)</span> sur notre axe gradué et dont la hauteur est égale à <span class="math inline">\(h_j = \dfrac{f_j/n}{c_j - c_{j-1}}\)</span>.</li>
+</ol>
+</section>
+</section>
+<section id="sec-moyenne" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="sec-moyenne"><span class="header-section-number">1.4</span> La moyenne et l’écart-type</h2>
+<p>Considérons un échantillon de taille <span class="math inline">\(n\)</span>, disons <span class="math inline">\(x_1, x_2, x_3, \ldots, x_n\)</span>. On suppose ici que la variable statistique d’intérêt est de type quantitative. Une <em>statistique</em> est une quantité calculée à partir de l’échantillon. Les deux statistiques les plus importantes sont la <em>moyenne échantillonnale</em>, notée <span class="math inline">\(\overline{x}\)</span>, et l’<em>écart-type échantillonnal</em>, noté <span class="math inline">\(s\)</span>. Ces statistiques sont données par les formules suivantes : <span id="eq-moyenne"><span class="math display">\[
+\overline{x} = \frac{1}{n} \sum_{i=1}^{n} x_i,
+\tag{1.1}\]</span></span> <span id="eq-ecart-type"><span class="math display">\[
+s = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \overline{x})^2}.
+\tag{1.2}\]</span></span> La raison pour le dénominateur <span class="math inline">\(n - 1\)</span> plutôt que <span class="math inline">\(n\)</span> dans la formule (<a href="#eq-ecart-type" class="quarto-xref"><span>1.2</span></a>) sera expliquée à la section 3.3. Dans l’exemple des serpents, on obtient <span class="math display">\[
+\begin{aligned}
+\overline{x} &amp;= \frac{33.90 + 33.10 + 35.71 + \cdots + 35.34 + 35.56}{147} = 34.882 \text{ g}, \\
+s &amp;= \sqrt{\frac{(33.90 - 34.882)^2 + (33.10 - 34.882)^2 + \cdots + (35.56 - 34.882)^2}{146}} = 0.956 \text{ g}.
+\end{aligned}
+\]</span></p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(poids)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 34.88177</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(poids)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 0.9560275</code></pre>
+</div>
+</div>
+<p>On peut interpréter l’écart-type de la façon suivante. Le poids moyen de nos 147 serpents est <span class="math inline">\(\overline{x} = 34.882\)</span> g. Certains serpents ont un poids qui est très proche de la moyenne <span class="math inline">\(\overline{x}\)</span>. D’autres ont un poids qui est très loin de la moyenne <span class="math inline">\(\overline{x}\)</span>. L’écart-type <span class="math inline">\(s = 0.956\)</span> g représente la distance typique entre les poids <span class="math inline">\(x_i\)</span> et la moyenne des poids <span class="math inline">\(\overline{x}\)</span>.</p>
+<p>La moyenne <span class="math inline">\(\overline{x}\)</span> est un exemple de ce qu’on appelle une <em>mesure de tendance centrale</em>. C’est de loin la mesure de tendance centrale la plus utilisée. L’écart-type <span class="math inline">\(s\)</span> est un exemple de ce qu’on appelle une <em>mesure de dispersion</em>. Malgré le fait que la formule (<a href="#eq-ecart-type" class="quarto-xref"><span>1.2</span></a>) soit plutôt compliquée, l’écart-type est de loin la mesure de dispersion la plus utilisée. Une alternative conceptuellement plus simple est l’<em>écart absolu moyen</em> donné par la formule suivante : <span class="math display">\[
+d = \frac{1}{n} \sum_{i=1}^{n} |x_i - \overline{x}|.
+\]</span> Son interprétation est simple. L’écart absolu moyen <span class="math inline">\(d\)</span> est simplement la moyenne des distances entre les observations <span class="math inline">\(x_i\)</span> et la moyenne <span class="math inline">\(\overline{x}\)</span>. En pratique, personne n’utilise l’écart absolu moyen <span class="math inline">\(d\)</span>, tout le monde utilise l’écart-type <span class="math inline">\(s\)</span>. La principale raison est que, contrairement à l’écart absolu moyen, l’écart-type possède de belles propriétés mathématiques. Nous y reviendrons aux chapitres 2 et 3. D’un point de vue pratique, il n’y a pas une grande différence entre les deux. Dans l’exemple des serpents, on obtient <span class="math display">\[
+d = \frac{|33.90 - 34.882| + |33.10 - 34.882| + \cdots + |35.56 - 34.882|}{147} = 0.779 \text{ g}.
+\]</span></p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">abs</span>(poids <span class="sc">-</span> <span class="fu">mean</span>(poids)))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 0.7793558</code></pre>
+</div>
+</div>
+<section id="le-coefficient-de-variation" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="le-coefficient-de-variation">Le coefficient de variation</h3>
+<p>Dans le cas des variables à valeurs positives (poids, longueurs, durées de vie, etc.), le rapport <span class="math inline">\(s/\overline{x}\)</span> est souvent utilisé pour mesurer la dispersion relative. Ce rapport <span class="math inline">\(s/\overline{x}\)</span> est appelé le <em>coefficient de variation</em>. Il est parfois dénoté CV. Contrairement à l’écart-type, le coefficient de variation est un nombre sans unité. Il est souvent exprimé en pourcentage.</p>
+<p>Voici un exemple illustratif. On mesure les poids de 75 rats de laboratoire. On calcule la moyenne et l’écart-type et on obtient <span class="math inline">\(\overline{x}_1 = 110\)</span> grammes et <span class="math inline">\(s_1 = 11\)</span> grammes. On mesure ensuite les poids de 84 lapins, on calcule la moyenne et l’écart-type et on obtient <span class="math inline">\(\overline{x}_2 = 660\)</span> grammes et <span class="math inline">\(s_2 = 22\)</span> grammes.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 28%">
+<col style="width: 28%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Population</th>
+<th style="text-align: center;">Taille de l’échantillon</th>
+<th style="text-align: center;">Moyenne échantillonnale</th>
+<th style="text-align: center;">Écart-type échantillonnal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Les rats</td>
+<td style="text-align: center;"><span class="math inline">\(n_1 = 75\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\overline{x}_1 = 110\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(s_1 = 11\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Les lapins</td>
+<td style="text-align: center;"><span class="math inline">\(n_2 = 84\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\overline{x}_2 = 660\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(s_2 = 22\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Si on compare les écarts-types <span class="math inline">\(s_1\)</span> et <span class="math inline">\(s_2\)</span>, on conclut qu’il y a dans les poids des lapins deux fois plus de variation que dans les poids des rats. Mais un écart-type de 22 grammes est relativement petit considérant que la moyenne est 660 grammes alors qu’un écart-type de 11 grammes est relativement grand considérant que la moyenne est 110 grammes ! Plutôt que de comparer les écarts-types, il est probablement plus approprié de comparer les coefficients de variation. Ici on obtient <span class="math display">\[
+\begin{aligned}
+CV_1 &amp;= \frac{s_1}{\overline{x}_1} = \frac{11}{110} = 0.100, \text{ c'est-à-dire } 10\,\%, \\
+CV_2 &amp;= \frac{s_2}{\overline{x}_2} = \frac{22}{660} = 0.033, \text{ c'est-à-dire } 3.3\,\%.
+\end{aligned}
+\]</span> Bref, l’écart-type est plus petit chez les rats mais le coefficient de variation est plus petit chez les lapins.</p>
+</section>
+<section id="calcul-de-overlinex-et-s-à-partir-des-données-groupées" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="calcul-de-overlinex-et-s-à-partir-des-données-groupées">Calcul de <span class="math inline">\(\overline{x}\)</span> et <span class="math inline">\(s\)</span> à partir des données groupées</h3>
+<p>Pour pouvoir utiliser les formules (<a href="#eq-moyenne" class="quarto-xref"><span>1.1</span></a>) et (<a href="#eq-ecart-type" class="quarto-xref"><span>1.2</span></a>), il faut avoir accès aux données brutes. Lorsqu’on dispose seulement des données groupées, il est possible de calculer des valeurs approximatives pour <span class="math inline">\(\overline{x}\)</span> et <span class="math inline">\(s\)</span>, qu’on notera <span class="math inline">\(\overline{x}^*\)</span> et <span class="math inline">\(s^*\)</span>. Il suffit de faire comme si les <span class="math inline">\(f_j\)</span> observations de la classe <span class="math inline">\((c_{j-1}, c_j]\)</span> étaient toutes égales à la valeur <span class="math inline">\(m_j = (c_{j-1} + c_j)/2\)</span>, le milieu de la classe <span class="math inline">\((c_{j-1}, c_j]\)</span>. On obtient ainsi les approximations suivantes : <span class="math display">\[
+\overline{x} \approx \overline{x}^* = \frac{1}{n} \sum_{j=1}^{\ell} (f_j \times m_j),
+\qquad
+s \approx s^* = \sqrt{\frac{1}{n-1} \sum_{j=1}^{\ell} \big(f_j \times (m_j - \overline{x}^*)^2\big)}.
+\]</span> Pour l’exemple des gouttelettes d’huile, on obtient <span class="math display">\[
+\begin{aligned}
+\overline{x}^* &amp;= \frac{1}{155} \sum_{j=1}^{5} (f_j \times m_j)
+= \frac{(25 \times 15) + (45 \times 25) + (35 \times 35) + (30 \times 50) + (20 \times 80)}{155}
+= 37.58 \text{ microns}, \\
+s^* &amp;= \sqrt{\frac{1}{154} \sum_{j=1}^{5} \big(f_j \times (m_j - \overline{x}^*)^2\big)}
+= \sqrt{\frac{1}{154} \Big\{ \big(25 \times (15 - 37.58)^2\big) + \cdots + \big(20 \times (80 - 37.58)^2\big) \Big\}}
+= 19.86 \text{ microns}.
+\end{aligned}
+\]</span></p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">45</span>, <span class="dv">35</span>, <span class="dv">30</span>, <span class="dv">20</span>)          <span class="co"># fréquences</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">25</span>, <span class="dv">35</span>, <span class="dv">50</span>, <span class="dv">80</span>)          <span class="co"># milieux des classes</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">sum</span>(f)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>x_etoile <span class="ot">&lt;-</span> <span class="fu">sum</span>(f <span class="sc">*</span> m) <span class="sc">/</span> n</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>s_etoile <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(f <span class="sc">*</span> (m <span class="sc">-</span> x_etoile)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (n <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">x_etoile =</span> x_etoile, <span class="at">s_etoile =</span> s_etoile)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; x_etoile s_etoile 
+#&gt; 37.58065 19.85626</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-quantiles" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="sec-quantiles"><span class="header-section-number">1.5</span> Les quantiles</h2>
+<p>Comme à la section précédente, on considère un ensemble de <span class="math inline">\(n\)</span> nombres qu’on note <span class="math inline">\(x_1, x_2, x_3, \ldots, x_n\)</span> et qu’on appelle nos observations, ou nos données brutes, ou notre échantillon. Fixons <span class="math inline">\(\gamma\)</span>, un nombre entre 0 et 1. <em>Grosso modo</em>, le <em>quantile d’ordre <span class="math inline">\(\gamma\)</span></em> de notre échantillon est un nombre qu’on dénote <span class="math inline">\(q_\gamma\)</span> et qui possède la propriété suivante : <span class="math inline">\(100\gamma\,\%\)</span> des observations sont plus petites que <span class="math inline">\(q_\gamma\)</span> (et par conséquent <span class="math inline">\(100(1-\gamma)\,\%\)</span> des observations sont plus grandes que <span class="math inline">\(q_\gamma\)</span>). Dans l’exemple des 147 poids de serpents nouveau-nés, le quantile d’ordre 0.4 est donc la valeur, notée <span class="math inline">\(q_{0.4}\)</span>, qui est telle que 40 % de nos 147 poids lui sont inférieurs et 60 % lui sont supérieurs. Le qualificatif <em>grosso modo</em> est important. Si on est en présence d’un échantillon de taille <span class="math inline">\(n = 7\)</span> et si nos sept observations sont <span class="math display">\[
+22.3 \quad 17.9 \quad 20.4 \quad 24.6 \quad 19.5 \quad 26.2 \quad 18.7
+\]</span> alors comment définit-on <span class="math inline">\(q_{0.3}\)</span>, le quantile d’ordre 0.3 ? On aimerait que <span class="math inline">\(q_{0.3}\)</span> soit un nombre tel que 30 % des observations lui sont inférieures (et 70 % lui sont supérieures). Il y a plusieurs façons de procéder. Voici l’approche utilisée par la plupart des logiciels de statistique. D’abord, on écrit <span class="math inline">\(x_{(1)}, x_{(2)}, x_{(3)}, \ldots, x_{(n)}\)</span> pour dénoter nos observations placées en ordre croissant. Donc <span class="math inline">\(x_{(1)}\)</span> dénote la plus petite observation, <span class="math inline">\(x_{(2)}\)</span> dénote la deuxième plus petite observation, <span class="math inline">\(x_{(3)}\)</span> dénote la troisième plus petite observation, etc., et enfin <span class="math inline">\(x_{(n)}\)</span> dénote la plus grande observation. On a donc <span id="eq-ordre"><span class="math display">\[
+x_{(1)} \le x_{(2)} \le x_{(3)} \le \cdots \le x_{(n)}.
+\tag{1.3}\]</span></span> Dans notre exemple avec <span class="math inline">\(n = 7\)</span>, on a <span class="math display">\[
+(x_1, x_2, x_3, x_4, x_5, x_6, x_7) = (22.3, 17.9, 20.4, 24.6, 19.5, 26.2, 18.7)
+\]</span> et on obtient <span class="math display">\[
+\big(x_{(1)}, x_{(2)}, x_{(3)}, x_{(4)}, x_{(5)}, x_{(6)}, x_{(7)}\big) = (17.9, 18.7, 19.5, 20.4, 22.3, 24.6, 26.2).
+\]</span> Le <em>quantile échantillonnal d’ordre <span class="math inline">\(\gamma\)</span></em> est défini de la façon suivante : <span id="eq-quantile"><span class="math display">\[
+q_\gamma = x_{(1 + (n-1)\gamma)}.
+\tag{1.4}\]</span></span> Dans notre exemple avec <span class="math inline">\(n = 7\)</span> et <span class="math inline">\(\gamma = 0.3\)</span>, on obtient <span class="math display">\[
+q_{0.3} = x_{(1 + (7-1) \times 0.3)} = x_{(2.8)}.
+\]</span> Petit problème : il faut préciser ce qu’on entend par <span class="math inline">\(x_{(2.8)}\)</span>. La réponse est simple : <span class="math inline">\(x_{(2.8)}\)</span> est situé à 80 % du chemin entre <span class="math inline">\(x_{(2)}\)</span> et <span class="math inline">\(x_{(3)}\)</span> : <span class="math display">\[
+x_{(2.8)} = x_{(2)} + 0.8 \times (x_{(3)} - x_{(2)}).
+\]</span> On obtient donc <span class="math display">\[
+\begin{aligned}
+q_{0.3} &amp;= x_{(1 + (7-1) \times 0.3)} = x_{(2.8)} \\
+&amp;= x_{(2)} + 0.8 \times (x_{(3)} - x_{(2)}) \\
+&amp;= 18.7 + 0.8 \times (19.5 - 18.7) \\
+&amp;= 19.34.
+\end{aligned}
+\]</span> Dans l’exemple des serpents on a <span class="math inline">\(n = 147\)</span>. Avec <span class="math inline">\(\gamma = 0.4\)</span> on obtient <span class="math display">\[
+\begin{aligned}
+q_{0.4} &amp;= x_{(1 + (147-1) \times 0.4)} = x_{(59.4)} \\
+&amp;= x_{(59)} + 0.4 \times (x_{(60)} - x_{(59)}) \\
+&amp;= 34.56 + 0.4 \times (34.59 - 34.56) \\
+&amp;= 34.572.
+\end{aligned}
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Astuce</span>Dans R
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La définition (<a href="#eq-quantile" class="quarto-xref"><span>1.4</span></a>) est celle qu’utilise par défaut la fonction <code>quantile()</code> de R (option <code>type = 7</code>).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">22.3</span>, <span class="fl">17.9</span>, <span class="fl">20.4</span>, <span class="fl">24.6</span>, <span class="fl">19.5</span>, <span class="fl">26.2</span>, <span class="fl">18.7</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(x, <span class="fl">0.3</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;   30% 
+#&gt; 19.34</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(poids, <span class="fl">0.4</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;    40% 
+#&gt; 34.572</code></pre>
+</div>
+</div>
+</div>
+</div>
+<section id="centiles-quartiles-et-médiane" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="centiles-quartiles-et-médiane">Centiles, quartiles et médiane</h3>
+<p>Certains quantiles ont des noms particuliers et des notations particulières. Si <span class="math inline">\(k\)</span> est un entier entre 0 et 100, le quantile d’ordre <span class="math inline">\(k/100\)</span> est appelé le <span class="math inline">\(k\)</span><sup>e</sup> <em>centile</em>. Le terme <em>percentile</em> est synonyme de centile. Par exemple, le quantile d’ordre 0.17, qu’on note <span class="math inline">\(q_{0.17}\)</span>, est aussi appelé le 17<sup>e</sup> centile. Les quantiles d’ordre 0.25, 0.50 et 0.75, qu’on note respectivement <span class="math inline">\(q_{0.25}\)</span>, <span class="math inline">\(q_{0.50}\)</span> et <span class="math inline">\(q_{0.75}\)</span>, et qu’on appelle aussi le 25<sup>e</sup> centile, le 50<sup>e</sup> centile et le 75<sup>e</sup> centile, sont également appelés le <em>premier quartile</em>, le <em>deuxième quartile</em> et le <em>troisième quartile</em> et sont souvent dénotés <span class="math inline">\(Q_1\)</span>, <span class="math inline">\(Q_2\)</span> et <span class="math inline">\(Q_3\)</span>. Le deuxième quartile est aussi appelé la <em>médiane</em> et est souvent dénoté <span class="math inline">\(m\)</span>. Tout comme la moyenne <span class="math inline">\(\overline{x}\)</span>, la médiane <span class="math inline">\(m\)</span> est une mesure de tendance centrale.</p>
+<p>Les quartiles <span class="math inline">\(Q_1\)</span>, <span class="math inline">\(Q_2\)</span> et <span class="math inline">\(Q_3\)</span> seront utilisés dans la prochaine section. Examinons-les de plus près. Avec la formule (<a href="#eq-quantile" class="quarto-xref"><span>1.4</span></a>), on obtient <span class="math display">\[
+Q_1 = x_{(1 + (n-1)/4)}, \qquad Q_2 = x_{(1 + (n-1)/2)}, \qquad Q_3 = x_{(1 + 3(n-1)/4)}.
+\]</span> L’équation ci-dessus pour <span class="math inline">\(Q_2\)</span> peut être réécrite sous la forme suivante : <span class="math display">\[
+Q_2 =
+\begin{cases}
+x_{\left(\frac{n+1}{2}\right)} &amp; \text{si $n$ est impair,} \\[2mm]
+\dfrac{x_{\left(\frac{n}{2}\right)} + x_{\left(\frac{n}{2} + 1\right)}}{2} &amp; \text{si $n$ est pair.}
+\end{cases}
+\]</span> Bref, si <span class="math inline">\(n\)</span> est impair, la médiane <span class="math inline">\(Q_2\)</span> est la valeur du milieu dans la liste (<a href="#eq-ordre" class="quarto-xref"><span>1.3</span></a>) alors que si <span class="math inline">\(n\)</span> est pair la médiane <span class="math inline">\(Q_2\)</span> est à mi-chemin entre les deux valeurs du milieu. Dans l’exemple ci-dessus avec <span class="math inline">\(n = 7\)</span>, on obtient <span class="math display">\[
+Q_2 = x_{\left(\frac{n+1}{2}\right)} = x_{(4)} = 20.4.
+\]</span></p>
+</section>
+<section id="les-rangs-centiles" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="les-rangs-centiles">Les rangs centiles</h3>
+<p>Imaginez un grand jeu de données, disons <span class="math inline">\(x_1, x_2, \ldots, x_n\)</span> avec <span class="math inline">\(n\)</span> très grand. Les 99 centiles <span class="math inline">\(q_{0.01}, q_{0.02}, q_{0.03}, \ldots, q_{0.99}\)</span> découpent l’axe des <span class="math inline">\(x\)</span> en 100 segments. Imaginez qu’on numérote ces 100 segments de 1 à 100 en partant de la gauche. Le <em>rang centile</em> d’une observation est le numéro du segment dans lequel se trouve cette observation. Il ne faut pas confondre centile et rang centile. Dire que le rang centile de l’observation <span class="math inline">\(x_j\)</span> est égal à <span class="math inline">\(k\)</span>, c’est dire que cette observation <span class="math inline">\(x_j\)</span> est située quelque part entre le <span class="math inline">\((k-1)\)</span><sup>e</sup> centile et le <span class="math inline">\(k\)</span><sup>e</sup> centile. Dans l’exemple des serpents, le <a href="#tbl-serpents" class="quarto-xref">tableau&nbsp;<span>1.1</span></a> nous indique que le premier serpent pesait 33.90 grammes. La formule (<a href="#eq-quantile" class="quarto-xref"><span>1.4</span></a>) nous permet de voir que <span class="math inline">\(q_{0.13} = 33.8994\)</span> et <span class="math inline">\(q_{0.14} = 33.9232\)</span>. Le rang centile de l’observation 33.90 est donc égal à 14.</p>
+</section>
+<section id="le-minimum-et-le-maximum" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="le-minimum-et-le-maximum">Le minimum et le maximum</h3>
+<p>La plus petite observation, <span class="math inline">\(x_{(1)}\)</span>, aussi appelée le <em>minimum</em> et parfois dénotée min, peut aussi être vue comme étant le quantile d’ordre 0. En effet, si on prend <span class="math inline">\(\gamma = 0\)</span> dans l’équation (<a href="#eq-quantile" class="quarto-xref"><span>1.4</span></a>), alors on obtient <span class="math display">\[
+q_0 = x_{(1 + (n-1) \times 0)} = x_{(1)}.
+\]</span> De même, la plus grande observation, <span class="math inline">\(x_{(n)}\)</span>, aussi appelée le <em>maximum</em> et parfois dénotée max, peut aussi être vue comme étant le quantile d’ordre 1. En effet, si on prend <span class="math inline">\(\gamma = 1\)</span> dans l’équation (<a href="#eq-quantile" class="quarto-xref"><span>1.4</span></a>), alors on obtient <span class="math display">\[
+q_1 = x_{(1 + (n-1) \times 1)} = x_{(1 + (n-1))} = x_{(n)}.
+\]</span></p>
+</section>
+<section id="le-résumé-à-cinq-nombres" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="le-résumé-à-cinq-nombres">Le résumé à cinq nombres</h3>
+<p>Le vecteur <span class="math inline">\((x_{(1)}, Q_1, Q_2, Q_3, x_{(n)})\)</span>, aussi dénoté <span class="math inline">\((q_{0.00}, q_{0.25}, q_{0.50}, q_{0.75}, q_{1.00})\)</span>, est souvent appelé le <em>résumé à cinq nombres</em>. Rappelons que <span class="math inline">\(x_{(1)}\)</span> est simplement la plus petite observation et est souvent dénotée min (pour minimum). De même, <span class="math inline">\(x_{(n)}\)</span> est simplement la plus grande observation et est souvent dénotée max (pour maximum). Ce résumé à cinq nombres sera utilisé dans la construction du diagramme en boîte dans la prochaine section.</p>
+<div class="cell" data-layout-align="center">
+<details open="" class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(poids, <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;     0%    25%    50%    75%   100% 
+#&gt; 32.620 34.190 34.860 35.535 37.610</code></pre>
+</div>
+</div>
+</section>
+<section id="lécart-interquartile" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="lécart-interquartile">L’écart interquartile</h3>
+<p>La distance entre le premier quartile <span class="math inline">\(Q_1\)</span> et le troisième quartile <span class="math inline">\(Q_3\)</span> est appelée l’<em>écart interquartile</em> et est souvent dénotée EIQ. On a donc <span class="math inline">\(\text{EIQ} = Q_3 - Q_1\)</span>. Tout comme l’écart-type <span class="math inline">\(s\)</span>, l’écart interquartile est une mesure de dispersion.</p>
+</section>
+<section id="les-données-aberrantes" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="les-données-aberrantes">Les données aberrantes</h3>
+<p><em>Grosso modo</em>, une observation qui se trouve très loin du centre de la distribution est appelée une <em>observation aberrante</em>. Le critère suivant est souvent utilisé comme définition d’observation aberrante : l’observation <span class="math inline">\(x_i\)</span> est dite aberrante <span class="math display">\[
+\text{si } x_i &gt; Q_3 + (1.5 \times \text{EIQ}) \quad \text{ou si } x_i &lt; Q_1 - (1.5 \times \text{EIQ}).
+\]</span></p>
+</section>
+</section>
+<section id="sec-boite" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="sec-boite"><span class="header-section-number">1.6</span> Le diagramme en boîte</h2>
+<p>À quelques détails près, le <em>diagramme en boîte</em> (en anglais <em>boxplot</em>) est une simple représentation graphique du résumé à cinq nombres. La <a href="#fig-boite-serpents" class="quarto-xref">figure&nbsp;<span>1.4</span></a> présente le diagramme en boîte pour l’exemple des serpents.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(poids, <span class="at">ylab =</span> <span class="st">"Poids en grammes"</span>, <span class="at">col =</span> <span class="st">"lightblue"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-boite-serpents" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boite-serpents-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-statistique-descriptive_files/figure-html/fig-boite-serpents-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boite-serpents-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.4: Le diagramme en boîte pour l’exemple des serpents.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Ce diagramme en boîte a été construit de la façon suivante.</p>
+<ol type="1">
+<li>On trace un axe vertical gradué.</li>
+<li>Sur cet axe vertical, on note la position des valeurs <span class="math inline">\(x_{(1)}\)</span>, <span class="math inline">\(Q_1\)</span>, <span class="math inline">\(Q_2\)</span>, <span class="math inline">\(Q_3\)</span>, <span class="math inline">\(x_{(n)}\)</span>.</li>
+<li>À droite de l’axe vertical, on dessine une boîte rectangulaire de hauteur égale à l’écart interquartile EIQ, avec extrémité inférieure située à la hauteur <span class="math inline">\(Q_1\)</span> et extrémité supérieure située à la hauteur <span class="math inline">\(Q_3\)</span>.</li>
+<li>À travers cette boîte, on trace un segment horizontal à la hauteur <span class="math inline">\(Q_2\)</span>.</li>
+<li>À partir du centre du côté inférieur de la boîte, on trace un segment vertical, appelé <em>bras inférieur</em>, qui s’étend de la boîte jusqu’à la plus petite observation non aberrante, c’est-à-dire jusqu’au plus petit <span class="math inline">\(x_i\)</span> satisfaisant <span class="math inline">\(x_i \ge Q_1 - 1.5\,\text{EIQ}\)</span>.</li>
+<li>À partir du centre du côté supérieur de la boîte, on trace un segment vertical, appelé <em>bras supérieur</em>, qui s’étend de la boîte jusqu’à la plus grande observation non aberrante, c’est-à-dire jusqu’au plus grand <span class="math inline">\(x_i\)</span> satisfaisant <span class="math inline">\(x_i \le Q_3 + 1.5\,\text{EIQ}\)</span>.</li>
+<li>Les observations aberrantes, s’il y en a, sont alors indiquées par des astérisques ou des points sur le prolongement imaginaire des bras.</li>
+</ol>
+<p>En général, l’histogramme est une meilleure représentation graphique des données que le diagramme en boîte. Cependant, le diagramme en boîte est un outil très utile lorsqu’on veut comparer plusieurs échantillons. Revenons à l’exemple des serpents. Imaginez qu’on veuille comparer les poids à la naissance pour 5 populations de serpents. Une façon simple de faire cette comparaison serait de tracer les diagrammes en boîte juxtaposés. On obtiendrait quelque chose ressemblant peut-être à la <a href="#fig-boites-5" class="quarto-xref">figure&nbsp;<span>1.5</span></a>.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1920</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="fu">rnorm</span>(<span class="dv">40</span>, <span class="dv">33</span>, <span class="fl">1.5</span>), <span class="at">B =</span> <span class="fu">rnorm</span>(<span class="dv">40</span>, <span class="dv">38</span>, <span class="fl">3.5</span>),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">C =</span> <span class="fu">rnorm</span>(<span class="dv">40</span>, <span class="dv">34</span>, <span class="fl">1.5</span>), <span class="at">D =</span> <span class="fu">rnorm</span>(<span class="dv">40</span>, <span class="dv">30</span>, <span class="fl">3.5</span>),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">E =</span> <span class="fu">rnorm</span>(<span class="dv">40</span>, <span class="dv">39</span>, <span class="fl">1.5</span>))</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(pop, <span class="at">col =</span> <span class="st">"lightblue"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">46</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-boites-5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boites-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-statistique-descriptive_files/figure-html/fig-boites-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boites-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.5: Diagrammes en boîte juxtaposés pour cinq populations (données fictives).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>À l’aide d’un tel graphe on peut tirer plusieurs conclusions, dont les suivantes : ce sont dans les populations B et E que les poids sont les plus grands et dans la population D qu’ils sont les plus petits ; pour les populations B et D, les poids varient beaucoup plus que pour les trois autres populations.</p>
+<div class="env-remarque">
+<p><span class="env-titre">Petit détail technique</span></p>
+<p>Dans le cas où <span class="math inline">\(n\)</span> est impair, le logiciel R dessine ses diagrammes en boîte selon la méthode décrite dans la présente section. Toutefois, dans le cas où <span class="math inline">\(n\)</span> est pair, le logiciel R procède autrement. Plutôt que de tracer la limite inférieure de la boîte à la valeur <span class="math inline">\(Q_1\)</span>, il la trace à l’endroit situé à mi-chemin entre la plus grande observation inférieure à <span class="math inline">\(Q_1\)</span> et la plus petite observation supérieure à <span class="math inline">\(Q_1\)</span>. De même, plutôt que de tracer la limite supérieure de la boîte à la valeur <span class="math inline">\(Q_3\)</span>, il la trace à l’endroit situé à mi-chemin entre la plus grande observation inférieure à <span class="math inline">\(Q_3\)</span> et la plus petite observation supérieure à <span class="math inline">\(Q_3\)</span>. Dans l’exemple des serpents, les deux méthodes donnent le même diagramme en boîte. Avec les données 1, 2, 3, 7, 7, 7, 8, 9, 10, 20, 21, 24, les méthodes donnent des diagrammes en boîte différents. La boîte du diagramme produit par la méthode décrite dans la présente section va de <span class="math inline">\(Q_1 = 6\)</span> à <span class="math inline">\(Q_3 = 12.5\)</span>. La boîte du diagramme en boîte produit par R va de <span class="math inline">\((3 + 7)/2 = 5\)</span> à <span class="math inline">\((10 + 20)/2 = 15\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">21</span>, <span class="dv">24</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(y, <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>))   <span class="co"># Q1 et Q3 selon (1.4)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;  25%  75% 
+#&gt;  6.0 12.5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot.stats</span>(y)<span class="sc">$</span>stats       <span class="co"># limites utilisées par boxplot()</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1]  1.0  5.0  7.5 15.0 24.0</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-tarte" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="sec-tarte"><span class="header-section-number">1.7</span> Diagramme en pointes de tarte et diagramme en bâtons</h2>
+<p>Les méthodes présentées jusqu’à maintenant sont des méthodes propres aux variables quantitatives. Pour les variables qualitatives, il existe des méthodes plus appropriées. Voici un exemple où la variable d’intérêt est une variable qualitative nominale.</p>
+<p><strong>Exemple 3.</strong> On a demandé à 275 jeunes écoliers quel était leur fruit préféré parmi les six fruits les plus consommés au Québec : banane, nectarine, orange, pêche, poire, pomme. Voici les résultats de ce petit sondage maison :</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Fruit</th>
+<th style="text-align: center;">Fréquence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Banane</td>
+<td style="text-align: center;">69</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nectarine</td>
+<td style="text-align: center;">35</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Orange</td>
+<td style="text-align: center;">14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pêche</td>
+<td style="text-align: center;">39</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Poire</td>
+<td style="text-align: center;">41</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pomme</td>
+<td style="text-align: center;">77</td>
+</tr>
+</tbody>
+</table>
+<p>On peut représenter graphiquement ces données à l’aide d’un <em>diagramme en camembert</em>, aussi appelé <em>diagramme en pointes de tarte</em> (en anglais <em>pie chart</em>). Dans ce diagramme en pointes de tarte, les surfaces des secteurs (ou pointes de tarte) sont proportionnelles aux fréquences absolues données dans le tableau ci-dessus. Ceci est équivalent à dire que les longueurs des arcs de cercle sont proportionnelles aux fréquences absolues données dans le tableau ci-dessus.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fruits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Banane =</span> <span class="dv">69</span>, <span class="at">Nectarine =</span> <span class="dv">35</span>, <span class="at">Orange =</span> <span class="dv">14</span>,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Pêche"</span> <span class="ot">=</span> <span class="dv">39</span>, <span class="at">Poire =</span> <span class="dv">41</span>, <span class="at">Pomme =</span> <span class="dv">77</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(fruits, <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">6</span>, <span class="st">"Pastel 1"</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-tarte" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tarte-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-statistique-descriptive_files/figure-html/fig-tarte-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tarte-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.6: Diagramme en pointes de tarte pour l’exemple des fruits.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Pour dessiner à la main un diagramme en pointes de tarte, il suffit de compléter le tableau suivant :</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 22%">
+<col style="width: 24%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Fruit préféré</th>
+<th style="text-align: center;">Fréquence absolue</th>
+<th style="text-align: center;">Fréquence relative</th>
+<th style="text-align: center;">Longueur de l’arc en degrés</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Banane</td>
+<td style="text-align: center;">69</td>
+<td style="text-align: center;"><span class="math inline">\(\frac{69}{275}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{69}{275} \times 360 = 90.33\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nectarine</td>
+<td style="text-align: center;">35</td>
+<td style="text-align: center;"><span class="math inline">\(\frac{35}{275}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{35}{275} \times 360 = 45.82\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Orange</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;"><span class="math inline">\(\frac{14}{275}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{14}{275} \times 360 = 18.33\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pêche</td>
+<td style="text-align: center;">39</td>
+<td style="text-align: center;"><span class="math inline">\(\frac{39}{275}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{39}{275} \times 360 = 51.05\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Poire</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;"><span class="math inline">\(\frac{41}{275}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{41}{275} \times 360 = 53.67\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pomme</td>
+<td style="text-align: center;">77</td>
+<td style="text-align: center;"><span class="math inline">\(\frac{77}{275}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{77}{275} \times 360 = 100.80\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: center;"><strong>275</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;"><strong>360</strong></td>
+</tr>
+</tbody>
+</table>
+<p>On peut aussi représenter les données de l’exemple 3 à l’aide d’un <em>diagramme en bâtons</em> (<a href="#fig-batons" class="quarto-xref">figure&nbsp;<span>1.7</span></a>).</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(fruits, <span class="at">names.arg =</span> <span class="fu">c</span>(<span class="st">"Banane"</span>, <span class="st">"Necta."</span>, <span class="st">"Orange"</span>, <span class="st">"Pêche"</span>, <span class="st">"Poire"</span>, <span class="st">"Pomme"</span>),</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"lightblue"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">80</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-batons" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-batons-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-statistique-descriptive_files/figure-html/fig-batons-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-batons-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.7: Diagramme en bâtons pour l’exemple des fruits.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Le diagramme en bâtons (en anglais <em>bar graph</em>) est tout simplement un histogramme adapté aux variables qualitatives. Sur l’axe vertical on peut lire les fréquences absolues.</p>
+</section>
+<section id="sec-bivariees" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="sec-bivariees"><span class="header-section-number">1.8</span> Les données bivariées</h2>
+<div class="env-remarque">
+<p>Cette section pourrait être étudiée plus tard, en même temps que le chapitre 6.</p>
+</div>
+<p>Il arrive souvent qu’on veuille étudier deux ou plusieurs variables en même temps. Considérons brièvement le cas de deux variables. On considère donc une population avec deux variables d’intérêt qu’on appelle tout simplement la variable <span class="math inline">\(X\)</span> et la variable <span class="math inline">\(Y\)</span>. On obtient un échantillon aléatoire de taille <span class="math inline">\(n\)</span> et, pour chacun des <span class="math inline">\(n\)</span> individus de notre échantillon, on observe les deux variables. Nos données sont donc sous la forme de <span class="math inline">\(n\)</span> couples qu’on note de la façon suivante : <span class="math display">\[
+(x_1, y_1), (x_2, y_2), (x_3, y_3), \ldots, (x_n, y_n).
+\]</span> On écrit <span class="math inline">\(\overline{x}\)</span> et <span class="math inline">\(s_x\)</span> pour la moyenne et l’écart-type de la variable <span class="math inline">\(X\)</span> et on écrit <span class="math inline">\(\overline{y}\)</span> et <span class="math inline">\(s_y\)</span> pour la moyenne et l’écart-type de la variable <span class="math inline">\(Y\)</span>.</p>
+<p>Revenons à l’exemple des serpents. Le fichier <code>Serpents.xls</code> disponible sur le site web du cours contient non seulement les poids des serpents mais aussi leurs longueurs. Intuitivement, on s’attend à ce qu’il y ait une association positive entre la variable poids et la variable longueur. Plus un serpent est pesant, plus on s’attend à ce qu’il soit long. Plus un serpent est léger, plus on s’attend à ce qu’il soit court. Pour visualiser cette association, on trace le graphe appelé <em>graphe de dispersion</em> ou <em>diagramme de dispersion</em> (en anglais <em>scatterplot</em>).</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(serpents<span class="sc">$</span>poids, serpents<span class="sc">$</span>longueur,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Poids en grammes"</span>, <span class="at">ylab =</span> <span class="st">"Longueur en centimètres"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Avertissement</span>Figure à compléter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Les longueurs des serpents ne figurent pas dans le texte des notes. Ajoutez une colonne <code>longueur</code> au fichier <code>donnees/serpents.csv</code> (à partir de <code>Serpents.xls</code>) et le diagramme de dispersion sera produit automatiquement.</p>
+</div>
+</div>
+<p>Pour mesurer le degré d’association linéaire entre deux variables quantitatives, on utilise le <em>coefficient de corrélation</em>. Ce coefficient est dénoté <span class="math inline">\(r\)</span> et est calculé de la façon suivante : <span id="eq-correlation"><span class="math display">\[
+r = \frac{1}{n-1} \sum_{i=1}^{n} \left( \frac{x_i - \overline{x}}{s_x} \right) \left( \frac{y_i - \overline{y}}{s_y} \right).
+\tag{1.5}\]</span></span> Dans l’exemple des serpents, on obtient <span class="math inline">\(r = 0.707\)</span>. Le coefficient de corrélation est toujours un nombre compris entre <span class="math inline">\(-1\)</span> et <span class="math inline">\(1\)</span>. Il mesure le degré d’association linéaire entre les deux variables. Nous y reviendrons aux chapitres 2 et 6.</p>
+</section>
+<section id="sec-exercices-1" class="level2" data-number="1.9">
+<h2 data-number="1.9" class="anchored" data-anchor-id="sec-exercices-1"><span class="header-section-number">1.9</span> Exercices</h2>
+<div class="exercice">
+<p><strong>Numéro 1.</strong> Déterminez la nature (quantitative continue, quantitative discrète, qualitative ordinale ou qualitative nominale) de chacune des variables suivantes.</p>
+<ol type="a">
+<li>La moyenne cumulative d’un étudiant de l’Université Laval.</li>
+<li>La cote (A+, A, A-, B+, …) qu’un étudiant reçoit dans un cours.</li>
+<li>La section (A, B, S) du cours STT-10400 à laquelle un étudiant de génie électrique est inscrit.</li>
+<li>Le nombre de fois qu’un étudiant du baccalauréat en agronomie échoue le cours STT-19909 durant son baccalauréat.</li>
+<li>Le nombre de louveteaux dans la portée d’une louve.</li>
+<li>Le poids d’un loup à la naissance.</li>
+<li>La couleur (blanche, jaune, orange, verte, bleue, marron, noire) de la ceinture d’un adepte de karaté Shotokan.</li>
+<li>La couleur du feu de circulation en arrivant à l’intersection du Chemin Ste-Foy lorsque vous roulez sur la rue Myrand en direction nord.</li>
+<li>Le salaire annuel d’un professeur de cégep.</li>
+<li>Le nombre de tomates produites par un plant de tomate durant le mois d’août.</li>
+<li>La nature d’une variable statistique.</li>
+</ol>
+</div>
+<div class="exercice">
+<p><strong>Numéro 2.</strong> On a mesuré les diamètres de 34 prunes. Voici les résultats, en centimètres.</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">4.03</td>
+<td style="text-align: center;">4.05</td>
+<td style="text-align: center;">3.96</td>
+<td style="text-align: center;">4.09</td>
+<td style="text-align: center;">4.28</td>
+<td style="text-align: center;">4.04</td>
+<td style="text-align: center;">4.18</td>
+<td style="text-align: center;">4.23</td>
+<td style="text-align: center;">4.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4.12</td>
+<td style="text-align: center;">4.03</td>
+<td style="text-align: center;">3.94</td>
+<td style="text-align: center;">4.02</td>
+<td style="text-align: center;">4.08</td>
+<td style="text-align: center;">4.13</td>
+<td style="text-align: center;">4.04</td>
+<td style="text-align: center;">3.93</td>
+<td style="text-align: center;">4.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">4.37</td>
+<td style="text-align: center;">4.07</td>
+<td style="text-align: center;">4.11</td>
+<td style="text-align: center;">4.03</td>
+<td style="text-align: center;">4.00</td>
+<td style="text-align: center;">3.97</td>
+<td style="text-align: center;">4.01</td>
+<td style="text-align: center;">4.09</td>
+<td style="text-align: center;">4.06</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">3.92</td>
+<td style="text-align: center;">4.19</td>
+<td style="text-align: center;">3.96</td>
+<td style="text-align: center;">4.48</td>
+<td style="text-align: center;">4.24</td>
+<td style="text-align: center;">4.06</td>
+<td style="text-align: center;">3.98</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li>Calculez la moyenne.</li>
+<li>Calculez l’écart-type.</li>
+<li>Calculez le coefficient de variation.</li>
+<li>Dessinez un histogramme approprié.</li>
+<li>Calculez le résumé à cinq nombres.</li>
+<li>Dessinez le diagramme en boîte.</li>
+<li>Qu’arrive-t-il à la moyenne si les valeurs 4.18, 4.23, 4.14 et 4.12 sont remplacées par les valeurs 4.68, 4.73, 4.64 et 4.62 ?</li>
+<li>Qu’arrive-t-il à la médiane si les valeurs 4.18, 4.23, 4.14 et 4.12 sont remplacées par les valeurs 4.68, 4.73, 4.64 et 4.62 ?</li>
+<li>Calculez le 30<sup>e</sup> centile.</li>
+</ol>
+</div>
+<div class="exercice">
+<p><strong>Numéro 3.</strong> Un biologiste a mesuré les longueurs de 310 perchaudes attrapées dans le Chenal du Moine en août 2006. Le tableau suivant résume ces 310 mesures :</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Longueur</th>
+<th style="text-align: center;">Nombre de perchaudes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">entre 21.0 et 22.0 cm</td>
+<td style="text-align: center;">50</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">entre 22.0 et 23.0 cm</td>
+<td style="text-align: center;">90</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">entre 23.0 et 24.0 cm</td>
+<td style="text-align: center;">70</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">entre 24.0 et 26.0 cm</td>
+<td style="text-align: center;">60</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">entre 26.0 et 30.0 cm</td>
+<td style="text-align: center;">40</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li>Représentez ces données à l’aide d’un histogramme.</li>
+<li>Calculez une approximation pour la moyenne.</li>
+<li>Calculez une approximation pour l’écart-type.</li>
+<li>Calculez une approximation pour la médiane.</li>
+<li>Calculez une approximation pour la proportion de perchaudes dont la longueur est située entre 25 et 27 cm.</li>
+</ol>
+</div>
+<div class="exercice">
+<p><strong>Numéro 4.</strong> Le diagramme en boîte suivant représente la distribution des poids (exprimés en livres) des 92 joueurs qui se sont présentés au camp d’entraînement de l’équipe de football du Rouge et Or en juin dernier.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Avertissement</span>Figure à compléter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Le diagramme en boîte de cet exercice (axe de 185 à 245 livres, deux observations aberrantes) n’a pas pu être récupéré à partir du texte des notes.</p>
+</div>
+</div>
+<p>Les énoncés suivants sont-ils vrais ou faux ?</p>
+<ol type="a">
+<li>La somme des poids des 3 joueurs les plus pesants est inférieure à 720 livres.</li>
+<li>La moyenne de ces 92 poids est 204 livres.</li>
+<li>L’écart interquartile de ces 92 poids est de 15 livres.</li>
+<li>[Pour les étudiants qui sont familiers avec la loi normale] La loi normale est un bon modèle pour décrire cette distribution de poids.</li>
+</ol>
+</div>
+<div class="exercice">
+<p><strong>Numéro 5.</strong> Parmi les 116 étudiants inscrits au cours STT-20694 à l’automne 2006, 21 ont reçu un A, 36 ont reçu un B, 27 ont reçu un C, 18 ont reçu un D et 14 ont reçu un E.</p>
+<ol type="a">
+<li>Représentez ces données à l’aide d’un diagramme en pointes de tarte.</li>
+<li>Représentez ces données à l’aide d’un diagramme en bâtons.</li>
+</ol>
+</div>
+<div class="exercice">
+<p><strong>Numéro 6.</strong> On a mesuré la variable <span class="math inline">\(X\)</span> = longueur (de la tête à la queue) et la variable <span class="math inline">\(Y\)</span> = étendue (du bout d’une aile à l’autre) de 12 oiseaux d’une certaine espèce. Voici les résultats en mm.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Longueur</th>
+<th style="text-align: center;">156</th>
+<th style="text-align: center;">154</th>
+<th style="text-align: center;">153</th>
+<th style="text-align: center;">153</th>
+<th style="text-align: center;">155</th>
+<th style="text-align: center;">163</th>
+<th style="text-align: center;">157</th>
+<th style="text-align: center;">155</th>
+<th style="text-align: center;">164</th>
+<th style="text-align: center;">158</th>
+<th style="text-align: center;">158</th>
+<th style="text-align: center;">160</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Étendue</td>
+<td style="text-align: center;">245</td>
+<td style="text-align: center;">240</td>
+<td style="text-align: center;">240</td>
+<td style="text-align: center;">236</td>
+<td style="text-align: center;">243</td>
+<td style="text-align: center;">247</td>
+<td style="text-align: center;">238</td>
+<td style="text-align: center;">239</td>
+<td style="text-align: center;">248</td>
+<td style="text-align: center;">238</td>
+<td style="text-align: center;">240</td>
+<td style="text-align: center;">244</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li>Tracez le diagramme de dispersion.</li>
+<li>Calculez les moyennes <span class="math inline">\(\overline{x}\)</span> et <span class="math inline">\(\overline{y}\)</span>.</li>
+<li>Calculez les écarts-types <span class="math inline">\(s_x\)</span> et <span class="math inline">\(s_y\)</span>.</li>
+<li>Calculez le coefficient de corrélation <span class="math inline">\(r\)</span>.</li>
+<li>Sur le diagramme de dispersion, interprétez les résultats obtenus en (b),
+<ol start="3" type="a">
+<li>et (d).</li>
+</ol></li>
+</ol>
+</div>
+<div class="exercice">
+<p><strong>Numéro 7.</strong> On a mesuré les diamètres des troncs de 24 plants choisis au hasard dans un champ de blé d’Inde. Voici, en ordre croissant, nos 24 diamètres en millimètres :</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">10.5</td>
+<td style="text-align: center;">10.9</td>
+<td style="text-align: center;">11.4</td>
+<td style="text-align: center;">11.8</td>
+<td style="text-align: center;">12.1</td>
+<td style="text-align: center;">12.1</td>
+<td style="text-align: center;">12.5</td>
+<td style="text-align: center;">12.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">12.8</td>
+<td style="text-align: center;">13.1</td>
+<td style="text-align: center;">13.3</td>
+<td style="text-align: center;">13.4</td>
+<td style="text-align: center;">13.7</td>
+<td style="text-align: center;">13.9</td>
+<td style="text-align: center;">14.1</td>
+<td style="text-align: center;">14.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">14.5</td>
+<td style="text-align: center;">14.8</td>
+<td style="text-align: center;">15.3</td>
+<td style="text-align: center;">15.4</td>
+<td style="text-align: center;">15.7</td>
+<td style="text-align: center;">16.2</td>
+<td style="text-align: center;">16.4</td>
+<td style="text-align: center;">17.9</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li>Calculez la moyenne et l’écart-type.</li>
+<li>Calculez le coefficient de variation.</li>
+<li>Dessinez un histogramme. C’est à vous de choisir des classes raisonnables.</li>
+<li>Obtenez le résumé à cinq nombres.</li>
+<li>Dessinez le diagramme en boîte.</li>
+<li>Calculez le quantile d’ordre 0.35.</li>
+</ol>
+</div>
+<div class="exercice">
+<p><strong>Numéro 8.</strong> Quatre-vingt-dix jeunes pousses d’une certaine variété d’une espèce de plante ont été obtenues. On a mesuré la longueur de la plus grande feuille sur chacune des pousses. Le tableau suivant résume nos 90 observations :</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Longueur de la plus grande feuille, en mm</th>
+<th style="text-align: center;">Nombre de pousses</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">(25.0, 26.0]</td>
+<td style="text-align: center;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(26.0, 27.0]</td>
+<td style="text-align: center;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(27.0, 28.0]</td>
+<td style="text-align: center;">20</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(28.0, 29.0]</td>
+<td style="text-align: center;">13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(29.0, 30.0]</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(30.0, 31.0]</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(31.0, 32.0]</td>
+<td style="text-align: center;">3</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li>Dessinez l’histogramme.</li>
+<li>Obtenez l’approximation <span class="math inline">\(\overline{x}^*\)</span> de la moyenne échantillonnale.</li>
+<li>Obtenez l’approximation <span class="math inline">\(s^*\)</span> de l’écart-type échantillonnal.</li>
+<li>Obtenez l’approximation <span class="math inline">\(Q_2^*\)</span> de la médiane échantillonnale.</li>
+<li>Pour quel pourcentage des pousses la longueur de la plus grande feuille excède-t-elle 29 mm ?</li>
+<li>Pour quel pourcentage des pousses la longueur de la plus grande feuille est-elle inférieure à 26.5 mm ?</li>
+</ol>
+</div>
+<div class="exercice">
+<p><strong>Numéro 9.</strong> On a mesuré les diamètres des troncs de 247 plants choisis au hasard dans un champ de blé d’Inde. Les données, exprimées en millimètres, se trouvent dans le fichier Excel <code>diametres-troncs.xls</code>, disponible sur le site web du cours.</p>
+<ol type="a">
+<li>Obtenez la moyenne et l’écart-type.</li>
+<li>Obtenez le coefficient de variation.</li>
+<li>Obtenez un histogramme.</li>
+<li>Obtenez le résumé à cinq nombres.</li>
+<li>Obtenez le diagramme en boîte.</li>
+<li>Obtenez le 80<sup>e</sup> centile.</li>
+<li>Quel est le rang centile du tronc de diamètre 13.8 mm ?</li>
+</ol>
+</div>
+<div class="exercice">
+<p><strong>Numéro 10.</strong> Un verger compte 1512 pommiers. Le diagramme suivant représente les proportions de chacune des 5 espèces de pommiers de ce verger (Ida Red, Red Delicious, Golden Delicious, Granny Smith, McIntosh).</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Avertissement</span>Figure à compléter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Le diagramme en pointes de tarte de cet exercice n’a pas pu être récupéré à partir du texte des notes.</p>
+</div>
+</div>
+<ol type="a">
+<li><p>Complétez le tableau suivant :</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Espèce de pommes</th>
+<th style="text-align: center;">Fréquence relative</th>
+<th style="text-align: center;">Nombre de pommiers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ida Red</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Red Delicious</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Golden Delicious</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Granny Smith</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">McIntosh</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table></li>
+<li><p>Représentez ces données à l’aide d’un diagramme en bâtons.</p></li>
+</ol>
+</div>
+<div class="exercice">
+<p><strong>Numéro 11.</strong> Lors d’une journée de pêche sur le lac St-Pierre, un groupe de pêcheurs ont attrapé 9 achigans, 22 barbottes, 13 brochets, 18 dorés et 47 perchaudes. Représentez ces données à l’aide d’un diagramme en pointes de tarte.</p>
+</div>
+<div class="exercice">
+<p><strong>Numéro 12.</strong> Voici les longueurs, en cm, des 22 barbottes dont il est question au numéro précédent :</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">32.2</td>
+<td style="text-align: center;">29.5</td>
+<td style="text-align: center;">29.3</td>
+<td style="text-align: center;">31.9</td>
+<td style="text-align: center;">36.9</td>
+<td style="text-align: center;">30.8</td>
+<td style="text-align: center;">40.6</td>
+<td style="text-align: center;">31.9</td>
+<td style="text-align: center;">26.7</td>
+<td style="text-align: center;">37.9</td>
+<td style="text-align: center;">34.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">30.3</td>
+<td style="text-align: center;">32.9</td>
+<td style="text-align: center;">24.4</td>
+<td style="text-align: center;">32.2</td>
+<td style="text-align: center;">28.3</td>
+<td style="text-align: center;">29.2</td>
+<td style="text-align: center;">31.0</td>
+<td style="text-align: center;">30.6</td>
+<td style="text-align: center;">27.3</td>
+<td style="text-align: center;">30.0</td>
+<td style="text-align: center;">27.6</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li>Calculez la moyenne.</li>
+<li>Calculez l’écart-type.</li>
+<li>Calculez le coefficient de variation.</li>
+<li>Dessinez un histogramme approprié.</li>
+<li>Calculez le résumé à cinq nombres.</li>
+<li>Dessinez le diagramme en boîte.</li>
+</ol>
+</div>
+<div class="exercice">
+<p><strong>Numéro 13.</strong> Voici les longueurs, en cm, et les poids, en grammes, des 9 achigans dont il est question au numéro 11 :</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Longueur</th>
+<th style="text-align: center;">31.5</th>
+<th style="text-align: center;">34.8</th>
+<th style="text-align: center;">31.1</th>
+<th style="text-align: center;">37.5</th>
+<th style="text-align: center;">30.4</th>
+<th style="text-align: center;">32.6</th>
+<th style="text-align: center;">36.0</th>
+<th style="text-align: center;">27.6</th>
+<th style="text-align: center;">36.8</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Poids</td>
+<td style="text-align: center;">542</td>
+<td style="text-align: center;">680</td>
+<td style="text-align: center;">653</td>
+<td style="text-align: center;">694</td>
+<td style="text-align: center;">614</td>
+<td style="text-align: center;">596</td>
+<td style="text-align: center;">606</td>
+<td style="text-align: center;">541</td>
+<td style="text-align: center;">743</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li>Tracez le diagramme de dispersion.</li>
+<li>Calculez les moyennes <span class="math inline">\(\overline{x}\)</span> et <span class="math inline">\(\overline{y}\)</span>.</li>
+<li>Calculez les écarts-types <span class="math inline">\(s_x\)</span> et <span class="math inline">\(s_y\)</span>.</li>
+<li>Calculez le coefficient de corrélation <span class="math inline">\(r\)</span>.</li>
+<li>Sur le diagramme de dispersion, interprétez les résultats obtenus en (b),
+<ol start="3" type="a">
+<li>et (d).</li>
+</ol></li>
+</ol>
+</div>
+<div class="exercice">
+<p><strong>Numéro 14.</strong> En vous inspirant de votre domaine d’études,</p>
+<ol type="a">
+<li>donnez trois exemples de variables quantitatives continues ;</li>
+<li>donnez trois exemples de variables quantitatives discrètes ;</li>
+<li>donnez trois exemples de variables qualitatives ordinales ;</li>
+<li>donnez trois exemples de variables qualitatives nominales.</li>
+</ol>
+</div>
+<div class="exercice">
+<p><strong>Numéro 15.</strong> On a mesuré les diamètres des troncs (en cm) ainsi que les hauteurs (en mètres) de 20 érables à sucre. Ces observations se trouvent dans le fichier <code>Erables.xls</code> disponible sur le site web du cours.</p>
+<ol type="a">
+<li>Calculez, à la main, les statistiques descriptives usuelles. Comparez ensuite avec les valeurs que vous obtiendrez avec R-Commander.</li>
+<li>Dessinez à la main les histogrammes appropriés. Comparez ensuite avec les histogrammes que vous obtiendrez avec R-Commander.</li>
+<li>Dessinez à la main les diagrammes en boîte appropriés. Comparez ensuite avec les diagrammes en boîte que vous obtiendrez avec R-Commander.</li>
+<li>Dessinez à la main le diagramme de dispersion. Comparez ensuite avec le diagramme de dispersion que vous obtiendrez avec R-Commander.</li>
+</ol>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/JulienMiron\.github\.io\/stt1920\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./diapos.html" class="pagination-link" aria-label="Diapositives">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Diapositives</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./02-probabilites.html" class="pagination-link" aria-label="La théorie des probabilités">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">La théorie des probabilités</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Notes de cours STT-1920</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/JulienMiron/stt1920/edit/main/01-statistique-descriptive.qmd" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/JulienMiron/stt1920/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>Généré avec Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
