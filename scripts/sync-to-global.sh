@@ -11,7 +11,7 @@ set -euo pipefail
 
 COURSE="STT-1920"
 REPO_DIR="$(git rev-parse --show-toplevel)"
-GLOBAL_REPO="/Users/jmiron/Documents/GitHub/Global"
+GLOBAL_REPO="$(dirname "$REPO_DIR")/Global"
 GLOBAL_DIAPOS="$GLOBAL_REPO/$COURSE/Diapos"
 
 DRY_RUN=0
