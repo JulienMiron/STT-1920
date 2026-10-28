@@ -47,7 +47,7 @@ Si vous constatez des coquilles ou des erreurs, merci de m'envoyer
 ## Diapositives {.unnumbered}
 
 Les diapositives du cours, en version présentation et en version imprimable,
-sont disponibles à la page [Diapositives](../diapos.qmd).
+sont disponibles à la page [Diapositives](../diapos.html).
 
 ## Utilisation de l'IA {.unnumbered}
 

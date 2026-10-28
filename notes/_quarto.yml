@@ -17,7 +17,7 @@ book:
 
   page-footer:
     left: "Notes de cours STT-1920"
-    center: "[Julien Miron](https://julienmiron.github.io/SitePerso/)"
+    center: "[Julien Miron](https://julienmiron.ca/)"
     right: "Généré avec Quarto"
 
   sidebar:

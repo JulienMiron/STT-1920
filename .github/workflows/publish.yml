@@ -32,8 +32,17 @@ jobs:
           run: |
             sh diapos/compiler.sh
 
+      # TinyTeX sert au PDF des notes : la distribution LaTeX de l'étape des
+      # diapos vit dans un conteneur et n'est pas accessible à Quarto.
       - name: Installer Quarto
         uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          tinytex: true
+        env:
+          # requis par `tinytex: true` : sans token, l'appel à l'API GitHub
+          # pour la dernière release de rstudio/tinytex-releases échoue
+          # parfois avec une erreur 403 sur les runners partagés.
+          GH_TOKEN: ${{ github.token }}
 
       # R et les paquets knitr/rmarkdown viennent des paquets Ubuntu : on évite
       # ainsi de dépendre de services externes (r-hub, CRAN) pendant la
@@ -48,11 +57,30 @@ jobs:
       - name: Générer le site
         run: quarto render --to html
 
+      # Version PDF des notes, liée depuis notes/index.qmd (STT-1920.pdf). On
+      # la rend AVANT le HTML, puis on la met de côté : le rendu HTML qui suit
+      # doit rester la dernière écriture dans _site/notes. continue-on-error :
+      # un échec du PDF ne doit pas bloquer la publication du site.
+      - name: Générer les notes de cours en PDF (notes/)
+        continue-on-error: true
+        run: |
+          quarto render notes --to pdf
+          mkdir -p "$RUNNER_TEMP/notes-pdf"
+          cp _site/notes/STT-1920.pdf "$RUNNER_TEMP/notes-pdf/"
+
       # Rendu en second : notes/_quarto.yml écrit directement dans
       # ../_site/notes, donc son rendu doit être la dernière écriture dans
       # _site/ au cas où le rendu du site nettoierait son propre output-dir.
       - name: Générer les notes de cours (notes/)
         run: quarto render notes --to html
+
+      - name: Ajouter le PDF des notes au site
+        run: |
+          if [ -f "$RUNNER_TEMP/notes-pdf/STT-1920.pdf" ]; then
+            cp "$RUNNER_TEMP/notes-pdf/STT-1920.pdf" _site/notes/
+          else
+            echo "::warning::PDF des notes non disponible ; le bouton de téléchargement sera mort."
+          fi
 
       - name: Préparer le site pour GitHub Pages
         uses: actions/upload-pages-artifact@v4
